@@ -64,10 +64,10 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				PointOfInterest poi = new PointOfInterest();
-				
-//				if(record.length <1) {
-//					System.out.println("something"+record[0]);
-//				}
+
+				// if(record.length <1) {
+				// System.out.println("something"+record[0]);
+				// }
 				poi.setM_strCategory(record[0]);
 				double Plongitude = Double.parseDouble(record[1]);
 				double Platitude = Double.parseDouble(record[2]);
@@ -82,6 +82,33 @@ public class UtilsManagment {
 		}
 
 		return listPOI;
+
+	}
+
+	// Method to read the POI with category Id files from the data-set
+	public ArrayList<POIwithId> readPOIFile2(String csvFilename) {
+		String line = "";
+		ArrayList<POIwithId> listPOI2 = new ArrayList<POIwithId>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				POIwithId POI2 = new POIwithId();
+
+				// if(record.length <1) {
+				// System.out.println("something"+record[0]);
+				// }
+				POI2.setM_doubLatitude(Double.parseDouble(record[1]));
+				POI2.setM_doubLongitude(Double.parseDouble(record[0]));
+				POI2.setM_strCategoryId(record[2]);
+				listPOI2.add(POI2);
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return listPOI2;
 
 	}
 
