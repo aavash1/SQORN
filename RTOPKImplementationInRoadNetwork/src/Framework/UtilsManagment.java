@@ -64,9 +64,16 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				PointOfInterest poi = new PointOfInterest();
+				
+//				if(record.length <1) {
+//					System.out.println("something"+record[0]);
+//				}
 				poi.setM_strCategory(record[0]);
-				poi.setM_doubLongitude(Double.parseDouble(record[1]));
-				poi.setM_doubleLatitide(Double.parseDouble(record[2]));
+				double Plongitude = Double.parseDouble(record[1]);
+				double Platitude = Double.parseDouble(record[2]);
+
+				poi.setM_doubLongitude(Plongitude);
+				poi.setM_doubleLatitide(Platitude);
 				listPOI.add(poi);
 
 			}

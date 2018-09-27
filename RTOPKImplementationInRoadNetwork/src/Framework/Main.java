@@ -10,8 +10,9 @@ public class Main {
 		um.readEdgeFile("CALNoSouDesDis.csv");
 		System.out.println("Files Imported Successfully!");
 		
-		um.readPOIFile("CALPOILonLatCatID.csv");
+		um.readPOIFile("CategoryLongLat.csv");
 		System.out.println("Files Imported Successfully!");
+
 				
 	}
 

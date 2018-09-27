@@ -43,4 +43,12 @@ public class Edge {
 		this.m_doubDistance = doubDistance;
 	}
 
+	@Override
+	public String toString() {
+		return "Edge [m_strNodeId=" + m_strNodeId + ", m_strSourceId=" + m_strSourceId + ", m_strDestinationId="
+				+ m_strDestinationId + ", m_doubDistance=" + m_doubDistance + "]";
+	}
+	
+	
+
 }
