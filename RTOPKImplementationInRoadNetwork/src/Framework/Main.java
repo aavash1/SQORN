@@ -16,7 +16,6 @@ public class Main {
 		um.readPOIFile2("CALPOILonLatCatID.csv");
 		System.out.println("POI file with Id Imported Successfully");
 		
-		um.populatePOIMap("CALDataset(CategoryCategoryId).csv");
 		um.populatePOIMap("CAL-CategoryData.csv");
 		um.displayPOIHmap();
 
