@@ -11,9 +11,38 @@ import java.util.Set;
 
 public class UtilsManagment {
 	final String csvSplitBy = ",";
-	final int  byteOrderMark = 65279;
+	final int byteOrderMark = 65279;
 
 	private HashMap<Integer, String> m_hmapCategories = new HashMap<Integer, String>();
+
+	public String returnCategoryName(int category_Id) {
+
+		if ((category_Id < 0) || (!m_hmapCategories.containsKey(category_Id))) {
+			System.err.println("Cannot Pass null value");
+			return null;
+
+		}
+
+		else
+			return m_hmapCategories.get(category_Id);
+
+	}
+
+	public int returnCategoryId(String categoryName) {
+		int key = -1;
+		String values = "null";
+
+		if ((categoryName != null) && (m_hmapCategories.containsValue(categoryName))) {
+			for (Map.Entry entry : m_hmapCategories.entrySet()) {
+				if (values.equals(entry.getValue())) {
+					key = (int) entry.getKey();
+					break;
+				}
+			}
+
+		}
+		return key;
+	} 
 
 	public boolean populatePOIMap(String csvFilename) {
 		String line = "";
@@ -22,11 +51,9 @@ public class UtilsManagment {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 2) {
 					Integer newInt;
-					if ((int)record[0].charAt(0) == byteOrderMark) {
+					if ((int) record[0].charAt(0) == byteOrderMark) {
 						newInt = new Integer(Integer.parseInt(record[0].substring(1)));
-					}
-					else
-					{
+					} else {
 						newInt = new Integer(Integer.parseInt(record[0]));
 					}
 					m_hmapCategories.put(newInt, record[1]);
@@ -91,7 +118,7 @@ public class UtilsManagment {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
 					Edge ed = new Edge();
-					ed.setM_strNodeId(record[0]);
+					ed.setEdgeId(record[0]);
 					ed.setM_strSourceId(record[1]);
 					ed.setM_strDestinationId(record[2]);
 					ed.setM_doubDistance(Double.parseDouble(record[3]));
@@ -142,6 +169,7 @@ public class UtilsManagment {
 					POI2.setM_doubLatitude(Double.parseDouble(record[1]));
 					POI2.setM_doubLongitude(Double.parseDouble(record[0]));
 					POI2.setM_strCategoryId(record[2]);
+					//
 					listPOI2.add(POI2);
 				}
 			}

@@ -4,7 +4,9 @@ public class POIwithId {
 	private double m_doubLongitude;
 	private double m_doubLatitude;
 	private String m_strCategoryId;
-
+	private boolean m_boolType; //0 (False) - data object, 1 (True) - feature object, 
+	private double m_doubRating; //[0, 10]
+	
 	public double getM_doubLongitude() {
 		return m_doubLongitude;
 	}
