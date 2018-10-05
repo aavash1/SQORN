@@ -13,18 +13,21 @@ public class UtilsManagment {
 	final String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
 
-	private HashMap<Integer, String> m_hmapCategories = new HashMap<Integer, String>();
+	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
+																							// value is category name
+	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
+																							// value is category type
 
 	public String returnCategoryName(int category_Id) {
 
-		if ((category_Id < 0) || (!m_hmapCategories.containsKey(category_Id))) {
+		if ((category_Id < 0) || (!m_hmapCategoriesName.containsKey(category_Id))) {
 			System.err.println("Cannot Pass null value");
 			return null;
 
 		}
 
 		else
-			return m_hmapCategories.get(category_Id);
+			return m_hmapCategoriesName.get(category_Id);
 
 	}
 
@@ -32,8 +35,8 @@ public class UtilsManagment {
 		int key = -1;
 		String values = "null";
 
-		if ((categoryName != null) && (m_hmapCategories.containsValue(categoryName))) {
-			for (Map.Entry entry : m_hmapCategories.entrySet()) {
+		if ((categoryName != null) && (m_hmapCategoriesName.containsValue(categoryName))) {
+			for (Map.Entry entry : m_hmapCategoriesName.entrySet()) {
 				if (values.equals(entry.getValue())) {
 					key = (int) entry.getKey();
 					break;
@@ -42,7 +45,16 @@ public class UtilsManagment {
 
 		}
 		return key;
-	} 
+	}
+
+	public boolean returnCategoryType(int category_typeid) {
+		if (m_hmapCategoriesType.get(category_typeid).equals("1")) {
+			return true;
+
+		} else
+			return false;
+
+	}
 
 	public boolean populatePOIMap(String csvFilename) {
 		String line = "";
@@ -56,7 +68,8 @@ public class UtilsManagment {
 					} else {
 						newInt = new Integer(Integer.parseInt(record[0]));
 					}
-					m_hmapCategories.put(newInt, record[1]);
+					m_hmapCategoriesName.put(newInt, record[1]);
+					m_hmapCategoriesType.put(newInt, record[2]);
 				}
 			}
 
@@ -70,7 +83,8 @@ public class UtilsManagment {
 
 	public void displayPOIHmap() {
 		// Get a set of the entries
-		Set set = m_hmapCategories.entrySet();
+		Set set = m_hmapCategoriesName.entrySet();
+		Set set1 = m_hmapCategoriesType.entrySet();
 
 		// Get an iterator
 		Iterator i = set.iterator();
@@ -78,6 +92,15 @@ public class UtilsManagment {
 			Map.Entry me = (Map.Entry) i.next();
 			System.out.print(me.getKey() + ": ");
 			System.out.println(me.getValue());
+
+		}
+		System.out.println();
+
+		Iterator i1 = set1.iterator();
+		while (i1.hasNext()) {
+			Map.Entry me1 = (Map.Entry) i1.next();
+			System.out.print(me1.getKey() + ": ");
+			System.out.println(me1.getValue());
 
 		}
 		System.out.println();
