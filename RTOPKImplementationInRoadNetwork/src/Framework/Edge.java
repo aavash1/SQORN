@@ -1,38 +1,37 @@
 package Framework;
 
 public class Edge {
-	private String m_strEdgeId;
-	private String m_strSourceId;
-	private String m_strDestinationId;
+	private int m_intEdgeId;
+	private int m_intSourceId;
+	private int m_intDestinationId;
 	private double m_doubDistance;
 
-	public String getEdgeId() {
-		return m_strEdgeId;
+	public int getEdgeId() {
+		return m_intEdgeId;
 	}
 
-	public void setEdgeId(String strEdgeId) {
-		if (strEdgeId != null) {
-			this.m_strEdgeId = strEdgeId;
-		}
-		else {
+	public void setEdgeId(int intEdgeId) {
+		if (intEdgeId < 0) {
+			this.m_intEdgeId = intEdgeId;
+		} else {
 			System.err.println("Error!! Cannot be null");
 		}
 	}
 
-	public String getM_strSourceId() {
-		return m_strSourceId;
+	public int getM_intSourceId() {
+		return m_intSourceId;
 	}
 
-	public void setM_strSourceId(String strSourceId) {
-		this.m_strSourceId = strSourceId;
+	public void setM_intSourceId(int intSourceId) {
+		this.m_intSourceId = intSourceId;
 	}
 
-	public String getM_strDestinationId() {
-		return m_strDestinationId;
+	public int getM_intDestinationId() {
+		return m_intDestinationId;
 	}
 
-	public void setM_strDestinationId(String strDestinationId) {
-		this.m_strDestinationId = strDestinationId;
+	public void setM_intDestinationId(int m_intDestinationId) {
+		this.m_intDestinationId = m_intDestinationId;
 	}
 
 	public double getM_doubDistance() {
@@ -45,10 +44,8 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [m_strEdgeId=" + m_strEdgeId + ", m_strSourceId=" + m_strSourceId + ", m_strDestinationId="
-				+ m_strDestinationId + ", m_doubDistance=" + m_doubDistance + "]";
+		return "Edge [m_intEdgeId=" + m_intEdgeId + ", m_intSourceId=" + m_intSourceId + ", m_intDestinationId="
+				+ m_intDestinationId + ", m_doubDistance=" + m_doubDistance + "]";
 	}
-	
-	
 
 }

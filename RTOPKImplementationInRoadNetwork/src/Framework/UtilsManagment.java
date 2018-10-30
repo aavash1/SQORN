@@ -17,6 +17,7 @@ public class UtilsManagment {
 																							// value is category name
 	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
 																							// value is category type
+	private HashMap<Integer, ArrayList<Edge>> m_adjacentList = new HashMap<Integer, ArrayList<Edge>>();
 
 	public String returnCategoryName(int category_Id) {
 
@@ -116,7 +117,7 @@ public class UtilsManagment {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 3) {
 					Vertex v = new Vertex();
-					v.setM_strNodeId(record[0]);
+					v.setM_intNodeId(Integer.parseInt(record[0]));
 					v.setM_doubLongitude(Double.parseDouble(record[1]));
 					v.setM_doubLatitude(Double.parseDouble(record[2]));
 					listVer.add(v);
@@ -141,10 +142,12 @@ public class UtilsManagment {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
 					Edge ed = new Edge();
-					ed.setEdgeId(record[0]);
-					ed.setM_strSourceId(record[1]);
-					ed.setM_strDestinationId(record[2]);
+					ed.setEdgeId(Integer.parseInt(record[0]));
+					ed.setM_intSourceId(Integer.parseInt(record[1]));
+
+					ed.setM_intDestinationId(Integer.parseInt(record[2]));
 					ed.setM_doubDistance(Double.parseDouble(record[3]));
+
 					listEd.add(ed);
 				}
 			}
@@ -153,6 +156,13 @@ public class UtilsManagment {
 		}
 
 		return listEd;
+
+	}
+
+	public HashMap<Integer, ArrayList<Edge>> m_makeAdjList() {
+		Edge ed = new Edge();
+
+		return m_adjacentList;
 
 	}
 
@@ -189,8 +199,8 @@ public class UtilsManagment {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 3) {
 					POIwithId POI2 = new POIwithId();
-					POI2.setM_doubLatitude(Double.parseDouble(record[1]));
 					POI2.setM_doubLongitude(Double.parseDouble(record[0]));
+					POI2.setM_doubLatitude(Double.parseDouble(record[1]));
 					POI2.setM_strCategoryId(record[2]);
 					//
 					listPOI2.add(POI2);
