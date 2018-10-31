@@ -31,13 +31,14 @@ public class Main {
 //		2 3 2
 //		3 4 5
 		Graph roadNetwork1 = new Graph();
-		roadNetwork1.addEdge(0, 1, 2);
-		roadNetwork1.addEdge(0, 4, 3);
-		roadNetwork1.addEdge(1, 2, 2);
-		roadNetwork1.addEdge(1, 3, 3);
-		roadNetwork1.addEdge(1, 4, 4);
-		roadNetwork1.addEdge(2, 3, 2);
-		roadNetwork1.addEdge(3, 4, 5);
+		roadNetwork1.addEdge(0, 1, 2.1);
+		roadNetwork1.addEdge(0, 4, 3.2);
+		roadNetwork1.addEdge(1, 2, 2.3);
+		roadNetwork1.addEdge(1, 3, 3.4);
+		roadNetwork1.addEdge(1, 4, 4.8);
+		roadNetwork1.addEdge(2, 3, 2.9);
+		roadNetwork1.addEdge(3, 4, 5.6);
+		
 		
 		System.out.println("Distance between node 1 and 4: " + roadNetwork1.getEdgeDistance(1, 4));
 		System.out.println("Number of edges: " + roadNetwork1.getNumberOfEdges());
@@ -45,6 +46,13 @@ public class Main {
 		System.out.println();
 		roadNetwork1.printGraph();
 		
+		//roadNetwork1.removeEdge(2, 1);
+		//roadNetwork1.removeEdge(3, 4);
+		
+		//roadNetwork1.printGraph();
+		System.out.println(roadNetwork1.getEdges(1));
+		System.out.println(roadNetwork1.getEdgesWithDistances(1));
+		//roadNetwork1.getEdges(1);
 	}
 
 }

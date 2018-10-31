@@ -1,5 +1,6 @@
 package Framework;
 
+//import java.awt.RenderingHints.Key;
 import java.util.*;
 
 public class Graph {
@@ -12,7 +13,7 @@ public class Graph {
 	// the added expense of maintaining the linked list.
 	// source:
 	// https://examples.javacodegeeks.com/core-java/util/linkedhashmap/java-linkedhashmap-example/
-	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new LinkedHashMap();
+	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 
 	public int getNumberOfEdges() {
 		return m_numEdges;
@@ -90,20 +91,28 @@ public class Graph {
 
 	// AZIZ: write implementation
 	public boolean removeEdge(int startNode, int endNode) {
-
-		return false;
+		if ((!m_adjancencyMap.containsKey(startNode)) || (!m_adjancencyMap.containsKey(endNode))) {
+			return false;
+		}
+		m_adjancencyMap.get(startNode).remove(endNode);
+		m_adjancencyMap.get(endNode).remove(startNode);
+		m_numEdges--;
+		return true;
 	}
 
-	// AZIZ: write implementation
-	public Map<Integer, Integer> getEdges(int node) {
+	public ArrayList<Integer> getEdges(int int_nodeID) {
+		if (!m_adjancencyMap.containsKey(int_nodeID)) {
+			return null;
+		}
+		ArrayList<Integer> int_linkedNodes = new ArrayList<Integer>(m_adjancencyMap.get(int_nodeID).keySet());
 
-		return null;
+		return int_linkedNodes;
+
 	}
 
-	// AZIZ: write implementation
-	public Map<Map<Integer, Integer>, Double> getEdgesWithDistances(int node) {
+	public Map<Integer, Double> getEdgesWithDistances(int node) {
 
-		return null;
+		return m_adjancencyMap.get(node);
 	}
 
 }
