@@ -108,18 +108,18 @@ public class UtilsManagment {
 	}
 
 	// Method to read the vertex files from the datasets
-	public ArrayList<Vertex> readVertexFiles(String csvFilename) {
+	public ArrayList<Node> readVertexFiles(String csvFilename) {
 		String line = "";
-		ArrayList<Vertex> listVer = new ArrayList<Vertex>();
+		ArrayList<Node> listVer = new ArrayList<Node>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 3) {
-					Vertex v = new Vertex();
-					v.setM_intNodeId(Integer.parseInt(record[0]));
-					v.setM_doubLongitude(Double.parseDouble(record[1]));
-					v.setM_doubLatitude(Double.parseDouble(record[2]));
+					Node v = new Node();
+					v.setNodeId(Integer.parseInt(record[0]));
+					v.setLongitude(Double.parseDouble(record[1]));
+					v.setLatitude(Double.parseDouble(record[2]));
 					listVer.add(v);
 				}
 
@@ -143,10 +143,10 @@ public class UtilsManagment {
 				if (record.length == 4) {
 					Edge ed = new Edge();
 					ed.setEdgeId(Integer.parseInt(record[0]));
-					ed.setM_intSourceId(Integer.parseInt(record[1]));
+					ed.setStartNodeId(Integer.parseInt(record[1]));
 
-					ed.setM_intDestinationId(Integer.parseInt(record[2]));
-					ed.setM_doubDistance(Double.parseDouble(record[3]));
+					ed.setEndNodeId(Integer.parseInt(record[2]));
+					ed.setLength(Double.parseDouble(record[3]));
 
 					listEd.add(ed);
 				}
@@ -185,20 +185,20 @@ public class UtilsManagment {
 	 */
 
 	// Method to read the POI with category Id files from the data-set
-	public ArrayList<POIwithId> readPOIFile2(String csvFilename) {
+	public ArrayList<Poi> readPOIFile2(String csvFilename) {
 		String line = "";
-		ArrayList<POIwithId> listPOI2 = new ArrayList<POIwithId>();
+		ArrayList<Poi> listPOI2 = new ArrayList<Poi>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 3) {
-					POIwithId POI2 = new POIwithId();
-					POI2.setM_doubLongitude(Double.parseDouble(record[0]));
-					POI2.setM_doubLatitude(Double.parseDouble(record[1]));
-					POI2.setM_intPOICategoryId(Integer.parseInt(record[2]));
+					Poi POI2 = new Poi();
+					POI2.setLongitude(Double.parseDouble(record[0]));
+					POI2.setLatitude(Double.parseDouble(record[1]));
+					POI2.setPoiCategoryId(Integer.parseInt(record[2]));
 					poiID++;
-					POI2.setM_intPOIID(poiID);
+					POI2.setPoiId(poiID);
 					//
 					listPOI2.add(POI2);
 				}
@@ -213,5 +213,12 @@ public class UtilsManagment {
 	
 	//Method to Read Merged Point of Interest with Original.
 	
+	//For time being it is "void", but later need to determine the return type
+	public void readMergedPOI (String csvFilename ) { 
+		String line = "";
+		
+		
+		
+	}
 
 }

@@ -1,31 +1,31 @@
 package Framework;
 
-public class Vertex {
+public class Node {
 	private int m_intNodeId;
 	private Double m_doubLongitude;
 	private Double m_doubLatitude;
 
-	public int getM_intNodeId() {
+	public int getNodeId() {
 		return m_intNodeId;
 	}
 
-	public void setM_intNodeId(int strNodeId) {
+	public void setNodeId(int strNodeId) {
 		this.m_intNodeId = strNodeId;
 	}
 
-	public Double getM_doubLongitude() {
+	public Double getLongitude() {
 		return m_doubLongitude;
 	}
 
-	public void setM_doubLongitude(Double doubLongitude) {
+	public void setLongitude(Double doubLongitude) {
 		this.m_doubLongitude = doubLongitude;
 	}
 
-	public Double getM_doubLatitude() {
+	public Double getLatitude() {
 		return m_doubLatitude;
 	}
 
-	public void setM_doubLatitude(Double doubLatitude) {
+	public void setLatitude(Double doubLatitude) {
 		this.m_doubLatitude = doubLatitude;
 	}
 

@@ -4,16 +4,15 @@ package Framework;
 import java.util.*;
 
 public class Graph {
-	private int modificationCount; // AZIZ: I didn't get why you need this variable
+	//private int modificationCount; // AZIZ: I didn't get why you need this variable
 	private int m_numEdges;
 	private int m_numOfNodes;
 
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
 
-	private static ArrayList<Vertex> vertices = new ArrayList<Vertex>();
-	
-	private static ArrayList<POIwithId> pointOfInterests = new ArrayList<POIwithId>();
+	private static ArrayList<Node> m_nodes = new ArrayList<Node>();	
+	private static ArrayList<Poi> m_pointOfInterests = new ArrayList<Poi>();
 
 	public void loadDataset(String nodeDatasetFile, String edgeDatasetFile, String poiDatasetFile) {
 
@@ -25,21 +24,18 @@ public class Graph {
 		// read poi dataset and add to Graph
 
 		UtilsManagment utilm = new UtilsManagment();
-		vertices = utilm.readVertexFiles(nodeDatasetFile);
+		m_nodes = utilm.readVertexFiles(nodeDatasetFile);
 		edges=utilm.readEdgeFile(edgeDatasetFile);
-		pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
+		m_pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
 		
 		for(int i=0;i<edges.size();i++) {
-			addEdge(edges.get(i).getM_intSourceId(), edges.get(i).getM_intDestinationId(), edges.get(i).getM_doubDistance());
+			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
 		}
+			
 		
-		for(int j=0;j<vertices.size();j++) {
-			addNode(vertices.get(j).getM_intNodeId());
-		}
-		
-		/*for(int k=0;k<pointOfInterests.size();k++) {
-			addPOI(pointOfInterests.get(k).getM_intPOIID(), pointOfInterests.get(k).get, endNode, distFromStartNode)
-		}*/
+//		for(int k=0;k<pointOfInterests.size();k++) {
+//			addPOI(pointOfInterests.get(k).getM_intPOIID(), pointOfInterests.get(k).get, endNode, distFromStartNode)
+//		}
 		
 
 	}
@@ -58,7 +54,7 @@ public class Graph {
 		//pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
 		
 		for(int i=0;i<edges.size();i++) {
-			addEdge(edges.get(i).getM_intSourceId(), edges.get(i).getM_intDestinationId(), edges.get(i).getM_doubDistance());
+			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
 		}
 		
 		
@@ -72,14 +68,13 @@ public class Graph {
 		return m_numOfNodes;
 	}
 
-	// AZIZ: Have a consistent naming throughout all project: use either "node" or
-	// "vertex"!
+	
 	public boolean addNode(int int_nodeID) {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
 			return false;
 		}
 		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
-		modificationCount++; // AZIZ: I didn't get why you need this variable
+		//modificationCount++;
 		m_numOfNodes++;
 		return true;
 	}
@@ -94,7 +89,7 @@ public class Graph {
 		if (!m_adjancencyMap.get(int_startNode).containsKey(int_endNode)) {
 			m_adjancencyMap.get(int_startNode).put(int_endNode, doub_distance);
 			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
-			modificationCount++;
+			//modificationCount++;
 			m_numEdges++;
 
 		} else {
@@ -103,7 +98,7 @@ public class Graph {
 			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
 
 			if (prev_doubDistance != doub_distance) {
-				modificationCount++;
+				//modificationCount++;
 				return true;
 			}
 		}
@@ -138,7 +133,7 @@ public class Graph {
 		}
 	}
 
-	// AZIZ: write implementation
+	
 	public boolean removeEdge(int startNode, int endNode) {
 		if ((!m_adjancencyMap.containsKey(startNode)) || (!m_adjancencyMap.containsKey(endNode))) {
 			return false;
