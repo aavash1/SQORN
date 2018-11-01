@@ -6,9 +6,9 @@ public class Main {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 
-		String edgeDatasetFile = "";
-		String nodeDatasetFile = "";
-		String poiDatasetFile = "";
+		String edgeDatasetFile = "CAL-Edge_Eid-ESrc-EDest-EDist.csv";
+		String nodeDatasetFile = "CAL-Vertex_Vid-VLong-VLat.csv";
+		String poiDatasetFile = "CAL-POI_POILong-POILat-POIId.csv";
 		
 //		ArrayList<Vertex> myVertices = um.readVertexFiles("CAL-Vertex_Vid-VLong-VLat.csv");
 //		System.out.println("Vertex File Imported Successfully!");
@@ -37,7 +37,8 @@ public class Main {
 		Graph roadNetwork1 = new Graph();
 		
 		roadNetwork1.loadDataset(edgeDatasetFile, nodeDatasetFile, poiDatasetFile);
-		
+		//roadNetwork1.loadDataset(edgeDatasetFile);
+		roadNetwork1.printGraph();
 		
 		
 //		roadNetwork1.addEdge(0, 1, 2.1);

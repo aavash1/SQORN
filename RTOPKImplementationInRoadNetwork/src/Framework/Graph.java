@@ -7,35 +7,63 @@ public class Graph {
 	private int modificationCount; // AZIZ: I didn't get why you need this variable
 	private int m_numEdges;
 	private int m_numOfNodes;
-	// AZIZ: I think it is better to use just HashMap, because LinkedHashMap will
-	// iterate in the order in which the entries were put into the map
-	// Performance of LinkedHashMap is slightly below than that of HashMap, due to
-	// the added expense of maintaining the linked list.
-	// source:
-	// https://examples.javacodegeeks.com/core-java/util/linkedhashmap/java-linkedhashmap-example/
+
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
 
-	private static ArrayList<Vertex> vertices=new ArrayList<Vertex>();
+	private static ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 	
-	
-	public void loadDataset(String edgeDatasetFile, String nodeDatasetFile, String poiDatasetFile) { 
+	private static ArrayList<POIwithId> pointOfInterests = new ArrayList<POIwithId>();
+
+	public void loadDataset(String nodeDatasetFile, String edgeDatasetFile, String poiDatasetFile) {
+
+		// use UtilsManagement to get Node, Edge, POI data
+		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+		ArrayList<Edge> edges = new ArrayList<Edge>();
+		// read edge dataset and add edges to Graph
+		// read node dataset and add edges to Graph
+		// read poi dataset and add to Graph
+
+		UtilsManagment utilm = new UtilsManagment();
+		vertices = utilm.readVertexFiles(nodeDatasetFile);
+		edges=utilm.readEdgeFile(edgeDatasetFile);
+		pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
 		
-		//use UtilsManagement to get Node, Edge, POI data
-		//then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+		for(int i=0;i<edges.size();i++) {
+			addEdge(edges.get(i).getM_intSourceId(), edges.get(i).getM_intDestinationId(), edges.get(i).getM_doubDistance());
+		}
 		
-		//read edge dataset and add edges to Graph
-		//read node dataset 
-		//read poi dataset and add to Graph
+		for(int j=0;j<vertices.size();j++) {
+			addNode(vertices.get(j).getM_intNodeId());
+		}
 		
+		/*for(int k=0;k<pointOfInterests.size();k++) {
+			addPOI(pointOfInterests.get(k).getM_intPOIID(), pointOfInterests.get(k).get, endNode, distFromStartNode)
+		}*/
 		
-		
-		
-		
+
 	}
-	
-	
-	
+	public void loadDataset(String edgeDatasetFile) {
+
+		// use UtilsManagement to get Node, Edge, POI data
+		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+		ArrayList<Edge> edges = new ArrayList<Edge>();
+		// read edge dataset and add edges to Graph
+		// read node dataset and add edges to Graph
+		// read poi dataset and add to Graph
+
+		UtilsManagment utilm = new UtilsManagment();
+		//vertices = utilm.readVertexFiles(nodeDatasetFile);
+		edges=utilm.readEdgeFile(edgeDatasetFile);
+		//pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
+		
+		for(int i=0;i<edges.size();i++) {
+			addEdge(edges.get(i).getM_intSourceId(), edges.get(i).getM_intDestinationId(), edges.get(i).getM_doubDistance());
+		}
+		
+		
+
+	}
 	public int getNumberOfEdges() {
 		return m_numEdges;
 	}

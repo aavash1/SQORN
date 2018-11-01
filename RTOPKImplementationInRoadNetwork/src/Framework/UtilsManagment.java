@@ -13,6 +13,7 @@ public class UtilsManagment {
 	final String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
 
+	private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
 																							// value is category name
 	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
@@ -195,7 +196,9 @@ public class UtilsManagment {
 					POIwithId POI2 = new POIwithId();
 					POI2.setM_doubLongitude(Double.parseDouble(record[0]));
 					POI2.setM_doubLatitude(Double.parseDouble(record[1]));
-					POI2.setM_strCategoryId(record[2]);
+					POI2.setM_intPOICategoryId(Integer.parseInt(record[2]));
+					poiID++;
+					POI2.setM_intPOIID(poiID);
 					//
 					listPOI2.add(POI2);
 				}
@@ -207,5 +210,8 @@ public class UtilsManagment {
 		return listPOI2;
 
 	}
+	
+	//Method to Read Merged Point of Interest with Original.
+	
 
 }

@@ -12,9 +12,10 @@ public class Edge {
 
 	public void setEdgeId(int intEdgeId) {
 		if (intEdgeId < 0) {
-			this.m_intEdgeId = intEdgeId;
-		} else {
 			System.err.println("Error!! Cannot be null");
+		} else {
+			
+			this.m_intEdgeId = intEdgeId;
 		}
 	}
 
