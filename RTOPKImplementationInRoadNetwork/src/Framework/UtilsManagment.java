@@ -17,7 +17,6 @@ public class UtilsManagment {
 																							// value is category name
 	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
 																							// value is category type
-	private HashMap<Integer, ArrayList<Edge>> m_adjacentList = new HashMap<Integer, ArrayList<Edge>>();
 
 	public String returnCategoryName(int category_Id) {
 
@@ -159,12 +158,7 @@ public class UtilsManagment {
 
 	}
 
-	public HashMap<Integer, ArrayList<Edge>> m_makeAdjList() {
-		Edge ed = new Edge();
-
-		return m_adjacentList;
-
-	}
+	
 
 	// Method to read the POI files from the datasets
 	/*

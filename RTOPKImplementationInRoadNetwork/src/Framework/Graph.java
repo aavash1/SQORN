@@ -14,7 +14,28 @@ public class Graph {
 	// source:
 	// https://examples.javacodegeeks.com/core-java/util/linkedhashmap/java-linkedhashmap-example/
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
+	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
 
+	private static ArrayList<Vertex> vertices=new ArrayList<Vertex>();
+	
+	
+	public void loadDataset(String edgeDatasetFile, String nodeDatasetFile, String poiDatasetFile) { 
+		
+		//use UtilsManagement to get Node, Edge, POI data
+		//then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+		
+		//read edge dataset and add edges to Graph
+		//read node dataset 
+		//read poi dataset and add to Graph
+		
+		
+		
+		
+		
+	}
+	
+	
+	
 	public int getNumberOfEdges() {
 		return m_numEdges;
 	}
@@ -113,6 +134,64 @@ public class Graph {
 	public Map<Integer, Double> getEdgesWithDistances(int node) {
 
 		return m_adjancencyMap.get(node);
+	}
+
+	// Implementation for POI mapping in respective edges.
+	public boolean addPOI(int idPOI, int startNode, int endNode, double distFromStartNode) {
+
+		if (!hasEdge(startNode, endNode)) {
+			return false;
+		}
+
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+
+		if (m_edgePOIMap.containsKey(edge)) {
+			m_edgePOIMap.get(edge).put(idPOI, distFromStartNode);
+		} else {
+			Map<Integer, Double> pois = new HashMap<>();
+			pois.put(idPOI, distFromStartNode);
+
+			m_edgePOIMap.put(edge, pois);
+		}
+
+		return true;
+	}
+
+	public void printPOIs() {
+		System.out.println("Point of Interest List: ");
+
+		for (Map<Integer, Integer> key : m_edgePOIMap.keySet()) {
+
+			System.out.println("Edge " + key + ":\t" + m_edgePOIMap.get(key));
+		}
+	}
+
+	public ArrayList<Integer> getPOIs(int startNode, int endNode) {
+		if (!hasEdge(startNode, endNode)) {
+			return null;
+		}
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+		ArrayList<Integer> int_POI = new ArrayList<Integer>();
+		for (Integer key : m_edgePOIMap.get(edge).keySet()) {
+			int_POI.add(key);
+
+		}
+
+		return int_POI;
+
+	}
+
+	public Map<Integer, Double> getPOIsWithDistance(int startNode, int endNode) {
+		if (!hasEdge(startNode, endNode)) {
+			return null;
+		}
+
+		Map<Integer, Integer> edges = new HashMap<>();
+		edges.put(startNode, endNode);
+
+		return m_edgePOIMap.get(edges);
 	}
 
 }
