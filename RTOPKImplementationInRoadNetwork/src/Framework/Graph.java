@@ -11,6 +11,13 @@ public class Graph {
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
 
+	public Map<Integer, Map<Integer, Double>> getAdjancencyMap() {
+		return m_adjancencyMap;
+	}
+	public Map<Map<Integer, Integer>, Map<Integer, Double>> getEdgePOIMap() {
+		return m_edgePOIMap;
+	}
+
 	private static ArrayList<Node> m_nodes = new ArrayList<Node>();	
 	private static ArrayList<Poi> m_pointOfInterests = new ArrayList<Poi>();
 

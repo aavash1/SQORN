@@ -41,6 +41,11 @@ public class Main {
 		roadNetwork1.printGraph();
 		
 		
+		Graph roadNetwork2;
+		
+		roadNetwork2 = um.readMergedPOI("CAL-MergedPOI_Start_End_Length_NumofPOI2.csv");
+		
+		
 //		roadNetwork1.addEdge(0, 1, 2.1);
 //		roadNetwork1.addEdge(0, 4, 3.2);
 //		roadNetwork1.addEdge(1, 2, 2.3);

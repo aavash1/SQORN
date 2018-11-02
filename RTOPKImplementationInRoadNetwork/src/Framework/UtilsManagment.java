@@ -159,8 +159,6 @@ public class UtilsManagment {
 
 	}
 
-	
-
 	// Method to read the POI files from the datasets
 	/*
 	 * public ArrayList<PointOfInterest> readPOIFile(String csvFilename) { String
@@ -210,15 +208,56 @@ public class UtilsManagment {
 		return listPOI2;
 
 	}
-	
-	//Method to Read Merged Point of Interest with Original.
-	
-	//For time being it is "void", but later need to determine the return type
-	public void readMergedPOI (String csvFilename ) { 
+
+	// Method to Read Merged Point of Interest with Original.
+
+	// For time being it is "void", but later need to determine the return type
+	public Graph readMergedPOI(String csvFilename) {
+		Graph graph = new Graph();
+		Poi poi = new Poi();
 		String line = "";
-		
-		
-		
+
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(",");
+				if (record.length == 4) {
+					if (record[4].contains(".")) {
+						System.out.println("Cannot be a double value");
+
+					} else {
+						int num_of_POI = Integer.parseInt(record[4]);
+						graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]),
+								Double.parseDouble(record[3]));
+						br.readLine();
+						for (int i = 0; i < num_of_POI; i++) {
+							//Remained here
+
+						}
+					}
+
+					// int POICount = Integer.parseInt(record[3]);
+					// if (POICount <= 0) {
+					// POICount = (int) 0;
+					// } else {
+					// int[][] POIHolder = new int[POICount][2];
+					// for (int i = 0; i < POIHolder.length; i++) {
+					// for (int j = 0; j < POIHolder[i].length; j++) {
+					// // POIHolder[][]
+					// }
+					// }
+					// }
+
+				} else {
+					System.out.println("line has 2 or more than 4 numbers");
+					// add POI to graph
+
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return graph;
+
 	}
 
 }
