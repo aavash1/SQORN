@@ -212,6 +212,8 @@ public class UtilsManagment {
 	// Method to Read Merged Point of Interest with Original.
 
 	// For time being it is "void", but later need to determine the return type
+	//Unable to debug due to the poor pc performance.
+	//Just check the logic behind this and suggest the feedbacks
 	public Graph readMergedPOI(String csvFilename) {
 		Graph graph = new Graph();
 		Poi poi = new Poi();
@@ -239,14 +241,20 @@ public class UtilsManagment {
 							br.readLine();
 							for (int i = 0; i < (num_of_POI * 2); i++) {
 								poi.setPoiCategoryId(Integer.parseInt(record[i]));
-								poi.setDistanceFromStartNode(Double.parseDouble(record[i + 1]));
+								poi.setDistanceFromStartNode(Double.parseDouble(record[i + 2]));
+								i++;
 							}
 						}
 					}
 
 				} else {
 					System.out.println("line has 2 or more than 4 numbers");
-					// add POI to graph
+					int num_of_poi = record.length;
+					for (int i = 0; i < (num_of_poi); i++) {
+						poi.setPoiCategoryId(Integer.parseInt(record[i]));
+						poi.setDistanceFromStartNode(Double.parseDouble(record[i + 1]));
+						i++;
+					}
 
 				}
 			}
