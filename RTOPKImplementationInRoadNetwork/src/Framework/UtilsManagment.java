@@ -228,25 +228,18 @@ public class UtilsManagment {
 						int num_of_POI = Integer.parseInt(record[4]);
 						graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]),
 								Double.parseDouble(record[3]));
-						br.readLine();
-						for (int i = 0; i < num_of_POI; i++) {
-							//Remained here
+						if (num_of_POI == 0) {
+							br.readLine();
 
+						} else {
+							br.readLine();
+							for (int i = 0; i < (num_of_POI * 2); i++) {
+								poi.setPoiCategoryId(Integer.parseInt(record[i]));
+								poi.setDistanceFromStartNode(Double.parseDouble(record[i + 1]));
+							}
 						}
 					}
-
-					// int POICount = Integer.parseInt(record[3]);
-					// if (POICount <= 0) {
-					// POICount = (int) 0;
-					// } else {
-					// int[][] POIHolder = new int[POICount][2];
-					// for (int i = 0; i < POIHolder.length; i++) {
-					// for (int j = 0; j < POIHolder[i].length; j++) {
-					// // POIHolder[][]
-					// }
-					// }
-					// }
-
+//This code is not working I cannot debug it well. Please check the logic and give me feedbacks! I will do it later with another machine.
 				} else {
 					System.out.println("line has 2 or more than 4 numbers");
 					// add POI to graph
