@@ -221,13 +221,17 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(",");
 				if (record.length == 4) {
-					if (record[4].contains(".")) {
+					if (record[3].contains(".")) {
 						System.out.println("Cannot be a double value");
 
 					} else {
-						int num_of_POI = Integer.parseInt(record[4]);
-						graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]),
-								Double.parseDouble(record[3]));
+						int start_node = Integer.parseInt(record[0]);
+						int end_node = Integer.parseInt(record[1]);
+						double edge_length = Double.parseDouble(record[2]);
+						int num_of_POI = Integer.parseInt(record[3]);
+
+						graph.addEdge(start_node, end_node, edge_length);
+
 						if (num_of_POI == 0) {
 							br.readLine();
 
@@ -239,7 +243,7 @@ public class UtilsManagment {
 							}
 						}
 					}
-//This code is not working I cannot debug it well. Please check the logic and give me feedbacks! I will do it later with another machine.
+
 				} else {
 					System.out.println("line has 2 or more than 4 numbers");
 					// add POI to graph
