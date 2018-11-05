@@ -34,17 +34,21 @@ public class Main {
 //		1 4 4
 //		2 3 2
 //		3 4 5
-		Graph roadNetwork1 = new Graph();
+		//Graph roadNetwork1 = new Graph();
 		
-		roadNetwork1.loadDataset(edgeDatasetFile, nodeDatasetFile, poiDatasetFile);
+		//roadNetwork1.loadDataset(edgeDatasetFile, nodeDatasetFile, poiDatasetFile);
 		//roadNetwork1.loadDataset(edgeDatasetFile);
-		roadNetwork1.printGraph();
+		//roadNetwork1.printGraph();
 		
 		
 		Graph roadNetwork2;
 		
-		roadNetwork2 = um.readMergedPOI("CAL-MergedPOI_Start_End_Length_NumofPOI2.csv");
+		roadNetwork2 = um.readMergedPOI("MergedPoi-short.txt");
+		roadNetwork2.printGraph();
+		System.out.println();
+		roadNetwork2.printPOIs();
 		
+		//um.loadDataset(roadNetwork2, "MergedPoi-short.txt");
 		
 //		roadNetwork1.addEdge(0, 1, 2.1);
 //		roadNetwork1.addEdge(0, 4, 3.2);

@@ -187,6 +187,35 @@ public class Graph {
 
 		return true;
 	}
+	
+	public boolean addPOI(int idPOI, int startNode, int endNode, double distFromStartNode, int categoryId) {
+
+		if (!hasEdge(startNode, endNode)) {
+			return false;
+		}
+
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+
+		if (m_edgePOIMap.containsKey(edge)) {
+			m_edgePOIMap.get(edge).put(idPOI, distFromStartNode);
+		} else {
+			Map<Integer, Double> pois = new HashMap<>();
+			pois.put(idPOI, distFromStartNode);
+
+			m_edgePOIMap.put(edge, pois);
+		}
+
+		return true;
+	}
+	
+	public boolean addPOI(Poi newPoi, Edge edge) {
+		
+		addPOI(newPoi.getPoiId(), edge.getStartNodeId(), edge.getEndNodeId(), edge.getLength());
+		
+		return true;		
+		
+	}
 
 	public void printPOIs() {
 		System.out.println("Point of Interest List: ");
@@ -206,11 +235,8 @@ public class Graph {
 		ArrayList<Integer> int_POI = new ArrayList<Integer>();
 		for (Integer key : m_edgePOIMap.get(edge).keySet()) {
 			int_POI.add(key);
-
 		}
-
 		return int_POI;
-
 	}
 
 	public Map<Integer, Double> getPOIsWithDistance(int startNode, int endNode) {
@@ -223,5 +249,19 @@ public class Graph {
 
 		return m_edgePOIMap.get(edges);
 	}
+	
+	public void getPoiEdge(int poiId) {
+		
+		
+		
+		//return startNode, endNode (edge)
+	}
+	public void getPoiDistanceFromSource(int poiId) {
+		
+		
+		
+		//return distance from start node
+	}
 
+	
 }

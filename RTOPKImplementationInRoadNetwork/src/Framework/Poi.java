@@ -5,10 +5,19 @@ public class Poi {
 	private double m_doubLatitude;
 	private int m_intPoiId;
 	private int m_intPoiCategoryId;
-	private int m_doubDistanceFromStartNode;
-	private boolean m_boolType; //0 (False) - data object, 1 (True) - feature object, 
-	private double m_doubRating; //[0, 10]
-	
+	private double m_doubDistanceFromStartNode;
+
+	public double getDistanceFromStartNode() {
+		return m_doubDistanceFromStartNode;
+	}
+
+	public void setDistanceFromStartNode(double m_doubDistanceFromStartNode) {
+		this.m_doubDistanceFromStartNode = m_doubDistanceFromStartNode;
+	}
+
+	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
+	private double m_doubRating; // [0, 10]
+
 	public double getLongitude() {
 		return m_doubLongitude;
 	}
@@ -32,20 +41,13 @@ public class Poi {
 	public void setPoiCategoryId(int intPOICategoryId) {
 		this.m_intPoiCategoryId = intPOICategoryId;
 	}
+
 	public int getPoiId() {
 		return m_intPoiId;
 	}
 
 	public void setPoiId(int intPOIID) {
 		this.m_intPoiId = intPOIID;
-	}
-
-	public int getDistanceFromStartNode() {
-		return m_doubDistanceFromStartNode;
-	}
-
-	public void setDistanceFromStartNode(int m_doubDistanceFromStartNode) {
-		this.m_doubDistanceFromStartNode = m_doubDistanceFromStartNode;
 	}
 
 }
