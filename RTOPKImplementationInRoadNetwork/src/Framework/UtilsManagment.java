@@ -211,26 +211,22 @@ public class UtilsManagment {
 
 	// Method to Read Merged Point of Interest with Original.
 
-	private boolean isInteger(String str) { 
-		
-		try { 
+	private boolean isInteger(String str) {
+
+		try {
 			int a = Integer.parseInt(str);
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			return false;
 		}
-		
+
 		return true;
-	}	
-	
-	
-	
+	}
+
 	public Graph readMergedPOI(String csvFilename) {
 		Graph graph = new Graph();
 		String line = "";
-		int startNode=0; 
-		int endNode=0;
+		int startNode = 0;
+		int endNode = 0;
 		int poiId = 0;
 		double edge_length;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
@@ -238,27 +234,30 @@ public class UtilsManagment {
 				String[] record = line.split(" ");
 				if (record.length == 4) {
 					if (!isInteger(record[3])) {
-						System.out.println("Line has 4 numbers and it ends with double");
+						//System.out.println("Line has 4 numbers and it ends with double");
 						poiId++;
-						graph.addPOI(poiId , startNode, endNode, Double.parseDouble(record[1]), Integer.parseInt(record[0]));
+						graph.addPOI(poiId, startNode, endNode, Double.parseDouble(record[1]),
+								Integer.parseInt(record[0]));
 						poiId++;
-						graph.addPOI(poiId , startNode, endNode, Double.parseDouble(record[3]), Integer.parseInt(record[2]));
-						
-					} else {						
-						System.out.println("Line has 4 numbers and it ends with integer")
-						;startNode = Integer.parseInt(record[0]);
+						graph.addPOI(poiId, startNode, endNode, Double.parseDouble(record[3]),
+								Integer.parseInt(record[2]));
+
+					} else {
+						//System.out.println("Line has 4 numbers and it ends with integer");
+						startNode = Integer.parseInt(record[0]);
 						endNode = Integer.parseInt(record[1]);
 						edge_length = Double.parseDouble(record[2]);
 						graph.addEdge(startNode, endNode, edge_length);
-						
+
 					}
 
 				} else {
-					System.out.println("line has 2 or more than 4 numbers");
-					for (int i = 0; i < record.length-1; i+=2) {
+					//System.out.println("line has 2 or more than 4 numbers");
+					for (int i = 0; i < record.length - 1; i += 2) {
 						poiId++;
-						graph.addPOI(poiId , startNode, endNode, Double.parseDouble(record[i + 1]), Integer.parseInt(record[i]));
-					
+						graph.addPOI(poiId, startNode, endNode, Double.parseDouble(record[i + 1]),
+								Integer.parseInt(record[i]));
+
 					}
 				}
 			}
@@ -268,14 +267,19 @@ public class UtilsManagment {
 		return graph;
 
 	}
-		
-	//load information of nodes from csv file and add these nodes to list of nodes in a give graph
-	public void loadNodesInfo(Graph graph, String csvFile) { 
-		
+
+	// load information of nodes from csv file and add these nodes to list of nodes
+	// in a give graph
+	public void loadNodesInfo(Graph graph, String csvFile) {
+		graph.setNodes(readVertexFiles(csvFile));
 	}
 
-	//load information of pois from csv file and add these pois to list of pois in a give graph
-	public void loadPoiInfo (Graph graph, String csvFile) { 
+	// load information of pois from csv file and add these pois to list of pois in
+	// a give graph
+	public void loadPoiInfo(Graph graph, String csvFile) {
+		graph.setPois(readPOIFile2(csvFile));
 		
+		//graph.getPois().get(0).setPoiCategoryId(intPOICategoryId);
+
 	}
 }
