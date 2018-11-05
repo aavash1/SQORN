@@ -6,7 +6,7 @@ public class Main {
 
 		// String edgeDatasetFile = "CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 		String nodeDatasetFile = "CAL-Node_NId-NLong-NLat.csv";
-		String poiDatasetFile = "CAL-POI_POILong-POILat-POIId.csv";
+		String poiDatasetFile = "CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
 		String mergedPoiDatasetFile = "CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
 
 		// ArrayList<Vertex> myVertices =
