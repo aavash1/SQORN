@@ -268,5 +268,14 @@ public class UtilsManagment {
 		return graph;
 
 	}
+		
+	//load information of nodes from csv file and add these nodes to list of nodes in a give graph
+	public void loadNodesInfo(Graph graph, String csvFile) { 
+		
+	}
 
+	//load information of pois from csv file and add these pois to list of pois in a give graph
+	public void loadPoiInfo (Graph graph, String csvFile) { 
+		
+	}
 }

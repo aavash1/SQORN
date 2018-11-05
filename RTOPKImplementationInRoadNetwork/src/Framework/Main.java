@@ -43,12 +43,19 @@ public class Main {
 		
 		Graph roadNetwork2;
 		
+		System.out.println("Loading graph ...");
 		roadNetwork2 = um.readMergedPOI("MergedPoi-short.txt");
 		roadNetwork2.printGraph();
 		System.out.println();
-		roadNetwork2.printPOIs();
+		roadNetwork2.printPOIs();				
+				
+		System.out.println("Loading nodes' information... ");
+		um.loadNodesInfo(roadNetwork2, "CAL-Node_NId-NLong-NLat.csv");
 		
-		//um.loadDataset(roadNetwork2, "MergedPoi-short.txt");
+		System.out.println("Loading pois' information... ");
+		um.loadPoiInfo(roadNetwork2, "CAL-POI_POILong-POILat-POIId.csv");
+		
+		
 		
 //		roadNetwork1.addEdge(0, 1, 2.1);
 //		roadNetwork1.addEdge(0, 4, 3.2);

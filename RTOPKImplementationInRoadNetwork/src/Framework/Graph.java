@@ -4,12 +4,22 @@ package Framework;
 import java.util.*;
 
 public class Graph {
-	//private int modificationCount; // AZIZ: I didn't get why you need this variable
 	private int m_numEdges;
 	private int m_numOfNodes;
-
+	
+	// Map <startNodeId, map <endNodeId, edgeLength> >
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
+	
+	// Map < map <startNodeId,EndNodeId>, map <poiId, distanceFromSource> >
 	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
+
+	//list of Nodes with full encapsulated properties: 
+	//(nodeId, longitude, latitude)
+	private static ArrayList<Node> m_nodes = new ArrayList<Node>();	
+	
+	//list of POIs with full encapsulated properties: 
+	//(poiId, longitude, latitude, categoryId, distanceFromStartNode, type, rating)
+	private static ArrayList<Poi> m_pois = new ArrayList<Poi>();
 
 	public Map<Integer, Map<Integer, Double>> getAdjancencyMap() {
 		return m_adjancencyMap;
@@ -17,56 +27,55 @@ public class Graph {
 	public Map<Map<Integer, Integer>, Map<Integer, Double>> getEdgePOIMap() {
 		return m_edgePOIMap;
 	}
-
-	private static ArrayList<Node> m_nodes = new ArrayList<Node>();	
-	private static ArrayList<Poi> m_pointOfInterests = new ArrayList<Poi>();
-
-	public void loadDataset(String nodeDatasetFile, String edgeDatasetFile, String poiDatasetFile) {
-
-		// use UtilsManagement to get Node, Edge, POI data
-		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
-		ArrayList<Edge> edges = new ArrayList<Edge>();
-		// read edge dataset and add edges to Graph
-		// read node dataset and add edges to Graph
-		// read poi dataset and add to Graph
-
-		UtilsManagment utilm = new UtilsManagment();
-		m_nodes = utilm.readVertexFiles(nodeDatasetFile);
-		edges=utilm.readEdgeFile(edgeDatasetFile);
-		m_pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
-		
-		for(int i=0;i<edges.size();i++) {
-			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
-		}
-			
-		
-//		for(int k=0;k<pointOfInterests.size();k++) {
-//			addPOI(pointOfInterests.get(k).getM_intPOIID(), pointOfInterests.get(k).get, endNode, distFromStartNode)
+	
+//	public void loadDataset(String nodeDatasetFile, String edgeDatasetFile, String poiDatasetFile) {
+//
+//		// use UtilsManagement to get Node, Edge, POI data
+//		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+//		ArrayList<Edge> edges = new ArrayList<Edge>();
+//		// read edge dataset and add edges to Graph
+//		// read node dataset and add edges to Graph
+//		// read poi dataset and add to Graph
+//
+//		UtilsManagment utilm = new UtilsManagment();
+//		m_nodes = utilm.readVertexFiles(nodeDatasetFile);
+//		edges=utilm.readEdgeFile(edgeDatasetFile);
+//		m_pois=utilm.readPOIFile2(poiDatasetFile);
+//		
+//		for(int i=0;i<edges.size();i++) {
+//			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
 //		}
-		
-
-	}
-	public void loadDataset(String edgeDatasetFile) {
-
-		// use UtilsManagement to get Node, Edge, POI data
-		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
-		ArrayList<Edge> edges = new ArrayList<Edge>();
-		// read edge dataset and add edges to Graph
-		// read node dataset and add edges to Graph
-		// read poi dataset and add to Graph
-
-		UtilsManagment utilm = new UtilsManagment();
-		//vertices = utilm.readVertexFiles(nodeDatasetFile);
-		edges=utilm.readEdgeFile(edgeDatasetFile);
-		//pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
-		
-		for(int i=0;i<edges.size();i++) {
-			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
-		}
-		
-		
-
-	}
+//			
+//		
+////		for(int k=0;k<pointOfInterests.size();k++) {
+////			addPOI(pointOfInterests.get(k).getM_intPOIID(), pointOfInterests.get(k).get, endNode, distFromStartNode)
+////		}
+//		
+//
+//	}
+	
+//	public void loadDataset(String edgeDatasetFile) {
+//
+//		// use UtilsManagement to get Node, Edge, POI data
+//		// then use Graph's methods to store in memory (m_adjancencyMap, m_edgePOIMap)
+//		ArrayList<Edge> edges = new ArrayList<Edge>();
+//		// read edge dataset and add edges to Graph
+//		// read node dataset and add edges to Graph
+//		// read poi dataset and add to Graph
+//
+//		UtilsManagment utilm = new UtilsManagment();
+//		//vertices = utilm.readVertexFiles(nodeDatasetFile);
+//		edges=utilm.readEdgeFile(edgeDatasetFile);
+//		//pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
+//		
+//		for(int i=0;i<edges.size();i++) {
+//			addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(), edges.get(i).getLength());
+//		}
+//		
+//		
+//
+//	}
+	
 	public int getNumberOfEdges() {
 		return m_numEdges;
 	}
@@ -81,7 +90,6 @@ public class Graph {
 			return false;
 		}
 		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
-		//modificationCount++;
 		m_numOfNodes++;
 		return true;
 	}
@@ -96,7 +104,6 @@ public class Graph {
 		if (!m_adjancencyMap.get(int_startNode).containsKey(int_endNode)) {
 			m_adjancencyMap.get(int_startNode).put(int_endNode, doub_distance);
 			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
-			//modificationCount++;
 			m_numEdges++;
 
 		} else {
@@ -105,7 +112,6 @@ public class Graph {
 			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
 
 			if (prev_doubDistance != doub_distance) {
-				//modificationCount++;
 				return true;
 			}
 		}

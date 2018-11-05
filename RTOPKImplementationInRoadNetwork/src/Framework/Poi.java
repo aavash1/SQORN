@@ -1,11 +1,14 @@
 package Framework;
 
 public class Poi {
-	private double m_doubLongitude;
-	private double m_doubLatitude;
 	private int m_intPoiId;
+	private double m_doubLongitude;
+	private double m_doubLatitude;	
 	private int m_intPoiCategoryId;
 	private double m_doubDistanceFromStartNode;
+	
+	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
+	private double m_doubRating; // [0, 10]
 
 	public double getDistanceFromStartNode() {
 		return m_doubDistanceFromStartNode;
@@ -14,9 +17,6 @@ public class Poi {
 	public void setDistanceFromStartNode(double m_doubDistanceFromStartNode) {
 		this.m_doubDistanceFromStartNode = m_doubDistanceFromStartNode;
 	}
-
-	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
-	private double m_doubRating; // [0, 10]
 
 	public double getLongitude() {
 		return m_doubLongitude;
