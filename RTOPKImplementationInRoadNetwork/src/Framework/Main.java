@@ -5,9 +5,9 @@ public class Main {
 		UtilsManagment um = new UtilsManagment();
 
 		// String edgeDatasetFile = "CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		String nodeDatasetFile = "CAL-Node_NId-NLong-NLat.csv";
-		String poiDatasetFile = "CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
-		String mergedPoiDatasetFile = "CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
+		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
+		String poiDatasetFile = "Datasets/CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
+		String mergedPoiDatasetFile = "Datasets/CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
 
 		// ArrayList<Vertex> myVertices =
 		// um.readVertexFiles("CAL-Vertex_Vid-VLong-VLat.csv");
