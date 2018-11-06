@@ -1,9 +1,9 @@
 package framework;
 
 public class Node {
-	private int m_intNodeId;
-	private Double m_doubLongitude;
+	private int m_intNodeId;	
 	private Double m_doubLatitude;
+	private Double m_doubLongitude;
 
 	public int getNodeId() {
 		return m_intNodeId;
@@ -31,8 +31,8 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "Node [NodeId=" + m_intNodeId + ", Longitude=" + m_doubLongitude + ", Latitude="
-				+ m_doubLatitude + "]";
+		return "Node [NodeId=" + m_intNodeId + ", " + "Latitude="
+				+ m_doubLatitude + " Longitude=" + m_doubLongitude + "]";
 	}
 	
 }

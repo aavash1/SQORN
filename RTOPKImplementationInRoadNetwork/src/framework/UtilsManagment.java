@@ -278,4 +278,9 @@ public class UtilsManagment {
 		// graph.getPois().get(0).setPoiCategoryId(intPOICategoryId);
 
 	}
+	
+	public static int convertDoubleToInteger (double dValue) {
+		return (int) Math.round(dValue);
+		 
+	}
 }
