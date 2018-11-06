@@ -29,4 +29,10 @@ public class Node {
 		this.m_doubLatitude = doubLatitude;
 	}
 
+	@Override
+	public String toString() {
+		return "Node [NodeId=" + m_intNodeId + ", Longitude=" + m_doubLongitude + ", Latitude="
+				+ m_doubLatitude + "]";
+	}
+	
 }

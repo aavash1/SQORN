@@ -10,12 +10,32 @@ public class Poi {
 	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
 	private double m_doubRating; // [0, 10]
 
+	public double getRating() {
+		return m_doubRating;
+	}
+
+	public void setRating(double doubRating) {
+		if ((doubRating < 0) || (doubRating > 10)) {
+			System.err.println("Assigned rating should be between 0 and 10");
+		} else {
+			this.m_doubRating = doubRating;	
+		}		
+	}
+
+	public boolean getType() {
+		return m_boolType;
+	}
+
+	public void setType(boolean boolType) {
+		this.m_boolType = boolType;
+	}
+
 	public double getDistanceFromStartNode() {
 		return m_doubDistanceFromStartNode;
 	}
 
-	public void setDistanceFromStartNode(double m_doubDistanceFromStartNode) {
-		this.m_doubDistanceFromStartNode = m_doubDistanceFromStartNode;
+	public void setDistanceFromStartNode(double doubDistanceFromStartNode) {
+		this.m_doubDistanceFromStartNode = doubDistanceFromStartNode;
 	}
 
 	public double getLongitude() {

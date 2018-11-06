@@ -11,92 +11,40 @@ public class Graph {
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 
 	// Map < map <startNodeId,EndNodeId>, map <poiId, distanceFromSource> >
-	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePOIMap = new HashMap();
+	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePoiMap = new HashMap();
 
 	// list of Nodes with full encapsulated properties:
 	// (nodeId, longitude, latitude)
-	private  ArrayList<Node> m_nodes = new ArrayList<Node>();
-	private  ArrayList<Poi> m_pois = new ArrayList<Poi>();
-
-	public  void setPois(ArrayList<Poi> m_pois) {
-		m_pois = m_pois;
-	}
-
-	public  ArrayList<Node> getNodes() {
-		return m_nodes;
-	}
-
-	public void setNodes(ArrayList<Node> m_nodes) {
-		m_nodes = m_nodes;
-	}
+	private  ArrayList<Node> m_nodesWithInfo = new ArrayList<Node>();
+	
 	// list of POIs with full encapsulated properties:
 	// (poiId, longitude, latitude, categoryId, distanceFromStartNode, type, rating)
+	private  ArrayList<Poi> m_poisWithInfo = new ArrayList<Poi>();
 
-	public  ArrayList<Poi> getPois() {
-		return m_pois;
+	
+	public  ArrayList<Node> getNodesWithInfo() {
+		return m_nodesWithInfo;
+	}
+
+	public void setNodesWithInfo(ArrayList<Node> m_nodes) {
+		this.m_nodesWithInfo = m_nodes;
+	}	
+
+	public  ArrayList<Poi> getPoisWithInfo() {
+		return m_poisWithInfo;
+	}
+	
+	public  void setPoisWithInfo(ArrayList<Poi> m_pois) {
+		this.m_poisWithInfo = m_pois;
 	}
 
 	public Map<Integer, Map<Integer, Double>> getAdjancencyMap() {
 		return m_adjancencyMap;
 	}
 
-	public Map<Map<Integer, Integer>, Map<Integer, Double>> getEdgePOIMap() {
-		return m_edgePOIMap;
-	}
-
-	// public void loadDataset(String nodeDatasetFile, String edgeDatasetFile,
-	// String poiDatasetFile) {
-	//
-	// // use UtilsManagement to get Node, Edge, POI data
-	// // then use Graph's methods to store in memory (m_adjancencyMap,
-	// m_edgePOIMap)
-	// ArrayList<Edge> edges = new ArrayList<Edge>();
-	// // read edge dataset and add edges to Graph
-	// // read node dataset and add edges to Graph
-	// // read poi dataset and add to Graph
-	//
-	// UtilsManagment utilm = new UtilsManagment();
-	// m_nodes = utilm.readVertexFiles(nodeDatasetFile);
-	// edges=utilm.readEdgeFile(edgeDatasetFile);
-	// m_pois=utilm.readPOIFile2(poiDatasetFile);
-	//
-	// for(int i=0;i<edges.size();i++) {
-	// addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(),
-	// edges.get(i).getLength());
-	// }
-	//
-	//
-	//// for(int k=0;k<pointOfInterests.size();k++) {
-	//// addPOI(pointOfInterests.get(k).getM_intPOIID(),
-	// pointOfInterests.get(k).get, endNode, distFromStartNode)
-	//// }
-	//
-	//
-	// }
-
-	// public void loadDataset(String edgeDatasetFile) {
-	//
-	// // use UtilsManagement to get Node, Edge, POI data
-	// // then use Graph's methods to store in memory (m_adjancencyMap,
-	// m_edgePOIMap)
-	// ArrayList<Edge> edges = new ArrayList<Edge>();
-	// // read edge dataset and add edges to Graph
-	// // read node dataset and add edges to Graph
-	// // read poi dataset and add to Graph
-	//
-	// UtilsManagment utilm = new UtilsManagment();
-	// //vertices = utilm.readVertexFiles(nodeDatasetFile);
-	// edges=utilm.readEdgeFile(edgeDatasetFile);
-	// //pointOfInterests=utilm.readPOIFile2(poiDatasetFile);
-	//
-	// for(int i=0;i<edges.size();i++) {
-	// addEdge(edges.get(i).getStartNodeId(), edges.get(i).getEndNodeId(),
-	// edges.get(i).getLength());
-	// }
-	//
-	//
-	//
-	// }
+	public Map<Map<Integer, Integer>, Map<Integer, Double>> getEdgePoiMap() {
+		return m_edgePoiMap;
+	}	
 
 	public int getNumberOfEdges() {
 		return m_numEdges;
@@ -106,7 +54,7 @@ public class Graph {
 		return m_numOfNodes;
 	}
 
-	public boolean addNode(int int_nodeID) {
+	private boolean addNode(int int_nodeID) {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
 			return false;
 		}
@@ -193,7 +141,7 @@ public class Graph {
 	}
 
 	// Implementation for POI mapping in respective edges.
-	public boolean addPOI(int idPOI, int startNode, int endNode, double distFromStartNode) {
+	public boolean addPoi(int poiId, int startNode, int endNode, double distFromStartNode) {
 
 		if (!hasEdge(startNode, endNode)) {
 			return false;
@@ -202,19 +150,19 @@ public class Graph {
 		Map<Integer, Integer> edge = new HashMap<>();
 		edge.put(startNode, endNode);
 
-		if (m_edgePOIMap.containsKey(edge)) {
-			m_edgePOIMap.get(edge).put(idPOI, distFromStartNode);
+		if (m_edgePoiMap.containsKey(edge)) {
+			m_edgePoiMap.get(edge).put(poiId, distFromStartNode);
 		} else {
 			Map<Integer, Double> pois = new HashMap<>();
-			pois.put(idPOI, distFromStartNode);
+			pois.put(poiId, distFromStartNode);
 
-			m_edgePOIMap.put(edge, pois);
+			m_edgePoiMap.put(edge, pois);
 		}
 
 		return true;
 	}
 
-	public boolean addPOI(int idPOI, int startNode, int endNode, double distFromStartNode, int categoryId) {
+	public boolean addPoi(int poiId, int startNode, int endNode, double distFromStartNode, int categoryId) {
 
 		if (!hasEdge(startNode, endNode)) {
 			return false;
@@ -223,39 +171,39 @@ public class Graph {
 		Map<Integer, Integer> edge = new HashMap<>();
 		edge.put(startNode, endNode);
 
-		if (m_edgePOIMap.containsKey(edge)) {
-			m_edgePOIMap.get(edge).put(idPOI, distFromStartNode);
+		if (m_edgePoiMap.containsKey(edge)) {
+			m_edgePoiMap.get(edge).put(poiId, distFromStartNode);
 		} else {
 			Map<Integer, Double> pois = new HashMap<>();
-			pois.put(idPOI, distFromStartNode);
+			pois.put(poiId, distFromStartNode);
 
-			m_edgePOIMap.put(edge, pois);
+			m_edgePoiMap.put(edge, pois);
 		}
 
 		return true;
 	}
 
-	public boolean addPOI(Poi newPoi, Edge edge) {
+	public boolean addPoi(Poi newPoi, int startNodeId, int endNodeId, double distanceFromStartNode) {
 
-		addPOI(newPoi.getPoiId(), edge.getStartNodeId(), edge.getEndNodeId(), edge.getLength());
+		addPoi(newPoi.getPoiId(), startNodeId, endNodeId, distanceFromStartNode);
 
 		return true;
 
 	}
 
-	public void printPOIs() {
+	public void printPoisOnEdge() {
 		System.out.println("Point of Interest List: ");
 
-		for (Map<Integer, Integer> key : m_edgePOIMap.keySet()) {
+		for (Map<Integer, Integer> key : m_edgePoiMap.keySet()) {
 
-			System.out.println("Edge " + key + ":\t" + m_edgePOIMap.get(key));
+			System.out.println("Edge " + key + ":\t" + m_edgePoiMap.get(key));
 		}
 	}
 
 	public void printNodesInfo() {
 		System.out.println("Nodes' Information: ");
 
-		for (Node n : m_nodes) {
+		for (Node n : m_nodesWithInfo) {
 
 			System.out.println(
 					"Node Id: " + n.getNodeId() + " Longitude: " + n.getLongitude() + " Latitude: " + n.getLatitude());
@@ -266,7 +214,7 @@ public class Graph {
 	public void printPoisInfo() {
 		System.out.println("POIs' Information: ");
 
-		for (Poi p : m_pois) {
+		for (Poi p : m_poisWithInfo) {
 
 			System.out.println(
 					"POI Id: " + p.getPoiId() + " Longitude: " + p.getLongitude() + " Latitude: " + p.getLatitude());
@@ -274,20 +222,20 @@ public class Graph {
 		}
 	}
 
-	public ArrayList<Integer> getPOIs(int startNode, int endNode) {
+	public ArrayList<Integer> getPois(int startNode, int endNode) {
 		if (!hasEdge(startNode, endNode)) {
 			return null;
 		}
 		Map<Integer, Integer> edge = new HashMap<>();
 		edge.put(startNode, endNode);
 		ArrayList<Integer> int_POI = new ArrayList<Integer>();
-		for (Integer key : m_edgePOIMap.get(edge).keySet()) {
+		for (Integer key : m_edgePoiMap.get(edge).keySet()) {
 			int_POI.add(key);
 		}
 		return int_POI;
 	}
 
-	public Map<Integer, Double> getPOIsWithDistance(int startNode, int endNode) {
+	public Map<Integer, Double> getPoisWithDistance(int startNode, int endNode) {
 		if (!hasEdge(startNode, endNode)) {
 			return null;
 		}
@@ -295,23 +243,38 @@ public class Graph {
 		Map<Integer, Integer> edges = new HashMap<>();
 		edges.put(startNode, endNode);
 
-		return m_edgePOIMap.get(edges);
+		return m_edgePoiMap.get(edges);
 	}
 
-	public void getPoiEdge(int poiId) {
-		if (!m_pois.contains(poiId)) {
+	//return startNode and endNode of Edge on which given Poi is located
+	public Map<Integer, Integer> getPoiEdge(int poiId) {
+		if (!m_poisWithInfo.contains(poiId)) {
 			System.err.println("POI ID Unavailable");
-		} else {
-			m_nodes.get(poiId).getNodeId();
-		}
+			return null;
+		} 
+		
+		//find return value from here: m_edgePoiMap
+		
+		
+		return null;
 	}
 
-	public void getPoiDistanceFromSource(int poiId) {
-		if (!m_pois.contains(poiId)) {
+	//return distance from start node to the given Poi
+	public Double getPoiDistanceFromSource(int poiId) {
+		if (!m_poisWithInfo.contains(poiId)) {
 			System.err.println("POI ID Unavailable");
-		} else {
-			m_pois.get(poiId).getDistanceFromStartNode();
-		}
+			return null;
+		} 		
+		return	m_poisWithInfo.get(poiId).getDistanceFromStartNode();
+		
+		
 	}
+	
+	//visual display of graph
+	public void display() { 
+		
+		
+	}
+	
 
 }

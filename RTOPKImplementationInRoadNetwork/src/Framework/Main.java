@@ -43,8 +43,6 @@ public class Main {
 
 		Graph roadNetwork2;
 
-		// ... the code being measured ...
-
 		System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
 		roadNetwork2 = um.readMergedPOI(mergedPoiDatasetFile);
@@ -79,6 +77,7 @@ public class Main {
 		System.out.println("Elapsed time of Graph loading: " + graphLoadingTimeD + " seconds");
 		System.out.println("Elapsed time of Nodes info loading: " + nodesLoadingTimeD + " seconds");
 		System.out.println("Elapsed time of POIs info loading: " + poisLoadingTimeD + " seconds");
+		
 		// roadNetwork1.addEdge(0, 1, 2.1);
 		// roadNetwork1.addEdge(0, 4, 3.2);
 		// roadNetwork1.addEdge(1, 2, 2.3);
