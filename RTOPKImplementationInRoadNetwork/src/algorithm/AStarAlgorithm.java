@@ -1,4 +1,4 @@
-package Algorithm;
+package algorithm;
 
 public class AStarAlgorithm extends RoutingAlgorithm{
 

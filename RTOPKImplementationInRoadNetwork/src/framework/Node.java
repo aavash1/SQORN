@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 public class Node {
 	private int m_intNodeId;

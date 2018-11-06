@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 public class Main {
 	public static void main(String[] args) {
@@ -8,38 +8,6 @@ public class Main {
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String poiDatasetFile = "Datasets/CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
 		String mergedPoiDatasetFile = "Datasets/CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
-
-		// ArrayList<Vertex> myVertices =
-		// um.readVertexFiles("CAL-Vertex_Vid-VLong-VLat.csv");
-		// System.out.println("Vertex File Imported Successfully!");
-		//
-		// ArrayList<Edge> myEdges =
-		// um.readEdgeFile("CAL-Edge_Eid-ESrc-EDest-EDist.csv");
-		// System.out.println("Edge File Imported Successfully!");
-		// System.out.println(myEdges.get(0).getEdgeId());
-		//
-		//// um.readPOIFile("CAL-POI_POIName-POILong-POILat.csv");
-		//// System.out.println("POI File Imported Successfully!");
-		//
-		// um.readPOIFile2("CAL-POI_POILong-POILat-POIId.csv");
-		// System.out.println("POI file with Id Imported Successfully");
-		//
-		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
-		// um.displayPOIHmap();
-
-		// Testing graph
-		// 0 1 2
-		// 0 4 3
-		// 1 2 2
-		// 1 3 3
-		// 1 4 4
-		// 2 3 2
-		// 3 4 5
-		// Graph roadNetwork1 = new Graph();
-
-		// roadNetwork1.loadDataset(edgeDatasetFile, nodeDatasetFile, poiDatasetFile);
-		// roadNetwork1.loadDataset(edgeDatasetFile);
-		// roadNetwork1.printGraph();
 
 		Graph roadNetwork2;
 
@@ -78,6 +46,22 @@ public class Main {
 		System.out.println("Elapsed time of Nodes info loading: " + nodesLoadingTimeD + " seconds");
 		System.out.println("Elapsed time of POIs info loading: " + poisLoadingTimeD + " seconds");
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// =============OLD TESTS=================================
 		// roadNetwork1.addEdge(0, 1, 2.1);
 		// roadNetwork1.addEdge(0, 4, 3.2);
 		// roadNetwork1.addEdge(1, 2, 2.3);
@@ -85,7 +69,6 @@ public class Main {
 		// roadNetwork1.addEdge(1, 4, 4.8);
 		// roadNetwork1.addEdge(2, 3, 2.9);
 		// roadNetwork1.addEdge(3, 4, 5.6);
-
 		//
 		// System.out.println("Distance between node 1 and 4: " +
 		// roadNetwork1.getEdgeDistance(1, 4));
@@ -93,7 +76,6 @@ public class Main {
 		// System.out.println("Number of nodes: " + roadNetwork1.getNumberOfNodes());
 		// System.out.println();
 		// roadNetwork1.printGraph();
-
 		// roadNetwork1.removeEdge(2, 1);
 		// roadNetwork1.removeEdge(3, 4);
 
@@ -111,6 +93,25 @@ public class Main {
 		// System.out.println(roadNetwork1.getPOIs(0, 1));
 		// System.out.println(roadNetwork1.getPOIsWithDistance(0, 1));
 
+		// ArrayList<Vertex> myVertices =
+		// um.readVertexFiles("CAL-Vertex_Vid-VLong-VLat.csv");
+		// System.out.println("Vertex File Imported Successfully!");
+		//
+		// ArrayList<Edge> myEdges =
+		// um.readEdgeFile("CAL-Edge_Eid-ESrc-EDest-EDist.csv");
+		// System.out.println("Edge File Imported Successfully!");
+		// System.out.println(myEdges.get(0).getEdgeId());
+		//
+		//// um.readPOIFile("CAL-POI_POIName-POILong-POILat.csv");
+		//// System.out.println("POI File Imported Successfully!");
+		//
+		// um.readPOIFile2("CAL-POI_POILong-POILat-POIId.csv");
+		// System.out.println("POI file with Id Imported Successfully");
+		//
+		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
+		// um.displayPOIHmap();	
+		
+		
 	}
 
 }

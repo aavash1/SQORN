@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 public class PointOfInterest {
 	private String m_strCategory;

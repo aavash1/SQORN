@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 //import java.awt.RenderingHints.Key;
 import java.util.*;

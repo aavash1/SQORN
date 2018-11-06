@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 public class Edge {
 	private int m_intEdgeId;

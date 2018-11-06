@@ -1,4 +1,4 @@
-package Framework;
+package framework;
 
 public class Poi {
 	private int m_intPoiId;
