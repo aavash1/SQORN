@@ -32,7 +32,7 @@ public class Node {
 	@Override
 	public String toString() {
 		return "Node [NodeId=" + m_intNodeId + ", " + "Latitude="
-				+ m_doubLatitude + " Longitude=" + m_doubLongitude + "]";
+				+ m_doubLatitude + " Longitude=" + m_doubLongitude +"]";
 	}
 	
 }

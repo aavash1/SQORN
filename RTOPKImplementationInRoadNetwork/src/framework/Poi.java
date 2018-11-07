@@ -3,10 +3,10 @@ package framework;
 public class Poi {
 	private int m_intPoiId;
 	private double m_doubLongitude;
-	private double m_doubLatitude;	
+	private double m_doubLatitude;
 	private int m_intPoiCategoryId;
 	private double m_doubDistanceFromStartNode;
-	
+
 	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
 	private double m_doubRating; // [0, 10]
 
@@ -18,8 +18,8 @@ public class Poi {
 		if ((doubRating < 0) || (doubRating > 10)) {
 			System.err.println("Assigned rating should be between 0 and 10");
 		} else {
-			this.m_doubRating = doubRating;	
-		}		
+			this.m_doubRating = doubRating;
+		}
 	}
 
 	public boolean getType() {
@@ -68,6 +68,12 @@ public class Poi {
 
 	public void setPoiId(int intPOIID) {
 		this.m_intPoiId = intPOIID;
+	}
+
+	@Override
+	public String toString() {
+		return "POI [PoiId=" + m_intPoiId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
+				+ ", CategoryId= " + m_intPoiCategoryId + ", Type= " + m_boolType + ", Rating=" + m_doubRating+"]";
 	}
 
 }
