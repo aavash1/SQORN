@@ -1,5 +1,10 @@
 package framework;
 
+import java.util.LinkedList;
+import java.util.Scanner;
+
+import algorithm.DijkstraAlg;
+
 public class Main {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
@@ -8,14 +13,15 @@ public class Main {
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String poiDatasetFile = "Datasets/CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
 		String mergedPoiDatasetFile = "Datasets/CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
-		String mergedPoiDatasetFileShort="Datasets/MergedPoi-short.txt";
+		String mergedPoiDatasetFileShort = "Datasets/MergedPoi-short.txt";
 		String generatedDataset1 = "Datasets/GeneratedDataset2.txt";
-		
+		String generatedDatasetForDijkstra1 = "Datasets/DatasetForDijkstra1.txt";
+
 		Graph roadNetwork2;
 
 		System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
-		roadNetwork2 = um.readMergedPOI(mergedPoiDatasetFileShort);
+		//roadNetwork2 = um.readMergedPOI(mergedPoiDatasetFileShort);
 		// roadNetwork2.printGraph();
 		// System.out.println();
 		// roadNetwork2.printPOIs();
@@ -23,13 +29,13 @@ public class Main {
 
 		// System.out.println("Loading nodes' information... ");
 		long startTimeLoadNodes = System.nanoTime();
-		//um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
+		// um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
 		long nodesLoadingTime = System.nanoTime() - startTimeLoadNodes;
 		// roadNetwork2.printNodesInfo();
 
 		System.out.println("Loading pois' information... ");
 		long poisStartTime = System.nanoTime();
-		um.loadPoiInfo(roadNetwork2, poiDatasetFile);
+		//um.loadPoiInfo(roadNetwork2, poiDatasetFile);
 		long poisLoadingTime = System.nanoTime() - poisStartTime;
 		// roadNetwork2.printPoisInfo();
 
@@ -47,25 +53,38 @@ public class Main {
 //		System.out.println("Elapsed time of Graph loading: " + graphLoadingTimeD + " seconds");
 //		System.out.println("Elapsed time of Nodes info loading: " + nodesLoadingTimeD + " seconds");
 //		System.out.println("Elapsed time of POIs info loading: " + poisLoadingTimeD + " seconds");
-		
-		
-		//roadNetwork2.printPoisInfo();
-		roadNetwork2.printEdgesInfo();
+
+		// roadNetwork2.printPoisInfo();
+		//roadNetwork2.printEdgesInfo();
 //		Graph roadNetwork3 = um.readMergedPOI(generatedDataset1);
 //		roadNetwork3.printGraph();
+
+		// =============Dijkstra TEST=================================
+		Scanner sc = new Scanner(System.in);
+		System.out.println("-----Test of Dijkstra Algorith-----");
+		Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		roadNetwork4.printGraph();
 		
+		System.out.println();
+		System.out.println("Enter source node id (0 is recommended):");
+		int sourceId = sc.nextInt();
+		System.out.println("Enter destination node id (10 is recommended):");
+		int destinationId = sc.nextInt();
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		DijkstraAlg dijkstra = new DijkstraAlg(roadNetwork4);
+		System.out.println();
+		dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
+		LinkedList<Node> path = dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
+
+		// assertNotNull(path);
+		// assertTrue(path.size() > 0);
+
+		for (Node vertex : path) {
+			System.out.println(vertex);
+		}
+
+		// =============End of Dijkstra TEST=================================
+
 		// =============OLD TESTS=================================
 		// roadNetwork1.addEdge(0, 1, 2.1);
 		// roadNetwork1.addEdge(0, 4, 3.2);
@@ -114,9 +133,8 @@ public class Main {
 		// System.out.println("POI file with Id Imported Successfully");
 		//
 		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
-		// um.displayPOIHmap();	
-		
-		
+		// um.displayPOIHmap();
+
 	}
 
 }

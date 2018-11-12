@@ -220,13 +220,13 @@ public class UtilsManagment {
 		return true;
 	}
 
-	public Graph readMergedPOI(String csvFilename) {
+	public Graph readMergedPOI(String fileName) {
 		Graph graph = new Graph();
 		String line = "";
 		int startNode = 0, endNode = 0;
 		int poiId = 0;
 		double edge_length;
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(" ");
 				if (record.length == 4) {

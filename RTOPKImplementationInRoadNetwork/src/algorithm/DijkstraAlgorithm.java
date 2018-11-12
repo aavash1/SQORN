@@ -37,7 +37,6 @@ public class DijkstraAlgorithm {
 		this.nodes = graph.getNodesWithInfo();
 		this.edges = graph.getEdgesWithInfo();
 	}
-sssss
 	//
 	public ArrayList<Node> getNeighborNode(Node nodeId) {
 		ArrayList<Node> neighborNode = new ArrayList<Node>();
