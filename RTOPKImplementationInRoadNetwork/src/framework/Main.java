@@ -3,7 +3,10 @@ package framework;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import algorithm.DijkstraAlg;
+import org.w3c.dom.UserDataHandler;
+
+import algorithm.DijkstraAlgorithm;
+import algorithm.UserPreferenceGenerator;
 
 public class Main {
 	public static void main(String[] args) {
@@ -60,28 +63,28 @@ public class Main {
 //		roadNetwork3.printGraph();
 
 		// =============Dijkstra TEST=================================
-		Scanner sc = new Scanner(System.in);
-		System.out.println("-----Test of Dijkstra Algorith-----");
-		Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
-		roadNetwork4.printGraph();
-		
-		System.out.println();
-		System.out.println("Enter source node id (0 is recommended):");
-		int sourceId = sc.nextInt();
-		System.out.println("Enter destination node id (10 is recommended):");
-		int destinationId = sc.nextInt();
-		
-		DijkstraAlg dijkstra = new DijkstraAlg(roadNetwork4);
-		System.out.println();
-		dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
-		LinkedList<Node> path = dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("-----Test of Dijkstra Algorith-----");
+//		Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
+//		roadNetwork4.printGraph();
+//		
+//		System.out.println();
+//		System.out.println("Enter source node id (0 is recommended):");
+//		int sourceId = sc.nextInt();
+//		System.out.println("Enter destination node id (10 is recommended):");
+//		int destinationId = sc.nextInt();
+//		
+//		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(roadNetwork4);
+//		System.out.println();
+//		dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
+//		LinkedList<Node> path = dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
 
 		// assertNotNull(path);
 		// assertTrue(path.size() > 0);
 
-		for (Node vertex : path) {
-			System.out.println(vertex);
-		}
+		// for (Node vertex : path) {
+		// System.out.println(vertex);
+		// }
 
 		// =============End of Dijkstra TEST=================================
 
@@ -134,6 +137,9 @@ public class Main {
 		//
 		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
 		// um.displayPOIHmap();
+		
+		UserPreferenceGenerator upg=new UserPreferenceGenerator();
+		upg.generateRandomUserPreference(600,2);
 
 	}
 
