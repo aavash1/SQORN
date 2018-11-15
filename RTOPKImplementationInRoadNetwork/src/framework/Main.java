@@ -23,7 +23,7 @@ public class Main {
 
 		Graph roadNetwork2=new Graph();
 
-		System.out.println("Loading graph ...");
+		//System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
 		// roadNetwork2 = um.readMergedPOI(mergedPoiDatasetFileShort);
 		// roadNetwork2.printGraph();
@@ -33,11 +33,11 @@ public class Main {
 
 		// System.out.println("Loading nodes' information... ");
 		long startTimeLoadNodes = System.nanoTime();
-		um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
+		//um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
 		long nodesLoadingTime = System.nanoTime() - startTimeLoadNodes;
 		// roadNetwork2.printNodesInfo();
 
-		System.out.println("Loading pois' information... ");
+		//System.out.println("Loading pois' information... ");
 		long poisStartTime = System.nanoTime();
 		// um.loadPoiInfo(roadNetwork2, poiDatasetFile);
 		long poisLoadingTime = System.nanoTime() - poisStartTime;
@@ -69,7 +69,7 @@ public class Main {
 		// =============Dijkstra TEST=================================
 		// Scanner sc = new Scanner(System.in);
 		// System.out.println("-----Test of Dijkstra Algorith-----");
-		Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		//Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
 		//roadNetwork4.printGraph();
 		// roadNetwork4.printGraph();
 		//
@@ -144,13 +144,16 @@ public class Main {
 		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
 		// um.displayPOIHmap();
 
-		UserPreferenceGenerator upg = new UserPreferenceGenerator();
-		upg.generateRandomUserPreference(600, 2);
+		
+		//--------Generator Algorithms TESTS-----------------------
+		Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
+//		UserPreferenceGenerator upg = new UserPreferenceGenerator();
+//		upg.generateRandomUserPreference(600, 2);
 
 		//Graph newGraph2 = new Graph();
 		PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
-		//pga.generateRandomPois(roadNetwork4, 0, 0, 0, 0);
-		pga.showGraphInfor(roadNetwork4);
+		//pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
+		pga.showGraphInfor(roadNetwork5);
 
 	}
 
