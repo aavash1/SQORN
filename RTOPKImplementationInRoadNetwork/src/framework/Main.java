@@ -21,7 +21,7 @@ public class Main {
 		String generatedDataset1 = "Datasets/GeneratedDataset2.txt";
 		String generatedDatasetForDijkstra1 = "Datasets/DatasetForDijkstra1.txt";
 
-		Graph roadNetwork2;
+		Graph roadNetwork2=new Graph();
 
 		System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
@@ -33,7 +33,7 @@ public class Main {
 
 		// System.out.println("Loading nodes' information... ");
 		long startTimeLoadNodes = System.nanoTime();
-		// um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
+		um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
 		long nodesLoadingTime = System.nanoTime() - startTimeLoadNodes;
 		// roadNetwork2.printNodesInfo();
 
@@ -69,7 +69,8 @@ public class Main {
 		// =============Dijkstra TEST=================================
 		// Scanner sc = new Scanner(System.in);
 		// System.out.println("-----Test of Dijkstra Algorith-----");
-		// Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		//roadNetwork4.printGraph();
 		// roadNetwork4.printGraph();
 		//
 		// System.out.println();
@@ -130,8 +131,8 @@ public class Main {
 		// System.out.println("Vertex File Imported Successfully!");
 		//
 		// ArrayList<Edge> myEdges =
-		// um.readEdgeFile("CAL-Edge_Eid-ESrc-EDest-EDist.csv");
-		// System.out.println("Edge File Imported Successfully!");
+		//um.readEdgeFile("Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv");
+		//System.out.println("Edge File Imported Successfully!");
 		// System.out.println(myEdges.get(0).getEdgeId());
 		//
 		//// um.readPOIFile("CAL-POI_POIName-POILong-POILat.csv");
@@ -146,7 +147,10 @@ public class Main {
 		UserPreferenceGenerator upg = new UserPreferenceGenerator();
 		upg.generateRandomUserPreference(600, 2);
 
+		//Graph newGraph2 = new Graph();
 		PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
+		//pga.generateRandomPois(roadNetwork4, 0, 0, 0, 0);
+		pga.showGraphInfor(roadNetwork4);
 
 	}
 
