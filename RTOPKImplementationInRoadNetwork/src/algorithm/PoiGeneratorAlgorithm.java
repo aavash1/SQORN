@@ -27,7 +27,7 @@ public class PoiGeneratorAlgorithm {
 			double minDistanceBetPoiAndNode, double minDistanceBetPois) {
 
 		// [1, totalNumberOfPois]
-		int genPoiId = 0;
+		Integer genPoiId = 0;
 
 		int genStartNodeId, genEndNodeId;
 
@@ -96,6 +96,7 @@ public class PoiGeneratorAlgorithm {
 					genPois[i][0] = genPoiId;
 					fw.write(String.valueOf(genPois[i][0]));
 					fw.write(separator);
+					
 					System.out.print(genPois[i][0] + ", ");
 
 					genPois[i][1] = genStartNodeId;

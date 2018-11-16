@@ -8,6 +8,7 @@ import org.w3c.dom.UserDataHandler;
 import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
+import algorithm.kNNAlgorithm;
 
 public class Main {
 	public static void main(String[] args) {
@@ -151,9 +152,18 @@ public class Main {
 //		upg.generateRandomUserPreference(600, 2);
 
 		//Graph newGraph2 = new Graph();
-		PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
+	//	PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
 		//pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
-		pga.showGraphInfor(roadNetwork5);
+		//pga.showGraphInfor(roadNetwork5);
+		//pga.generateRandomPois2(roadNetwork5, 300, 7, 0.000333, 0.000045);
+		
+		
+		//--------KNN Test Algorithm--------
+		Graph roadNetwork6 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		kNNAlgorithm knn=new kNNAlgorithm(roadNetwork6);
+		//knn.getKNN(node, numberOfKnn)
+		knn.sortNode(roadNetwork6,8);
+		
 
 	}
 
