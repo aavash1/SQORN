@@ -1,90 +1,66 @@
 package algorithm;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import framework.Graph;
-import framework.Node;
-import framework.Edge;
 
 public class kNNAlgorithm implements Algorithm {
-//FiguredOut how to sort that ArrayList but failed to make kNN. Will continue Tomorrow.
-	private ArrayList<Integer> resultSet = new ArrayList<>();
-	private final ArrayList<Node> nodes;
-	private final ArrayList<Edge> edges;
-	private Map<Node, Integer> distance;
 
-	private Map<Integer, Double> sortingValues = new HashMap<Integer, Double>();
+	private Graph graph;
 
 	public kNNAlgorithm(Graph graph) {
-		this.nodes = new ArrayList<Node>(graph.getNodesWithInfo());
-		this.edges = new ArrayList<Edge>(graph.getEdgesWithInfo());
-	}
-
-	public ArrayList<Integer> getKNN(Node queryPoint, int numberOfKnn) {
-		Graph g = new Graph();
-
-		return resultSet;
+		this.graph = graph;
 
 	}
 
-	public Map<Integer, Double> sortNode(Graph g, int i) {
-		ArrayList<Double> distance1=new ArrayList<>();
-		
-		double[] distance = new double[g.getAdjancencyMap().get(i).size()];
-		
-			for (Double value : g.getAdjancencyMap().get(i).values()) {
-				
-				distance1.add(value);
+	public Map<Integer, Double> getKNearestN(int queryPointNode, int numberofK) {
+
+		int numberofNeighbor = graph.getAdjancencyMap().get(queryPointNode).keySet().size();
+		Map<Integer, Double> resultSet = new HashMap<>();
+		resultSet = graph.getAdjancencyMap().get(queryPointNode);
+
+		// Create a list from elements of HashMap
+		LinkedList<Map.Entry<Integer, Double>> resultSetlist = new LinkedList<Map.Entry<Integer, Double>>(
+				resultSet.entrySet());
+
+		// Sort the list
+		Collections.sort(resultSetlist, new Comparator<Map.Entry<Integer, Double>>() {
+			public int compare(Map.Entry<Integer, Double> firstValue, Map.Entry<Integer, Double> secondValue) {
+				return (firstValue.getValue()).compareTo(secondValue.getValue());
 			}
-			System.out.println("Before Sorting: "+distance1);
-		//mergeSort(distance1);
-			Collections.sort(distance1);
-		//for(int j=0;j<distance1.size();j++) {
-		System.out.println("after Sorting: "+distance1);
-		//}
-	//System.out.println();
+		});
+		// put data from sorted list to HashMap
+		HashMap<Integer, Double> temp = new LinkedHashMap<Integer, Double>();
+		for (Map.Entry<Integer, Double> aa : resultSetlist) {
+			temp.put(aa.getKey(), aa.getValue());
+		}
 
-		return sortingValues;
+		ArrayList<Integer> keyInt = new ArrayList<Integer>(temp.keySet());
+		ArrayList<Double> valDoub = new ArrayList<Double>(temp.values());
+		HashMap<Integer, Double> pruned = new LinkedHashMap<Integer, Double>();
+
+		if (numberofK > numberofNeighbor) {
+			System.out.println("The requested number of K is more than the neighbors preseted");
+
+		} else {
+			for (int i = numberofK; i < numberofNeighbor; i++) {
+				keyInt.remove(numberofK);
+				valDoub.remove(numberofK);
+			}
+
+			for (int i = 0; i < numberofK; i++) {
+				pruned.put(keyInt.get(i), valDoub.get(i));
+			}
+			System.out.println(pruned);
+		}
+		return pruned;
+
 	}
-
-//	public static Comparable[] mergeSort(Comparable[] list) {
-//		if (list.length <= 1) {
-//			return list;
-//		}
-//
-//		Comparable[] first = new Comparable[list.length / 2];
-//		Comparable[] second = new Comparable[list.length - first.length];
-//
-//		mergeSort(first);
-//		mergeSort(second);
-//
-//		merge(first, second, list);
-//		return list;
-//	}
-//
-//	private static void merge(Comparable[] first, Comparable[] second, Comparable[] result) {
-//
-//		int iFirst = 0;
-//
-//		int iSecond = 0;
-//		int iMerged = 0;
-//
-//		while (iFirst < first.length && iSecond < second.length) {
-//			if (first[iFirst].compareTo(second[iSecond]) < 0) {
-//				result[iMerged] = first[iFirst];
-//				iFirst++;
-//			} else {
-//				result[iMerged] = second[iSecond];
-//				iSecond++;
-//			}
-//			iMerged++;
-//		}
-//
-//	}
 
 }

@@ -8,6 +8,7 @@ import org.w3c.dom.UserDataHandler;
 import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
+import algorithm.kNNAlg;
 import algorithm.kNNAlgorithm;
 
 public class Main {
@@ -22,9 +23,9 @@ public class Main {
 		String generatedDataset1 = "Datasets/GeneratedDataset2.txt";
 		String generatedDatasetForDijkstra1 = "Datasets/DatasetForDijkstra1.txt";
 
-		Graph roadNetwork2=new Graph();
+		Graph roadNetwork2 = new Graph();
 
-		//System.out.println("Loading graph ...");
+		// System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
 		// roadNetwork2 = um.readMergedPOI(mergedPoiDatasetFileShort);
 		// roadNetwork2.printGraph();
@@ -34,11 +35,11 @@ public class Main {
 
 		// System.out.println("Loading nodes' information... ");
 		long startTimeLoadNodes = System.nanoTime();
-		//um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
+		// um.loadNodesInfo(roadNetwork2, nodeDatasetFile);
 		long nodesLoadingTime = System.nanoTime() - startTimeLoadNodes;
 		// roadNetwork2.printNodesInfo();
 
-		//System.out.println("Loading pois' information... ");
+		// System.out.println("Loading pois' information... ");
 		long poisStartTime = System.nanoTime();
 		// um.loadPoiInfo(roadNetwork2, poiDatasetFile);
 		long poisLoadingTime = System.nanoTime() - poisStartTime;
@@ -68,30 +69,28 @@ public class Main {
 		// roadNetwork3.printGraph();
 
 		// =============Dijkstra TEST=================================
-		// Scanner sc = new Scanner(System.in);
-		// System.out.println("-----Test of Dijkstra Algorith-----");
-		//Graph roadNetwork4 = um.readMergedPOI(generatedDatasetForDijkstra1);
-		//roadNetwork4.printGraph();
-		// roadNetwork4.printGraph();
-		//
-		// System.out.println();
-		// System.out.println("Enter source node id (0 is recommended):");
-		// int sourceId = sc.nextInt();
-		// System.out.println("Enter destination node id (10 is recommended):");
-		// int destinationId = sc.nextInt();
-		//
-		// DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(roadNetwork4);
-		// System.out.println();
-		// dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
-		// LinkedList<Node> path =
-		// dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
-
-		// assertNotNull(path);
-		// assertTrue(path.size() > 0);
-
-		// for (Node vertex : path) {
-		// System.out.println(vertex);
-		// }
+		/*
+		 * Scanner sc = new Scanner(System.in);
+		 * System.out.println("-----Test of Dijkstra Algorith-----"); Graph roadNetwork4
+		 * = um.readMergedPOI(generatedDatasetForDijkstra1); roadNetwork4.printGraph();
+		 * roadNetwork4.printGraph();
+		 * 
+		 * System.out.println();
+		 * System.out.println("Enter source node id (0 is recommended):"); int sourceId
+		 * = sc.nextInt();
+		 * System.out.println("Enter destination node id (10 is recommended):"); int
+		 * destinationId = sc.nextInt();
+		 * 
+		 * DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(roadNetwork4);
+		 * System.out.println();
+		 * dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
+		 * LinkedList<Node> path =
+		 * dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
+		 * 
+		 * // assertNotNull(path); // assertTrue(path.size() > 0);
+		 * 
+		 * for (Node vertex : path) { System.out.println(vertex); }
+		 */
 
 		// =============End of Dijkstra TEST=================================
 
@@ -132,8 +131,8 @@ public class Main {
 		// System.out.println("Vertex File Imported Successfully!");
 		//
 		// ArrayList<Edge> myEdges =
-		//um.readEdgeFile("Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv");
-		//System.out.println("Edge File Imported Successfully!");
+		// um.readEdgeFile("Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv");
+		// System.out.println("Edge File Imported Successfully!");
 		// System.out.println(myEdges.get(0).getEdgeId());
 		//
 		//// um.readPOIFile("CAL-POI_POIName-POILong-POILat.csv");
@@ -145,25 +144,30 @@ public class Main {
 		// um.populatePOIMap("CAL-POI_POIId-POIName-POIType.csv");
 		// um.displayPOIHmap();
 
-		
-		//--------Generator Algorithms TESTS-----------------------
+		// --------Generator Algorithms TESTS-----------------------
 		Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
-//		UserPreferenceGenerator upg = new UserPreferenceGenerator();
-//		upg.generateRandomUserPreference(600, 2);
+		// UserPreferenceGenerator upg = new UserPreferenceGenerator();
+		// upg.generateRandomUserPreference(600, 2);
 
-		//Graph newGraph2 = new Graph();
-	//	PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
-		//pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
-		//pga.showGraphInfor(roadNetwork5);
-		//pga.generateRandomPois2(roadNetwork5, 300, 7, 0.000333, 0.000045);
-		
-		
-		//--------KNN Test Algorithm--------
-		Graph roadNetwork6 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		// Graph newGraph2 = new Graph();
+		// PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
+		// pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
+		// pga.showGraphInfor(roadNetwork5);
+		// pga.generateRandomPois2(roadNetwork5, 300, 7, 0.000333, 0.000045);
+
+		// --------KNN Test Algorithm--------
+		Graph roadNetwork6 = um.readMergedPOI(generatedDataset1);
 		kNNAlgorithm knn=new kNNAlgorithm(roadNetwork6);
-		//knn.getKNN(node, numberOfKnn)
-		knn.sortNode(roadNetwork6,8);
-		
+		//kNNAlg knn = new kNNAlg(roadNetwork6);
+		roadNetwork6.printGraph();
+//		knn.getAdjacentNodes(5);
+
+		// knn.getKNN(node, numberOfKnn)
+	//	 knn.sortNode(roadNetwork6,40);
+	 //knn.getKNN(40);
+	knn.getKNearestN(50, 6);
+	knn.getKNearestN(50, 2);
+		 
 
 	}
 
