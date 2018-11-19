@@ -19,6 +19,7 @@ public class kNNAlgorithm implements Algorithm {
 
 	}
 
+	// Method that will return the nearest neighbor node along with their distance
 	public Map<Integer, Double> getKNearestN(int queryPointNode, int numberofK) {
 
 		int numberofNeighbor = graph.getAdjancencyMap().get(queryPointNode).keySet().size();
@@ -57,10 +58,31 @@ public class kNNAlgorithm implements Algorithm {
 			for (int i = 0; i < numberofK; i++) {
 				pruned.put(keyInt.get(i), valDoub.get(i));
 			}
-			System.out.println(pruned);
+			// System.out.println(pruned);
 		}
 		return pruned;
 
+	}
+
+	// Method that will return only the Nearest neighbor node.
+	public ArrayList<Integer> getKNNNode(int queryPointNode, int numberofK) {
+		ArrayList<Integer> resultNode = new ArrayList<Integer>();
+		ArrayList<Integer> resultNodeAfterPruning = new ArrayList<Integer>();
+
+		int numberofNeighbor = graph.getAdjancencyMap().get(queryPointNode).keySet().size();
+		resultNode.addAll(graph.getAdjancencyMap().get(queryPointNode).keySet());
+		// System.out.println(resultNode);
+		if (numberofK > numberofNeighbor) {
+			System.out.println("The requested number of K is more than the neighbors preseted");
+
+		} else {
+			for (int i = numberofK; i < numberofNeighbor; i++) {
+				resultNode.remove(numberofK);
+			}
+		}
+
+		// System.out.println(resultNode);
+		return resultNode;
 	}
 
 }

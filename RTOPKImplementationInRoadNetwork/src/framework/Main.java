@@ -8,7 +8,7 @@ import org.w3c.dom.UserDataHandler;
 import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
-import algorithm.kNNAlg;
+
 import algorithm.kNNAlgorithm;
 
 public class Main {
@@ -145,7 +145,7 @@ public class Main {
 		// um.displayPOIHmap();
 
 		// --------Generator Algorithms TESTS-----------------------
-		Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		//Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
 		// UserPreferenceGenerator upg = new UserPreferenceGenerator();
 		// upg.generateRandomUserPreference(600, 2);
 
@@ -155,19 +155,17 @@ public class Main {
 		// pga.showGraphInfor(roadNetwork5);
 		// pga.generateRandomPois2(roadNetwork5, 300, 7, 0.000333, 0.000045);
 
-		// --------KNN Test Algorithm--------
-		Graph roadNetwork6 = um.readMergedPOI(generatedDataset1);
-		kNNAlgorithm knn=new kNNAlgorithm(roadNetwork6);
-		//kNNAlg knn = new kNNAlg(roadNetwork6);
-		roadNetwork6.printGraph();
-//		knn.getAdjacentNodes(5);
+		// ---------K-Nearest Neighbor Algorithm Test----------------
 
-		// knn.getKNN(node, numberOfKnn)
-	//	 knn.sortNode(roadNetwork6,40);
-	 //knn.getKNN(40);
-	knn.getKNearestN(50, 6);
-	knn.getKNearestN(50, 2);
-		 
+		Graph roadNetwork6 = um.readMergedPOI(generatedDataset1);
+		kNNAlgorithm knn = new kNNAlgorithm(roadNetwork6);
+		// knn.sortNode(roadNetwork6,40);
+		// knn.getKNN(40);
+		// knn.getKNearestN(50, 6);
+		// knn.getKNearestN(50, 2);
+		knn.getKNNNode(50, 2);
+		
+		//------------K-Nearest Neighbor Algorithm Test Complete---------
 
 	}
 
