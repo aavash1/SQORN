@@ -20,8 +20,9 @@ public class Main {
 		String mergedPoiDatasetFileShort = "Datasets/MergedPoi-short.txt";
 		String generatedDataset1 = "Datasets/GeneratedDataset2.txt";
 		String generatedDatasetForDijkstra1 = "Datasets/DatasetForDijkstra1.txt";
-
-		Graph roadNetwork2=new Graph();
+		String manualEdgeDataset = "Datasets/ManualEdgeDataset1.txt";
+		
+		//Graph roadNetwork2=new Graph();
 
 		//System.out.println("Loading graph ...");
 		long startTimeGraphLoading = System.nanoTime();
@@ -146,14 +147,16 @@ public class Main {
 
 		
 		//--------Generator Algorithms TESTS-----------------------
-		Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
+		//Graph roadNetwork5 = um.readMergedPOI(generatedDatasetForDijkstra1);
 //		UserPreferenceGenerator upg = new UserPreferenceGenerator();
 //		upg.generateRandomUserPreference(600, 2);
 
 		//Graph newGraph2 = new Graph();
-		PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
+		//PoiGeneratorAlgorithm pga = new PoiGeneratorAlgorithm();
 		//pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
-		pga.showGraphInfor(roadNetwork5);
+		//pga.showGraphInfor(roadNetwork5);
+		
+		
 
 	}
 

@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -13,23 +15,54 @@ import framework.Edge;
 import framework.Graph;
 
 public class PoiGeneratorAlgorithm {
-	private ArrayList<Integer> listUsedStartNodeId = new ArrayList<Integer>();
-	private ArrayList<Integer> listUsedEndNodeId = new ArrayList<Integer>();
+	private ArrayList<Integer> m_listUsedStartNodeId = new ArrayList<Integer>();
+	private ArrayList<Integer> m_listUsedEndNodeId = new ArrayList<Integer>();
 
-	private ArrayList<Edge> listUsedEdges = new ArrayList<Edge>();
+	private ArrayList<Edge> m_listUsedEdges = new ArrayList<Edge>();
+
+	private Graph m_graph;
+	private int m_numOfEdge;
+	private int m_numOfNodes;
+	private int m_totalPossibleNumberOfPois, m_maxNumofPoiPerGraph, m_maxNumofPoiPerEdge;
+	private double m_minDistanceBetPoiAndNode, m_minDistanceBetPois;
 
 	private char separator = ',';
+	private int m_startNodeIdCounter = 0;
+	private int m_endNodeIdCounter = 0;
+	private int m_poiCounter = 0;
+	private int m_randNumberOfPoiOnCurrentEdge = 0;
+	private int m_randNumberOfEdgesWithSameStartNode = 0;
+	private int m_randEndNode = 0;
+	int m_randEndNodeIdIndex = 0;
+	ArrayList<Integer> m_listUsedRandomUsedEndNodeIdIndex = new ArrayList<Integer>();
 
+	List<Integer> m_listEndNodes = new ArrayList<Integer>();;
+	int m_genStartNodeId, m_genEndNodeId;
 	// Final Generated File Format:
 	// PoiId, StartNodeId, EndNodeId, DistFromStartNode, CategoryId, Type, Rating
 
-	public double[][] generateRandomPois2(Graph g, int maxNumofPoiPerGraph, int maxNumofPoiPerEdge,
+	public String[][] generateRandomPois2(Graph g, int maxNumofPoiPerGraph, int maxNumofPoiPerEdge,
 			double minDistanceBetPoiAndNode, double minDistanceBetPois) {
+
+		m_graph = g;
+		m_maxNumofPoiPerGraph = maxNumofPoiPerGraph;
+		m_maxNumofPoiPerEdge = maxNumofPoiPerEdge;
+		m_minDistanceBetPoiAndNode = minDistanceBetPoiAndNode;
+		m_minDistanceBetPois = minDistanceBetPois;
+
+		m_numOfEdge = g.getNumberOfEdges();
+		m_numOfNodes = g.getNumberOfNodes();
+
+		m_totalPossibleNumberOfPois = g.getNumberOfEdges() * maxNumofPoiPerEdge;
+
+		if (maxNumofPoiPerGraph > m_totalPossibleNumberOfPois) {
+			maxNumofPoiPerGraph = m_totalPossibleNumberOfPois;
+		}
 
 		// [1, totalNumberOfPois]
 		int genPoiId = 0;
 
-		int genStartNodeId, genEndNodeId;
+		int genStartNodeId = 0, genEndNodeId; // remove 0
 
 		// [min, max]: min=0 (exclusive), max=length of Edge on which the poi is located
 		double genDistFromStartNode;
@@ -43,49 +76,12 @@ public class PoiGeneratorAlgorithm {
 		// [0, 10]
 		double genRating;
 
-		int numOfEdge = g.getNumberOfEdges();
-		int numOfNodes = g.getNumberOfNodes();
-
-		int totalPossibleNumberOfPois;
-		totalPossibleNumberOfPois = g.getNumberOfEdges() * maxNumofPoiPerEdge;
-
-		if (maxNumofPoiPerGraph > totalPossibleNumberOfPois) {
-			maxNumofPoiPerGraph = totalPossibleNumberOfPois;
-		}
-
 		int numberOfColumns = 7;
-		double[][] genPois = new double[maxNumofPoiPerGraph][numberOfColumns];
+		String[][] genPois = new String[maxNumofPoiPerGraph][numberOfColumns];
 
-		
 		// Finding correct/possible random values for each column
 		Random rand = new Random();
-
-		genStartNodeId = rand.nextInt(numOfNodes);
-		listUsedStartNodeId.add(genStartNodeId);
-
-		int randNumberOfPoiOnCurrentEdge;
-		randNumberOfPoiOnCurrentEdge = rand.nextInt(maxNumofPoiPerEdge + 1);
-
-		ArrayList<Integer> listUsedRandomUsedEndNodeId = new ArrayList<Integer>();
-
-		Set<Integer> setEndNodes = g.getAdjancencyMap().get(genStartNodeId).keySet();
-		List<Integer> listEndNodes = new ArrayList<Integer>(setEndNodes);
-
-		int randEndNodeId = 0;// = rand.nextInt(listEndNodes.size());
-		int k = 1;
-		while (listUsedRandomUsedEndNodeId.isEmpty() || !listUsedRandomUsedEndNodeId.contains(randEndNodeId)) {
-			randEndNodeId = rand.nextInt(listEndNodes.size());
-			listUsedRandomUsedEndNodeId.add(randEndNodeId);
-			k++;
-			if (randNumberOfPoiOnCurrentEdge == k) {
-				break;
-			}
-
-			genEndNodeId = listEndNodes.get(randEndNodeId);
-			listUsedEndNodeId.add(genEndNodeId);
-
-		}
-
+		Map<Integer, Integer> mapRandStartAndEndNode;
 		FileWriter fw;
 		try {
 			fw = new FileWriter("generatedPoiDataset3.txt");
@@ -93,48 +89,57 @@ public class PoiGeneratorAlgorithm {
 			for (int i = 0; i < genPois.length; i++) {
 				for (int j = 0; j < genPois[i].length; j++) {
 					genPoiId++;
-					genPois[i][0] = genPoiId;
+					genPois[i][0] = String.valueOf(genPoiId);
 					fw.write(String.valueOf(genPois[i][0]));
 					fw.write(separator);
 					System.out.print(genPois[i][0] + ", ");
 
-					genPois[i][1] = genStartNodeId;
+					mapRandStartAndEndNode = getRandomStartAndEndNodeId();
+					Set<Integer> setStartNode = mapRandStartAndEndNode.keySet();
+					List<Integer> listStartNode = new ArrayList<Integer>();
+					listStartNode.addAll(setStartNode);
+
+					genStartNodeId = listStartNode.get(0);
+					genPois[i][1] = String.valueOf(genStartNodeId);
+
 					fw.write(String.valueOf(genPois[i][1]));
 					fw.write(separator);
 					System.out.print(genPois[i][1] + ", ");
 
-					genEndNodeId = 5; //just for not to have an error (need to figure out the correct value earlier)
-					genPois[i][2] = genEndNodeId;
+					genEndNodeId = mapRandStartAndEndNode.get(genStartNodeId);
+					genPois[i][2] = String.valueOf(genEndNodeId);
 					fw.write(String.valueOf(genPois[i][2]));
 					fw.write(separator);
 					System.out.print(genPois[i][2] + ", ");
 
-					genDistFromStartNode = 4;//just for not to have an error (need to figure out the correct value earlier)
-					genPois[i][3] = genDistFromStartNode;
+					genDistFromStartNode = 4;// just for not to have an error (need to figure out the correct value
+												// earlier)
+					genPois[i][3] = String.valueOf(genDistFromStartNode);
 					fw.write(String.valueOf(genPois[i][3]));
 					fw.write(separator);
 					System.out.print(genPois[i][3] + ", ");
 
-					genCategoryId = 2;//just for not to have an error (need to figure out the correct value earlier)
-					genPois[i][4] = genCategoryId;
+					genCategoryId = 2;// just for not to have an error (need to figure out the correct value earlier)
+					genPois[i][4] = String.valueOf(genCategoryId);
 					fw.write(String.valueOf(genPois[i][4]));
 					fw.write(separator);
 					System.out.print(genPois[i][4] + ", ");
 
-					genType = 1;//just for not to have an error (need to figure out the correct value earlier)
-					genPois[i][5] = genType;
+					genType = 1;// just for not to have an error (need to figure out the correct value earlier)
+					genPois[i][5] = String.valueOf(genType);
 					fw.write(String.valueOf(genPois[i][5]));
 					fw.write(separator);
 					System.out.print(genPois[i][5] + ", ");
 
-					genRating = 5;//just for not to have an error (need to figure out the correct value earlier)
-					genPois[i][6] = genRating;
+					genRating = 5;// just for not to have an error (need to figure out the correct value earlier)
+					genPois[i][6] = String.valueOf(genRating);
 					fw.write(String.valueOf(genPois[i][6]));
 					fw.write("\n");
 					System.out.print(genPois[i][6] + ", ");
 					System.out.println();
 				}
 			}
+			fw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -144,6 +149,92 @@ public class PoiGeneratorAlgorithm {
 		// returning generated POIs
 		return genPois;
 
+	}
+
+	private Map<Integer, Integer> getRandomStartAndEndNodeId() {
+
+		Map<Integer, Integer> randStartAndEndNodeId = new HashMap<Integer, Integer>();
+
+		Random rand = new Random();
+
+		if (m_startNodeIdCounter == m_randNumberOfEdgesWithSameStartNode) {
+
+			// int startNodeId = 0;
+			// setting Start Node ID
+
+			while (m_listUsedStartNodeId.isEmpty() || m_listUsedStartNodeId.contains(m_genStartNodeId)) {
+				int randStartNodeId = rand.nextInt(m_numOfNodes);
+				if (!m_listUsedStartNodeId.contains(randStartNodeId)) {
+					m_genStartNodeId = randStartNodeId;
+					m_listUsedStartNodeId.add(m_genStartNodeId);
+					break;
+				}
+			}
+
+			// setting the Set of End Node IDs
+			Set<Integer> setEndNodes = m_graph.getAdjancencyMap().get(m_genStartNodeId).keySet();
+			// if (setEndNodes instanceof List<?>) {
+			// m_listEndNodes = (List<Integer>) setEndNodes;
+			// }
+			m_listEndNodes.clear();
+			m_listEndNodes.addAll(setEndNodes);
+
+			m_startNodeIdCounter = 0;
+			m_listUsedRandomUsedEndNodeIdIndex.clear();
+			m_randNumberOfEdgesWithSameStartNode = rand.nextInt(m_listEndNodes.size());
+			if (m_randNumberOfEdgesWithSameStartNode == 0) m_randNumberOfEdgesWithSameStartNode++;
+
+		}
+		// int randEndNodeIdIndex = 0;// = rand.nextInt(listEndNodes.size());
+
+		// Continue with same Start Node  
+		if (m_endNodeIdCounter != m_randNumberOfEdgesWithSameStartNode) {
+			
+			if (m_poiCounter == m_randNumberOfPoiOnCurrentEdge) {
+				// 
+				while (m_listUsedRandomUsedEndNodeIdIndex.isEmpty()
+						|| m_listUsedRandomUsedEndNodeIdIndex.contains(m_randEndNodeIdIndex)) {
+					int randUsedEndNodeIndex = rand.nextInt(m_listEndNodes.size());
+					if (!m_listUsedRandomUsedEndNodeIdIndex.contains(randUsedEndNodeIndex)) {
+						m_randEndNodeIdIndex = randUsedEndNodeIndex;
+						m_listUsedRandomUsedEndNodeIdIndex.add(m_randEndNodeIdIndex);
+						break;
+					}					
+				}
+				m_randNumberOfPoiOnCurrentEdge = rand.nextInt(m_maxNumofPoiPerEdge + 1);
+				if (m_randNumberOfPoiOnCurrentEdge==0) m_randNumberOfPoiOnCurrentEdge++;
+				m_poiCounter = 0;
+				m_genEndNodeId = m_listEndNodes.get(m_randEndNodeIdIndex);
+				m_listUsedEndNodeId.add(m_genEndNodeId);
+				m_endNodeIdCounter++;
+
+			}
+			// m_randNumberOfEdgesWithSameStartNode
+
+		} else
+
+		{
+
+			m_randNumberOfEdgesWithSameStartNode = 0;
+			m_endNodeIdCounter = 0;
+		}
+		// while (m_listUsedRandomUsedEndNodeIdIndex.isEmpty()
+		// || !m_listUsedRandomUsedEndNodeIdIndex.contains(m_randEndNodeIdIndex)) {
+		// m_randEndNodeIdIndex = rand.nextInt(m_listEndNodes.size());
+		// m_listUsedRandomUsedEndNodeIdIndex.add(m_randEndNodeIdIndex);
+		// m_startNodeIdCounter++;
+		// if (m_randNumberOfPoiOnCurrentEdge == m_startNodeIdCounter) {
+		// break;
+		// }
+		//
+		// m_genEndNodeId = m_listEndNodes.get(m_randEndNodeIdIndex);
+		// m_listUsedEndNodeId.add(m_genEndNodeId);
+		//
+		// }
+
+		m_startNodeIdCounter++;
+		randStartAndEndNodeId.put(m_genStartNodeId, m_genEndNodeId);
+		return randStartAndEndNodeId;
 	}
 
 	public void generateRandomPois(Graph g, int maxNumofPoiPerGraph, int maxNumofPoiPerEdge,
@@ -212,11 +303,11 @@ public class PoiGeneratorAlgorithm {
 
 						Set<Integer> endNode = g.getAdjancencyMap().get(startNode).keySet();
 						int endnode = endNode.iterator().next();
-						if (listUsedEndNodeId.isEmpty() || !listUsedEndNodeId.contains(endnode)) {
+						if (m_listUsedEndNodeId.isEmpty() || !m_listUsedEndNodeId.contains(endnode)) {
 							genPoi[i][2] = String.valueOf(endnode);
 							filew.write(genPoi[i][2]);
 							filew.write(separator);
-							listUsedEndNodeId.add(endnode);
+							m_listUsedEndNodeId.add(endnode);
 						}
 
 						double distance = g.getEdgeDistance(startNode, endnode);
@@ -240,7 +331,7 @@ public class PoiGeneratorAlgorithm {
 
 					}
 
-					listUsedStartNodeId.add(startNode);
+					m_listUsedStartNodeId.add(startNode);
 				}
 
 			}
