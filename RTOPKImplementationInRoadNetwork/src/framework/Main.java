@@ -9,7 +9,7 @@ import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
 
-import algorithm.kNNAlgorithm;
+import algorithm.KnnAlgorithm;
 
 public class Main {
 	public static void main(String[] args) {
@@ -19,11 +19,13 @@ public class Main {
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String poiDatasetFile = "Datasets/CAL-Poi_PoiLong-PoiLat-PoiCatId.csv";
 		String mergedPoiDatasetFile = "Datasets/CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
+		
 		String mergedPoiDatasetFileShort = "Datasets/MergedPoi-short.txt";
 		String generatedDataset1 = "Datasets/GeneratedDataset2.txt";
 		String generatedDatasetForDijkstra1 = "Datasets/DatasetForDijkstra1.txt";
 		String manualEdgeDataset = "Datasets/ManualEdgeDataset1.txt";
-		
+		String manualEdgeDataset2 = "Datasets/ManualEdgeDataset2.txt";
+
 		//Graph roadNetwork2=new Graph();
 
 		//System.out.println("Loading graph ...");
@@ -158,6 +160,30 @@ public class Main {
 		//pga.generateRandomPois(roadNetwork5, 0, 0, 0, 0);
 		//pga.showGraphInfor(roadNetwork5);
 		
+//		Graph roadNetwork6 = um.readMergedPOI(manualEdgeDataset);
+//		PoiGeneratorAlgorithm poiGen = new PoiGeneratorAlgorithm();
+//		String[][] genPois =  poiGen.generateRandomPois2(roadNetwork6, 30, 4, 0.5, 1);
+//		//System.out.println(genPois);
+		
+		//--------Knn Algorithms TESTS-----------------------
+//		Graph roadNetwork6 = um.readMergedPOI(generatedDataset1);
+//		roadNetwork6.printGraph();
+//		
+//		KnnAlgorithm knnAlg = new KnnAlgorithm(roadNetwork6);
+//		knnAlg.getKNNNodes(50, 2);
+//		knnAlg.getKNNNodesWithDistance(50, 2);
+//		
+		
+		Graph roadNetwork7 = um.readMergedPOI(manualEdgeDataset2);
+		roadNetwork7.printGraph();
+		
+		KnnAlgorithm knnAlg2 = new KnnAlgorithm(roadNetwork7);
+		knnAlg2.getKNNNodes(4, 3);
+		knnAlg2.getKNNNodesWithDistance(4, 3);	
+		
+		System.out.println("-------------------");
+		knnAlg2.getKNNNodesWithDistance2(4, 4);
+
 		
 
 	}
