@@ -9,6 +9,8 @@ import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
 
+import algorithm.kNNAlgorithm;
+
 public class Main {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();

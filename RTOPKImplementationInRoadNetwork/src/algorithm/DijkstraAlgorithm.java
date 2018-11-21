@@ -104,14 +104,14 @@ public class DijkstraAlgorithm extends RoutingAlgorithm implements Algorithm{
 //	        return settledNodes.contains(vertex);
 //	    }
 
-	    private int getShortestDistance(Node destination) {
-	        Integer d = distance.get(destination);
-	        if (d == null) {
-	            return Integer.MAX_VALUE;
-	        } else {
-	            return d;
-	        }
-	    }
+	private int getShortestDistance(Node destination) {
+		Integer d = distance.get(destination);
+		if (d == null) {
+			return Integer.MAX_VALUE;
+		} else {
+			return d;
+		}
+	}
 
 	    /*
 	     * This method returns the path from the source to the selected target and

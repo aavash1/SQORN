@@ -60,7 +60,7 @@ public class PoiGeneratorAlgorithm {
 		}
 
 		// [1, totalNumberOfPois]
-		int genPoiId = 0;
+		Integer genPoiId = 0;
 
 		int genStartNodeId = 0, genEndNodeId; // remove 0
 
@@ -92,6 +92,7 @@ public class PoiGeneratorAlgorithm {
 					genPois[i][0] = String.valueOf(genPoiId);
 					fw.write(String.valueOf(genPois[i][0]));
 					fw.write(separator);
+					
 					System.out.print(genPois[i][0] + ", ");
 
 					mapRandStartAndEndNode = getRandomStartAndEndNodeId();
