@@ -200,7 +200,7 @@ public class KnnAlgorithm implements Algorithm {
 		int numOfTotalFoundNodes = 0, numOfNewNodes, numOfTakeNodes;
 		int headNode = sourceNode;
 		int indexOfNewNode = 0;
-		//ArrayList<Integer> listUsedNewNodeIndex = new ArrayList<>();
+		ArrayList<Integer> listUsedNewNodeIndex = new ArrayList<>();
 		
 		
 		ArrayList<Integer> newNodes = new ArrayList<Integer>();
@@ -218,6 +218,8 @@ public class KnnAlgorithm implements Algorithm {
 	
 			CollectionUtils.addAll(keyInt, mapTempNodes.keySet());
 			CollectionUtils.addAll(valDoub, mapTempNodes.values());
+			
+			
 			
 			
 			if (numberOfK > tempNumOfNeighbors) {
