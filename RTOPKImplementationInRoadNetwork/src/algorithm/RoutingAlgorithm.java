@@ -1,5 +1,5 @@
 package algorithm;
 
-public abstract class RoutingAlgorithm implements Algorithm{
+public abstract class RoutingAlgorithm {
 
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import framework.*;
-public class DijkstraAlgorithm extends RoutingAlgorithm implements Algorithm{
+public class DijkstraAlgorithm extends RoutingAlgorithm {
 
 	 	private final List<Node> nodes;
 	    private final List<Edge> edges;
