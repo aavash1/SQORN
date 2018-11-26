@@ -12,6 +12,7 @@ public class AlgTests {
 		UtilsManagment um = new UtilsManagment();
 
 		String calNodeDataset = "Datasets/CAL-Node_NId-NLong-NLat.csv";
+		String calEdgeDataset = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 		String calMergedDataset = "Datasets/CALMergerdPOI_Start-End-EdgeLen-NumofPOI.txt";
 
 		String snfNodeDataset = "Datasets/SANF-Node_NId-NLong-NLat.csv";
@@ -20,21 +21,27 @@ public class AlgTests {
 		String oldnNodeDataset = "Datasets/OLDN-Node_NId-NLong-NLat.csv";
 		String oldnEdgeDataset = "Datasets/OLDN-Edge_EId-ESrc-EDest-EDist.csv";
 		
-		/*
+		
 		// Graph loading:
-		Graph calGraph = um.readMergedPOI(calMergedDataset);
-		//calGraph.printGraph();
+		//Graph calGraph = um.readMergedPOI(calMergedDataset);
+		long startTimeCal = System.nanoTime();
+		Graph calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);		
 		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
 		calGraph.setNodesWithInfo(calNodesInfo);
+		long graphLoadingTimeCal = System.nanoTime() - startTimeCal;
+		double graphLoadingTimeDCal = (double) graphLoadingTimeCal / 1000000000.0;
+		//calGraph.printGraph();
+		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
+		///*
 		// Test of Dijkstra and A* algorithms on California dataset
 		// ----------------------------------------------------------
 		System.out.println("Dijkstra algorithm on California dataset");
 		DijkstraAlgorithm dijkAlgCal = new DijkstraAlgorithm(calGraph);
 		
 		Node sourceNodeForDijkAlgCal, destNodeForDijkAlgCal;
-		sourceNodeForDijkAlgCal = calNodesInfo.get(0);		
-		destNodeForDijkAlgCal = calNodesInfo.get(15000);
+		sourceNodeForDijkAlgCal = calNodesInfo.get(10);		
+		destNodeForDijkAlgCal = calNodesInfo.get(100);
 		
 		long startTimeDijkstraCal = System.nanoTime();
 		dijkAlgCal.execute(sourceNodeForDijkAlgCal);
@@ -53,8 +60,8 @@ public class AlgTests {
 		AStarAlgorithm aStarAlgCal = new AStarAlgorithm(calGraph);
 		
 		Node sourceNodeAStarAlgCal, destNodeAStarAlgCal;
-		sourceNodeAStarAlgCal = calNodesInfo.get(0);		
-		destNodeAStarAlgCal = calNodesInfo.get(1400);
+		sourceNodeAStarAlgCal = calNodesInfo.get(10);		
+		destNodeAStarAlgCal = calNodesInfo.get(105);
 
 		long startTimeAStarCal = System.nanoTime();
 		aStarAlgCal.execute(sourceNodeAStarAlgCal, destNodeAStarAlgCal);
@@ -68,16 +75,23 @@ public class AlgTests {
 		}		
 		
 		System.out.println("Elapsed time of A* algorithm on California dataset: " + AStarCalTimeD + " seconds");	
-		*/
-		///*
+		//*/
+		/*
 		// ----------------------------------------------------------
 		//San Francisco Dataset		
 		// Graph loading:
+		long startTimeSnf = System.nanoTime();
 		Graph snfGraph = um.readEdgeFileReturnGraph(snfEdgeDataset);
-		snfGraph.printGraph();
+		
 		ArrayList<Node> snfNodesInfo = um.readNodeFile(snfNodeDataset);
 		snfGraph.setNodesWithInfo(snfNodesInfo);
+		long graphLoadingTimeSnf = System.nanoTime() - startTimeSnf;
+		double graphLoadingTimeDSnf = (double) graphLoadingTimeSnf / 1000000000.0;
 		
+		//snfGraph.printGraph();
+		System.out.println("Elapsed time of San Francisco dataset loading: " + graphLoadingTimeDSnf + " seconds");
+		
+		/*
 		System.out.println("Dijkstra algorithm on San Francisco dataset");
 		DijkstraAlgorithm dijkAlgSnf = new DijkstraAlgorithm(snfGraph);
 		
@@ -118,15 +132,24 @@ public class AlgTests {
 		
 		System.out.println("Elapsed time of A* algorithm on San Francisco dataset: " + AStarSnfTimeD + " seconds");// Test of Dijkstra and A* algorithms on San Francisco dataset
 		//*/
-		/*
+		///*
 		// ----------------------------------------------------------
 		//Oldenburg Dataset		
 		// Graph loading:
+		
+		long startTimeOldn = System.nanoTime();
 		Graph oldnGraph = um.readEdgeFileReturnGraph(oldnEdgeDataset);
-		oldnGraph.printGraph();
+		
 		ArrayList<Node> oldnNodesInfo = um.readNodeFile(oldnNodeDataset);
 		oldnGraph.setNodesWithInfo(oldnNodesInfo);
 		
+		long graphLoadingTimeOldn = System.nanoTime() - startTimeOldn;
+		double graphLoadingTimeDOldn = (double) graphLoadingTimeOldn / 1000000000.0;
+		
+		//oldnGraph.printGraph();
+		System.out.println("Elapsed time of Oldenburg dataset loading: " + graphLoadingTimeDOldn + " seconds");
+		
+		/*
 		// Test of Dijkstra and A* algorithms on Oldenburg dataset
 		System.out.println("Dijkstra algorithm on Oldenburg dataset");
 		DijkstraAlgorithm dijkAlgOldn = new DijkstraAlgorithm(oldnGraph);

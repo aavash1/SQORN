@@ -167,7 +167,7 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {					
-					graph.addEdge(Integer.parseInt(record[1]), Integer.parseInt(record[2]), Integer.parseInt(record[3]));
+					graph.addEdge(Integer.parseInt(record[1]), Integer.parseInt(record[2]), Double.parseDouble(record[3]));
 				}
 			}
 		} catch (IOException e) {
