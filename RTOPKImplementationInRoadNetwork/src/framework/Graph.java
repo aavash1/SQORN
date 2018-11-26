@@ -64,10 +64,10 @@ public class Graph {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
 			return false;
 		}
-		Node n = new Node();
-		n.setNodeId(int_nodeID);
-		// Long an Lat
-		m_nodesWithInfo.add(n);
+//		Node n = new Node();
+//		n.setNodeId(int_nodeID);
+//		// Long an Lat
+//		m_nodesWithInfo.add(n);
 		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
 		m_numOfNodes++;
 		return true;
