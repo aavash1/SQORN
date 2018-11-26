@@ -16,7 +16,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import framework.Graph;
 import framework.Path;
 
-public class KnnAlgorithm implements Algorithm {
+public class KnnAlgorithm {
 
 	private Graph graph;
 
@@ -25,6 +25,8 @@ public class KnnAlgorithm implements Algorithm {
 
 	}
 
+	private List<Integer> usedNodeIndecies = new ArrayList<Integer>();
+	
 	// Method that will return the nearest neighbor node along with their distance
 	public Map<Integer, Double> getKNNNodesWithDistance(int queryPointNode, int numberofK) {
 
@@ -33,12 +35,12 @@ public class KnnAlgorithm implements Algorithm {
 
 		int numberofNeighbor = resultSet.keySet().size();
 
-//		ArrayList<Integer> keyInt = new ArrayList<Integer>(resultSet.keySet());
-//		ArrayList<Double> valDoub = new ArrayList<Double>(resultSet.values());
+		// ArrayList<Integer> keyInt = new ArrayList<Integer>(resultSet.keySet());
+		// ArrayList<Double> valDoub = new ArrayList<Double>(resultSet.values());
 
 		ArrayList<Integer> keyInt = new ArrayList<Integer>();
 		ArrayList<Double> valDoub = new ArrayList<Double>();
-		
+
 		CollectionUtils.addAll(keyInt, resultSet.keySet());
 		CollectionUtils.addAll(valDoub, resultSet.values());
 
@@ -201,53 +203,44 @@ public class KnnAlgorithm implements Algorithm {
 		int headNode = sourceNode;
 		int indexOfNewNode = 0;
 		ArrayList<Integer> listUsedNewNodeIndex = new ArrayList<>();
-		
-		
+
 		ArrayList<Integer> newNodes = new ArrayList<Integer>();
-		
-		
 
 		ArrayList<Integer> keyInt = new ArrayList<Integer>();
 		ArrayList<Double> valDoub = new ArrayList<Double>();
-		//HashMap<Integer, Double> prunedMap = new LinkedHashMap<Integer, Double>();
-		
+		// HashMap<Integer, Double> prunedMap = new LinkedHashMap<Integer, Double>();
+
 		while (numOfTotalFoundNodes < numberOfK) {
 
 			mapTempNodes = getNeighborNodesWithDistancesAscOrder(headNode);
 			tempNumOfNeighbors = mapTempNodes.size();
-	
+
 			CollectionUtils.addAll(keyInt, mapTempNodes.keySet());
 			CollectionUtils.addAll(valDoub, mapTempNodes.values());
-			
-			
-			
-			
+
 			if (numberOfK > tempNumOfNeighbors) {
 
 				for (Map.Entry<Integer, Double> entry : mapTempNodes.entrySet()) {
 					// System.out.println("temp neighbor Key = " + entry.getKey() + ", temp neighbor
 					// Value = " + entry.getValue());
-					
-					if (!mapFinalReturnNodes.containsKey(entry.getKey())) { 
+
+					if (!mapFinalReturnNodes.containsKey(entry.getKey())) {
 						mapFinalReturnNodes.put(entry.getKey(), entry.getValue());
-						numOfTotalFoundNodes ++; 
+						numOfTotalFoundNodes++;
 						newNodes.add(entry.getKey());
-						
-					}					
-					//indexOfNewNode = newNodes.get(0);
+
+					}
+					// indexOfNewNode = newNodes.get(0);
 					if (!mapTempDistinctNodesShortestDistToSrc.containsKey(entry.getKey())) {
 						mapTempDistinctNodesShortestDistToSrc.put(entry.getKey(), entry.getValue());
 					}
-					
-				}			
-				
-				
+
+				}
 
 				mapTempChosenNodes = mapTempNodes;
 
 			} else {
 
-				
 				for (int i = numberOfK; i < tempNumOfNeighbors; i++) {
 					keyInt.remove(numberOfK);
 					valDoub.remove(numberOfK);
@@ -255,77 +248,82 @@ public class KnnAlgorithm implements Algorithm {
 
 				for (int i = 0; i < numberOfK; i++) {
 					mapFinalReturnNodes.put(keyInt.get(i), valDoub.get(i));
-				}				
+				}
 				numOfTotalFoundNodes++;
-				
-				
-				
+
 			}
 			numOfTotalFoundNodes++;
-			headNode = 4;//indexOfNewNode; // assign dynamically
-			
+			headNode = 4;// indexOfNewNode; // assign dynamically
+
 		}
 
-//		Map<Integer, Double> finalReturnMap = new LinkedHashMap<Integer, Double>();
-//
-//		List<Path> arrListOfPaths = new ArrayList<Path>();
-//
-//		Map<Integer, Double> tempNeighborNodeMap = new LinkedHashMap<Integer, Double>();
-//
-//		tempNeighborNodeMap = getNeighborNodesWithDistancesAscOrder(queryPointNode);
-//
-//		int numberofNeighbor = tempNeighborNodeMap.keySet().size();
-//		int intFoundNearestNeighbors = numberofNeighbor;
-//
-//		ArrayList<Integer> keyInt = new ArrayList<Integer>(tempNeighborNodeMap.keySet());
-//		ArrayList<Double> valDoub = new ArrayList<Double>(tempNeighborNodeMap.values());
-//		HashMap<Integer, Double> pruned = new HashMap<Integer, Double>();
-//
-//		Path path = new Path();
-//		path.addNode(queryPointNode);
-//		arrListOfPaths.add(path);
-//
-//		// System.out.println("The requested number of K is more than number of direct
-//		// neighbors");
-//		finalReturnMap = tempNeighborNodeMap;
-//
-//		ArrayList<Integer> arrListOfNewNodes = new ArrayList<>();
-//		ArrayList<Map<Integer, Double>> arrListOfNewNodesWithDist = new ArrayList<Map<Integer, Double>>();
-//
-//		// Map<Integer, Double> tempResultMap = new HashMap<>();
-//		// tempResultMap = tempNeighborNodeMap;
-//		while (intFoundNearestNeighbors < numberofK) {
-//			// tempNeighborNodeMap = getNeighborNodesWithDistancesAscOrder(queryPointNode);
-//
-//			Set<Integer> keySet = new HashSet<Integer>();
-//			keySet = tempNeighborNodeMap.keySet();
-//			ArrayList<Integer> arrListTempNodes = new ArrayList<Integer>();
-//
-//			for (Integer key : keySet) {
-//				arrListTempNodes = getNeighborNodesAscOrder(key);
-//
-//				for (int i = 0; i < arrListTempNodes.size(); i++) {
-//					if (arrListTempNodes.contains(arrListTempNodes.get(i))) {
-//						System.out.println(arrListTempNodes.get(i) + " in key set");
-//						continue;
-//					}
-//					System.out.println(arrListTempNodes.get(i));
-//				}
-//				//
-//				System.out.println("not head key: " + key);
-//
-//			}
-//
-//			for (Map.Entry<Integer, Double> entry : tempNeighborNodeMap.entrySet()) {
-//				System.out.println(
-//						"temp neighbor Key = " + entry.getKey() + ", temp neighbor Value = " + entry.getValue());
-//				finalReturnMap.put(entry.getKey(), entry.getValue());
-//			}
-//
-//			// System.out.println(intFoundNearestNeighbors);
-//			intFoundNearestNeighbors++;
-//
-//		}
+		// Map<Integer, Double> finalReturnMap = new LinkedHashMap<Integer, Double>();
+		//
+		// List<Path> arrListOfPaths = new ArrayList<Path>();
+		//
+		// Map<Integer, Double> tempNeighborNodeMap = new LinkedHashMap<Integer,
+		// Double>();
+		//
+		// tempNeighborNodeMap = getNeighborNodesWithDistancesAscOrder(queryPointNode);
+		//
+		// int numberofNeighbor = tempNeighborNodeMap.keySet().size();
+		// int intFoundNearestNeighbors = numberofNeighbor;
+		//
+		// ArrayList<Integer> keyInt = new
+		// ArrayList<Integer>(tempNeighborNodeMap.keySet());
+		// ArrayList<Double> valDoub = new
+		// ArrayList<Double>(tempNeighborNodeMap.values());
+		// HashMap<Integer, Double> pruned = new HashMap<Integer, Double>();
+		//
+		// Path path = new Path();
+		// path.addNode(queryPointNode);
+		// arrListOfPaths.add(path);
+		//
+		// // System.out.println("The requested number of K is more than number of
+		// direct
+		// // neighbors");
+		// finalReturnMap = tempNeighborNodeMap;
+		//
+		// ArrayList<Integer> arrListOfNewNodes = new ArrayList<>();
+		// ArrayList<Map<Integer, Double>> arrListOfNewNodesWithDist = new
+		// ArrayList<Map<Integer, Double>>();
+		//
+		// // Map<Integer, Double> tempResultMap = new HashMap<>();
+		// // tempResultMap = tempNeighborNodeMap;
+		// while (intFoundNearestNeighbors < numberofK) {
+		// // tempNeighborNodeMap =
+		// getNeighborNodesWithDistancesAscOrder(queryPointNode);
+		//
+		// Set<Integer> keySet = new HashSet<Integer>();
+		// keySet = tempNeighborNodeMap.keySet();
+		// ArrayList<Integer> arrListTempNodes = new ArrayList<Integer>();
+		//
+		// for (Integer key : keySet) {
+		// arrListTempNodes = getNeighborNodesAscOrder(key);
+		//
+		// for (int i = 0; i < arrListTempNodes.size(); i++) {
+		// if (arrListTempNodes.contains(arrListTempNodes.get(i))) {
+		// System.out.println(arrListTempNodes.get(i) + " in key set");
+		// continue;
+		// }
+		// System.out.println(arrListTempNodes.get(i));
+		// }
+		// //
+		// System.out.println("not head key: " + key);
+		//
+		// }
+		//
+		// for (Map.Entry<Integer, Double> entry : tempNeighborNodeMap.entrySet()) {
+		// System.out.println(
+		// "temp neighbor Key = " + entry.getKey() + ", temp neighbor Value = " +
+		// entry.getValue());
+		// finalReturnMap.put(entry.getKey(), entry.getValue());
+		// }
+		//
+		// // System.out.println(intFoundNearestNeighbors);
+		// intFoundNearestNeighbors++;
+		//
+		// }
 
 		// /// test start
 		// ArrayList<Integer> testResultList = new ArrayList<Integer>();
@@ -340,25 +338,123 @@ public class KnnAlgorithm implements Algorithm {
 		// System.out.println(testResultSet);
 		// /// test end
 
-//		for (Map.Entry<Integer, Double> entry : finalReturnMap.entrySet()) {
-//			System.out.println("final return Key = " + entry.getKey() + ", final return Value = " + entry.getValue());
-//		}
-//
-//		for (int i = numberofK; i < numberofNeighbor; i++) {
-//			keyInt.remove(numberofK);
-//			valDoub.remove(numberofK);
-//		}
-//
-//		for (int i = 0; i < numberofK; i++) {
-//			pruned.put(keyInt.get(i), valDoub.get(i));
-//		}
-		System.out.println(numberOfK + " nearest neighbor nodes of " + sourceNode + ": " + mapFinalReturnNodes);
+		// for (Map.Entry<Integer, Double> entry : finalReturnMap.entrySet()) {
+		// System.out.println("final return Key = " + entry.getKey() + ", final return
+		// Value = " + entry.getValue());
+		// }
+		//
+		// for (int i = numberofK; i < numberofNeighbor; i++) {
+		// keyInt.remove(numberofK);
+		// valDoub.remove(numberofK);
+		// }
+		//
+		// for (int i = 0; i < numberofK; i++) {
+		// pruned.put(keyInt.get(i), valDoub.get(i));
+		// }
 
+		// addToMap(mapFinalReturnNodes, getSimpleKnn(3, 3));
+		System.out.println(numberOfK + " nearest neighbor nodes of " + sourceNode + ": " + mapFinalReturnNodes);
 		return mapFinalReturnNodes;
 
 	}
 
+	public Map<Integer, Double> getKNNNodesWithDistance4(int sourceNode, int numberOfK) {
+		Map<Integer, Double> mapFinalNeighborNodes = new LinkedHashMap<Integer, Double>();
+		Map<Integer, Double> mapTempDirectNeighborNodes = new LinkedHashMap<Integer, Double>();
+
+		int numOfTotalFoundNeighbors = 0;
+		int headNode = sourceNode;
+		int directNeighborSetSize, directNeighborNodeCount = 0, indexOfNeighborNode;
+		ArrayList<Integer> usedIndexOfNeighborNodes = new ArrayList<Integer>();
+		
+		System.out.println(getNextIndexOfNearestNode(3));
+		
+		
+		while (numOfTotalFoundNeighbors < numberOfK) {
+
+			mapTempDirectNeighborNodes = getNeighborNodesWithDistancesAscOrder(headNode);
+			directNeighborSetSize = mapTempDirectNeighborNodes.size();
+
+			if (numberOfK < numOfTotalFoundNeighbors + directNeighborSetSize) {				
+				
+				addToMap(mapFinalNeighborNodes, getSimpleKnn(headNode, numberOfK));
+				numOfTotalFoundNeighbors += numberOfK;
+				while (directNeighborNodeCount <= directNeighborSetSize) {
+
+					directNeighborNodeCount++;
+				}
+				
+			
+			} else if (numberOfK == numOfTotalFoundNeighbors + directNeighborSetSize) {
+				addToMap(mapFinalNeighborNodes, getSimpleKnn(headNode, numberOfK));
+				numOfTotalFoundNeighbors += directNeighborSetSize;
+			
+			} else {
+				addToMap(mapFinalNeighborNodes, getSimpleKnn(headNode, numberOfK));
+				//headNode = indexOfNeighborNode 
+				
+				numOfTotalFoundNeighbors += directNeighborSetSize;
+			}
+
+			//numOfTotalFoundNeighbors++;
+		}
+
+		System.out.println(numberOfK + " nearest neighbor nodes of " + sourceNode + ": " + mapFinalNeighborNodes);
+		return mapFinalNeighborNodes;
+	}
+
 	////////////////// ---Private methods----//////////////////
+	private int getNextIndexOfNearestNode(int sourceNode) {
+		
+		List<Integer> list = new ArrayList<Integer>();		
+		list = getNeighborNodesAscOrder(sourceNode);
+		
+		
+		for (Integer index : list) {
+			if (!usedNodeIndecies.contains(index)) { 
+				return index;
+			}
+		}
+		return 0;
+		
+		
+	}
+	
+	private Map<Integer, Double> addToMap(Map<Integer, Double> sourceMap, Map<Integer, Double> newEntries) {
+
+		for (Map.Entry<Integer, Double> entry : newEntries.entrySet()) {
+			sourceMap.put(entry.getKey(), entry.getValue());
+		}
+		return sourceMap;
+	}
+
+	private Map<Integer, Double> getSimpleKnn(int sourceNode, int numberOfK) {
+		Map<Integer, Double> mapTempNodes = new LinkedHashMap<Integer, Double>();
+
+		mapTempNodes = getNeighborNodesWithDistancesAscOrder(sourceNode);
+		int numOfNeighbors = mapTempNodes.size();
+
+		ArrayList<Integer> keyInt = new ArrayList<Integer>();
+		ArrayList<Double> valDoub = new ArrayList<Double>();
+		HashMap<Integer, Double> prunedMap = new LinkedHashMap<Integer, Double>();
+
+		if (numberOfK <= numOfNeighbors) {
+			CollectionUtils.addAll(keyInt, mapTempNodes.keySet());
+			CollectionUtils.addAll(valDoub, mapTempNodes.values());
+
+			for (int i = numberOfK; i < numOfNeighbors; i++) {
+				keyInt.remove(numberOfK);
+				valDoub.remove(numberOfK);
+			}
+
+			for (int i = 0; i < numberOfK; i++) {
+				prunedMap.put(keyInt.get(i), valDoub.get(i));
+			}
+		}
+
+		return prunedMap;
+	}
+
 	private Map<Integer, Double> getNeighborNodesWithDistances(int sourceNode) {
 		Map<Integer, Double> resultSet = new HashMap<Integer, Double>();
 		resultSet = graph.getAdjancencyMap().get(sourceNode);

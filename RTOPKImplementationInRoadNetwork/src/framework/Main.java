@@ -182,7 +182,7 @@ public class Main {
 //		knnAlg2.getKNNNodesWithDistance(4, 3);	
 		
 		System.out.println("-------------------");
-		knnAlg2.getKNNNodesWithDistance3(4, 4);
+		knnAlg2.getKNNNodesWithDistance4(4, 3);
 		
 		
 		
