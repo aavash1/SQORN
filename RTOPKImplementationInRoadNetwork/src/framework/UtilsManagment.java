@@ -108,7 +108,7 @@ public class UtilsManagment {
 	}
 
 	// Method to read the vertex files from the datasets
-	public ArrayList<Node> readVertexFiles(String csvFilename) {
+	public ArrayList<Node> readNodeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Node> listVer = new ArrayList<Node>();
 
@@ -158,29 +158,25 @@ public class UtilsManagment {
 		return listEd;
 
 	}
+	
+	public Graph readEdgeFileReturnGraph(String csvFilename) {
+		Graph graph = new Graph();
+		
+		String line = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 4) {					
+					graph.addEdge(Integer.parseInt(record[1]), Integer.parseInt(record[2]), Integer.parseInt(record[3]));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	// Method to read the POI files from the datasets
-	/*
-	 * public ArrayList<PointOfInterest> readPOIFile(String csvFilename) { String
-	 * line = ""; ArrayList<PointOfInterest> listPOI = new
-	 * ArrayList<PointOfInterest>();
-	 * 
-	 * try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
-	 * while ((line = br.readLine()) != null) { String[] record =
-	 * line.split(csvSplitBy); if (record.length == 3) { PointOfInterest poi = new
-	 * PointOfInterest(); poi.setM_strCategory(record[0]); double Plongitude =
-	 * Double.parseDouble(record[1]); double Platitude =
-	 * Double.parseDouble(record[2]);
-	 * 
-	 * poi.setM_doubLongitude(Plongitude); poi.setM_doubleLatitide(Platitude);
-	 * listPOI.add(poi); }
-	 * 
-	 * } } catch (IOException e) { e.printStackTrace(); }
-	 * 
-	 * return listPOI;
-	 * 
-	 * }
-	 */
+		return graph;
+
+	}
 
 	// Method to read the POI with category Id files from the data-set
 	public ArrayList<Poi> readPOIFile2(String csvFilename) {
@@ -207,17 +203,6 @@ public class UtilsManagment {
 
 		return listPOI2;
 
-	}
-
-	private boolean isInteger(String str) {
-
-		try {
-			int a = Integer.parseInt(str);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		return true;
 	}
 
 	public Graph readMergedPOI(String fileName) {
@@ -267,7 +252,7 @@ public class UtilsManagment {
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph
 	public void loadNodesInfo(Graph graph, String csvFile) {
-		graph.setNodesWithInfo(readVertexFiles(csvFile));
+		graph.setNodesWithInfo(readNodeFile(csvFile));
 	}
 
 	// load information of pois from csv file and add these pois to list of pois in
@@ -278,9 +263,43 @@ public class UtilsManagment {
 		// graph.getPois().get(0).setPoiCategoryId(intPOICategoryId);
 
 	}
-	
-	public static int convertDoubleToInteger (double dValue) {
+
+	public static int convertDoubleToInteger(double dValue) {
 		return (int) Math.round(dValue);
-		 
+
 	}
+
+	// Private methods
+	private boolean isInteger(String str) {
+
+		try {
+			int a = Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		return true;
+	}
+	// Method to read the POI files from the datasets
+	/*
+	 * public ArrayList<PointOfInterest> readPOIFile(String csvFilename) { String
+	 * line = ""; ArrayList<PointOfInterest> listPOI = new
+	 * ArrayList<PointOfInterest>();
+	 * 
+	 * try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+	 * while ((line = br.readLine()) != null) { String[] record =
+	 * line.split(csvSplitBy); if (record.length == 3) { PointOfInterest poi = new
+	 * PointOfInterest(); poi.setM_strCategory(record[0]); double Plongitude =
+	 * Double.parseDouble(record[1]); double Platitude =
+	 * Double.parseDouble(record[2]);
+	 * 
+	 * poi.setM_doubLongitude(Plongitude); poi.setM_doubleLatitide(Platitude);
+	 * listPOI.add(poi); }
+	 * 
+	 * } } catch (IOException e) { e.printStackTrace(); }
+	 * 
+	 * return listPOI;
+	 * 
+	 * }
+	 */
 }

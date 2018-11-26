@@ -187,7 +187,7 @@ public class Main {
 
 		// --------A Star Algorithms TESTS-----------------------
 		Graph roadNetwork8 = um.readMergedPOI(manualNodeDatasetA2);
-		ArrayList<Node> nodesInfo = um.readVertexFiles(manualDatasetForAStar);//(manualnodeDatasetFile);
+		ArrayList<Node> nodesInfo = um.readNodeFile(manualDatasetForAStar);//(manualnodeDatasetFile);
 		roadNetwork8.setNodesWithInfo(nodesInfo);
 		roadNetwork8.printGraph();
 
