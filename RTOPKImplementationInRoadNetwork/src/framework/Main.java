@@ -209,7 +209,7 @@ public class Main {
 		// assertTrue(path.size() > 0);
 
 		for (Node vertex : path2) {
-			System.out.println(vertex);
+			System.out.println("The path is: "+vertex);
 		}
 
 	}
