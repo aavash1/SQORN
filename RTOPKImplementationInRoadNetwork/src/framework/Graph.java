@@ -14,6 +14,10 @@ public class Graph {
 	// Map < map <startNodeId,EndNodeId>, map <poiId, distanceFromSource> >
 	private final Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgePoiMap = new HashMap();
 
+	
+	// Map <Integer, Poi>  Integer = Edge ID, Poi = Poi object
+	private Map < Integer, Poi> m_edgePoiMap2 = new HashMap<Integer, Poi>();
+	
 	// list of Nodes with full encapsulated properties:
 	// (nodeId, longitude, latitude)
 	private ArrayList<Node> m_nodesWithInfo = new ArrayList<Node>();
@@ -209,12 +213,52 @@ public class Graph {
 
 	}
 
+	public boolean addPoi(int poiId, int edgeID, int startNode, int endNode, double distFromStartNode, boolean type) {
+
+		if (!hasEdge(startNode, endNode)) {
+			return false;
+		}
+
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+
+		if (m_edgePoiMap.containsKey(edge)) {
+			m_edgePoiMap.get(edge).put(poiId, distFromStartNode);
+		} else {
+			Map<Integer, Double> pois = new HashMap<>();
+			pois.put(poiId, distFromStartNode);
+
+			m_edgePoiMap.put(edge, pois);
+		}
+
+		return true;
+	}
+	
+	public boolean addPoi(Poi poi, int edgeID) 
+	{ 
+		if (m_edgePoiMap2.containsValue(poi)) 
+			return false;
+		
+		m_edgePoiMap2.put(edgeID, poi);		
+		return true;
+	}
+	
+	
 	public void printPoisOnEdge() {
 		System.out.println("Point of Interest List: ");
 
 		for (Map<Integer, Integer> key : m_edgePoiMap.keySet()) {
 
 			System.out.println("Edge " + key + ":\t" + m_edgePoiMap.get(key));
+		}
+	}
+	
+	public void printPoisOnEdge2() {
+		System.out.println("Point of Interest List: ");
+
+		for (Integer key : m_edgePoiMap2.keySet()) {
+
+			System.out.println("Edge " + key + ":\t" + m_edgePoiMap2.get(key));
 		}
 	}
 

@@ -3,6 +3,8 @@ package algorithm;
 import java.io.FileWriter;
 import java.util.Random;
 
+import framework.Graph;
+
 public class UserPreferenceGenerator {
 	private int numOfUsers;
 	private int numOfAttributes; // We here only pass 2 as the attributes will be only Distance and Rating
@@ -44,5 +46,15 @@ public class UserPreferenceGenerator {
 		}
 		System.out.println("Success..");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
