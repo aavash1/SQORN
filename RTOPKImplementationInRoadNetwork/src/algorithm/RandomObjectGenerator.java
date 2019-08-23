@@ -2,7 +2,7 @@ package algorithm;
 
 import java.util.Random;
 
-import framework.Graph;
+import framework.Graph2;
 
 public class RandomObjectGenerator {
 
@@ -12,7 +12,7 @@ public class RandomObjectGenerator {
 	public int totalNumberOfObjectsOnMap = 30000;
 	
 	
-	public void generateRandomObject(Graph rn)
+	public void generateRandomObject(Graph2 rn)
 	{
 		
 		//get random edge

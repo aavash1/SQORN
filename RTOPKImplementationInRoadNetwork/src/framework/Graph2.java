@@ -7,7 +7,7 @@ public class Graph2 {
 	private int m_numEdges;
 	private int m_numOfNodes;
 	private int intEdgeId = 0;
-	
+
 	// Map <startNodeId, map <endNodeId, edgeLength> >
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap();
 
@@ -15,39 +15,49 @@ public class Graph2 {
 	// (nodeId, longitude, latitude)
 	private ArrayList<Node> m_nodesWithInfo = new ArrayList<Node>();
 	private ArrayList<Edge> m_edgeWithInfo = new ArrayList<Edge>();
-	
-	//Integer= ObjectId RandomObject=RandomObject
-	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgeObject=new HashMap<>();
-	//private Map<Integer, RandomObject> m_edgeObject=new HashMap<>();
-	
-	private Map<Integer, RandomObject> m_edgeObject1=new HashMap<>();
+
+	// Integer= ObjectId RandomObject=RandomObject
+	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgeObject = new HashMap<>();
+	// private Map<Integer, RandomObject> m_edgeObject=new HashMap<>();
+
+	private Map<Integer, RandomObject> m_edgeObject1 = new HashMap<>();
+
 	public boolean addObject(int objectId, int startNode, int endNode, double distanceFromStartNode) {
-		if(!hasEdge(startNode, endNode)) {
+		if (!hasEdge(startNode, endNode)) {
 			return false;
 		}
-		Map<Integer, Integer> edge=new HashMap<>();
+		Map<Integer, Integer> edge = new HashMap<>();
 		edge.put(startNode, endNode);
-		
-		if(m_edgeObject.containsKey(edge)) {
+
+		if (m_edgeObject.containsKey(edge)) {
 			m_edgeObject.get(edge).put(objectId, distanceFromStartNode);
-		}
-		else {
-			Map<Integer, Double> randObjects=new HashMap<>();
+		} else {
+			Map<Integer, Double> randObjects = new HashMap<>();
 			randObjects.put(objectId, distanceFromStartNode);
 			m_edgeObject.put(edge, randObjects);
 		}
 		return true;
 	}
-	
-	public boolean addObject(RandomObject randObj, int edgeId) {
-		if(m_edgeObject.containsKey(randObj)) {
+
+	public boolean addObject( int edgeId, RandomObject randObj) {
+		if (m_edgeObject.containsKey(randObj)) {
 			return false;
 		}
 		m_edgeObject1.put(edgeId, randObj);
 		return false;
-		
+
 	}
-	
+
+	public void printObjectonEdge() {
+
+		System.out.print("Object Information: ");
+
+		for (Integer key : m_edgeObject1.keySet()) {
+			System.out.println("Edge" + key + ";\t" + m_edgeObject.get(key));
+
+		}
+
+	}
 
 	public ArrayList<Node> getNodesWithInfo() {
 		return m_nodesWithInfo;
