@@ -3,6 +3,9 @@ package framework;
 //import java.awt.RenderingHints.Key;
 import java.util.*;
 
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
+
 public class Graph2 {
 	private int m_numEdges;
 	private int m_numOfNodes;
@@ -20,7 +23,16 @@ public class Graph2 {
 	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_edgeObject = new HashMap<>();
 	// private Map<Integer, RandomObject> m_edgeObject=new HashMap<>();
 
-	private Map<Integer, RandomObject> m_edgeObject1 = new HashMap<>();
+	private Map<Integer, Poi> m_edgeObject1 = new HashMap<Integer, Poi>();
+
+	// Using Multivalued Map that shares common collection
+	// Importing from the collections is required before initializing
+	// Can work for duplicate keys for distinct values
+	private MultiValuedMap<Integer, Poi> m_edgeObject2 = new HashSetValuedHashMap<Integer, Poi>();
+
+	// We will be using this to create a object as it stores.
+	// The Edge Id, List of POIs
+	private Map<Integer, List<Poi>> m_edgeObject3 = new HashMap();
 
 	public boolean addObject(int objectId, int startNode, int endNode, double distanceFromStartNode) {
 		if (!hasEdge(startNode, endNode)) {
@@ -39,21 +51,93 @@ public class Graph2 {
 		return true;
 	}
 
-	public boolean addObject( int edgeId, RandomObject randObj) {
-		if (m_edgeObject.containsKey(randObj)) {
+	public boolean addObject(int edgeId, Poi randObj) {
+		if (m_edgeObject1.containsKey(randObj)) {
 			return false;
 		}
 		m_edgeObject1.put(edgeId, randObj);
-		return false;
+		// assertThat((Collection<Integer>)
+		// m_edgeObject.get(edgeId)).containsExactly(randObj);
+		// assertThat(m_ed)
+		return true;
 
 	}
 
-	public void printObjectonEdge() {
+	public boolean addObjectOnEdge(int edgeId, Poi randObj) {
 
-		System.out.print("Object Information: ");
+		if (m_edgeObject2.containsKey(randObj)) {
+			return false;
+		}
 
-		for (Integer key : m_edgeObject1.keySet()) {
-			System.out.println("Edge" + key + ";\t" + m_edgeObject.get(key));
+		for (Integer key : m_edgeObject2.keySet()) {
+			// System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
+			for (Poi poiValue : m_edgeObject2.values()) {
+				if (poiValue.getPoiId() == randObj.getPoiId()
+						|| poiValue.getDistanceFromStartNode() == randObj.getDistanceFromStartNode()) {
+					return false;
+				}
+			}
+
+		}
+		m_edgeObject2.put(edgeId, randObj);
+		return true;
+
+	}
+
+	// For Object3
+	public boolean addObjectOnEdge3(int edgeId, Poi newPoi) {
+
+		boolean isTrue = false;
+		if (m_edgeWithInfo.isEmpty()) {
+			return false;
+		}
+		for (Edge e : m_edgeWithInfo) {
+
+			if (e.getEdgeId() == edgeId) {
+				isTrue = true;
+			}
+
+		}
+		if (!isTrue)
+			return false;
+		for (Integer edge : m_edgeObject3.keySet()) {
+			for (Poi poi : m_edgeObject3.get(edge)) {
+				if (poi.getPoiId() == newPoi.getPoiId()
+						|| poi.getDistanceFromStartNode() == newPoi.getDistanceFromStartNode()) {
+					return false;
+				}
+			}
+
+		}
+
+		if (!m_edgeObject3.containsKey(edgeId)) {
+			List<Poi> newListOfPoi = new ArrayList<Poi>();
+			newListOfPoi.add(newPoi);
+			m_edgeObject3.put(edgeId, newListOfPoi);
+		} else {
+			m_edgeObject3.get(edgeId).add(newPoi);
+
+		}
+		return true;
+	}
+
+	public void printObjectOnEdge3() {
+
+		System.out.println("Object Information: ");
+
+		for (Integer key : m_edgeObject3.keySet()) {
+			System.out.println("Edge " + key + ";\t" + m_edgeObject3.get(key));
+
+		}
+
+	}
+
+	public void printObjectOnEdge() {
+
+		System.out.println("Object Information: ");
+
+		for (Integer key : m_edgeObject2.keySet()) {
+			System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
 
 		}
 

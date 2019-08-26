@@ -1,40 +1,46 @@
 package algorithm;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import framework.Graph2;
+import framework.Poi;
 
 public class RandomObjectGenerator {
 
+	private int m_totalNumberofEdge;
+	private int m_totalNumerofNode;
+	private int m_totalNumberofObject, m_totalNumberofDataObject, m_intTotalNumberofQueryObject,
+			m_maxNumberofObjectPerEdge;
+	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
 
-	public double minDistanceBetweenObjects = 1.0;
-	public int maxNumberOfObjectsPerEdge = 5; 
-	public int totalNumberOfObjectsOnMap = 30000;
-	
-	
-	public void generateRandomObject(Graph2 rn)
-	{
+	public void generateObjectOnEdge(Graph2 graph2) {
+
+		boolean uniformDataObjects = false;
+		boolean uniformQueryObjects = false;
+		//Object Type: false = data object ; true = query object;
+		/////////////////////////////////////
+		boolean uniformObjects = false;
 		
-		//get random edge
-		//get random number of objects for this edge
-			//get random object type
-			//get random distance from SN
-		
-		//consider total number of objects on map
-		//consider ratio of data objects and quesry objects
-		Random r = new Random();
-		int totalNumberOfEdges = rn.getEdgesWithInfo().size();
-		int randomNumberOfEdges = r.nextInt(totalNumberOfEdges);
-		
-		for (int i = 0; i < randomNumberOfEdges; i++) {
-			
-			rn.getEdgesWithDistances(r.nextInt(totalNumberOfEdges));
-			
-			//rn.
+		int edge_id;
+		int poi_id;
+		double distance_from_start_Node;
+		boolean objectType;
+
+		int limit = 15;
+		ArrayList<Poi> poiList = new ArrayList<Poi>();
+		Poi listPoi[] = new Poi[limit];
+
+		Random rand = new Random();
+		for (int i = 0; i < listPoi.length; i++) {
+			listPoi[i] = new Poi();
+			listPoi[i].setPoiId(i * 10);
+			listPoi[i].setDistanceFromStartNode(rand.nextDouble() * 10);
+			listPoi[i].setType(rand.nextBoolean());
+
+			graph2.addObjectOnEdge3(rand.nextInt(8), listPoi[i]);
 		}
-		
+
 	}
-	
-	
-	
+
 }

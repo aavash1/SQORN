@@ -70,10 +70,15 @@ public class Poi {
 		this.m_intPoiId = intPOIID;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "POI [PoiId=" + m_intPoiId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
+//				+ ", CategoryId= " + m_intPoiCategoryId + ", Type= " + m_boolType + ", Distance From Start Node= " + m_doubDistanceFromStartNode +"]";
+//	}
+	
 	@Override
 	public String toString() {
-		return "POI [PoiId=" + m_intPoiId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
-				+ ", CategoryId= " + m_intPoiCategoryId + ", Type= " + m_boolType + ", Rating=" + m_doubRating+"]";
+		return "POI [PoiId=" + m_intPoiId + ", Type= " + m_boolType + ", Dist From SN= " + m_doubDistanceFromStartNode +"]";
 	}
 
 }
