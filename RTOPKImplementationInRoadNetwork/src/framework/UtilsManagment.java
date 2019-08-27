@@ -132,7 +132,7 @@ public class UtilsManagment {
 
 	}
 
-	// Method to read the Node files from the datasets
+	// Method to read the Edge files from the datasets
 	public ArrayList<Edge> readEdgeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
@@ -158,16 +158,17 @@ public class UtilsManagment {
 		return listEd;
 
 	}
-	
-	public Graph readEdgeFileReturnGraph(String csvFilename) {
-		Graph graph = new Graph();
-		
+
+	public Graph2 readEdgeFileReturnGraph(String csvFilename) {
+		Graph2 graph = new Graph2();
+
 		String line = "";
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
-				if (record.length == 4) {					
-					graph.addEdge(Integer.parseInt(record[1]), Integer.parseInt(record[2]), Double.parseDouble(record[3]));
+				if (record.length == 4) {
+					graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]), Integer.parseInt(record[2]),
+							Double.parseDouble(record[3]));
 				}
 			}
 		} catch (IOException e) {
@@ -175,6 +176,35 @@ public class UtilsManagment {
 		}
 
 		return graph;
+
+	}
+
+	public Boolean readEdgeFile(Graph2 graph, String csvFilename) {
+
+		String line = "";
+		ArrayList<Edge> listEd = new ArrayList<Edge>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 4) {
+					Edge ed = new Edge();
+					ed.setEdgeId(Integer.parseInt(record[0]));
+					ed.setStartNodeId(Integer.parseInt(record[1]));
+
+					ed.setEndNodeId(Integer.parseInt(record[2]));
+					ed.setLength(Double.parseDouble(record[3]));
+
+					listEd.add(ed);
+					graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]), Integer.parseInt(record[2]),
+							Double.parseDouble(record[3]));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		graph.setEdgeWithInfo(listEd);
+		return true;
 
 	}
 

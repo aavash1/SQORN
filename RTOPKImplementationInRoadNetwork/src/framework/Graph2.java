@@ -124,12 +124,15 @@ public class Graph2 {
 	public void printObjectOnEdge3() {
 
 		System.out.println("Object Information: ");
+		int generatedPoiCounter = 0;
 
 		for (Integer key : m_edgeObject3.keySet()) {
-			System.out.println("Edge " + key + ";\t" + m_edgeObject3.get(key));
-
+			System.out.println("Edge " + key + ";\t" + "Length: " + getEdgeDistance(key) + " ("
+					+ m_edgeObject3.get(key).size() + ") " + m_edgeObject3.get(key));
+			generatedPoiCounter += m_edgeObject3.get(key).size();
 		}
-
+		System.out.println("Total lenght of all edges: " + getTotalLengthOfAllEdges() + "Total number of POIs: "
+				+ generatedPoiCounter);
 	}
 
 	public void printObjectOnEdge() {
@@ -151,8 +154,12 @@ public class Graph2 {
 		return m_edgeWithInfo;
 	}
 
-	public void setNodesWithInfo(ArrayList<Node> m_nodes) {
-		this.m_nodesWithInfo = m_nodes;
+	public void setNodesWithInfo(ArrayList<Node> nodes) {
+		this.m_nodesWithInfo = nodes;
+	}
+
+	public void setEdgeWithInfo(ArrayList<Edge> edgeWithInfo) {
+		this.m_edgeWithInfo = edgeWithInfo;
 	}
 
 	public Map<Integer, Map<Integer, Double>> getAdjancencyMap() {
@@ -212,6 +219,36 @@ public class Graph2 {
 		return false;
 	}
 
+	public boolean addEdge(int edgeId, int int_startNode, int int_endNode, double doub_distance) {
+		if (int_startNode == int_endNode) {
+			return false;
+		}
+		addNode(int_startNode);
+		addNode(int_endNode);
+		
+		Edge newEdge = new Edge();
+		newEdge.setEdgeId(edgeId);
+		newEdge.setStartNodeId(int_startNode);
+		newEdge.setEndNodeId(int_endNode);
+		newEdge.setLength(doub_distance);
+		m_edgeWithInfo.add(newEdge);
+		if (!m_adjancencyMap.get(int_startNode).containsKey(int_endNode)) {
+			m_adjancencyMap.get(int_startNode).put(int_endNode, doub_distance);
+			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
+			m_numEdges++;
+		} else {
+			double prev_doubDistance = m_adjancencyMap.get(int_startNode).get(int_endNode);
+			m_adjancencyMap.get(int_startNode).put(int_endNode, doub_distance);
+			m_adjancencyMap.get(int_endNode).put(int_startNode, doub_distance);
+
+			if (prev_doubDistance != doub_distance) {
+
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean hasEdge(int int_startNode, int int_endNode) {
 		if (!m_adjancencyMap.containsKey(int_startNode)) {
 			return false;
@@ -227,6 +264,24 @@ public class Graph2 {
 			// equivalent to the value returned by Double.longBitsToDouble
 		}
 		return m_adjancencyMap.get(int_startNode).get(int_endNode);
+	}
+
+	public double getEdgeDistance(int edgeId) {
+		for (Edge edge : m_edgeWithInfo) {
+			if (edgeId == edge.getEdgeId()) {
+				return edge.getLength();
+			}
+		}
+		return 0.0;
+	}
+
+	public double getTotalLengthOfAllEdges() {
+		double total = 0.0;
+		for (Edge edge : m_edgeWithInfo) {
+			total += edge.getLength();
+		}
+
+		return total;
 	}
 
 	// print the adjacency list (representation of graph)

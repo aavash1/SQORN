@@ -25,7 +25,7 @@ public class AlgTests {
 		// Graph loading:
 		//Graph calGraph = um.readMergedPOI(calMergedDataset);
 		long startTimeCal = System.nanoTime();
-		Graph calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);		
+		Graph2 calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);		
 		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
 		calGraph.setNodesWithInfo(calNodesInfo);
 		long graphLoadingTimeCal = System.nanoTime() - startTimeCal;
@@ -56,25 +56,25 @@ public class AlgTests {
 		System.out.println("Elapsed time of Dijkstra algorithm on California dataset: " + DijkstraCalTimeD + " seconds");
 		
 		//-----------------------------------------------------------------------------------------------------------------------
-		System.out.println("A* algorithm on California dataset");
-		AStarAlgorithm aStarAlgCal = new AStarAlgorithm(calGraph);
-		
-		Node sourceNodeAStarAlgCal, destNodeAStarAlgCal;
-		sourceNodeAStarAlgCal = calNodesInfo.get(10);		
-		destNodeAStarAlgCal = calNodesInfo.get(105);
-
-		long startTimeAStarCal = System.nanoTime();
-		aStarAlgCal.execute(sourceNodeAStarAlgCal, destNodeAStarAlgCal);
-		LinkedList<Node> pathAStarCal = dijkAlgCal.getPath(destNodeForDijkAlgCal);
-		long AStarCalTime = System.nanoTime() - startTimeAStarCal;
-		double AStarCalTimeD = (double) AStarCalTime / 1000000000.0;
-		
-		System.out.println("Source node: " + sourceNodeAStarAlgCal + " Dest node: " + destNodeAStarAlgCal );
-		for (Node node : pathAStarCal) {
-			System.out.println(node);
-		}		
-		
-		System.out.println("Elapsed time of A* algorithm on California dataset: " + AStarCalTimeD + " seconds");	
+		//System.out.println("A* algorithm on California dataset");
+//		AStarAlgorithm aStarAlgCal = new AStarAlgorithm(calGraph);
+//		
+//		Node sourceNodeAStarAlgCal, destNodeAStarAlgCal;
+//		sourceNodeAStarAlgCal = calNodesInfo.get(10);		
+//		destNodeAStarAlgCal = calNodesInfo.get(105);
+//
+//		long startTimeAStarCal = System.nanoTime();
+//		aStarAlgCal.execute(sourceNodeAStarAlgCal, destNodeAStarAlgCal);
+//		LinkedList<Node> pathAStarCal = dijkAlgCal.getPath(destNodeForDijkAlgCal);
+//		long AStarCalTime = System.nanoTime() - startTimeAStarCal;
+//		double AStarCalTimeD = (double) AStarCalTime / 1000000000.0;
+//		
+//		System.out.println("Source node: " + sourceNodeAStarAlgCal + " Dest node: " + destNodeAStarAlgCal );
+//		for (Node node : pathAStarCal) {
+//			System.out.println(node);
+//		}		
+//		
+//		System.out.println("Elapsed time of A* algorithm on California dataset: " + AStarCalTimeD + " seconds");	
 		//*/
 		/*
 		// ----------------------------------------------------------
@@ -138,7 +138,7 @@ public class AlgTests {
 		// Graph loading:
 		
 		long startTimeOldn = System.nanoTime();
-		Graph oldnGraph = um.readEdgeFileReturnGraph(oldnEdgeDataset);
+		Graph2 oldnGraph = um.readEdgeFileReturnGraph(oldnEdgeDataset);
 		
 		ArrayList<Node> oldnNodesInfo = um.readNodeFile(oldnNodeDataset);
 		oldnGraph.setNodesWithInfo(oldnNodesInfo);

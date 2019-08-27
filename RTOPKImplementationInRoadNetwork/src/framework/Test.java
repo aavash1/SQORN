@@ -93,9 +93,9 @@ public class Test {
 //		pois.add(poi3);
 //		pois.add(poi4);
 //		pois.add(poi5);
-		
-		RandomObjectGenerator ranG =new RandomObjectGenerator();
-		
+
+		RandomObjectGenerator ranG = new RandomObjectGenerator();
+
 		gr.addEdge(1, 2, 80);
 		gr.addEdge(1, 3, 25);
 		gr.addEdge(2, 3, 20);
@@ -103,19 +103,16 @@ public class Test {
 		gr.addEdge(3, 5, 40);
 		gr.addEdge(4, 6, 13);
 		gr.addEdge(6, 7, 60);
-		
-		
-		
+
 		gr.printGraph();
 		gr.printObjectOnEdge3();
 		gr.addObjectOnEdge3(1, poi1);
-		
-		
+
 		ranG.generateObjectOnEdge(gr);
 		System.out.println("---This is after generator------");
 		gr.printGraph();
 		gr.printObjectOnEdge3();
-		
-		}
+
+	}
 
 }
