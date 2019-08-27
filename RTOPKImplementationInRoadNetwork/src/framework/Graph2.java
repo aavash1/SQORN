@@ -131,7 +131,7 @@ public class Graph2 {
 					+ m_edgeObject3.get(key).size() + ") " + m_edgeObject3.get(key));
 			generatedPoiCounter += m_edgeObject3.get(key).size();
 		}
-		System.out.println("Total lenght of all edges: " + getTotalLengthOfAllEdges() + "Total number of POIs: "
+		System.out.println("Total lenght of all edges: " + getTotalLengthOfAllEdges() + " Total number of POIs: "
 				+ generatedPoiCounter);
 	}
 

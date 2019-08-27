@@ -2,6 +2,7 @@ package framework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import algorithm.RandomObjectGenerator;
 
@@ -96,22 +97,28 @@ public class Test {
 
 		RandomObjectGenerator ranG = new RandomObjectGenerator();
 
-		gr.addEdge(1, 2, 80);
-		gr.addEdge(1, 3, 25);
-		gr.addEdge(2, 3, 20);
-		gr.addEdge(3, 4, 50);
-		gr.addEdge(3, 5, 40);
-		gr.addEdge(4, 6, 13);
-		gr.addEdge(6, 7, 60);
+		gr.addEdge(1, 2, 18);
+		gr.addEdge(1, 3, 20);
+		gr.addEdge(2, 3, 19);
+		gr.addEdge(3, 4, 15);
+		gr.addEdge(3, 5, 17);
+		gr.addEdge(4, 6, 22);
+		gr.addEdge(6, 7, 21);
 
-		gr.printGraph();
-		gr.printObjectOnEdge3();
-		gr.addObjectOnEdge3(1, poi1);
+		gr.printEdgesInfo();
+		// gr.printGraph();
+		// gr.printObjectOnEdge3();
+		// gr.addObjectOnEdge3(1, poi1);
 
-		ranG.generateObjectOnEdge(gr);
+		// ranG.generateRandomObjectsOnMap(gr);
+		 ranG.generateRandomObjectsOnMap2(gr);
 		System.out.println("---This is after generator------");
-		gr.printGraph();
-		gr.printObjectOnEdge3();
+		 gr.printGraph();
+		 gr.printObjectOnEdge3();
+
+		// System.out.println(ranG.getRandDoubleBetRange(2.89,9.687));
+
+	
 
 	}
 
