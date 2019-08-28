@@ -1,4 +1,4 @@
-package framework;
+	package framework;
 
 //import java.awt.RenderingHints.Key;
 import java.util.*;
@@ -32,7 +32,7 @@ public class Graph2 {
 
 	// We will be using this to create a object as it stores.
 	// The Edge Id, List of POIs
-	private Map<Integer, List<Poi>> m_edgeObject3 = new HashMap();
+	private Map<Integer, List<Poi>> m_edgeObject3 = new HashMap<Integer, List<Poi>>();
 
 	public boolean addObject(int objectId, int startNode, int endNode, double distanceFromStartNode) {
 		if (!hasEdge(startNode, endNode)) {
@@ -89,6 +89,7 @@ public class Graph2 {
 
 		boolean isTrue = false;
 		if (m_edgeWithInfo.isEmpty()) {
+			System.out.println("m_edgeWithInfo is empty" + ", for poi: " + newPoi);
 			return false;
 		}
 		for (Edge e : m_edgeWithInfo) {
@@ -98,16 +99,22 @@ public class Graph2 {
 			}
 
 		}
-		if (!isTrue)
+		if (!isTrue) { 
+			System.out.println("There is no edge: " + edgeId +", for poi: " + newPoi);
 			return false;
-		for (Integer edge : m_edgeObject3.keySet()) {
-			for (Poi poi : m_edgeObject3.get(edge)) {
+		}
+		//System.out.println("edgeId: " + edgeId);
+		
+		//System.out.println("m_edgeObject3: " + m_edgeObject3.get(edgeId));
+		
+		if ((m_edgeObject3 != null) && m_edgeObject3.get(edgeId) != null) {
+			for (Poi poi : m_edgeObject3.get(edgeId)) {
 				if (poi.getPoiId() == newPoi.getPoiId()
 						|| poi.getDistanceFromStartNode() == newPoi.getDistanceFromStartNode()) {
+					System.out.println("Either poiId (" + newPoi.getPoiId() + ") or dist from SN (" +  newPoi.getDistanceFromStartNode() + ") is existed on edge: " + edgeId); 
 					return false;
 				}
-			}
-
+			}			
 		}
 
 		if (!m_edgeObject3.containsKey(edgeId)) {

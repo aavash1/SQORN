@@ -14,17 +14,19 @@ public class GeneratorTest {
 		String calNodeDataset = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String calEdgeDataset = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		long startTimeCal = System.nanoTime();
-		calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);
+		long startTimeCal;
+		long graphLoadingTimeCal;
+		double graphLoadingTimeDCal;
+//		startTimeCal = System.nanoTime();
+//		calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);
 //		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
 //		calGraph.setNodesWithInfo(calNodesInfo);
-
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(calEdgeDataset);
-		calGraph.setEdgeWithInfo(calEdgeInfo);
-		long graphLoadingTimeCal = System.nanoTime() - startTimeCal;
-		double graphLoadingTimeDCal = (double) graphLoadingTimeCal / 1000000000.0;
+//		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(calEdgeDataset);
+//		calGraph.setEdgeWithInfo(calEdgeInfo);
+//		graphLoadingTimeCal = System.nanoTime() - startTimeCal;
+//		graphLoadingTimeDCal = (double) graphLoadingTimeCal / 1000000000.0;
 		// calGraph.printGraph();
-		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
+//		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
 		startTimeCal = System.nanoTime();
 		Graph2 calGraph2 = new Graph2();
@@ -41,5 +43,8 @@ public class GeneratorTest {
 		rg.generateRandomObjectsOnMap(calGraph2);
 		//calGraph2.printGraph();
 		calGraph2.printObjectOnEdge3();
+		
+		
+		
 	}
 }

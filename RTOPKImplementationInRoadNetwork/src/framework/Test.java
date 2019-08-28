@@ -42,58 +42,58 @@ public class Test {
 
 		Graph2 gr = new Graph2();
 
-//		poi1.setPoiId(100);
-//		poi1.setDistanceFromStartNode(2.0);
-//		poi1.setType(false);
-//
-//		poi2.setPoiId(101);
-//		poi2.setDistanceFromStartNode(1.2);
-//		poi2.setType(true);
-//
-//		poi3.setPoiId(102);
-//		poi3.setDistanceFromStartNode(1.8);
-//		poi3.setType(false);
-//
-//		poi4.setPoiId(103);
-//		poi4.setDistanceFromStartNode(1);
-//		poi4.setType(true);
-//
-//		poi5.setPoiId(100);
-//		poi5.setDistanceFromStartNode(1.3);
-//		poi5.setType(true);
-//
-//
-//		gr.addObjectOnEdge(111, poi1);
-//		gr.addObjectOnEdge(111, poi5);
-//		// gr.printObjectOnEdge();
-//
-//		gr.addObjectOnEdge(112, poi2);
-//		// gr.printObjectOnEdge();
-//
-//		gr.addObjectOnEdge(113, poi3);
-//		gr.addObjectOnEdge(113, poi4);
-//		gr.printObjectOnEdge();
-//		
-//		System.out.println("-------This is another Testing------");
-//		
-//		gr.addObjectOnEdge3(111, poi1);
-//		gr.addObjectOnEdge3(111, poi5);
-//		// gr.printObjectOnEdge();
-//
-//		gr.addObjectOnEdge3(112, poi2);
-//		// gr.printObjectOnEdge();
-//
-//		gr.addObjectOnEdge3(113, poi3);
-//		gr.addObjectOnEdge3(113, poi4);
-//		gr.printObjectOnEdge3();
-//		
-//		
-//		List<Poi> pois = new ArrayList<Poi>();
-//		pois.add(poi1);
-//		pois.add(poi2);
-//		pois.add(poi3);
-//		pois.add(poi4);
-//		pois.add(poi5);
+		// poi1.setPoiId(100);
+		// poi1.setDistanceFromStartNode(2.0);
+		// poi1.setType(false);
+		//
+		// poi2.setPoiId(101);
+		// poi2.setDistanceFromStartNode(1.2);
+		// poi2.setType(true);
+		//
+		// poi3.setPoiId(102);
+		// poi3.setDistanceFromStartNode(1.8);
+		// poi3.setType(false);
+		//
+		// poi4.setPoiId(103);
+		// poi4.setDistanceFromStartNode(1);
+		// poi4.setType(true);
+		//
+		// poi5.setPoiId(100);
+		// poi5.setDistanceFromStartNode(1.3);
+		// poi5.setType(true);
+		//
+		//
+		// gr.addObjectOnEdge(111, poi1);
+		// gr.addObjectOnEdge(111, poi5);
+		// // gr.printObjectOnEdge();
+		//
+		// gr.addObjectOnEdge(112, poi2);
+		// // gr.printObjectOnEdge();
+		//
+		// gr.addObjectOnEdge(113, poi3);
+		// gr.addObjectOnEdge(113, poi4);
+		// gr.printObjectOnEdge();
+		//
+		// System.out.println("-------This is another Testing------");
+		//
+		// gr.addObjectOnEdge3(111, poi1);
+		// gr.addObjectOnEdge3(111, poi5);
+		// // gr.printObjectOnEdge();
+		//
+		// gr.addObjectOnEdge3(112, poi2);
+		// // gr.printObjectOnEdge();
+		//
+		// gr.addObjectOnEdge3(113, poi3);
+		// gr.addObjectOnEdge3(113, poi4);
+		// gr.printObjectOnEdge3();
+		//
+		//
+		// List<Poi> pois = new ArrayList<Poi>();
+		// pois.add(poi1);
+		// pois.add(poi2);
+		// pois.add(poi3);
+		// pois.add(poi4);
+		// pois.add(poi5);
 
 		RandomObjectGenerator ranG = new RandomObjectGenerator();
 
@@ -104,6 +104,7 @@ public class Test {
 		gr.addEdge(3, 5, 17);
 		gr.addEdge(4, 6, 22);
 		gr.addEdge(6, 7, 21);
+		gr.addEdge(7, 8, 24);
 
 		gr.printEdgesInfo();
 		// gr.printGraph();
@@ -111,15 +112,42 @@ public class Test {
 		// gr.addObjectOnEdge3(1, poi1);
 
 		// ranG.generateRandomObjectsOnMap(gr);
-		 ranG.generateRandomObjectsOnMap2(gr);
-		System.out.println("---This is after generator------");
-		 gr.printGraph();
-		 gr.printObjectOnEdge3();
+		//ranG.generateRandomObjectsOnMap2(gr);
+		RandomObjectGenerator.generateRandomObjectsOnMap2(gr);
+		//System.out.println("---This is after generator------");
+		// gr.printGraph();
+		gr.printObjectOnEdge3();
 
 		// System.out.println(ranG.getRandDoubleBetRange(2.89,9.687));
 
-	
+		
+		
+		//randomDistanceGeneratorTest();
 
+	}
+	
+	public static void randomDistanceGeneratorTest () { 
+		System.out.println("Random acceptable distance generator");		
+		Boolean isThereDistanceConflict = false;
+		ArrayList<Double> randomDistances2 = new ArrayList<Double>();
+		double distanceFromStartNode;
+		double minDistanceBetPois = 3;
+
+		randomDistances2.add(12.0);
+		randomDistances2.add(4.0);
+		distanceFromStartNode = 7.0;
+		for (int k = 0; k < randomDistances2.size(); k++) {
+			if (!((randomDistances2.get(k) + minDistanceBetPois <= distanceFromStartNode)
+					|| (randomDistances2.get(k) - minDistanceBetPois >= distanceFromStartNode))) {
+				isThereDistanceConflict = true;
+			}
+		}
+		for (int k = 0; k < randomDistances2.size(); k++) {
+			System.out.println("chosen distance " + k + ": " +randomDistances2.get(k));
+		}
+		
+		System.out.println("minDistanceBetPois: " + minDistanceBetPois +  ", " + "Random distance from SN: " + distanceFromStartNode);
+		System.out.println("isThereDistanceConflict: " + isThereDistanceConflict);
 	}
 
 }
