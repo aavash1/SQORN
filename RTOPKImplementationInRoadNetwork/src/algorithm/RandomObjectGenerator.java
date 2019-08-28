@@ -37,16 +37,10 @@ public class RandomObjectGenerator {
 		double edgeLength;
 		int totalNumberOfEdges = graph2.getNumberOfEdges();
 
-		// int totalNumberOfPois = (int) (graph2.getTotalLengthOfAllEdges() /
-		// (minDistanceBetPois) - 1);
-
 		Random rand = new Random();
-
-		// int randomNumberOfEdges = rand.nextInt(totalNumberOfEdges);
 		int randomNumberOfEdges = getRandIntBetRange(2, totalNumberOfEdges);
 		System.out.println("randomNumberOfEdges: " + randomNumberOfEdges);
 		int randomNumberOfPoisOnEdge;
-		// Poi randPoi;
 		Boolean isAcceptableDistance = false;
 		Boolean isThereDistanceConflict = false;
 		Boolean isAcceptableEdgeId = false;
@@ -59,7 +53,7 @@ public class RandomObjectGenerator {
 		for (int i = 0; i < randomNumberOfEdges; i++) {
 
 			while (!isAcceptableEdgeId) {
-				edgeId = (rand.nextInt(totalNumberOfEdges - 1) + 1) + 1;
+				edgeId = getRandIntBetRange(1, totalNumberOfEdges);
 				if (!randomlyChosenEdgeIds.contains(edgeId))
 					isAcceptableEdgeId = true;
 				randomlyChosenEdgeIds.add(edgeId);
@@ -68,8 +62,6 @@ public class RandomObjectGenerator {
 			// System.out.println("edgeId: " + edgeId);
 			edgeLength = graph2.getEdgeDistance(edgeId);
 			// System.out.println("edgeLength: " + edgeLength);
-			// randomNumberOfPoisOnEdge = rand.nextInt(((int) (edgeLength /
-			// minDistanceBetPois)) - 1);
 			maxNumberOfPoisPerEdge = (int) (edgeLength / minDistanceBetPois - 1);
 			// System.out.println("maxNumberOfPoisPerEdge: " + maxNumberOfPoisPerEdge);
 			randomNumberOfPoisOnEdge = getRandIntBetRange(minNumberOfPoisPerEdge, maxNumberOfPoisPerEdge);
@@ -81,7 +73,7 @@ public class RandomObjectGenerator {
 				Poi randPoi = new Poi();
 
 				if (randomDistances.isEmpty()) {
-					distanceFromStartNode = Math.round(getRandDoubleBetRange(1.0, edgeLength));
+					distanceFromStartNode = getRandDoubleBetRange(1.0, edgeLength);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
 					randPoi.setPoiId(edgeId * 10 + j);
 					randPoi.setDistanceFromStartNode(distanceFromStartNode);
@@ -91,11 +83,9 @@ public class RandomObjectGenerator {
 					// System.out.println("randomDistances2 (0): " + randomDistances2.get(0));
 				} else {
 					while (!isAcceptableDistance) {
-						distanceFromStartNode = Math.round(getRandDoubleBetRange(1, edgeLength));
+						distanceFromStartNode = getRandDoubleBetRange(1, edgeLength);
 						isThereDistanceConflict = false;
 						for (int k = 0; k < randomDistances.size(); k++) {
-							// System.out.println("randomDistances2 (" + k + "): " +
-							// randomDistances2.get(k));
 							if (!((randomDistances.get(k) + minDistanceBetPois <= distanceFromStartNode)
 									|| (randomDistances.get(k) - minDistanceBetPois >= distanceFromStartNode))) {
 								isThereDistanceConflict = true;
@@ -141,8 +131,17 @@ public class RandomObjectGenerator {
 		// System.out.println("maxNumberOfPoisPerEdge: " + maxNumberOfPoisPerEdge );
 		// System.out.println("uniformObjects: " + uniformObjects);
 		// System.out.println("uniformDataObjects: " + uniformDataObjects);
-		// System.out.println("uniformQueryObjects: " + uniformQueryObjects); s
+		// System.out.println("uniformQueryObjects: " + uniformQueryObjects); 
 		System.out.println("--------------------------------------------------");
+	}
+	
+	public static void printStatistics() {
+		System.out.println("--------------------------------------------------");
+		System.out.println(("Total Count of Pois: "));
+		System.out.println("True Objects: ");
+		System.out.println("--------------------------------------------------");
+
+		
 	}
 
 	// public int getDistinctRandomEdgeId ()
