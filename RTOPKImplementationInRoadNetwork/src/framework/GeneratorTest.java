@@ -40,7 +40,7 @@ public class GeneratorTest {
 		
 		//ranG.generateObjectOnEdge(gr);
 		System.out.println("---This is after generator------");
-		rg.generateRandomObjectsOnMap(calGraph2);
+		//rg.generateRandomObjectsOnMap(calGraph2);
 		//calGraph2.printGraph();
 		calGraph2.printObjectOnEdge3();
 		

@@ -30,9 +30,8 @@ public class RandomObjectGenerator {
 	private static double maxDistBetNodeAndObject;
 
 	public static void generateRandomObjectsOnMap2(Graph2 graph2) {
-
-		/////////////////////////////////////
-
+		
+		
 		int edgeId = 0;
 		double distanceFromStartNode = 0.0;
 		double edgeLength;
