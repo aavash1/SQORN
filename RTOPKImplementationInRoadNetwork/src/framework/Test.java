@@ -95,16 +95,16 @@ public class Test {
 		// pois.add(poi4);
 		// pois.add(poi5);
 
-		RandomObjectGenerator ranG = new RandomObjectGenerator();
+		
 
-		gr.addEdge(1, 2, 18);
-		gr.addEdge(1, 3, 20);
-		gr.addEdge(2, 3, 19);
-		gr.addEdge(3, 4, 15);
-		gr.addEdge(3, 5, 17);
-		gr.addEdge(4, 6, 22);
-		gr.addEdge(6, 7, 21);
-		gr.addEdge(7, 8, 24);
+		gr.addEdge(1, 2, 18.3698);
+		gr.addEdge(1, 3, 20.5499);
+		gr.addEdge(2, 3, 19.0658);
+		gr.addEdge(3, 4, 15.887);
+		gr.addEdge(3, 5, 17.01466);
+		gr.addEdge(4, 6, 22.17489);
+		gr.addEdge(6, 7, 21.12365);
+		gr.addEdge(7, 8, 24.4421);
 
 		gr.printEdgesInfo();
 		// gr.printGraph();
@@ -118,7 +118,7 @@ public class Test {
 		// gr.printGraph();
 		gr.printObjectOnEdge3();
 
-		// System.out.println(ranG.getRandDoubleBetRange(2.89,9.687));
+		//System.out.println(RandomObjectGenerator.getRandDoubleBetRange(2.89,9.687));
 
 		
 		
