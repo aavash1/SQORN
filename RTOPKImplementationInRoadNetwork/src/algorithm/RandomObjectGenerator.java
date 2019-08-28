@@ -28,6 +28,14 @@ public class RandomObjectGenerator {
 	private static boolean uniformQueryObjects = false;
 	private static int maxNumberOfPoisPerEdge;
 	private static double maxDistBetNodeAndObject;
+	
+	
+	// For Statistics
+	private static int m_totalNumberOfObjects;
+	private static int m_totalNumberOfTrueObjects;
+	private static int m_totalNumberOfFalseObjects;
+	private static int m_totalNumberOfEdges;
+	private static double m_totalLengthOfEdges;
 
 	public static void generateRandomObjectsOnMap2(Graph2 graph2) {
 		
@@ -36,7 +44,7 @@ public class RandomObjectGenerator {
 		double distanceFromStartNode = 0.0;
 		double edgeLength;
 		int totalNumberOfEdges = graph2.getNumberOfEdges();
-
+		
 		Random rand = new Random();
 		int randomNumberOfEdges = getRandIntBetRange(2, totalNumberOfEdges);
 		System.out.println("randomNumberOfEdges: " + randomNumberOfEdges);
@@ -110,6 +118,13 @@ public class RandomObjectGenerator {
 			}
 
 		}
+		
+		// For Statistics
+		m_totalNumberOfObjects = graph2.getTotalNumberOfObjects();
+		m_totalNumberOfTrueObjects = graph2.getTotalNumberOfTrueObjects();
+		m_totalNumberOfFalseObjects = graph2.getTotalNumberOfFalseObjects();
+		m_totalNumberOfEdges = totalNumberOfEdges;
+		m_totalLengthOfEdges = graph2.getTotalLengthOfAllEdges();
 
 	}
 
@@ -136,9 +151,16 @@ public class RandomObjectGenerator {
 	}
 	
 	public static void printStatistics() {
+		double trueObjectsPer, falseObjectsPer;
+		trueObjectsPer = Math.round((double)m_totalNumberOfTrueObjects/m_totalNumberOfObjects*100*100.0)/100.0;
+		falseObjectsPer = Math.round((double)m_totalNumberOfFalseObjects/m_totalNumberOfObjects*100*100.0)/100.0;
 		System.out.println("--------------------------------------------------");
-		System.out.println(("Total Count of Pois: "));
-		System.out.println("True Objects: ");
+		System.out.println("Total number of Objects: " + m_totalNumberOfObjects);
+		System.out.println("Total number of True Objects: " + m_totalNumberOfTrueObjects + ", " + trueObjectsPer + " %");
+		System.out.println("Total number of False Objects: " + m_totalNumberOfFalseObjects + ", " + falseObjectsPer + " %");
+		System.out.println("Total number of Edges: " + m_totalNumberOfEdges);
+		System.out.println("Total lenght of all edges: " + m_totalLengthOfEdges);
+		
 		System.out.println("--------------------------------------------------");
 
 		

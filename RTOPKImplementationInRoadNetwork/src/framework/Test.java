@@ -116,12 +116,11 @@ public class Test {
 		RandomObjectGenerator.generateRandomObjectsOnMap2(gr);
 		//System.out.println("---This is after generator------");
 		// gr.printGraph();
-		gr.printObjectOnEdge3();
-
-		//System.out.println(RandomObjectGenerator.getRandDoubleBetRange(2.89,9.687));
+		RandomObjectGenerator.printStatistics();
+		//gr.printObjectOnEdge3();
 
 		
-		
+				
 		//randomDistanceGeneratorTest();
 
 	}

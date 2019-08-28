@@ -1,4 +1,4 @@
-	package framework;
+package framework;
 
 //import java.awt.RenderingHints.Key;
 import java.util.*;
@@ -34,6 +34,10 @@ public class Graph2 {
 	// The Edge Id, List of POIs
 	private Map<Integer, List<Poi>> m_edgeObject3 = new HashMap<Integer, List<Poi>>();
 
+	private int m_totalNumberOfObjects = 0;
+	private int m_totalNumberOfTrueObjects = 0;
+	private int m_totalNumberOfFalseObjects = 0;
+
 	public boolean addObject(int objectId, int startNode, int endNode, double distanceFromStartNode) {
 		if (!hasEdge(startNode, endNode)) {
 			return false;
@@ -51,39 +55,6 @@ public class Graph2 {
 		return true;
 	}
 
-	public boolean addObject(int edgeId, Poi randObj) {
-		if (m_edgeObject1.containsKey(randObj)) {
-			return false;
-		}
-		m_edgeObject1.put(edgeId, randObj);
-		// assertThat((Collection<Integer>)
-		// m_edgeObject.get(edgeId)).containsExactly(randObj);
-		// assertThat(m_ed)
-		return true;
-
-	}
-
-	public boolean addObjectOnEdge(int edgeId, Poi randObj) {
-
-		if (m_edgeObject2.containsKey(randObj)) {
-			return false;
-		}
-
-		for (Integer key : m_edgeObject2.keySet()) {
-			// System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
-			for (Poi poiValue : m_edgeObject2.values()) {
-				if (poiValue.getPoiId() == randObj.getPoiId()
-						|| poiValue.getDistanceFromStartNode() == randObj.getDistanceFromStartNode()) {
-					return false;
-				}
-			}
-
-		}
-		m_edgeObject2.put(edgeId, randObj);
-		return true;
-
-	}
-
 	// For Object3
 	public boolean addObjectOnEdge3(int edgeId, Poi newPoi) {
 
@@ -99,31 +70,42 @@ public class Graph2 {
 			}
 
 		}
-		if (!isTrue) { 
-			System.out.println("There is no edge: " + edgeId +", for poi: " + newPoi);
+		if (!isTrue) {
+			System.out.println("There is no edge: " + edgeId + ", for poi: " + newPoi);
 			return false;
 		}
-		//System.out.println("edgeId: " + edgeId);
-		
-		//System.out.println("m_edgeObject3: " + m_edgeObject3.get(edgeId));
-		
+		// System.out.println("edgeId: " + edgeId);
+
 		if ((m_edgeObject3 != null) && m_edgeObject3.get(edgeId) != null) {
 			for (Poi poi : m_edgeObject3.get(edgeId)) {
 				if (poi.getPoiId() == newPoi.getPoiId()
 						|| poi.getDistanceFromStartNode() == newPoi.getDistanceFromStartNode()) {
-					System.out.println("Either poiId (" + newPoi.getPoiId() + ") or dist from SN (" +  newPoi.getDistanceFromStartNode() + ") is existed on edge: " + edgeId); 
+					System.out.println("Either poiId (" + newPoi.getPoiId() + ") or dist from SN ("
+							+ newPoi.getDistanceFromStartNode() + ") is existed on edge: " + edgeId);
 					return false;
 				}
-			}			
+			}
 		}
 
 		if (!m_edgeObject3.containsKey(edgeId)) {
 			List<Poi> newListOfPoi = new ArrayList<Poi>();
 			newListOfPoi.add(newPoi);
 			m_edgeObject3.put(edgeId, newListOfPoi);
+			m_totalNumberOfObjects++;
+			if (newPoi.getType()) {
+				m_totalNumberOfTrueObjects++;
+			} else {
+				m_totalNumberOfFalseObjects++;	
+			}
+
 		} else {
 			m_edgeObject3.get(edgeId).add(newPoi);
-
+			m_totalNumberOfObjects++;
+			if (newPoi.getType()) {
+				m_totalNumberOfTrueObjects++;
+			} else {
+				m_totalNumberOfFalseObjects++;	
+			}
 		}
 		return true;
 	}
@@ -142,15 +124,18 @@ public class Graph2 {
 				+ generatedPoiCounter);
 	}
 
-	public void printObjectOnEdge() {
+	public int getTotalNumberOfObjects() {
+		return m_totalNumberOfObjects;
+	}
 
-		System.out.println("Object Information: ");
+	public int getTotalNumberOfTrueObjects() {
 
-		for (Integer key : m_edgeObject2.keySet()) {
-			System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
+		return m_totalNumberOfTrueObjects;
+	}
 
-		}
+	public int getTotalNumberOfFalseObjects() {
 
+		return m_totalNumberOfFalseObjects;
 	}
 
 	public ArrayList<Node> getNodesWithInfo() {
@@ -185,10 +170,10 @@ public class Graph2 {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
 			return false;
 		}
-//		Node n = new Node();
-//		n.setNodeId(int_nodeID);
-//		// Long an Lat
-//		m_nodesWithInfo.add(n);
+		// Node n = new Node();
+		// n.setNodeId(int_nodeID);
+		// // Long an Lat
+		// m_nodesWithInfo.add(n);
 		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
 		m_numOfNodes++;
 		return true;
@@ -232,7 +217,7 @@ public class Graph2 {
 		}
 		addNode(int_startNode);
 		addNode(int_endNode);
-		
+
 		Edge newEdge = new Edge();
 		newEdge.setEdgeId(edgeId);
 		newEdge.setStartNodeId(int_startNode);
@@ -355,4 +340,46 @@ public class Graph2 {
 		return null;
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////// Archive//////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public void printObjectOnEdge() {
+
+		System.out.println("Object Information: ");
+
+		for (Integer key : m_edgeObject2.keySet()) {
+			System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
+		}
+	}
+
+	public boolean addObjectOnEdge(int edgeId, Poi randObj) {
+
+		if (m_edgeObject2.containsKey(randObj)) {
+			return false;
+		}
+
+		for (Integer key : m_edgeObject2.keySet()) {
+			// System.out.println("Edge " + key + ";\t" + m_edgeObject2.get(key));
+			for (Poi poiValue : m_edgeObject2.values()) {
+				if (poiValue.getPoiId() == randObj.getPoiId()
+						|| poiValue.getDistanceFromStartNode() == randObj.getDistanceFromStartNode()) {
+					return false;
+				}
+			}
+		}
+		m_edgeObject2.put(edgeId, randObj);
+		return true;
+	}
+
+	public boolean addObject(int edgeId, Poi randObj) {
+		if (m_edgeObject1.containsKey(randObj)) {
+			return false;
+		}
+		m_edgeObject1.put(edgeId, randObj);
+		// assertThat((Collection<Integer>)
+		// m_edgeObject.get(edgeId)).containsExactly(randObj);
+		// assertThat(m_ed)
+		return true;
+
+	}
 }
