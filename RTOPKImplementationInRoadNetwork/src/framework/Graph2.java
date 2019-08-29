@@ -95,7 +95,7 @@ public class Graph2 {
 			if (newPoi.getType()) {
 				m_totalNumberOfTrueObjects++;
 			} else {
-				m_totalNumberOfFalseObjects++;	
+				m_totalNumberOfFalseObjects++;
 			}
 
 		} else {
@@ -104,7 +104,7 @@ public class Graph2 {
 			if (newPoi.getType()) {
 				m_totalNumberOfTrueObjects++;
 			} else {
-				m_totalNumberOfFalseObjects++;	
+				m_totalNumberOfFalseObjects++;
 			}
 		}
 		return true;
@@ -382,4 +382,42 @@ public class Graph2 {
 		return true;
 
 	}
+
+	public ArrayList<Edge> getAdjacentNodes(int edgeId) {
+		ArrayList<Edge> adjacentNodes = new ArrayList<Edge>();
+		for (Edge edge : m_edgeWithInfo) {
+			if (edge == m_edgeWithInfo.get(edgeId)) {
+				adjacentNodes.add(edge);
+			}
+
+		}
+		return adjacentNodes;
+
+	}
+
+	public boolean isTerminalNode(int edgeID) {
+
+		if (getEdges(edgeID).size() == 1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isIntermediateNode(int edgeID) {
+		if (getEdges(edgeID).size() == 2) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isIntersectionNode(int edgeID) {
+		if (getEdges(edgeID).size() >= 3) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

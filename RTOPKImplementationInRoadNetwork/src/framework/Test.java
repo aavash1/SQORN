@@ -95,38 +95,47 @@ public class Test {
 		// pois.add(poi4);
 		// pois.add(poi5);
 
-		
-
 		gr.addEdge(1, 2, 18.3698);
 		gr.addEdge(1, 3, 20.5499);
 		gr.addEdge(2, 3, 19.0658);
 		gr.addEdge(3, 4, 15.887);
 		gr.addEdge(3, 5, 17.01466);
+		gr.addEdge(5,6, 23.963);
 		gr.addEdge(4, 6, 22.17489);
 		gr.addEdge(6, 7, 21.12365);
 		gr.addEdge(7, 8, 24.4421);
 
-		gr.printEdgesInfo();
+		// gr.printEdgesInfo();
 		// gr.printGraph();
 		// gr.printObjectOnEdge3();
 		// gr.addObjectOnEdge3(1, poi1);
 
 		// ranG.generateRandomObjectsOnMap(gr);
-		//ranG.generateRandomObjectsOnMap2(gr);
-		RandomObjectGenerator.generateRandomObjectsOnMap2(gr);
-		//System.out.println("---This is after generator------");
+		// ranG.generateRandomObjectsOnMap2(gr);
+		// RandomObjectGenerator.generateRandomObjectsOnMap2(gr);
+		// System.out.println("---This is after generator------");
 		// gr.printGraph();
-		RandomObjectGenerator.printStatistics();
-		//gr.printObjectOnEdge3();
+		// gr.printObjectOnEdge3();
 
-		
-				
-		//randomDistanceGeneratorTest();
+		// RandomObjectGenerator.printStatistics();
+		// gr.printObjectOnEdge3();
 
+		// randomDistanceGeneratorTest();
+		for (int i = 1; i <= 8; i++) {
+			int edgeIDforTest = i;
+			if (gr.isTerminalNode(edgeIDforTest) == true) {
+				System.out.println(i + " is Terminal node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
+			} else if (gr.isIntermediateNode(edgeIDforTest) == true) {
+				System.out.println(i + " is Intermediate Node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
+			} else if (gr.isIntersectionNode(edgeIDforTest) == true) {
+				System.out.println(i + " is Intersection Node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
+			} else
+				System.out.println("No idea");
+		}
 	}
-	
-	public static void randomDistanceGeneratorTest () { 
-		System.out.println("Random acceptable distance generator");		
+
+	public static void randomDistanceGeneratorTest() {
+		System.out.println("Random acceptable distance generator");
 		Boolean isThereDistanceConflict = false;
 		ArrayList<Double> randomDistances2 = new ArrayList<Double>();
 		double distanceFromStartNode;
@@ -142,10 +151,11 @@ public class Test {
 			}
 		}
 		for (int k = 0; k < randomDistances2.size(); k++) {
-			System.out.println("chosen distance " + k + ": " +randomDistances2.get(k));
+			System.out.println("chosen distance " + k + ": " + randomDistances2.get(k));
 		}
-		
-		System.out.println("minDistanceBetPois: " + minDistanceBetPois +  ", " + "Random distance from SN: " + distanceFromStartNode);
+
+		System.out.println("minDistanceBetPois: " + minDistanceBetPois + ", " + "Random distance from SN: "
+				+ distanceFromStartNode);
 		System.out.println("isThereDistanceConflict: " + isThereDistanceConflict);
 	}
 
