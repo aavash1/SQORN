@@ -42,12 +42,29 @@ public class Graph2 {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
 			return false;
 		}
-		// Node n = new Node();
-		// n.setNodeId(int_nodeID);
+		Node n = new Node();
+		n.setNodeId(int_nodeID);
 		// // Long an Lat
-		// m_nodesWithInfo.add(n);
+		m_nodesWithInfo.add(n);
 		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
 		m_numOfNodes++;
+		return true;
+	}
+	
+	public boolean setNodeLatAndLong(int nodeId, double lat, double longt) { 
+		
+		Boolean isNodeExist = false;
+		
+		if (m_nodesWithInfo.isEmpty()) return false;
+		
+		for (Node n : m_nodesWithInfo) {
+			if (n.getNodeId() == nodeId) { 
+				n.setLatitude(lat);
+				n.setLongitude(longt);
+				isNodeExist = true;
+			}
+		}
+		if (!isNodeExist) return false;		
 		return true;
 	}
 	
@@ -58,6 +75,8 @@ public class Graph2 {
 		this.m_nodesWithInfo = nodes;
 	}
 	public int getNumberOfNodes() {
+		if (m_numOfNodes == 0 ) return m_nodesWithInfo.size();
+		
 		return m_numOfNodes;
 	}
 	public void printNodesInfo() {

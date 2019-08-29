@@ -33,7 +33,7 @@ public class TestGraphDraw {
 //		 roadNetwork1.addPoi(32, 0, 1, 1.9);
 //		 roadNetwork1.addPoi(33, 0, 4, 2.2);
 		
-		 GraphDraw graphDraw= new GraphDraw("Test Window");
+		 GraphDraw graphDraw= new GraphDraw("Test Road Network");
 		 graphDraw.setGraph(roadNetwork1);		 
 		 
 		 graphDraw.setSize(400, 300);
