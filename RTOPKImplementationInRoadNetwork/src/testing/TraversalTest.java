@@ -1,4 +1,4 @@
-package framework;
+package testing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import algorithm.GraphTraversal;
 import algorithm.RandomObjectGenerator;
+import framework.Graph2;
 
 public class TraversalTest {
 
