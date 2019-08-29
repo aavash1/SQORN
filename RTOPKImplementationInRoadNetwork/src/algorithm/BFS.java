@@ -20,12 +20,12 @@ public class BFS {
 		// Create a queue for BFS
 		LinkedList<Integer> queue = new LinkedList<Integer>();
 
-		// Mark the current node as visited and enqueue it
-		
-		int indexOfNode = graph.getIndexOfNodeByNodeId(nodeId);// = graph.getNodesWithInfo().indexOf(nodeId);
+		// Mark the current node as visited and enqueue it		
+		int indexOfNode = graph.getIndexOfNodeByNodeId(nodeId);
 		visited[indexOfNode] = true;
 		queue.add(nodeId);
 
+		System.out.println("BFS from " + nodeId + ": ");
 		while (queue.size() != 0) {
 			// Dequeue a vertex from queue and print it
 			nodeId = queue.poll();
