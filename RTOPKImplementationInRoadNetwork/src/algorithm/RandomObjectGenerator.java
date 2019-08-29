@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import framework.Edge;
 import framework.Graph2;
-import framework.Poi;
+import framework.RoadObject;
 
 public class RandomObjectGenerator {
 
@@ -17,16 +17,16 @@ public class RandomObjectGenerator {
 			m_maxNumberofObjectPerEdge;
 	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
 
-	// for generateRandomObjectsOnMap2()
-	private static int minNumberOfPoisPerEdge = 3;
-	private static double minDistanceBetPois = 3;
+	// for generateRandomObjectsOnMap()
+	private static int minNumberOfObjsPerEdge = 3;
+	private static double minDistanceBetObjs = 3;
 
 	// not complete yet
 	// Object Type: false = data object ; true = query object;
 	private static boolean uniformObjects = false;
 	private static boolean uniformDataObjects = false;
 	private static boolean uniformQueryObjects = false;
-	private static int maxNumberOfPoisPerEdge;
+	private static int maxNumberOfObjsPerEdge;
 	private static double maxDistBetNodeAndObject;
 	
 	
@@ -37,7 +37,7 @@ public class RandomObjectGenerator {
 	private static int m_totalNumberOfEdges;
 	private static double m_totalLengthOfEdges;
 
-	public static void generateRandomObjectsOnMap2(Graph2 graph2) {
+	public static void generateRandomObjectsOnMap(Graph2 graph2) {
 		
 		
 		int edgeId = 0;
@@ -48,7 +48,7 @@ public class RandomObjectGenerator {
 		Random rand = new Random();
 		int randomNumberOfEdges = getRandIntBetRange(2, totalNumberOfEdges);
 		System.out.println("randomNumberOfEdges: " + randomNumberOfEdges);
-		int randomNumberOfPoisOnEdge;
+		int randomNumberOfObjsOnEdge;
 		Boolean isAcceptableDistance = false;
 		Boolean isThereDistanceConflict = false;
 		Boolean isAcceptableEdgeId = false;
@@ -70,21 +70,21 @@ public class RandomObjectGenerator {
 			// System.out.println("edgeId: " + edgeId);
 			edgeLength = graph2.getEdgeDistance(edgeId);
 			// System.out.println("edgeLength: " + edgeLength);
-			maxNumberOfPoisPerEdge = (int) (edgeLength / minDistanceBetPois - 1);
-			// System.out.println("maxNumberOfPoisPerEdge: " + maxNumberOfPoisPerEdge);
-			randomNumberOfPoisOnEdge = getRandIntBetRange(minNumberOfPoisPerEdge, maxNumberOfPoisPerEdge);
-			System.out.println("randomNumberOfPoisOnEdge # " + edgeId + ": " + randomNumberOfPoisOnEdge);
+			maxNumberOfObjsPerEdge = (int) (edgeLength / minDistanceBetObjs - 1);
+			// System.out.println("maxNumberOfObjsPerEdge: " + maxNumberOfObjsPerEdge);
+			randomNumberOfObjsOnEdge = getRandIntBetRange(minNumberOfObjsPerEdge, maxNumberOfObjsPerEdge);
+			System.out.println("randomNumberOfObjsOnEdge # " + edgeId + ": " + randomNumberOfObjsOnEdge);
 
 			randomDistances.clear();
 			// j - poi
-			for (int j = 0; j < randomNumberOfPoisOnEdge; j++) {
-				Poi randPoi = new Poi();
+			for (int j = 0; j < randomNumberOfObjsOnEdge; j++) {
+				RoadObject randObj = new RoadObject();
 
 				if (randomDistances.isEmpty()) {
 					distanceFromStartNode = getRandDoubleBetRange(1.0, edgeLength);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
-					randPoi.setPoiId(edgeId * 10 + j);
-					randPoi.setDistanceFromStartNode(distanceFromStartNode);
+					randObj.setObjId(edgeId * 10 + j);
+					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 					isAcceptableDistance = false;
 					isThereDistanceConflict = false;
@@ -94,8 +94,8 @@ public class RandomObjectGenerator {
 						distanceFromStartNode = getRandDoubleBetRange(1, edgeLength);
 						isThereDistanceConflict = false;
 						for (int k = 0; k < randomDistances.size(); k++) {
-							if (!((randomDistances.get(k) + minDistanceBetPois <= distanceFromStartNode)
-									|| (randomDistances.get(k) - minDistanceBetPois >= distanceFromStartNode))) {
+							if (!((randomDistances.get(k) + minDistanceBetObjs <= distanceFromStartNode)
+									|| (randomDistances.get(k) - minDistanceBetObjs >= distanceFromStartNode))) {
 								isThereDistanceConflict = true;
 							}
 						}
@@ -104,15 +104,15 @@ public class RandomObjectGenerator {
 						}
 
 					}
-					randPoi.setPoiId(edgeId * 10 + j);
-					randPoi.setDistanceFromStartNode(distanceFromStartNode);
+					randObj.setObjId(edgeId * 10 + j);
+					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 				}
 
-				randPoi.setType(rand.nextBoolean());
-				graph2.addObjectOnEdge3(edgeId, randPoi);
-				// System.out.println("edgeId: " + edgeId + "; " + "randPoi" + randPoi);
+				randObj.setType(rand.nextBoolean());
+				graph2.addObjectOnEdge(edgeId, randObj);
+				// System.out.println("edgeId: " + edgeId + "; " + "randObj: " + randObj);
 				isAcceptableDistance = false;
 				isThereDistanceConflict = false;
 			}
@@ -141,9 +141,9 @@ public class RandomObjectGenerator {
 	public static void printGeneratorParameters() {
 		System.out.println("--------------------------------------------------");
 		System.out.println("Generator's Configurable Parameters: ");
-		System.out.println("minNumberOfPoisPerEdge: " + minNumberOfPoisPerEdge);
-		System.out.println("minDistanceBetPois: " + minDistanceBetPois);
-		// System.out.println("maxNumberOfPoisPerEdge: " + maxNumberOfPoisPerEdge );
+		System.out.println("minNumberOfObjsPerEdge: " + minNumberOfObjsPerEdge);
+		System.out.println("minDistanceBetObjs: " + minDistanceBetObjs);
+		// System.out.println("maxNumberOfObjsPerEdge: " + maxNumberOfObjsPerEdge );
 		// System.out.println("uniformObjects: " + uniformObjects);
 		// System.out.println("uniformDataObjects: " + uniformDataObjects);
 		// System.out.println("uniformQueryObjects: " + uniformQueryObjects); 
@@ -183,8 +183,7 @@ public class RandomObjectGenerator {
 	// }
 	// }
 	// }
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////// Archive//////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////End of Archive//////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

@@ -16,7 +16,7 @@ public class Graph {
 
 	
 	// Map <Integer, Poi>  Integer = Edge ID, Poi = Poi object
-	private Map < Integer, Poi> m_edgePoiMap2 = new HashMap<Integer, Poi>();
+	private Map < Integer, RoadObject> m_edgePoiMap2 = new HashMap<Integer, RoadObject>();
 	
 	// list of Nodes with full encapsulated properties:
 	// (nodeId, longitude, latitude)
@@ -26,7 +26,7 @@ public class Graph {
 
 	// list of POIs with full encapsulated properties:
 	// (poiId, longitude, latitude, categoryId, distanceFromStartNode, type, rating)
-	private ArrayList<Poi> m_poisWithInfo = new ArrayList<Poi>();
+	private ArrayList<RoadObject> m_poisWithInfo = new ArrayList<RoadObject>();
 
 	public ArrayList<Node> getNodesWithInfo() {
 		return m_nodesWithInfo;
@@ -40,11 +40,11 @@ public class Graph {
 		this.m_nodesWithInfo = m_nodes;
 	}
 
-	public ArrayList<Poi> getPoisWithInfo() {
+	public ArrayList<RoadObject> getPoisWithInfo() {
 		return m_poisWithInfo;
 	}
 
-	public void setPoisWithInfo(ArrayList<Poi> m_pois) {
+	public void setPoisWithInfo(ArrayList<RoadObject> m_pois) {
 		this.m_poisWithInfo = m_pois;
 	}
 
@@ -205,9 +205,9 @@ public class Graph {
 		return true;
 	}
 
-	public boolean addPoi(Poi newPoi, int startNodeId, int endNodeId, double distanceFromStartNode) {
+	public boolean addPoi(RoadObject newPoi, int startNodeId, int endNodeId, double distanceFromStartNode) {
 
-		addPoi(newPoi.getPoiId(), startNodeId, endNodeId, distanceFromStartNode);
+		addPoi(newPoi.getObjectId(), startNodeId, endNodeId, distanceFromStartNode);
 
 		return true;
 
@@ -234,7 +234,7 @@ public class Graph {
 		return true;
 	}
 	
-	public boolean addPoi(Poi poi, int edgeID) 
+	public boolean addPoi(RoadObject poi, int edgeID) 
 	{ 
 		if (m_edgePoiMap2.containsValue(poi)) 
 			return false;
@@ -276,7 +276,7 @@ public class Graph {
 	public void printPoisInfo() {
 		System.out.println("POIs' Information: ");
 
-		for (Poi p : m_poisWithInfo) {
+		for (RoadObject p : m_poisWithInfo) {
 
 			// System.out.println(
 			// "POI Id: " + p.getPoiId() + " Longitude: " + p.getLongitude() + " Latitude: "

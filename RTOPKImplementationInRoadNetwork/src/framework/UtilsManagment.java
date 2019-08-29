@@ -209,20 +209,20 @@ public class UtilsManagment {
 	}
 
 	// Method to read the POI with category Id files from the data-set
-	public ArrayList<Poi> readPOIFile2(String csvFilename) {
+	public ArrayList<RoadObject> readPOIFile2(String csvFilename) {
 		String line = "";
-		ArrayList<Poi> listPOI2 = new ArrayList<Poi>();
+		ArrayList<RoadObject> listPOI2 = new ArrayList<RoadObject>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 3) {
-					Poi POI2 = new Poi();
+					RoadObject POI2 = new RoadObject();
 					POI2.setLongitude(Double.parseDouble(record[0]));
 					POI2.setLatitude(Double.parseDouble(record[1]));
-					POI2.setPoiCategoryId(Integer.parseInt(record[2]));
+					POI2.setObjCategoryId(Integer.parseInt(record[2]));
 					poiID++;
-					POI2.setPoiId(poiID);
+					POI2.setObjId(poiID);
 					//
 					listPOI2.add(POI2);
 				}

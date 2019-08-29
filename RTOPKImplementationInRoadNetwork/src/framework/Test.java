@@ -34,11 +34,11 @@ public class Test {
 		 * //gr.printPoisInfo(); gr.printPoisOnEdge2();
 		 */
 
-		Poi poi1 = new Poi();
-		Poi poi2 = new Poi();
-		Poi poi3 = new Poi();
-		Poi poi4 = new Poi();
-		Poi poi5 = new Poi();
+		RoadObject poi1 = new RoadObject();
+		RoadObject poi2 = new RoadObject();
+		RoadObject poi3 = new RoadObject();
+		RoadObject poi4 = new RoadObject();
+		RoadObject poi5 = new RoadObject();
 
 		Graph2 gr = new Graph2();
 
@@ -100,7 +100,7 @@ public class Test {
 		gr.addEdge(2, 3, 19.0658);
 		gr.addEdge(3, 4, 15.887);
 		gr.addEdge(3, 5, 17.01466);
-		gr.addEdge(5,6, 23.963);
+		gr.addEdge(5, 6, 23.963);
 		gr.addEdge(4, 6, 22.17489);
 		gr.addEdge(6, 7, 21.12365);
 		gr.addEdge(7, 8, 24.4421);
@@ -121,6 +121,7 @@ public class Test {
 		// gr.printObjectOnEdge3();
 
 		// randomDistanceGeneratorTest();
+		
 		for (int i = 1; i <= 8; i++) {
 			int edgeIDforTest = i;
 			if (gr.isTerminalNode(edgeIDforTest) == true) {
@@ -134,6 +135,7 @@ public class Test {
 		}
 	}
 
+	
 	public static void randomDistanceGeneratorTest() {
 		System.out.println("Random acceptable distance generator");
 		Boolean isThereDistanceConflict = false;

@@ -1,10 +1,10 @@
 package framework;
 
-public class Poi {
-	private int m_intPoiId;
+public class RoadObject {
+	private int m_intObjId;
 	private double m_doubLongitude;
 	private double m_doubLatitude;
-	private int m_intPoiCategoryId;
+	private int m_intObjCategoryId;
 	private double m_doubDistanceFromStartNode;
 
 	private boolean m_boolType; // 0 (False) - data object, 1 (True) - feature object,
@@ -54,31 +54,31 @@ public class Poi {
 		this.m_doubLatitude = doubLatitude;
 	}
 
-	public int getPoiCategoryId() {
-		return m_intPoiCategoryId;
+	public int getObjCategoryId() {
+		return m_intObjCategoryId;
 	}
 
-	public void setPoiCategoryId(int intPOICategoryId) {
-		this.m_intPoiCategoryId = intPOICategoryId;
+	public void setObjCategoryId(int intPOICategoryId) {
+		this.m_intObjCategoryId = intPOICategoryId;
 	}
 
-	public int getPoiId() {
-		return m_intPoiId;
+	public int getObjectId() {
+		return m_intObjId;
 	}
 
-	public void setPoiId(int intPOIID) {
-		this.m_intPoiId = intPOIID;
+	public void setObjId(int intPOIID) {
+		this.m_intObjId = intPOIID;
 	}
 
 //	@Override
 //	public String toString() {
-//		return "POI [PoiId=" + m_intPoiId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
-//				+ ", CategoryId= " + m_intPoiCategoryId + ", Type= " + m_boolType + ", Distance From Start Node= " + m_doubDistanceFromStartNode +"]";
+//		return "Road Object [ObjId=" + m_intObjId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
+//				+ ", CategoryId= " + m_intObjCategoryId + ", Type= " + m_boolType + ", Distance From SN= " + m_doubDistanceFromStartNode +"]";
 //	}
 	
 	@Override
 	public String toString() {
-		return "POI [PoiId=" + m_intPoiId + ", Type= " + m_boolType + ", Dist From SN= " + m_doubDistanceFromStartNode +"]";
+		return "Road Object [ObjId=" + m_intObjId + ", Type= " + m_boolType + ", Dist From SN= " + m_doubDistanceFromStartNode +"]";
 	}
 
 }

@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 
 import framework.Graph;
+import framework.Graph2;
 import framework.Node;
 import framework.UtilsManagment;
 
@@ -20,7 +21,7 @@ public class GraphDraw extends JFrame {
 	private int width;
 	private int height;
 
-	Graph graph;
+	Graph2 graph;
 
 	//if Node/Edge/Poi added to existing and visualized graph, then need to repaint using local method: this.repaint();
 	public GraphDraw() { // Constructor
@@ -36,7 +37,7 @@ public class GraphDraw extends JFrame {
 		height = 30;
 	}
 
-	public void setGraph(Graph g) {
+	public void setGraph(Graph2 g) {
 		this.graph = g;
 	}		
 

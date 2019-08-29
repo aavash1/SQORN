@@ -1,12 +1,13 @@
 package visualization;
 
 import framework.Graph;
+import framework.Graph2;
 
 public class TestGraphDraw {
 	
 	public static void main(String[] args) {
 		
-		 Graph roadNetwork1 = new Graph();
+		 Graph2 roadNetwork1 = new Graph2();
 		 roadNetwork1.addEdge(0, 1, 2.24);
 		 roadNetwork1.addEdge(0, 4, 5.0);
 		 roadNetwork1.addEdge(1, 2, 3.0);
