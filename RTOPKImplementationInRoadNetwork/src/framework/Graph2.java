@@ -121,6 +121,16 @@ public class Graph2 {
 		return false;
 	}
 	
+	public int getIndexOfNodeByNodeId (int nodeId) { 
+		
+		for (Node n: m_nodesWithInfo) { 
+			if (n.getNodeId() == nodeId) { 
+				return m_nodesWithInfo.indexOf(n);
+			}
+		}		
+		return -1; 
+	}
+	
 	//////////////////////////////////////Node related methods]///////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	

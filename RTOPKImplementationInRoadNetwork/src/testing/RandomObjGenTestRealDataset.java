@@ -6,7 +6,7 @@ import algorithm.RandomObjectGenerator;
 import framework.Graph2;
 import framework.UtilsManagment;
 
-public class GeneratorTest {
+public class RandomObjGenTestRealDataset {
 
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
