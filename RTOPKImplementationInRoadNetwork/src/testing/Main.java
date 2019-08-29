@@ -1,4 +1,4 @@
-package framework;
+package testing;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,7 +10,9 @@ import algorithm.AStarAlgorithm;
 import algorithm.DijkstraAlgorithm;
 import algorithm.PoiGeneratorAlgorithm;
 import algorithm.UserPreferenceGenerator;
-
+import framework.Graph;
+import framework.Node;
+import framework.UtilsManagment;
 import algorithm.KnnAlgorithm;
 
 public class Main {

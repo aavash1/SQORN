@@ -1,10 +1,13 @@
-package framework;
+package testing;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import algorithm.AStarAlgorithm;
 import algorithm.DijkstraAlgorithm;
+import framework.Graph2;
+import framework.Node;
+import framework.UtilsManagment;
 
 public class AlgTests {
 

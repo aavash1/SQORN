@@ -1,8 +1,10 @@
-package framework;
+package testing;
 
 import java.util.ArrayList;
 
 import algorithm.RandomObjectGenerator;
+import framework.Graph2;
+import framework.UtilsManagment;
 
 public class GeneratorTest {
 
