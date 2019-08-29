@@ -23,10 +23,6 @@ public class BFS {
 		// Mark the current node as visited and enqueue it
 		
 		int indexOfNode = graph.getIndexOfNodeByNodeId(nodeId);// = graph.getNodesWithInfo().indexOf(nodeId);
-		
-		
-		
-		
 		visited[indexOfNode] = true;
 		queue.add(nodeId);
 
