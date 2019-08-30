@@ -8,7 +8,7 @@ import algorithm.RandomObjectGenerator;
 import framework.Graph2;
 import framework.RoadObject;
 
-public class Test {
+public class RandomObjGenTestManualDataset {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -114,27 +114,17 @@ public class Test {
 
 		// ranG.generateRandomObjectsOnMap(gr);
 		// ranG.generateRandomObjectsOnMap2(gr);
-		// RandomObjectGenerator.generateRandomObjectsOnMap2(gr);
-		// System.out.println("---This is after generator------");
+		 RandomObjectGenerator.generateRandomObjectsOnMap(gr);
+		 System.out.println("---This is after generator------");
 		// gr.printGraph();
-		// gr.printObjectOnEdge3();
+		 gr.printObjectsOnEdges();
 
-		// RandomObjectGenerator.printStatistics();
-		// gr.printObjectOnEdge3();
+		 RandomObjectGenerator.printStatistics();
+		 
 
 		// randomDistanceGeneratorTest();
 		
-		for (int i = 1; i <= 8; i++) {
-			int edgeIDforTest = i;
-			if (gr.isTerminalNode(edgeIDforTest) == true) {
-				System.out.println(i + " is Terminal node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
-			} else if (gr.isIntermediateNode(edgeIDforTest) == true) {
-				System.out.println(i + " is Intermediate Node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
-			} else if (gr.isIntersectionNode(edgeIDforTest) == true) {
-				System.out.println(i + " is Intersection Node and has degree of " + gr.getEdges(i).size() + " adjacent nodes: "+gr.getEdges(i));
-			} else
-				System.out.println("No idea");
-		}
+		
 	}
 
 	

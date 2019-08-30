@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import framework.Graph2;
+import framework.Node;
 
 public class ClusteringNodes {
 
@@ -19,7 +20,102 @@ public class ClusteringNodes {
 	// private ArrayList<LinkedList<Integer>> nodeClusters2 = new
 	// ArrayList<LinkedList<Integer>>() ;
 	private int m_clusterCounter = 0;
-	
+
+	public void cluster2(Graph2 gr) {
+		this.graph = gr;
+		LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
+		//ArrayList<Integer> adjList = new ArrayList<Integer>();
+		boolean nodeClearedStatus[] = new boolean[graph.getNumberOfNodes()];
+		int indexOfNode;
+		
+		// System.out.print("NodeId:");
+		for (Node n : graph.getNodesWithInfo()) {
+			System.out.println("Main node: " + n.getNodeId());
+			//nodeCluster =  new LinkedList<Integer>(); 
+			//nodeCluster.add(n.getNodeId());
+			//adjList = graph.getEdges(n.getNodeId());
+			
+			indexOfNode = graph.getIndexOfNodeByNodeId(n.getNodeId());
+			
+			// Proceed on non-cleared node
+			if (nodeClearedStatus[indexOfNode] != true) { 
+				boolean isMainNodeIntermediate = graph.isIntermediateNode(n.getNodeId());
+				Iterator<Integer> adjIterator = graph.getEdges(n.getNodeId()).listIterator();
+
+				while (adjIterator.hasNext()) {
+					int adjNode = adjIterator.next();
+
+					
+					System.out.print("adjNode: " + adjNode);
+					if (isMainNodeIntermediate) {
+						if (graph.isIntermediateNode(adjNode)) {
+							// If both nodes are intermediate nodes =>
+							// Interm & Interm
+							System.out.println(" Interm & Interm");
+							if (!nodeCluster.contains(adjNode))	{ 
+								nodeCluster.add(adjNode);
+							}
+							
+
+						} else {
+							// if 1st node is intermediate but adj node is intermediate node
+							// Interm & Non-Interm
+							System.out.println(" Interm & Non-Interm");
+							if (!nodeCluster.contains(adjNode))	{ 
+								nodeCluster.add(adjNode);
+								//m_nodeClusters.put(m_clusterCounter, new LinkedList<Integer>(nodeCluster));
+								//m_clusterCounter++;
+								//nodeCluster.clear();
+							}
+							
+						}
+
+					} else {
+
+						if (graph.isIntermediateNode(adjNode)) {
+							// if 1st node is non-intermediate but adj node is intermediate node
+							// Non-Interm & Interm
+							System.out.println(" Non-Interm & Interm");
+
+						} else {
+							// If both nodes are non-intermediate nodes => make a cluster with 2 nodes
+							// Non-Interm & Non-Interm
+							System.out.println(" Non-Interm & Non-Interm");
+							nodeCluster.add(n.getNodeId());
+							nodeCluster.add(adjNode);
+							m_nodeClusters.put(m_clusterCounter, new LinkedList<Integer>(nodeCluster));
+							m_clusterCounter++;
+							nodeCluster.clear();
+						}
+
+					}
+					
+					if (graph.isTerminalNode(adjNode)) { 
+						indexOfNode = graph.getIndexOfNodeByNodeId(adjNode);
+						nodeClearedStatus[indexOfNode] = true;
+					}
+
+				}
+			}
+			
+			
+
+			nodeCluster.clear();
+			// for (int i = 0; i < adjList.size(); i++) {
+			//
+			// // if ( (!graph.isIntermediateNode(adjList.get(i))) &&
+			// // (!graph.isIntermediateNode(n.getNodeId())) ) {
+			// if (!graph.isIntermediateNode(adjList.get(i))) {
+			// nodeCluster.add(adjList.get(i));
+			// m_nodeClusters.put(m_clusterCounter, nodeCluster);
+			// m_clusterCounter++;
+			// }
+			// }
+		}
+		 printNodeClusters();
+
+	}
+
 	public void cluster(Graph2 gr, int nodeId) {
 		this.graph = gr;
 		LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
@@ -30,7 +126,7 @@ public class ClusteringNodes {
 		nodeVisitStatus[indexOfNode] = true;
 
 		nodeCluster.add(nodeId);
-
+		System.out.println(nodeCluster);
 		while (!areAllNodesVisited(nodeVisitStatus)) {
 
 			Iterator<Integer> i = graph.getEdges(nodeId).listIterator();
@@ -44,56 +140,117 @@ public class ClusteringNodes {
 
 					if (graph.isIntermediateNode(n)) {
 						nodeCluster.add(n);
+						System.out.println(nodeCluster);
 					} else {
-						m_clusterCounter++;
+						nodeCluster.add(n);
 						m_nodeClusters.put(m_clusterCounter, nodeCluster);
+						m_clusterCounter++;
 					}
+					nodeId = n;
 					// queue.add(n);
 				}
 			}
 
 		}
+		printNodeClusters();
 
-		///// from BFS
-		boolean visited[] = new boolean[graph.getNumberOfNodes()];
-		// Create a queue for BFS
-		LinkedList<Integer> queue = new LinkedList<Integer>();
+		// ///// from BFS
+		// boolean visited[] = new boolean[graph.getNumberOfNodes()]; //
+		// // Create a queue for BFS
+		// LinkedList<Integer> queue = new LinkedList<Integer>();
+		//
+		// // Mark the current node as visited and enqueue it
+		// visited[indexOfNode] = true;
+		// queue.add(nodeId);
+		//
+		// System.out.println("BFS from " + nodeId + ": ");
+		// while (queue.size() != 0) {
+		// // Dequeue a vertex from queue and print it nodeId = queue.poll();
+		//
+		// // if (!nodeId == graph.isIntermediateNode(nodeId)) { // // }
+		//
+		// System.out.print(nodeId + " ");
+		//
+		// // Get all adjacent vertices of the dequeued vertex s // If a adjacent has
+		// // not been visited, then mark it // visited and enqueue it
+		// Iterator<Integer> i = graph.getEdges(nodeId).listIterator();
+		// while (i.hasNext()) {
+		// int n = i.next();
+		// int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
+		// if (!visited[indexOfNode2]) {
+		// visited[indexOfNode2] = true;
+		// queue.add(n);
+		// }
+		// }
+		// }
+		// //End from BFS
 
-		// Mark the current node as visited and enqueue it
-		visited[indexOfNode] = true;
-		queue.add(nodeId);
-
-		System.out.println("BFS from " + nodeId + ": ");
-		while (queue.size() != 0) {
-			// Dequeue a vertex from queue and print it
-			nodeId = queue.poll();
-
-			// if (!nodeId == graph.isIntermediateNode(nodeId)) {
-			//
-			// }
-
-			System.out.print(nodeId + " ");
-
-			// Get all adjacent vertices of the dequeued vertex s
-			// If a adjacent has not been visited, then mark it
-			// visited and enqueue it
-			Iterator<Integer> i = graph.getEdges(nodeId).listIterator();
-			while (i.hasNext()) {
-				int n = i.next();
-				int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
-				if (!visited[indexOfNode2]) {
-					visited[indexOfNode2] = true;
-					queue.add(n);
-				}
-			}
-		}
-
-	}
-
-	public int getNumberOfClusters() { 
-		return m_clusterCounter;
 	}
 	
+	private boolean insertNodeIntoCluster(int nodeIdToInsert, int nodeIdOfNeighbor) { 
+		LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
+		nodeCluster = getClusterOfGivenNodeId(nodeIdOfNeighbor);
+		nodeCluster.add(nodeIdToInsert);		
+		return true;
+	}
+	
+	private boolean isNodeClusterComplete(LinkedList<Integer> nodeCluster) { 
+		int numberOfBoundaryNodes = 0;
+		for (Integer node: nodeCluster) { 
+			if (!graph.isIntermediateNode(node)) { 
+				numberOfBoundaryNodes++;
+			}
+		}
+		if (numberOfBoundaryNodes == 2) 
+			{
+				return true;
+			}
+		return false;
+	}
+
+	private ArrayList<LinkedList<Integer>> getAllClustersOfGivenNodeId(int nodeId) {
+		ArrayList<LinkedList<Integer>> nodeClusters = new ArrayList<LinkedList<Integer>>();
+
+		for (Integer key : m_nodeClusters.keySet()) {
+			if (m_nodeClusters.get(key).contains(nodeId)) {
+				nodeClusters.add(m_nodeClusters.get(key));
+			}
+			// System.out.println("Node Cluster #" + key + " : " + m_nodeClusters.get(key));
+		}
+
+		return nodeClusters;
+	}
+
+	private LinkedList<Integer> getClusterOfGivenNodeId(int nodeId) {		
+
+		for (Integer key : m_nodeClusters.keySet()) {
+			if (m_nodeClusters.get(key).contains(nodeId)) {
+				return m_nodeClusters.get(key);
+			}
+			// System.out.println("Node Cluster #" + key + " : " + m_nodeClusters.get(key));
+		}
+
+		return null;
+	}
+	
+	public void printNodeClusters() {
+		// You should call cluster() method before printNodeClusters()
+		System.out.println();
+		System.out.println("Node clusters: ");
+
+		if (!m_nodeClusters.isEmpty()) {
+			for (Integer key : m_nodeClusters.keySet()) {
+				System.out.println("Node Cluster #" + key + " : " + m_nodeClusters.get(key));
+			}
+		} else {
+			System.out.println("There is no any node cluster");
+		}
+	}
+
+	public int getNumberOfClusters() {
+		return m_clusterCounter;
+	}
+
 	private boolean areAllNodesVisited(boolean[] visitStatus) {
 		for (int i = 0; i < visitStatus.length; i++) {
 			if (visitStatus[i] == false) {
@@ -138,11 +295,6 @@ public class ClusteringNodes {
 			if (!visited[indexOfNode2])
 				DFSUtil(n, visited);
 		}
-	}
-
-	public void printNodeClusters() {
-		// You should call cluster() method before printNodeClusters()
-
 	}
 
 }

@@ -26,8 +26,8 @@ public class NodesClusteringTest {
 		
 		ClusteringNodes cn = new ClusteringNodes();
 		
-		cn.cluster(gr, 10);
-		
+		//cn.cluster(gr, 10);
+		cn.cluster2(gr);
 		
 	}
 
