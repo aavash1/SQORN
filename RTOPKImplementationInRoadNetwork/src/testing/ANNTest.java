@@ -30,9 +30,10 @@ public class ANNTest {
 		System.out.println();
 		// cla.clusterAllNodes(gr);
 
-		rang.generateRandomObjectsOnMap(gr);
+		//rang.generateRandomObjectsOnMap(gr);
+		RandomObjectGenerator.generateRandomObjectsOnMap(gr);
 		gr.printObjectsOnEdges();
-		rang.printStatistics();
+		RandomObjectGenerator.printStatistics();
 
 		nann.computeANN(gr);
 

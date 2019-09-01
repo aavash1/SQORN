@@ -21,7 +21,7 @@ public class Graph2 {
 
 	// We will be using this to create a object as it stores.
 	// The Edge Id, List of Objects
-	private Map<Integer, List<RoadObject>> m_objectsOnEdges = new HashMap<Integer, List<RoadObject>>();
+	private Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges = new HashMap<Integer, ArrayList<RoadObject>>();
 
 	private int m_totalNumberOfObjects = 0;
 	private int m_totalNumberOfTrueObjects = 0;
@@ -346,7 +346,7 @@ public class Graph2 {
 		}
 
 		if (!m_objectsOnEdges.containsKey(edgeId)) {
-			List<RoadObject> newListOfObjs = new ArrayList<RoadObject>();
+			ArrayList<RoadObject> newListOfObjs = new ArrayList<RoadObject>();
 			newListOfObjs.add(newObj);
 			m_objectsOnEdges.put(edgeId, newListOfObjs);
 			m_totalNumberOfObjects++;
@@ -383,7 +383,7 @@ public class Graph2 {
 				+ generatedObjCounter);
 	}
 
-	public Map<Integer, List<RoadObject>> getObjectInfo() {
+	public Map<Integer, ArrayList<RoadObject>> getObjectsOnEdges() {
 		return m_objectsOnEdges;
 	}
 
@@ -399,6 +399,113 @@ public class Graph2 {
 	public int getTotalNumberOfFalseObjects() {
 
 		return m_totalNumberOfFalseObjects;
+	}
+
+	// All Objects
+	public ArrayList<RoadObject> getAllObjectsOnGivenEdge(int edgeId) {
+		return m_objectsOnEdges.get(edgeId);
+	}
+
+	public ArrayList<Integer> getAllObjectsIdOnGivenEdge(int edgeId) {
+		ArrayList<Integer> listOfObjIds = new ArrayList<Integer>();
+
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			listOfObjIds.add(obj.getObjectId());
+		}
+		return listOfObjIds;
+	}
+
+	// All True Objects
+	public ArrayList<RoadObject> getAllTrueObjectsOnGivenEdge(int edgeId) {
+		ArrayList<RoadObject> listOfTrueObjs = new ArrayList<RoadObject>();
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			if (obj.getType() == true) {
+				listOfTrueObjs.add(obj);
+			}
+		}
+		return listOfTrueObjs;
+	}
+
+	public ArrayList<Integer> getAllTrueObjectsIdOnGivenEdge(int edgeId) {
+		ArrayList<Integer> listOfTrueObjIds = new ArrayList<Integer>();
+
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			if (obj.getType() == true) {
+				listOfTrueObjIds.add(obj.getObjectId());
+			}
+		}
+		return listOfTrueObjIds;
+	}
+
+	// All False Objects
+	public ArrayList<RoadObject> getAllFalseObjectsOnGivenEdge(int edgeId) {
+		ArrayList<RoadObject> listOfFalseObjs = new ArrayList<RoadObject>();
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			if (obj.getType() == false) {
+				listOfFalseObjs.add(obj);
+			}
+		}
+		return listOfFalseObjs;
+	}
+
+	public ArrayList<Integer> getAllFalseObjectsIdOnGivenEdge(int edgeId) {
+		ArrayList<Integer> listOfFalseObjs = new ArrayList<Integer>();
+
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			if (obj.getType() == false) {
+				listOfFalseObjs.add(obj.getObjectId());
+			}
+		}
+		return listOfFalseObjs;
+	}
+
+	// Distance related methods
+	public RoadObject getNearestObjectOnEdge(int edgeId, RoadObject sourceObj) {
+		RoadObject obj = new RoadObject();
+
+		return obj;
+
+	}
+
+	// Distance related methods
+	public int getNearestObjectIdOnEdge(int edgeId, int sourceObjId) {
+		// RoadObject obj = new RoadObject();
+		int nearestObjId = -1;
+
+		return nearestObjId;
+
+	}
+
+	public RoadObject getNearestTrueObjectOnEdge(int edgeId, RoadObject sourceObj) {
+		RoadObject obj = new RoadObject();
+
+		return obj;
+
+	}
+
+	// Distance related methods
+	public int getNearestTrueObjectIdOnEdge(int edgeId, int sourceObjId) {
+		// RoadObject obj = new RoadObject();
+		int nearestObjId = -1;
+
+		return nearestObjId;
+
+	}
+
+	public RoadObject getNearestFalseObjectOnEdge(int edgeId, RoadObject sourceObj) {
+		RoadObject obj = new RoadObject();
+
+		return obj;
+
+	}
+
+	// Distance related methods
+	public int getNearestFalseObjectIdOnEdge(int edgeId, int sourceObjId) {
+		// RoadObject obj = new RoadObject();
+		int nearestObjId = -1;
+
+		return nearestObjId;
+
 	}
 
 	////////////////////////////////////// Road Object related
