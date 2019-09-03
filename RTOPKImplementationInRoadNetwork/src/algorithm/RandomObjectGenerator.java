@@ -18,7 +18,7 @@ public class RandomObjectGenerator {
 	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
 
 	// for generateRandomObjectsOnMap()
-	private static int minNumberOfObjsPerEdge = 3;
+	private static int minNumberOfObjsPerEdge = 4;
 	private static double minDistanceBetObjs = 3;
 
 	// not complete yet

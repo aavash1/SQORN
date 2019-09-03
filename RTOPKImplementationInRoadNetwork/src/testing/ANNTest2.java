@@ -53,6 +53,15 @@ public class ANNTest2 {
 		System.out.println("----------Farthest Object ID to Start Node on Edge 3:");
 		System.out.println(gr.getFarthestObjectIdFromStartNodeOnEdge(3));
 		
+		System.out.println("----------Nearest Object to Obj with ID 32 on Edge 3:");
+		System.out.println(gr.getNearestObjectToGivenObjOnEdge(3, 32));
+		
+		System.out.println("----------Nearest True Object to Obj with ID 32 on Edge 3:");
+		System.out.println(gr.getNearestTrueObjectToGivenObjOnEdge(3, 32));
+		
+		System.out.println("----------Nearest False Object to Obj with ID 32 on Edge 3:");
+		System.out.println(gr.getNearestFalseObjectToGivenObjOnEdge(3, 32));
+		
 		//gr.getNearestObjectOnEdge(edgeId, sourceObj)
 		
 		//nann.computeANN(gr);
