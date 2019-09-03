@@ -22,7 +22,7 @@ public class NaiveANN {
 			for (int i = 0; i < gr.getObjectsOnEdges().size(); i++) {
 				for (RoadObject obj : gr.getObjectsOnEdges().get(i)) {
 					if (obj.getType() == true) {
-						gr.getEdges(i);
+						gr.getAdjacencyNodeIds(i);
 
 					}
 				}
@@ -34,7 +34,7 @@ public class NaiveANN {
 			for (int i = 0; i < gr.getObjectsOnEdges().size(); i++) {
 				for (RoadObject obj : gr.getObjectsOnEdges().get(i)) {
 					if (obj.getType() == false) {
-						gr.getEdges(i);
+						gr.getAdjacencyNodeIds(i);
 
 					}
 				}

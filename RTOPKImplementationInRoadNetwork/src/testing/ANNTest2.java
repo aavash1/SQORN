@@ -62,6 +62,8 @@ public class ANNTest2 {
 		System.out.println("----------Nearest False Object to Obj with ID 32 on Edge 3:");
 		System.out.println(gr.getNearestFalseObjectToGivenObjOnEdge(3, 32));
 		
+		
+		
 		//gr.getNearestObjectOnEdge(edgeId, sourceObj)
 		
 		//nann.computeANN(gr);

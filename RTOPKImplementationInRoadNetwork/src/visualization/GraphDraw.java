@@ -48,7 +48,7 @@ public class GraphDraw extends JFrame {
 		g.setColor(COLOR_EDGE_LINE);
 		int x1, y1, x2, y2;
 		for (Integer headNodeId : graph.getAdjancencyMap().keySet()) {
-			for (Integer endNodeId : graph.getEdges(headNodeId)) {
+			for (Integer endNodeId : graph.getAdjacencyNodeIds(headNodeId)) {
 				x1 = UtilsManagment.convertDoubleToInteger(graph.getNode((int) headNodeId).getLatitude());
 				y1 = UtilsManagment.convertDoubleToInteger(graph.getNode((int) headNodeId).getLongitude());
 				x2 = UtilsManagment.convertDoubleToInteger(graph.getNode((int) endNodeId).getLatitude());

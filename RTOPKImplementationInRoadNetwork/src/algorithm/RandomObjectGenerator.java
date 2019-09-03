@@ -17,6 +17,9 @@ public class RandomObjectGenerator {
 			m_maxNumberofObjectPerEdge;
 	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
 
+	private static int m_objToEdgeId = 10; // this number helps to identify edge on which obj is located, sync it with
+											// same variable in Graph class
+	
 	// for generateRandomObjectsOnMap()
 	private static int minNumberOfObjsPerEdge = 4;
 	private static double minDistanceBetObjs = 3;
@@ -76,14 +79,14 @@ public class RandomObjectGenerator {
 			System.out.println("randomNumberOfObjsOnEdge # " + edgeId + ": " + randomNumberOfObjsOnEdge);
 
 			randomDistances.clear();
-			// j - poi
+			// j - obj
 			for (int j = 0; j < randomNumberOfObjsOnEdge; j++) {
 				RoadObject randObj = new RoadObject();
 
 				if (randomDistances.isEmpty()) {
 					distanceFromStartNode = getRandDoubleBetRange(1.0, edgeLength);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
-					randObj.setObjId(edgeId * 10 + j);
+					randObj.setObjId(edgeId * m_objToEdgeId + j);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 					isAcceptableDistance = false;

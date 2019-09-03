@@ -23,10 +23,10 @@ public class DFS {
 		listDFS.add(nodeId);
 
 		// for testing
-		System.out.println(graph.getEdges(nodeId));
+		System.out.println(graph.getAdjacencyNodeIds(nodeId));
 
 		// Recur for all the vertices adjacent to this vertex
-		Iterator<Integer> i = graph.getEdges(nodeId).listIterator();
+		Iterator<Integer> i = graph.getAdjacencyNodeIds(nodeId).listIterator();
 		while (i.hasNext()) {
 			int n = i.next();
 			int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
