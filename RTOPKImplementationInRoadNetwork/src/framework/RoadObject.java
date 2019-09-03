@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.Comparator;
+
 public class RoadObject {
 	private int m_intObjId;
 	private double m_doubLongitude;
@@ -70,15 +72,41 @@ public class RoadObject {
 		this.m_intObjId = intPOIID;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Road Object [ObjId=" + m_intObjId + ", Latitude= " + m_doubLatitude + ", Longitude= " + m_doubLongitude
-//				+ ", CategoryId= " + m_intObjCategoryId + ", Type= " + m_boolType + ", Distance From SN= " + m_doubDistanceFromStartNode +"]";
-//	}
-	
+	// @Override
+	// public String toString() {
+	// return "Road Object [ObjId=" + m_intObjId + ", Latitude= " + m_doubLatitude +
+	// ", Longitude= " + m_doubLongitude
+	// + ", CategoryId= " + m_intObjCategoryId + ", Type= " + m_boolType + ",
+	// Distance From SN= " + m_doubDistanceFromStartNode +"]";
+	// }
+
 	@Override
 	public String toString() {
-		return "Road Object [ObjId=" + m_intObjId + ", Type= " + m_boolType + ", Dist From SN= " + m_doubDistanceFromStartNode +"]";
+		return "Road Object [ObjId=" + m_intObjId + ", Type= " + m_boolType + ", Dist From SN= "
+				+ m_doubDistanceFromStartNode + "]";
 	}
+
+	public static Comparator<RoadObject> DistanceComparator = new Comparator<RoadObject>() {
+
+		public int compare(RoadObject obj1, RoadObject obj2) {
+			double distanceDiff = obj1.getDistanceFromStartNode() - obj2.getDistanceFromStartNode();
+			return (int) Math.round(distanceDiff);
+		}
+	};
+
+	public static Comparator<RoadObject> ObjIdComparator = new Comparator<RoadObject>() {
+
+		public int compare(RoadObject obj1, RoadObject obj2) {
+			return obj1.getObjectId() - obj2.getObjectId();
+		}
+	};
+
+	public static Comparator<RoadObject> RatingComparator = new Comparator<RoadObject>() {
+
+		public int compare(RoadObject obj1, RoadObject obj2) {
+			double ratingDiff = obj1.getRating() - obj2.getRating();
+			return (int) Math.round(ratingDiff);
+		}
+	};
 
 }

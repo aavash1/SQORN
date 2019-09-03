@@ -28,17 +28,17 @@ public class Graph2 {
 	private int m_totalNumberOfFalseObjects = 0;
 
 	////////////////////////////////////// [Currently not
-	////////////////////////////////////// used////////////////////////////////////////////////
+	////////////////////////////////////// used////////////////////////////////////////
 	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnEdges1 = new HashMap<>();
 	// Multivalued Map can work for duplicate keys
 	private MultiValuedMap<Integer, RoadObject> m_objectsOnEdges2 = new HashSetValuedHashMap<Integer, RoadObject>();
 	private Map<Integer, RoadObject> m_objectsOnEdges3 = new HashMap<Integer, RoadObject>();
 	////////////////////////////////////// Currently not
-	////////////////////////////////////// used]////////////////////////////////////////////////
+	////////////////////////////////////// used]////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////// [Node related
-	////////////////////////////////////////////////////////////////////////////////////////////////// methods///////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////// methods//////////////////////////////////////
 
 	private boolean addNode(int int_nodeID) {
 		if (m_adjancencyMap.containsKey(int_nodeID)) {
@@ -399,76 +399,321 @@ public class Graph2 {
 	public int getTotalNumberOfFalseObjects() {
 
 		return m_totalNumberOfFalseObjects;
-	}
+	}	
 
 	// All Objects
-	public ArrayList<RoadObject> getAllObjectsOnGivenEdge(int edgeId) {
-		return m_objectsOnEdges.get(edgeId);
-	}
-
-	public ArrayList<Integer> getAllObjectsIdOnGivenEdge(int edgeId) {
-		ArrayList<Integer> listOfObjIds = new ArrayList<Integer>();
-
-		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-			listOfObjIds.add(obj.getObjectId());
+	public int getNumberOfObjectsOnGivenEdge(int edgeId) {		
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			return m_objectsOnEdges.get(edgeId).size();
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return 0;
 		}
-		return listOfObjIds;
+	}
+	
+	public ArrayList<RoadObject> getAllObjectsOnGivenEdge(int edgeId) {
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			return m_objectsOnEdges.get(edgeId);
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<RoadObject>();
+		}
+
+	}
+	public ArrayList<Integer> getAllObjectsIdOnGivenEdge(int edgeId) {
+
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			ArrayList<Integer> listOfObjIds = new ArrayList<Integer>();
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				listOfObjIds.add(obj.getObjectId());
+			}
+			return listOfObjIds;
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<Integer>();
+		}
 	}
 
 	// All True Objects
-	public ArrayList<RoadObject> getAllTrueObjectsOnGivenEdge(int edgeId) {
-		ArrayList<RoadObject> listOfTrueObjs = new ArrayList<RoadObject>();
-		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-			if (obj.getType() == true) {
-				listOfTrueObjs.add(obj);
+	public int getNumberOfTrueObjectsOnGivenEdge(int edgeId) {	
+		int numberOfTrueObjs = 0;
+		if (m_objectsOnEdges.get(edgeId) != null) {			
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == true) {
+					numberOfTrueObjs++ ;
+				}
 			}
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);			
 		}
-		return listOfTrueObjs;
+		return numberOfTrueObjs;
 	}
-
-	public ArrayList<Integer> getAllTrueObjectsIdOnGivenEdge(int edgeId) {
-		ArrayList<Integer> listOfTrueObjIds = new ArrayList<Integer>();
-
-		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-			if (obj.getType() == true) {
-				listOfTrueObjIds.add(obj.getObjectId());
+	
+	public ArrayList<RoadObject> getTrueObjectsOnGivenEdge(int edgeId) {
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			ArrayList<RoadObject> listOfTrueObjs = new ArrayList<RoadObject>();
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == true) {
+					listOfTrueObjs.add(obj);
+				}
 			}
+			return listOfTrueObjs;
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<RoadObject>();
 		}
-		return listOfTrueObjIds;
+	}
+	public ArrayList<Integer> getTrueObjectsIdOnGivenEdge(int edgeId) {
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			ArrayList<Integer> listOfTrueObjIds = new ArrayList<Integer>();
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == true) {
+					listOfTrueObjIds.add(obj.getObjectId());
+				}
+			}
+			return listOfTrueObjIds;
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<Integer>();
+		}
 	}
 
 	// All False Objects
-	public ArrayList<RoadObject> getAllFalseObjectsOnGivenEdge(int edgeId) {
-		ArrayList<RoadObject> listOfFalseObjs = new ArrayList<RoadObject>();
-		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-			if (obj.getType() == false) {
-				listOfFalseObjs.add(obj);
+	public int getNumberOfFalseObjectsOnGivenEdge(int edgeId) {	
+		int numberOfFalseObjs = 0;
+		if (m_objectsOnEdges.get(edgeId) != null) {			
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == false) {
+					numberOfFalseObjs++ ;
+				}
 			}
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);			
 		}
-		return listOfFalseObjs;
+		return numberOfFalseObjs;
+	}
+	
+	public ArrayList<RoadObject> getFalseObjectsOnGivenEdge(int edgeId) {
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			ArrayList<RoadObject> listOfFalseObjs = new ArrayList<RoadObject>();
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == false) {
+					listOfFalseObjs.add(obj);
+				}
+			}
+			return listOfFalseObjs;
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<RoadObject>();
+		}
 	}
 
-	public ArrayList<Integer> getAllFalseObjectsIdOnGivenEdge(int edgeId) {
-		ArrayList<Integer> listOfFalseObjs = new ArrayList<Integer>();
-
-		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-			if (obj.getType() == false) {
-				listOfFalseObjs.add(obj.getObjectId());
+	public ArrayList<Integer> getFalseObjectsIdOnGivenEdge(int edgeId) {
+		if (m_objectsOnEdges.get(edgeId) != null) {
+			ArrayList<Integer> listOfFalseObjs = new ArrayList<Integer>();
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getType() == false) {
+					listOfFalseObjs.add(obj.getObjectId());
+				}
 			}
+			return listOfFalseObjs;
+		} else {
+			System.out.println("There are no objects on the edge #" + edgeId);
+			return new ArrayList<Integer>();
 		}
-		return listOfFalseObjs;
 	}
 
-	// Distance related methods
-	public RoadObject getNearestObjectOnEdge(int edgeId, RoadObject sourceObj) {
+	//////////////////////// Sorting methods
+	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedById(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.ObjIdComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByDist(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.DistanceComparator);
+		}		
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByRating(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.RatingComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getTrueObjectsOnEdgeSortedById(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getTrueObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.ObjIdComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getTrueObjectsOnEdgeSortedByDist(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getTrueObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.DistanceComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getTrueObjectsOnEdgeSortedByRating(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getTrueObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.RatingComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getFalseObjectsOnEdgeSortedById(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getFalseObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.ObjIdComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getFalseObjectsOnEdgeSortedByDist(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getFalseObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.DistanceComparator);
+		}
+		return objsList;
+	}
+
+	public ArrayList<RoadObject> getFalseObjectsOnEdgeSortedByRating(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getFalseObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.RatingComparator);
+		}
+		return objsList;
+	}
+
+	/////////////// Distance related methods ////////////
+	// All Objects - Get Nearest Object To Start Node 
+	public RoadObject getNearestObjectToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfObjectsOnGivenEdge(edgeId) > 0) { 
+			return getAllObjectsOnEdgeSortedByDist(edgeId).get(0);
+		}
+		return null;
+	}
+
+	public int getNearestObjectIdToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfObjectsOnGivenEdge(edgeId) > 0) { 
+			return getAllObjectsOnEdgeSortedByDist(edgeId).get(0).getObjectId();
+		}
+		return -1;
+	}
+
+	public RoadObject getFarthestObjectFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getAllObjectsOnEdgeSortedByDist(edgeId).get(size - 1);
+		}
+		return null;
+	}
+
+	public int getFarthestObjectIdFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getAllObjectsOnEdgeSortedByDist(edgeId).get(size - 1).getObjectId();
+		}
+		return -1;
+	}
+
+	// True Objects
+	public RoadObject getNearestTrueObjectToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfTrueObjectsOnGivenEdge(edgeId) > 0) {  
+			return getTrueObjectsOnEdgeSortedByDist(edgeId).get(0);
+		}
+		return null;
+	}
+
+	public int getNearestTrueObjectIdToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfTrueObjectsOnGivenEdge(edgeId) > 0) {  
+			return getTrueObjectsOnEdgeSortedByDist(edgeId).get(0).getObjectId();
+		}
+		return -1;
+	}
+
+	public RoadObject getFarthestTrueObjectFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfTrueObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getTrueObjectsOnEdgeSortedByDist(edgeId).get(size - 1);
+		}
+		return null;
+	}
+
+	public int getFarthestTrueObjectIdFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfTrueObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getTrueObjectsOnEdgeSortedByDist(edgeId).get(size - 1).getObjectId();
+		}
+		return -1;
+	}
+
+	// False Objects
+	public RoadObject getNearestFalseObjectToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfFalseObjectsOnGivenEdge(edgeId) > 0) {  
+			return getFalseObjectsOnEdgeSortedByDist(edgeId).get(0);
+		}
+		return null;
+	}
+
+	public int getNearestFalseObjectIdToStartNodeOnEdge(int edgeId) {
+		if (getNumberOfFalseObjectsOnGivenEdge(edgeId) > 0) {  
+			return getFalseObjectsOnEdgeSortedByDist(edgeId).get(0).getObjectId();
+		}
+		return -1;
+	}
+
+	public RoadObject getFarthestFalseObjectFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfFalseObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getFalseObjectsOnEdgeSortedByDist(edgeId).get(size - 1);
+		}
+		return null;
+	}
+
+	public int getFarthestFalseObjectIdFromStartNodeOnEdge(int edgeId) {
+		int size = getNumberOfFalseObjectsOnGivenEdge(edgeId);
+		if (size > 0) { 
+			return getFalseObjectsOnEdgeSortedByDist(edgeId).get(size - 1).getObjectId();
+		}
+		return -1;
+	}
+
+	//
+	public RoadObject getNearestObjectToGivenObjOnEdge(int edgeId, int sourceObjId) {
+		
+		
+		return null;
+	}
+	
+	public int getNearestObjectIdToGivenObjOnEdge(int edgeId, int sourceObjId) {
+		int nearestObjId = -1;
+		double minDistance = Double.MAX_VALUE;
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			
+		}
+		return nearestObjId;
+	}
+
+	public RoadObject getNearestTrueObjectToGivenObjOnEdge(int edgeId, RoadObject sourceObj) {
 		RoadObject obj = new RoadObject();
 
 		return obj;
 
 	}
 
-	// Distance related methods
-	public int getNearestObjectIdOnEdge(int edgeId, int sourceObjId) {
+	public int getNearestTrueObjectIdToGivenObjOnEdge(int edgeId, int sourceObjId) {
 		// RoadObject obj = new RoadObject();
 		int nearestObjId = -1;
 
@@ -476,31 +721,14 @@ public class Graph2 {
 
 	}
 
-	public RoadObject getNearestTrueObjectOnEdge(int edgeId, RoadObject sourceObj) {
+	public RoadObject getNearestFalseObjectToGivenObjOnEdge(int edgeId, RoadObject sourceObj) {
 		RoadObject obj = new RoadObject();
 
 		return obj;
 
 	}
 
-	// Distance related methods
-	public int getNearestTrueObjectIdOnEdge(int edgeId, int sourceObjId) {
-		// RoadObject obj = new RoadObject();
-		int nearestObjId = -1;
-
-		return nearestObjId;
-
-	}
-
-	public RoadObject getNearestFalseObjectOnEdge(int edgeId, RoadObject sourceObj) {
-		RoadObject obj = new RoadObject();
-
-		return obj;
-
-	}
-
-	// Distance related methods
-	public int getNearestFalseObjectIdOnEdge(int edgeId, int sourceObjId) {
+	public int getNearestFalseObjectIdToGivenObjOnEdge(int edgeId, int sourceObjId) {
 		// RoadObject obj = new RoadObject();
 		int nearestObjId = -1;
 

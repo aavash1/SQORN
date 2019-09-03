@@ -35,7 +35,7 @@ public class ANNTest {
 		gr.printObjectsOnEdges();
 		RandomObjectGenerator.printStatistics();
 
-		nann.computeANN(gr);
+		
 
 	}
 

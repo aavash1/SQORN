@@ -46,7 +46,7 @@ public class RandomObjectGenerator {
 		int totalNumberOfEdges = graph2.getNumberOfEdges();
 		
 		Random rand = new Random();
-		int randomNumberOfEdges = getRandIntBetRange(2, totalNumberOfEdges);
+		int randomNumberOfEdges = getRandIntBetRange(6, totalNumberOfEdges);
 		System.out.println("randomNumberOfEdges: " + randomNumberOfEdges);
 		int randomNumberOfObjsOnEdge;
 		Boolean isAcceptableDistance = false;
