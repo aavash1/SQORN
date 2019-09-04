@@ -9,7 +9,7 @@ public class ANNTest {
 
 	public static void main(String[] args) {
 		Graph2 gr = new Graph2();
-		ClusertingAlgorithm cla = new ClusertingAlgorithm();
+		// ClusertingAlgorithm cla = new ClusertingAlgorithm();
 		NaiveANN nann = new NaiveANN();
 		RandomObjectGenerator rang = new RandomObjectGenerator();
 
@@ -30,12 +30,13 @@ public class ANNTest {
 		System.out.println();
 		// cla.clusterAllNodes(gr);
 
-		//rang.generateRandomObjectsOnMap(gr);
+		// rang.generateRandomObjectsOnMap(gr);
 		RandomObjectGenerator.generateRandomObjectsOnMap(gr);
 		gr.printObjectsOnEdges();
 		RandomObjectGenerator.printStatistics();
 
-		
+		nann.computeANN(gr);
+		nann.showPriorityQueue();
 
 	}
 

@@ -114,8 +114,11 @@ public class AnnpathTest {
 		System.out.println(minDistances);
 		System.out.println("min lenght:");
 		System.out.println(minDistances.first());
+		Collection<ArrayList<Integer>> nodeListCollection2 = annPath.getAnnPath().get(minDistances.first());
+		System.out.println(nodeListCollection2);
 		System.out.println("max lenght:");
 		System.out.println(minDistances.last());
+		
 
 	}
 
