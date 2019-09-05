@@ -815,12 +815,22 @@ public class Graph2 {
 		return -1;
 	}
 
+	public ArrayList<Integer> getNeighborEdgeIdListWithObjs(int edgeId) {
+		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
+
+		ArrayList<Integer> adjEdgeIdList = getAdjacencyNodeIds(edgeId);
+
+		return edgeIdList;
+	}
+
 	///// get Nearest Object to a given Object on whole Map
 	public RoadObject getNearestObjectToGivenObjOnMap(int sourceObjId) {
 		RoadObject sourceObj = getRoadObject(sourceObjId);
 		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
 
 		RoadObject nearestObj = new RoadObject();
+		
+		PathManager paths = new PathManager();
 		// double minDistance = 0;
 		double minDistance = Double.MAX_VALUE;
 
@@ -831,18 +841,13 @@ public class Graph2 {
 		}
 
 		for (Integer edgeId : getObjectsOnEdges().keySet()) {
-
+			
 		}
 
 		return nearestObj;
 	}
-
-	public ArrayList<Integer> getNeighborEdgeIdListWithObjs(int edgeId) {
-		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
-
-		ArrayList<Integer> adjEdgeIdList = getAdjacencyNodeIds(edgeId);
-
-		return edgeIdList;
+	public int getNearestObjectIdToGivenObjOnMap(int sourceObjId) {
+		return getNearestObjectToGivenObjOnMap(sourceObjId).getObjectId();
 	}
 
 	public RoadObject getNearestTrueObjectToGivenObjOnMap(int sourceObjId) {
@@ -850,11 +855,23 @@ public class Graph2 {
 
 		return nearestTrueObj;
 	}
+	public int getNearestTrueObjectIdToGivenObjOnMap(int sourceObjId) {
+		if (getNearestTrueObjectToGivenObjOnMap(sourceObjId) != null) {
+			return getNearestTrueObjectToGivenObjOnMap(sourceObjId).getObjectId();
+		}
+		return -1;
+	}
 
 	public RoadObject getNearestFalseObjectToGivenObjOnMap(int sourceObjId) {
 		RoadObject nearestFalseObj = new RoadObject();
 
 		return nearestFalseObj;
+	}
+	public int getNearestFalseObjectIdToGivenObjOnMap(int sourceObjId) {
+		if (getNearestFalseObjectToGivenObjOnMap(sourceObjId) != null) {
+			return getNearestFalseObjectToGivenObjOnMap(sourceObjId).getObjectId();
+		}
+		return -1;
 	}
 
 	//////////////// Utilities

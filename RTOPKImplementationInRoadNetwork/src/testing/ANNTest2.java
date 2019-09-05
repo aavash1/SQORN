@@ -9,9 +9,7 @@ public class ANNTest2 {
 
 	public static void main(String[] args) {
 		Graph2 gr = new Graph2();
-		ClusertingAlgorithm cla = new ClusertingAlgorithm();
-		NaiveANN nann = new NaiveANN();
-		RandomObjectGenerator rang = new RandomObjectGenerator();
+
 
 		gr.addEdge(1, 2, 18.3698);
 		gr.addEdge(1, 3, 20.5499);
