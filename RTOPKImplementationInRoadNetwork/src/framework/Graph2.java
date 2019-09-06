@@ -152,6 +152,23 @@ public class Graph2 {
 		}
 		return false;
 	}
+	
+	public boolean isStartNode (int nodeId, int edgeId) { 		
+		int startNodeId = getStartNodeIdOfEdge(edgeId);
+		if (startNodeId == nodeId) { 
+			return true;
+		}
+		return false;		
+	}
+	
+	public ArrayList<Integer> getStartAndEndNodes (int edgeId) { 
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		int startNodeId = getStartNodeIdOfEdge(edgeId);
+		int endNodeId = getEndNodeIdOfEdge(edgeId);
+		nodeList.add(startNodeId);
+		nodeList.add(endNodeId);		
+		return nodeList;		
+	}
 
 	public int getIndexOfNodeByNodeId(int nodeId) {
 		for (Node n : m_nodesWithInfo) {
@@ -309,7 +326,6 @@ public class Graph2 {
 		return -1;
 	}
 
-	// NOT COMPLETE YET
 	public ArrayList<Integer> getAdjacencyEdgeIds(int edgeId) {
 		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
 		int startNode = getStartNodeIdOfEdge(edgeId);
@@ -338,7 +354,7 @@ public class Graph2 {
 			if (newAdjEdgeId2 > 0)
 				edgeIdList.add(newAdjEdgeId2);
 		}
-		//removing source edge itself (twice)
+		// removing source edge itself (twice)
 		edgeIdList.remove(edgeIdList.indexOf(edgeId));
 		edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
 		return edgeIdList;
@@ -726,6 +742,18 @@ public class Graph2 {
 	}
 
 	/////////////// Distance related methods ////////////
+	public double getDistancefromNodeToObjOnSameEdge(int sourceNode, int objId) {
+		int edgeId = getEdgeIdOfRoadObject(objId);
+		RoadObject obj = getRoadObjectOnEdge(edgeId, objId);
+		double distanceFromStartNode = obj.getDistanceFromStartNode();
+		if (isStartNode(sourceNode, edgeId)) { 
+			return distanceFromStartNode;
+		}
+		else { 
+			return getEdgeDistance(getStartNodeIdOfEdge(edgeId), getEndNodeIdOfEdge(edgeId)) - distanceFromStartNode;
+		}		
+	}
+
 	// All Objects - Get Nearest Object To Start Node
 	public RoadObject getNearestObjectToStartNodeOnEdge(int edgeId) {
 		if (getNumberOfObjectsOnGivenEdge(edgeId) > 0) {
@@ -888,15 +916,18 @@ public class Graph2 {
 
 	///// get Nearest Object to a given Object on whole Map
 	public RoadObject getNearestObjectToGivenObjOnMap(int sourceObjId) {
-		RoadObject sourceObj = getRoadObject(sourceObjId);
-		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject nearestObj = new RoadObject(); // return value
 
-		RoadObject nearestObj = new RoadObject();
+		// Source Info
+		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject sourceObj = getRoadObject(sourceObjId);
+		int sourceStartNodeId = getStartNodeIdOfEdge(sourceEdgeId);
+		int sourceEndNodeId = getEndNodeIdOfEdge(sourceEdgeId);
 
 		PathManager paths = new PathManager();
 		ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
 		double minDistance = Double.MAX_VALUE;
-		ArrayList<Integer> adjNodes = new ArrayList<Integer>();
+		ArrayList<Integer> adjEdges = getAdjacencyEdgeIds(sourceEdgeId);
 
 		// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
 		// m_adjancencyMap
@@ -904,14 +935,9 @@ public class Graph2 {
 		// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
 		// m_objectsOnEdges
 
-		// If nearest Road Object is on same edge
-		nearestObj = getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
-		if (nearestObj != null) {
-			return nearestObj;
-		}
-
 		for (Integer edgeId : getObjectsOnEdges().keySet()) {
 			// adjNodes = getAdjacencyNodeIds(int_nodeId)
+
 		}
 
 		return nearestObj;
@@ -936,6 +962,28 @@ public class Graph2 {
 
 	public RoadObject getNearestFalseObjectToGivenObjOnMap(int sourceObjId) {
 		RoadObject nearestFalseObj = new RoadObject();
+
+		// Source Info
+		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject sourceObj = getRoadObject(sourceObjId);
+		int sourceStartNodeId = getStartNodeIdOfEdge(sourceEdgeId);
+		int sourceEndNodeId = getEndNodeIdOfEdge(sourceEdgeId);
+
+		PathManager paths = new PathManager();
+		ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
+		double minDistance = Double.MAX_VALUE;
+		ArrayList<Integer> adjEdges = getAdjacencyEdgeIds(sourceEdgeId);
+
+		// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
+		// m_adjancencyMap
+
+		// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
+		// m_objectsOnEdges
+
+		for (Integer edgeId : getObjectsOnEdges().keySet()) {
+			// adjNodes = getAdjacencyNodeIds(int_nodeId)
+
+		}
 
 		return nearestFalseObj;
 	}

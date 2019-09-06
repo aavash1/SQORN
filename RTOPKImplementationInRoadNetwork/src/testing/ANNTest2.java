@@ -20,7 +20,7 @@ public class ANNTest2 {
 		gr.addEdge(4, 6, 22.17489);
 		gr.addEdge(6, 7, 21.12365);
 		gr.addEdge(7, 8, 24.4421);
-		gr.addEdge(4, 10, 15.887);
+		gr.addEdge(4, 10, 16.432);
 
 		gr.printGraph();
 		System.out.println();
