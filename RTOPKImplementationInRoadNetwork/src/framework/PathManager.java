@@ -21,8 +21,8 @@ public class PathManager {
 	public MultiValuedMap<Double, ArrayList<Integer>> getAnnPathsObj() {
 		return m_paths;
 	}
-	
-	public void addPath (double pathLength, ArrayList<Integer> nodePath) { 
+
+	public void addPath(double pathLength, ArrayList<Integer> nodePath) {
 		m_paths.put(pathLength, nodePath);
 	}
 
@@ -65,11 +65,11 @@ public class PathManager {
 		return -1;
 	}
 
-	public void printPathsSortedByLenght() {
-		System.out.println("Iteration through whole Paths (sorted by lenght):");
+	public void printPathsSortedByLength() {
+		System.out.println("Iteration through whole Paths (sorted by length):");
 		for (Double key : new TreeSet<Double>(m_paths.keySet())) {
 			Collection<ArrayList<Integer>> nodeListCollection = m_paths.get(key);
-			System.out.print("Lenght: " + key + " -> ");
+			System.out.print("Length: " + key + " -> ");
 			nodeListCollection.forEach(nodeList -> System.out.print(nodeList + "; "));
 			System.out.println();
 		}

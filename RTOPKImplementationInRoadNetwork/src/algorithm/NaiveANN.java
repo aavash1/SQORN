@@ -38,9 +38,11 @@ public class NaiveANN {
 
 		this.graph = gr;
 
-		if (gr.getTotalNumberOfTrueObjects() > gr.getTotalNumberOfFalseObjects()) {
+		if (true) {
+			System.out.println("The size of True object is: " + gr.getTotalNumberOfTrueObjects());
 			for (int i = 0; i < gr.getObjectsOnEdges().size() - 1; i++) {
 				for (RoadObject roadObject : gr.getObjectsOnEdges().get(i)) {
+					System.out.println("The object is: " + roadObject.toString());
 					if (roadObject.getType() == true) {
 						Map<Integer, Integer> objectPairs = new HashMap<Integer, Integer>();
 						int edgeId = gr.getEdgeIdOfRoadObject(roadObject.getObjectId());
@@ -74,15 +76,55 @@ public class NaiveANN {
 
 							}
 
-						} else {
-							System.out.println("Nothing is here for now.");
-
 						}
 					}
 				}
 
 			}
 		}
+//		} else {
+//			for (int i = 0; i < gr.getObjectsOnEdges().size() - 1; i++) {
+//				for (RoadObject roadObject : gr.getObjectsOnEdges().get(i)) {
+//					if (roadObject.getType() == false) {
+//						Map<Integer, Integer> objectPairs = new HashMap<Integer, Integer>();
+//						int edgeId = gr.getEdgeIdOfRoadObject(roadObject.getObjectId());
+//						double distFromSrc = roadObject.getDistanceFromStartNode();
+//						int FalseObjId = roadObject.getObjectId();
+//						if (gr.getAllObjectsOnEdgeSortedByDist(edgeId).contains(roadObject.getType() == true)) {
+//							{
+//								ArrayList<Map<Integer, Double>> nearestObjects = new ArrayList<Map<Integer, Double>>();
+//								Map<Integer, Double> nearestObject = new HashMap<Integer, Double>();
+//								ArrayList<Double> distanceBetweenTAndF = new ArrayList<Double>();
+//								// ArrayList<Integer> nearestObject = new ArrayList<Integer>();
+//								for (int j = 0; j < gr.getFalseObjectsIdOnGivenEdge(edgeId).size() - 1; j++) {
+//									int objId = gr.getObjectsOnEdges().get(j).get(edgeId).getObjectId();
+//									double distBetween = gr.getObjectsOnEdges().get(j).get(edgeId)
+//											.getDistanceFromStartNode() - distFromSrc;
+//									nearestObject.put(objId, distBetween);
+//									nearestObjects.add(nearestObject);
+//
+//								}
+//								for (int k = 0; k < nearestObjects.size() - 1; k++) {
+//									ArrayList<Double> byDist = new ArrayList<>(nearestObjects.get(i).values());
+//									Collections.sort(byDist);
+//
+//								}
+//								for (int l = 0; l < nearestObject.size() - 1; l++) {
+//									int trueObjId = nearestObjects.indexOf(l);
+//
+//									nearestNeighborSets.put(FalseObjId, trueObjId);
+//									break;
+//								}
+//
+//							}
+//
+//						}
+//					}
+//				}
+//
+//			}
+//
+//		}
 
 //		if (true) {
 //			// True Object = Query object; False Object = Data Object
