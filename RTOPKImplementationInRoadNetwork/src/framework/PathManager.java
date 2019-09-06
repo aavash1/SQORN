@@ -21,18 +21,18 @@ public class PathManager {
 	public MultiValuedMap<Double, ArrayList<Integer>> getAnnPathsObj() {
 		return m_paths;
 	}
-	
-	public void addPath (double pathLenght, ArrayList<Integer> nodePath) { 
-		m_paths.put(pathLenght, nodePath);
+
+	public void addPath(double pathLength, ArrayList<Integer> nodePath) {
+		m_paths.put(pathLength, nodePath);
 	}
 
-	public void updatePath(double oldPathLenght, double newPathLenght, int lastNodeInPath, int newNode) {
-		Collection<ArrayList<Integer>> nodeListCollection = m_paths.remove(oldPathLenght);
+	public void updatePath(double oldPathLength, double newPathLength, int lastNodeInPath, int newNode) {
+		Collection<ArrayList<Integer>> nodeListCollection = m_paths.remove(oldPathLength);
 		Iterator<ArrayList<Integer>> nodeLists = nodeListCollection.iterator();
 		Collection<ArrayList<Integer>> remainingNodeListCollection = new HashSet<ArrayList<Integer>>();
 		int listSize;
 		if (nodeListCollection.size() == 0) {
-			System.out.println("There is no such path (lenght = " + oldPathLenght + ")");
+			System.out.println("There is no such path (length = " + oldPathLength + ")");
 		}
 
 		while (nodeLists.hasNext()) {
@@ -40,17 +40,17 @@ public class PathManager {
 			listSize = nodeList.size();
 			if (nodeList.get(listSize - 1) == lastNodeInPath) {
 				nodeList.add(newNode);
-				m_paths.put(newPathLenght, nodeList);
+				m_paths.put(newPathLength, nodeList);
 			} else {
 				remainingNodeListCollection.add(nodeList);
 			}
-			m_paths.putAll(oldPathLenght, remainingNodeListCollection);
+			m_paths.putAll(oldPathLength, remainingNodeListCollection);
 		}
 
 	}
 
-	public double getPathLenght(int lastNodeId) {
-		//it is assumed that there is only one path with given last node id
+	public double getPathLength(int lastNodeId) {
+		// it is assumed that there is only one path with given last node id
 		for (Double key : new TreeSet<Double>(m_paths.keySet())) {
 			Collection<ArrayList<Integer>> nodeListCollection = m_paths.get(key);
 			Iterator<ArrayList<Integer>> nodeLists = nodeListCollection.iterator();
@@ -65,11 +65,11 @@ public class PathManager {
 		return -1;
 	}
 
-	public void printPathsSortedByLenght() {
-		System.out.println("Iteration through whole Paths (sorted by lenght):");
+	public void printPathsSortedByLength() {
+		System.out.println("Iteration through whole Paths (sorted by length):");
 		for (Double key : new TreeSet<Double>(m_paths.keySet())) {
 			Collection<ArrayList<Integer>> nodeListCollection = m_paths.get(key);
-			System.out.print("Lenght: " + key + " -> ");
+			System.out.print("Length: " + key + " -> ");
 			nodeListCollection.forEach(nodeList -> System.out.print(nodeList + "; "));
 			System.out.println();
 		}

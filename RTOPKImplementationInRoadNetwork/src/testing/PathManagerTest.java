@@ -151,10 +151,10 @@ public class PathManagerTest {
 			System.out.println();			
 		}
 		
-		annPath.printPathsSortedByLenght();
+		annPath.printPathsSortedByLength();
 		
 		System.out.println("Return Lenght of Path with given last Node Id (5):");
-		System.out.println(annPath.getPathLenght(5));
+		System.out.println(annPath.getPathLength(5));
 		
 	}
 
