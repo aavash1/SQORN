@@ -24,7 +24,7 @@ public class BFSTest {
 
 		gr.printGraph();
 
-		// bfs.traverse(gr, 10);
+		bfs.traverse(gr, 10);
 
 	}
 
