@@ -11,7 +11,7 @@ public class Graph2 {
 	private int m_numOfNodes;
 	private int intEdgeId = 0;
 
-	// Map <startNodeId, map <endNodeId, edgeLength> >
+	// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap<Integer, Map<Integer, Double>>();
 
 	// list of Nodes with full encapsulated properties:
@@ -20,7 +20,7 @@ public class Graph2 {
 	private ArrayList<Edge> m_edgesWithInfo = new ArrayList<Edge>();
 
 	// We will be using this to create a object as it stores.
-	// The Edge Id, List of Objects
+	// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
 	private Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges = new HashMap<Integer, ArrayList<RoadObject>>();
 
 	private int m_totalNumberOfObjects = 0;
@@ -43,26 +43,36 @@ public class Graph2 {
 	////////////////////////////////////// [Node related
 	////////////////////////////////////////////////////////////////////////////////////////////////// methods//////////////////////////////////////
 
-	private boolean addNode(int int_nodeID) {
-		if (m_adjancencyMap.containsKey(int_nodeID)) {
+	private boolean addNode(int int_nodeId) {
+		if (m_adjancencyMap.containsKey(int_nodeId)) {
 			return false;
 		}
 		Node n = new Node();
-		n.setNodeId(int_nodeID);
-		// // Long an Lat
+		n.setNodeId(int_nodeId);
 		m_nodesWithInfo.add(n);
-		m_adjancencyMap.put(int_nodeID, new LinkedHashMap<>());
+		m_adjancencyMap.put(int_nodeId, new LinkedHashMap<>());
+		m_numOfNodes++;
+		return true;
+	}
+
+	private boolean addNode(int int_nodeId, double lat, double longt) {
+		if (m_adjancencyMap.containsKey(int_nodeId)) {
+			return false;
+		}
+		Node n = new Node();
+		n.setNodeId(int_nodeId);
+		n.setLatitude(lat);
+		n.setLongitude(longt);
+		m_nodesWithInfo.add(n);
+		m_adjancencyMap.put(int_nodeId, new LinkedHashMap<>());
 		m_numOfNodes++;
 		return true;
 	}
 
 	public boolean setNodeLatAndLong(int nodeId, double lat, double longt) {
-
-		Boolean isNodeExist = false;
-
+		boolean isNodeExist = false;
 		if (m_nodesWithInfo.isEmpty())
 			return false;
-
 		for (Node n : m_nodesWithInfo) {
 			if (n.getNodeId() == nodeId) {
 				n.setLatitude(lat);
@@ -109,7 +119,7 @@ public class Graph2 {
 		return null;
 	}
 
-	public ArrayList<Integer> getAdjacencyNodeIds(int int_nodeId) {
+	public ArrayList<Integer> getAdjNodeIds(int int_nodeId) {
 		if (!m_adjancencyMap.containsKey(int_nodeId)) {
 			return null;
 		}
@@ -117,30 +127,33 @@ public class Graph2 {
 		return int_linkedNodes;
 	}
 
-	public boolean isTerminalNode(int edgeID) {
+	public Map<Integer, Double> getAdjNodeIdsWithDistanceToEach(int node) {
+		return m_adjancencyMap.get(node);
+	}
 
-		if (getAdjacencyNodeIds(edgeID).size() == 1) {
+	public boolean isTerminalNode(int nodeId) {
+
+		if (getAdjNodeIds(nodeId).size() == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isIntermediateNode(int edgeID) {
-		if (getAdjacencyNodeIds(edgeID).size() == 2) {
+	public boolean isIntermediateNode(int nodeId) {
+		if (getAdjNodeIds(nodeId).size() == 2) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isIntersectionNode(int edgeID) {
-		if (getAdjacencyNodeIds(edgeID).size() >= 3) {
+	public boolean isIntersectionNode(int nodeId) {
+		if (getAdjNodeIds(nodeId).size() >= 3) {
 			return true;
 		}
 		return false;
 	}
 
 	public int getIndexOfNodeByNodeId(int nodeId) {
-
 		for (Node n : m_nodesWithInfo) {
 			if (n.getNodeId() == nodeId) {
 				return m_nodesWithInfo.indexOf(n);
@@ -229,11 +242,6 @@ public class Graph2 {
 		return true;
 	}
 
-	public Map<Integer, Double> getEdgesWithDistances(int node) {
-
-		return m_adjancencyMap.get(node);
-	}
-
 	public ArrayList<Edge> getEdgesWithInfo() {
 		return m_edgesWithInfo;
 	}
@@ -264,21 +272,75 @@ public class Graph2 {
 
 	public double getEdgeDistance(int edgeId) {
 		for (Edge edge : m_edgesWithInfo) {
-			if (edgeId == edge.getEdgeId()) {
+			if (edge.getEdgeId() == edgeId) {
 				return edge.getLength();
 			}
 		}
 		return 0.0;
 	}
 
+	public int getStartNodeIdOfEdge(int edgeId) {
+		for (Edge edge : m_edgesWithInfo) {
+			if (edge.getEdgeId() == edgeId) {
+				return edge.getStartNodeId();
+			}
+		}
+		return -1;
+	}
+
+	public int getEndNodeIdOfEdge(int edgeId) {
+		for (Edge edge : m_edgesWithInfo) {
+			if (edge.getEdgeId() == edgeId) {
+				return edge.getEndNodeId();
+			}
+		}
+		return -1;
+	}
+
+	public int getEdgeId(int startNodeId, int endNodeId) {
+		if (!hasEdge(startNodeId, endNodeId)) {
+			return -1;
+		}
+		for (Edge edge : m_edgesWithInfo) {
+			if ((edge.getStartNodeId() == startNodeId) && edge.getEndNodeId() == endNodeId) {
+				return edge.getEdgeId();
+			}
+		}
+		return -1;
+	}
+
+	// NOT COMPLETE YET
 	public ArrayList<Integer> getAdjacencyEdgeIds(int edgeId) {
 		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
+		int startNode = getStartNodeIdOfEdge(edgeId);
+		int endNode = getEndNodeIdOfEdge(edgeId);
 
-		for (Integer key : m_adjancencyMap.keySet()) {
+		ArrayList<Integer> adjNodesToStartNode = new ArrayList<Integer>();
+		ArrayList<Integer> adjNodesToEndNode = new ArrayList<Integer>();
 
-			System.out.println("head " + key + ":\t" + m_adjancencyMap.get(key));
+		adjNodesToStartNode = getAdjNodeIds(startNode);
+		adjNodesToEndNode = getAdjNodeIds(endNode);
+
+		for (Integer adjNode : adjNodesToStartNode) {
+			int newAdjEdgeId1 = getEdgeId(adjNode, startNode);
+			if (newAdjEdgeId1 > 0)
+				edgeIdList.add(newAdjEdgeId1);
+			int newAdjEdgeId2 = getEdgeId(startNode, adjNode);
+			if (newAdjEdgeId2 > 0)
+				edgeIdList.add(newAdjEdgeId2);
+
 		}
-
+		for (Integer adjNode : adjNodesToEndNode) {
+			int newAdjEdgeId1 = getEdgeId(adjNode, endNode);
+			if (newAdjEdgeId1 > 0)
+				edgeIdList.add(newAdjEdgeId1);
+			int newAdjEdgeId2 = getEdgeId(endNode, adjNode);
+			if (newAdjEdgeId2 > 0)
+				edgeIdList.add(newAdjEdgeId2);
+		}
+		//removing source edge itself (twice)
+		edgeIdList.remove(edgeIdList.indexOf(edgeId));
+		edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
 		return edgeIdList;
 	}
 
@@ -449,6 +511,15 @@ public class Graph2 {
 	public int getTotalNumberOfFalseObjects() {
 
 		return m_totalNumberOfFalseObjects;
+	}
+
+	// NOT COMPLETE YET
+	public ArrayList<Integer> getNeighborEdgeIdListWithObjs(int edgeId) {
+		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
+
+		ArrayList<Integer> adjEdgeIdList = getAdjNodeIds(edgeId);
+
+		return edgeIdList;
 	}
 
 	// All Objects
@@ -815,37 +886,37 @@ public class Graph2 {
 		return -1;
 	}
 
-	public ArrayList<Integer> getNeighborEdgeIdListWithObjs(int edgeId) {
-		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
-
-		ArrayList<Integer> adjEdgeIdList = getAdjacencyNodeIds(edgeId);
-
-		return edgeIdList;
-	}
-
 	///// get Nearest Object to a given Object on whole Map
 	public RoadObject getNearestObjectToGivenObjOnMap(int sourceObjId) {
 		RoadObject sourceObj = getRoadObject(sourceObjId);
 		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
 
 		RoadObject nearestObj = new RoadObject();
-		
+
 		PathManager paths = new PathManager();
-		// double minDistance = 0;
+		ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
 		double minDistance = Double.MAX_VALUE;
+		ArrayList<Integer> adjNodes = new ArrayList<Integer>();
 
+		// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
+		// m_adjancencyMap
+
+		// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
+		// m_objectsOnEdges
+
+		// If nearest Road Object is on same edge
 		nearestObj = getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
-
 		if (nearestObj != null) {
 			return nearestObj;
 		}
 
 		for (Integer edgeId : getObjectsOnEdges().keySet()) {
-			
+			// adjNodes = getAdjacencyNodeIds(int_nodeId)
 		}
 
 		return nearestObj;
 	}
+
 	public int getNearestObjectIdToGivenObjOnMap(int sourceObjId) {
 		return getNearestObjectToGivenObjOnMap(sourceObjId).getObjectId();
 	}
@@ -855,6 +926,7 @@ public class Graph2 {
 
 		return nearestTrueObj;
 	}
+
 	public int getNearestTrueObjectIdToGivenObjOnMap(int sourceObjId) {
 		if (getNearestTrueObjectToGivenObjOnMap(sourceObjId) != null) {
 			return getNearestTrueObjectToGivenObjOnMap(sourceObjId).getObjectId();
@@ -867,6 +939,7 @@ public class Graph2 {
 
 		return nearestFalseObj;
 	}
+
 	public int getNearestFalseObjectIdToGivenObjOnMap(int sourceObjId) {
 		if (getNearestFalseObjectToGivenObjOnMap(sourceObjId) != null) {
 			return getNearestFalseObjectToGivenObjOnMap(sourceObjId).getObjectId();

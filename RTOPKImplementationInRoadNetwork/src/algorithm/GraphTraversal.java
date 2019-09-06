@@ -22,7 +22,7 @@ public class GraphTraversal {
 			nodeId = queue.poll();
 			System.out.print(nodeId + " ");
 
-			Iterator<Integer> i = gr.getAdjacencyNodeIds(nodeId).listIterator();
+			Iterator<Integer> i = gr.getAdjNodeIds(nodeId).listIterator();
 
 			while (i.hasNext()) {
 				int n = i.next();

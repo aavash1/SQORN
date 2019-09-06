@@ -15,20 +15,17 @@ import framework.RoadObject;
 public class NaiveANN2 {
 
 	private Graph2 graph;
-	private PathManager annPaths = new PathManager();
-
 	// Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> nearestNeighborSets = new HashMap<Integer, Integer>();
-
+	//private PathManager annPaths = new PathManager();	
 	// m_paths: Map<Length, List<NodeId>>; Length - length of current path
-	MultiValuedMap<Double, ArrayList<Integer>> m_paths = new HashSetValuedHashMap<Double, ArrayList<Integer>>();
-
-	private ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
+	//MultiValuedMap<Double, ArrayList<Integer>> m_paths = new HashSetValuedHashMap<Double, ArrayList<Integer>>();
+	//private ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
 
 	public Map<Integer, Integer> computeANN(Graph2 gr) {
 		this.graph = gr;
-		PriorityQueue<Integer> roadObjectIds = new PriorityQueue<Integer>();
-		PriorityQueue<RoadObject> roadObjects = new PriorityQueue<RoadObject>();
+		//PriorityQueue<Integer> roadObjectIds = new PriorityQueue<Integer>();
+		//PriorityQueue<RoadObject> roadObjects = new PriorityQueue<RoadObject>();
 
 		if (graph.getTotalNumberOfFalseObjects() >= graph.getTotalNumberOfTrueObjects()) {
 			// Query object = True Object; Data Object = False Object

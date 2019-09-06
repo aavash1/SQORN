@@ -22,9 +22,9 @@ public class ANNTest2 {
 		gr.addEdge(7, 8, 24.4421);
 		gr.addEdge(4, 10, 15.887);
 
-		// gr.printGraph();
-		System.out.println("--------------------THIS IS TEST FOR Naive ANN--------------------");
+		gr.printGraph();
 		System.out.println();
+		gr.printEdgesInfo();
 		System.out.println();
 		// cla.clusterAllNodes(gr);
 
@@ -60,8 +60,8 @@ public class ANNTest2 {
 		System.out.println("----------Nearest False Object to Obj with ID 32 on Edge 3:");
 		System.out.println(gr.getNearestFalseObjectToGivenObjOnEdge(3, 32));
 		
-		
-		
+		System.out.println("Adjacency edges to Edge 3:");
+		System.out.println(gr.getAdjacencyEdgeIds(3));
 		//gr.getNearestObjectOnEdge(edgeId, sourceObj)
 		
 		//nann.computeANN(gr);

@@ -40,7 +40,7 @@ public class ClusteringNodes {
 			// Proceed on non-cleared node
 			if (nodeClearedStatus[indexOfNode] != true) { 
 				boolean isMainNodeIntermediate = graph.isIntermediateNode(n.getNodeId());
-				Iterator<Integer> adjIterator = graph.getAdjacencyNodeIds(n.getNodeId()).listIterator();
+				Iterator<Integer> adjIterator = graph.getAdjNodeIds(n.getNodeId()).listIterator();
 
 				while (adjIterator.hasNext()) {
 					int adjNode = adjIterator.next();
@@ -129,7 +129,7 @@ public class ClusteringNodes {
 		System.out.println(nodeCluster);
 		while (!areAllNodesVisited(nodeVisitStatus)) {
 
-			Iterator<Integer> i = graph.getAdjacencyNodeIds(nodeId).listIterator();
+			Iterator<Integer> i = graph.getAdjNodeIds(nodeId).listIterator();
 
 			while (i.hasNext()) {
 				int n = i.next();
@@ -288,7 +288,7 @@ public class ClusteringNodes {
 		System.out.print(nodeId + " ");
 
 		// Recur for all the vertices adjacent to this vertex
-		Iterator<Integer> i = graph.getAdjacencyNodeIds(nodeId).listIterator();
+		Iterator<Integer> i = graph.getAdjNodeIds(nodeId).listIterator();
 		while (i.hasNext()) {
 			int n = i.next();
 			int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);

@@ -22,7 +22,7 @@ public class ClusertingAlgorithm {
 			int counter = 0;
 			int nodeId = node.getNodeId();
 			System.out.println("Node Id: " + nodeId);
-			int size = graph.getAdjacencyNodeIds(nodeId).size();
+			int size = graph.getAdjNodeIds(nodeId).size();
 			System.out.println("Size is: " + size);
 
 			if (!graph.isIntermediateNode(nodeId)) {
@@ -32,8 +32,8 @@ public class ClusertingAlgorithm {
 					nodeSeq.add(nodeId);
 				}
 				// int flagNode = 0;
-				for (int i : graph.getAdjacencyNodeIds(nodeId)) {
-					counter = graph.getAdjacencyNodeIds(nodeId).size();
+				for (int i : graph.getAdjNodeIds(nodeId)) {
+					counter = graph.getAdjNodeIds(nodeId).size();
 					while (counter != 0) {
 						if ((graph.isTerminalNode(nodeId)) || (graph.isIntersectionNode(nodeId))) {
 							if (!visitedNodeSeq.contains(i)) {
@@ -43,7 +43,7 @@ public class ClusertingAlgorithm {
 
 						} else if (!graph.isIntermediateNode(i)) {
 							nodeSeq.add(i);
-							graph.getAdjacencyNodeIds(i);
+							graph.getAdjNodeIds(i);
 							nodeId = i;
 							counter = 0;
 
@@ -55,8 +55,8 @@ public class ClusertingAlgorithm {
 
 			} else {
 				ArrayList<Integer> nodeSeq = new ArrayList<Integer>();
-				for (int i : graph.getAdjacencyNodeIds(nodeId)) {
-					counter = graph.getAdjacencyNodeIds(nodeId).size();
+				for (int i : graph.getAdjNodeIds(nodeId)) {
+					counter = graph.getAdjNodeIds(nodeId).size();
 					while (counter != 0) {
 						if ((graph.isTerminalNode(nodeId)) || (graph.isIntersectionNode(nodeId))) {
 							if (!visitedNodeSeq.contains(i)) {
@@ -66,7 +66,7 @@ public class ClusertingAlgorithm {
 
 						} else if (!graph.isIntermediateNode(i)) {
 							nodeSeq.add(i);
-							graph.getAdjacencyNodeIds(i);
+							graph.getAdjNodeIds(i);
 							nodeId = i;
 							counter = 0;
 

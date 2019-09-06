@@ -44,8 +44,8 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [m_intEdgeId=" + m_intEdgeId + ", m_intSourceId=" + m_intStartNodeId + ", m_intDestinationId="
-				+ m_intEndNodeId + ", m_doubDistance=" + m_doubLength + "]";
+		return "Edge [EdgeId=" + m_intEdgeId + ", Start Node=" + m_intStartNodeId + ", End Node="
+				+ m_intEndNodeId + ", Length=" + m_doubLength + "]";
 	}
 
 }
