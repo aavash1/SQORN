@@ -73,20 +73,20 @@ public class NNTestOnManObjsManDataset {
 		rObj9.setDistanceFromStartNode(8.0);
 		rObj9.setType(false);
 
-		// gr.addObjectOnEdge(2, rObj6);
-		// gr.addObjectOnEdge(4, rObj7);
-		// gr.addObjectOnEdge(6, rObj8);
-		// gr.addObjectOnEdge(9, rObj9);
+		 gr.addObjectOnEdge(2, rObj6);
+		 gr.addObjectOnEdge(4, rObj7);
+		 gr.addObjectOnEdge(6, rObj8);
+		 gr.addObjectOnEdge(9, rObj9);
 
 		// extra objects for Scenario #2
 		gr.addEdge(4, 9, 3.0);
-		// gr.addEdge(9, 11, 15.0); // works if to uncomment line #100 (NearestNeighbor2
+		gr.addEdge(9, 11, 15.0);
 
 		RoadObject rObj10 = new RoadObject();
 		rObj10.setObjId(111);
 		rObj10.setDistanceFromStartNode(1.0);
 		rObj10.setType(false);
-		// gr.addObjectOnEdge(11, rObj10);
+		//gr.addObjectOnEdge(11, rObj10);
 
 		gr.printGraph();
 		System.out.println();
