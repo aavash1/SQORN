@@ -555,7 +555,7 @@ public class Graph2 {
 		if (m_objectsOnEdges.get(edgeId) != null) {
 			return m_objectsOnEdges.get(edgeId).size();
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 			return 0;
 		}
 	}
@@ -564,7 +564,7 @@ public class Graph2 {
 		if (m_objectsOnEdges.get(edgeId) != null) {
 			return m_objectsOnEdges.get(edgeId);
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 
@@ -596,7 +596,7 @@ public class Graph2 {
 				}
 			}
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 		}
 		return numberOfTrueObjs;
 	}
@@ -611,7 +611,7 @@ public class Graph2 {
 			}
 			return listOfTrueObjs;
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 	}
@@ -643,7 +643,7 @@ public class Graph2 {
 				}
 			}
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 		}
 		return numberOfFalseObjs;
 	}
@@ -658,7 +658,7 @@ public class Graph2 {
 			}
 			return listOfFalseObjs;
 		} else {
-			System.out.println("There are no objects on the edge #" + edgeId);
+			//System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 	}
@@ -820,7 +820,7 @@ public class Graph2 {
 	}
 
 	// Validate this method!
-	// Distance between: Any given Node -> Nearest Object
+	// Distance between: Any given Node -> Nearest True Object
 	public double getDistanceToNearestTrueObjectFromGivenNodeOnEdge(int edgeId, int sourceNode) {
 		RoadObject nearestObj = getNearestTrueObjectToGivenNodeOnEdge(edgeId, sourceNode);
 		return getDistanceFromNodeToGivenObjOnSameEdge(sourceNode, nearestObj.getObjectId());
@@ -848,7 +848,7 @@ public class Graph2 {
 	}
 
 	// Validate this method!
-	// Distance between: Any given Node -> Nearest Object
+	// Distance between: Any given Node -> Nearest True Object
 	public double getDistanceToNearestFalseObjectFromGivenNodeOnEdge(int edgeId, int sourceNode) {
 		RoadObject nearestObj = getNearestFalseObjectToGivenNodeOnEdge(edgeId, sourceNode);
 		return getDistanceFromNodeToGivenObjOnSameEdge(sourceNode, nearestObj.getObjectId());
@@ -951,7 +951,7 @@ public class Graph2 {
 		RoadObject sourceObj = getRoadObjectOnEdge(edgeId, sourceObjId);
 		RoadObject nearestObj = null;// new RoadObject();
 
-		if (sourceObj != null) {
+		if (sourceObj != null && m_objectsOnEdges.get(edgeId) != null) {
 			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
 				if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
 						&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
@@ -964,7 +964,10 @@ public class Graph2 {
 	}
 
 	public int getNearestObjectIdToGivenObjOnEdge(int edgeId, int sourceObjId) {
-		return getNearestObjectToGivenObjOnEdge(edgeId, sourceObjId).getObjectId();
+		if (getNearestObjectToGivenObjOnEdge(edgeId, sourceObjId) != null) {
+			return getNearestObjectToGivenObjOnEdge(edgeId, sourceObjId).getObjectId();
+		}
+		return -1;
 	}
 
 	// True Object
@@ -972,11 +975,13 @@ public class Graph2 {
 		double minDistance = Double.MAX_VALUE;
 		RoadObject sourceObj = getRoadObjectOnEdge(edgeId, sourceObjId);
 		RoadObject nearestObj = null;// new RoadObject();
-		for (RoadObject obj : getTrueObjectsOnGivenEdge(edgeId)) {
-			if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
-					&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
-				minDistance = Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode());
-				nearestObj = obj;
+		if (getTrueObjectsOnGivenEdge(edgeId).size() > 0 ) {
+			for (RoadObject obj : getTrueObjectsOnGivenEdge(edgeId)) {
+				if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
+						&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
+					minDistance = Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode());
+					nearestObj = obj;
+				}
 			}
 		}
 		return nearestObj;
@@ -996,11 +1001,13 @@ public class Graph2 {
 		double minDistance = Double.MAX_VALUE;
 		RoadObject sourceObj = getRoadObjectOnEdge(edgeId, sourceObjId);
 		RoadObject nearestObj = null;// new RoadObject();
-		for (RoadObject obj : getFalseObjectsOnGivenEdge(edgeId)) {
-			if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
-					&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
-				minDistance = Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode());
-				nearestObj = obj;
+		if (getFalseObjectsOnGivenEdge(edgeId).size() > 0 ) {
+			for (RoadObject obj : getFalseObjectsOnGivenEdge(edgeId)) {
+				if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
+						&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
+					minDistance = Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode());
+					nearestObj = obj;
+				}
 			}
 		}
 		return nearestObj;
@@ -1010,150 +1017,6 @@ public class Graph2 {
 	public int getNearestFalseObjectIdToGivenObjOnEdge(int edgeId, int sourceObjId) {
 		if (getNearestFalseObjectToGivenObjOnEdge(edgeId, sourceObjId) != null) {
 			return getNearestFalseObjectToGivenObjOnEdge(edgeId, sourceObjId).getObjectId();
-		}
-		return -1;
-	}
-
-	///// get Nearest Object to a given Object on whole Map
-	public RoadObject getNearestObjectToGivenObjOnMap(int sourceObjId) {
-		RoadObject nearestObj = new RoadObject(); // return value
-
-		// Source Info
-		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = getRoadObject(sourceObjId);
-		int sourceStartNodeId = getStartNodeIdOfEdge(sourceEdgeId);
-		int sourceEndNodeId = getEndNodeIdOfEdge(sourceEdgeId);
-
-		PathManager paths = new PathManager();
-		ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
-		ArrayList<RoadObject> foundRoadObjects = new ArrayList<RoadObject>();
-
-		// foundObjectsWithDistance: Map<Object Id, Total distance>, Total distance -
-		// distance from query object to the found object
-		Map<Integer, Double> foundObjectsWithDistance = new HashMap<Integer, Double>();
-		double minDistance = Double.MAX_VALUE;
-		ArrayList<Integer> adjEdges = getAdjacencyEdgeIds(sourceEdgeId);
-		boolean nearestObjFound = false;
-
-		RoadObject nearestObjOnSameEdge = getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
-		if (nearestObjOnSameEdge != null) {
-			foundRoadObjects.add(nearestObjOnSameEdge);
-			foundObjectsWithDistance.put(nearestObjOnSameEdge.getObjectId(),
-					getDistanceToNearestObjectFromGivenObjOnEdge(sourceEdgeId, sourceObjId));
-		}
-		double distanceFromQueryToStartNode = sourceObj.getDistanceFromStartNode();
-		double distanceFromQueryToEndNode = getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
-		
-		
-
-		while (!nearestObjFound) {
-			
-			Iterator<Integer> iteratorFromStartNode = getAdjNodeIds(sourceStartNodeId).listIterator();
-			Iterator<Integer> iteratorFromEndNode = getAdjNodeIds(sourceEndNodeId).listIterator();
-
-			// Traversing from Start Node of the Source Edge
-			while (iteratorFromStartNode.hasNext()) {
-				int currentNodeId = sourceStartNodeId;
-				int adjNode = iteratorFromStartNode.next();
-				if (adjNode == sourceEndNodeId)
-					continue;
-				int edgeId = getEdgeId(sourceStartNodeId, adjNode);
-				RoadObject nearestObjOnAdjEdge = getNearestObjectToGivenNodeOnEdge(edgeId, currentNodeId);
-
-				if (nearestObjOnAdjEdge.getObjectId() != 0) {
-					double distanceFromQueryObj = distanceFromQueryToStartNode
-							+ getDistanceFromNodeToGivenObjOnSameEdge(currentNodeId, nearestObjOnAdjEdge.getObjectId());
-					foundRoadObjects.add(nearestObjOnAdjEdge);
-					foundObjectsWithDistance.put(nearestObjOnAdjEdge.getObjectId(), distanceFromQueryObj);
-				}
-
-			}
-			// Traversing from End Node of the Source Edge
-			while (iteratorFromEndNode.hasNext()) {
-				int currentNodeId = sourceEndNodeId;
-				int adjNode = iteratorFromEndNode.next();
-				if (adjNode == sourceStartNodeId)
-					continue;
-				int edgeId = getEdgeId(sourceEndNodeId, adjNode);
-				RoadObject nearestObjOnAdjEdge = getNearestObjectToGivenNodeOnEdge(edgeId, currentNodeId);
-
-				if (nearestObjOnAdjEdge.getObjectId() != 0) {
-					double distanceFromQueryObj = distanceFromQueryToEndNode
-							+ getDistanceFromNodeToGivenObjOnSameEdge(currentNodeId, nearestObjOnAdjEdge.getObjectId());
-					foundRoadObjects.add(nearestObjOnAdjEdge);
-					foundObjectsWithDistance.put(nearestObjOnAdjEdge.getObjectId(), distanceFromQueryObj);
-				}		
-				
-			}
-
-			// Condition of found nearest object
-			if (true) {
-				nearestObjFound = true;
-			}
-		}
-
-		// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
-		// m_adjancencyMap
-
-		// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
-		// m_objectsOnEdges
-
-		for (Integer edgeId : getObjectsOnEdges().keySet()) {
-			// adjNodes = getAdjacencyNodeIds(int_nodeId)
-
-		}
-
-		return nearestObj;
-	}
-
-	public int getNearestObjectIdToGivenObjOnMap(int sourceObjId) {
-		return getNearestObjectToGivenObjOnMap(sourceObjId).getObjectId();
-	}
-
-	public RoadObject getNearestTrueObjectToGivenObjOnMap(int sourceObjId) {
-		RoadObject nearestTrueObj = new RoadObject();
-
-		return nearestTrueObj;
-	}
-
-	public int getNearestTrueObjectIdToGivenObjOnMap(int sourceObjId) {
-		if (getNearestTrueObjectToGivenObjOnMap(sourceObjId) != null) {
-			return getNearestTrueObjectToGivenObjOnMap(sourceObjId).getObjectId();
-		}
-		return -1;
-	}
-
-	public RoadObject getNearestFalseObjectToGivenObjOnMap(int sourceObjId) {
-		RoadObject nearestFalseObj = new RoadObject();
-
-		// Source Info
-		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = getRoadObject(sourceObjId);
-		int sourceStartNodeId = getStartNodeIdOfEdge(sourceEdgeId);
-		int sourceEndNodeId = getEndNodeIdOfEdge(sourceEdgeId);
-
-		PathManager paths = new PathManager();
-		ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
-		double minDistance = Double.MAX_VALUE;
-		ArrayList<Integer> adjEdges = getAdjacencyEdgeIds(sourceEdgeId);
-
-		// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
-		// m_adjancencyMap
-
-		// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
-		// m_objectsOnEdges
-
-		for (Integer edgeId : getObjectsOnEdges().keySet()) {
-			// adjNodes = getAdjacencyNodeIds(int_nodeId)
-
-		}
-
-		return nearestFalseObj;
-	}
-
-	public int getNearestFalseObjectIdToGivenObjOnMap(int sourceObjId) {
-		if (getNearestFalseObjectToGivenObjOnMap(sourceObjId) != null) {
-			return getNearestFalseObjectToGivenObjOnMap(sourceObjId).getObjectId();
 		}
 		return -1;
 	}

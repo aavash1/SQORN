@@ -78,7 +78,7 @@ public class NNTestOnManObjsManDataset {
 		 gr.addObjectOnEdge(6, rObj8);
 		 gr.addObjectOnEdge(9, rObj9);
 
-		// extra objects for Scenario #2
+		// extra objects for Scenario #3
 		gr.addEdge(4, 9, 3.0);
 		gr.addEdge(9, 11, 15.0);
 
@@ -86,7 +86,7 @@ public class NNTestOnManObjsManDataset {
 		rObj10.setObjId(111);
 		rObj10.setDistanceFromStartNode(1.0);
 		rObj10.setType(false);
-		//gr.addObjectOnEdge(11, rObj10);
+		gr.addObjectOnEdge(11, rObj10);
 
 		gr.printGraph();
 		System.out.println();
