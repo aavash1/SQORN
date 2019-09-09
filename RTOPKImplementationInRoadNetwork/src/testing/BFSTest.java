@@ -2,13 +2,13 @@ package testing;
 
 import algorithm.BFS;
 import algorithm.GraphTraversal;
-import framework.Graph2;
+import framework.Graph;
 
 public class BFSTest {
 
 	public static void main(String[] args) {
 
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 		BFS bfs = new BFS();
 
 		gr.addEdge(1, 2, 18.3698);

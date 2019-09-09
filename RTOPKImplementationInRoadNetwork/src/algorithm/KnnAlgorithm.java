@@ -14,14 +14,14 @@ import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 
 import framework.Graph;
-import framework.Graph2;
+import framework.Graph;
 import framework.Path;
 
 public class KnnAlgorithm {
 
-	private Graph2 graph;
+	private Graph graph;
 
-	public KnnAlgorithm(Graph2 graph) {
+	public KnnAlgorithm(Graph graph) {
 		this.graph = graph;
 
 	}

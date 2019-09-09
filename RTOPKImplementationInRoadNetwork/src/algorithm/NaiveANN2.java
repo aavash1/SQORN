@@ -9,12 +9,12 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 
 import framework.PathManager;
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class NaiveANN2 {
 
-	private Graph2 graph;
+	private Graph graph;
 	// Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> nearestNeighborSets = new HashMap<Integer, Integer>();
 	private Map<Integer, Map<Integer, Double>> nearestNeighborSetsWithDist = new HashMap<Integer, Map<Integer, Double>>();
@@ -23,7 +23,7 @@ public class NaiveANN2 {
 	//MultiValuedMap<Double, ArrayList<Integer>> m_paths = new HashSetValuedHashMap<Double, ArrayList<Integer>>();
 	//private ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
 
-	public Map<Integer, Integer> computeANN(Graph2 gr) {
+	public Map<Integer, Integer> computeANN(Graph gr) {
 		this.graph = gr;
 		//PriorityQueue<Integer> roadObjectIds = new PriorityQueue<Integer>();
 		//PriorityQueue<RoadObject> roadObjects = new PriorityQueue<RoadObject>();

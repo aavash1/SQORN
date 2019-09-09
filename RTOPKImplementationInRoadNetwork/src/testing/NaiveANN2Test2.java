@@ -2,12 +2,12 @@ package testing;
 
 import algorithm.NaiveANN2;
 import algorithm.RandomObjectGenerator;
-import framework.Graph2;
+import framework.Graph;
 
 public class NaiveANN2Test2 {
 
 	public static void main(String[] args) {
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 
 
 		gr.addEdge(1, 2, 18.3698);

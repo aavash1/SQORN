@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import framework.Edge;
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class RandomObjectGenerator {
@@ -40,7 +40,7 @@ public class RandomObjectGenerator {
 	private static int m_totalNumberOfEdges;
 	private static double m_totalLengthOfEdges;
 
-	public static void generateRandomObjectsOnMap(Graph2 graph2) {
+	public static void generateRandomObjectsOnMap(Graph graph2) {
 		
 		
 		int edgeId = 0;

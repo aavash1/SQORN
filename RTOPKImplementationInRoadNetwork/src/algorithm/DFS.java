@@ -3,11 +3,11 @@ package algorithm;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import framework.Graph2;
+import framework.Graph;
 
 public class DFS {
 
-	private Graph2 graph;
+	private Graph graph;
 	private ArrayList<Integer> listDFS = new ArrayList<Integer>();
 
 	public ArrayList<Integer> getDFSList() {
@@ -36,7 +36,7 @@ public class DFS {
 	}
 
 	// The function to do DFS traversal. It uses recursive DFSUtil()
-	public void traverse(Graph2 gr, int nodeId) {
+	public void traverse(Graph gr, int nodeId) {
 		this.graph = gr;
 		// Mark all the vertices as not visited(set as
 		// false by default in java)

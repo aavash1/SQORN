@@ -12,15 +12,15 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class NearestNeighbor4 {
 
-	private Graph2 graph;
+	private Graph graph;
 
 	///// get Nearest Object to a given Object on whole Map
-	public RoadObject getNearestObjectToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public RoadObject getNearestObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
 		graph = gr;
 		RoadObject nearestObj;// return value
@@ -108,12 +108,12 @@ public class NearestNeighbor4 {
 		return nearestObj;
 	}
 
-	public int getNearestObjectIdToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public int getNearestObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		return getNearestObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 	}
 	
 	///// get Nearest True Object to a given Object on whole Map
-	public RoadObject getNearestTrueObjectToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public RoadObject getNearestTrueObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
 		graph = gr;
 		RoadObject nearestObj;
@@ -200,7 +200,7 @@ public class NearestNeighbor4 {
 
 		return nearestObj;
 	}
-	public int getNearestTrueObjectIdToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public int getNearestTrueObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		if (getNearestTrueObjectToGivenObjOnMap(gr, sourceObjId) != null) {
 			return getNearestTrueObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 		}
@@ -208,7 +208,7 @@ public class NearestNeighbor4 {
 	}
 	
 ///// get Nearest False Object to a given Object on whole Map
-	public RoadObject getNearestFalseObjectToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public RoadObject getNearestFalseObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
 		graph = gr;
 		RoadObject nearestObj;// return value
@@ -295,7 +295,7 @@ public class NearestNeighbor4 {
 
 		return nearestObj;
 	}
-	public int getNearestFalseObjectIdToGivenObjOnMap(Graph2 gr, int sourceObjId) {
+	public int getNearestFalseObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		if (getNearestFalseObjectToGivenObjOnMap(gr, sourceObjId) != null) {
 			return getNearestFalseObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 		}

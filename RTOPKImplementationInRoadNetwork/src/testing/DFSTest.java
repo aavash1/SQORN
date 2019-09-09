@@ -2,12 +2,12 @@ package testing;
 
 import algorithm.BFS;
 import algorithm.DFS;
-import framework.Graph2;
+import framework.Graph;
 
 public class DFSTest {
 
 	public static void main(String[] args) {
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 		DFS dfs = new DFS();
 
 		gr.addEdge(1, 2, 18.3698);

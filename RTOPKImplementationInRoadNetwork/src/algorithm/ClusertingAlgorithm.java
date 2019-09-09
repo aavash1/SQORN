@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import framework.Graph;
-import framework.Graph2;
+import framework.Graph;
 import framework.Node;
 
 public class ClusertingAlgorithm {
@@ -15,7 +15,7 @@ public class ClusertingAlgorithm {
 		return seqList;
 	}
 
-	public void clusterAllNodes(Graph2 graph) {
+	public void clusterAllNodes(Graph graph) {
 		ArrayList<Integer> visitedNodeSeq = new ArrayList<Integer>();
 
 		for (Node node : graph.getNodesWithInfo()) {

@@ -1,11 +1,11 @@
 package testing;
 
 import algorithm.ClusertingAlgorithm;
-import framework.Graph2;
+import framework.Graph;
 
 public class nodeClusteringTest {
 	public static void main(String[] args) {
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 		ClusertingAlgorithm cla = new ClusertingAlgorithm();
 
 		gr.addEdge(1, 2, 18.3698);

@@ -3,14 +3,14 @@ package algorithm;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import framework.Graph2;
+import framework.Graph;
 import framework.Node;
 
 public class BFS {
 
-	private Graph2 graph;
+	private Graph graph;
 
-	public void traverse(Graph2 gr, int nodeId) {
+	public void traverse(Graph gr, int nodeId) {
 
 		this.graph = gr;
 		// Mark all the vertices as not visited(By default

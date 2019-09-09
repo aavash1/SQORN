@@ -7,12 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import framework.Graph2;
+import framework.Graph;
 import framework.Node;
 
 public class ClusteringNodes {
 
-	private Graph2 graph;
+	private Graph graph;
 
 	// node clusters: HashMap < index, LinkedList<nodeId> >
 	private Map<Integer, LinkedList<Integer>> m_nodeClusters = new HashMap<Integer, LinkedList<Integer>>();
@@ -21,7 +21,7 @@ public class ClusteringNodes {
 	// ArrayList<LinkedList<Integer>>() ;
 	private int m_clusterCounter = 0;
 
-	public void cluster2(Graph2 gr) {
+	public void cluster2(Graph gr) {
 		this.graph = gr;
 		LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
 		//ArrayList<Integer> adjList = new ArrayList<Integer>();
@@ -116,7 +116,7 @@ public class ClusteringNodes {
 
 	}
 
-	public void cluster(Graph2 gr, int nodeId) {
+	public void cluster(Graph gr, int nodeId) {
 		this.graph = gr;
 		LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
 
@@ -269,7 +269,7 @@ public class ClusteringNodes {
 	}
 
 	// The function to do DFS traversal. It uses recursive DFSUtil()
-	public void traverse(Graph2 gr, int nodeId) {
+	public void traverse(Graph gr, int nodeId) {
 		this.graph = gr;
 		// Mark all the vertices as not visited(set as
 		// false by default in java)

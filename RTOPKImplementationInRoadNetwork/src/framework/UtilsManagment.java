@@ -159,8 +159,8 @@ public class UtilsManagment {
 
 	}
 
-	public Graph2 readEdgeFileReturnGraph(String csvFilename) {
-		Graph2 graph = new Graph2();
+	public Graph readEdgeFileReturnGraph(String csvFilename) {
+		Graph graph = new Graph();
 
 		String line = "";
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
@@ -179,7 +179,7 @@ public class UtilsManagment {
 
 	}
 
-	public Boolean readEdgeFile(Graph2 graph, String csvFilename) {
+	public Boolean readEdgeFile(Graph graph, String csvFilename) {
 
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();

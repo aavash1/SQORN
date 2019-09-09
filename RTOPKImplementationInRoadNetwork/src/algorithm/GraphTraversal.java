@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import framework.Graph2;
+import framework.Graph;
 import framework.Node;
 
 public class GraphTraversal {
 
-	public void BFS2(Graph2 gr, int nodeId) {
+	public void BFS2(Graph gr, int nodeId) {
 		boolean visited[] = new boolean[gr.getNumberOfNodes()];
 
 		LinkedList<Integer> queue = new LinkedList<Integer>();
@@ -35,7 +35,7 @@ public class GraphTraversal {
 
 	}
 
-	public void DFS(Graph2 gr, int nodeId) {
+	public void DFS(Graph gr, int nodeId) {
 
 	}
 

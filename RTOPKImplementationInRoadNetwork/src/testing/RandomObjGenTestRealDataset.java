@@ -3,14 +3,14 @@ package testing;
 import java.util.ArrayList;
 
 import algorithm.RandomObjectGenerator;
-import framework.Graph2;
+import framework.Graph;
 import framework.UtilsManagment;
 
 public class RandomObjGenTestRealDataset {
 
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
-		Graph2 calGraph = new Graph2();
+		Graph calGraph = new Graph();
 		RandomObjectGenerator rg = new RandomObjectGenerator();
 
 		String calNodeDataset = "Datasets/CAL-Node_NId-NLong-NLat.csv";
@@ -31,7 +31,7 @@ public class RandomObjGenTestRealDataset {
 //		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
 		startTimeCal = System.nanoTime();
-		Graph2 calGraph2 = new Graph2();
+		Graph calGraph2 = new Graph();
 		um.readEdgeFile(calGraph2, calEdgeDataset);
 
 		graphLoadingTimeCal = System.nanoTime() - startTimeCal;

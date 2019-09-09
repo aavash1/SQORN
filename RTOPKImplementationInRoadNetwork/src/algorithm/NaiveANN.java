@@ -11,12 +11,12 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
 import framework.Edge;
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class NaiveANN {
 
-	private Graph2 graph;
+	private Graph graph;
 
 	// Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> nearestNeighborSets = new HashMap<Integer, Integer>();
@@ -34,7 +34,7 @@ public class NaiveANN {
 
 	};
 
-	public void computeANN(Graph2 gr) {
+	public void computeANN(Graph gr) {
 
 		this.graph = gr;
 

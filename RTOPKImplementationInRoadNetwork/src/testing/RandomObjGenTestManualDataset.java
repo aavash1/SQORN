@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import algorithm.RandomObjectGenerator;
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class RandomObjGenTestManualDataset {
@@ -42,7 +42,7 @@ public class RandomObjGenTestManualDataset {
 		RoadObject poi4 = new RoadObject();
 		RoadObject poi5 = new RoadObject();
 
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 
 		// poi1.setPoiId(100);
 		// poi1.setDistanceFromStartNode(2.0);

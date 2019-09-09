@@ -4,13 +4,13 @@ import algorithm.NearestNeighbor;
 import algorithm.NearestNeighbor2;
 import algorithm.NearestNeighbor3;
 import algorithm.NearestNeighbor4;
-import framework.Graph2;
+import framework.Graph;
 import framework.RoadObject;
 
 public class NNTestOnManObjsManDataset {
 
 	public static void main(String[] args) {
-		Graph2 gr = new Graph2();
+		Graph gr = new Graph();
 
 		gr.addEdge(1, 2, 18.3698);
 		gr.addEdge(1, 3, 20.5499);

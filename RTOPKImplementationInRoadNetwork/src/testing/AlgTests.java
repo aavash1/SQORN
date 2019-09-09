@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import algorithm.AStarAlgorithm;
 import algorithm.DijkstraAlgorithm;
-import framework.Graph2;
+import framework.Graph;
 import framework.Node;
 import framework.UtilsManagment;
 
@@ -28,7 +28,7 @@ public class AlgTests {
 		// Graph loading:
 		//Graph calGraph = um.readMergedPOI(calMergedDataset);
 		long startTimeCal = System.nanoTime();
-		Graph2 calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);		
+		Graph calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);		
 		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
 		calGraph.setNodesWithInfo(calNodesInfo);
 		long graphLoadingTimeCal = System.nanoTime() - startTimeCal;
@@ -141,7 +141,7 @@ public class AlgTests {
 		// Graph loading:
 		
 		long startTimeOldn = System.nanoTime();
-		Graph2 oldnGraph = um.readEdgeFileReturnGraph(oldnEdgeDataset);
+		Graph oldnGraph = um.readEdgeFileReturnGraph(oldnEdgeDataset);
 		
 		ArrayList<Node> oldnNodesInfo = um.readNodeFile(oldnNodeDataset);
 		oldnGraph.setNodesWithInfo(oldnNodesInfo);
