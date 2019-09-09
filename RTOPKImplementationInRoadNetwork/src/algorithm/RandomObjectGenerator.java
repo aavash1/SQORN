@@ -86,7 +86,7 @@ public class RandomObjectGenerator {
 				if (randomDistances.isEmpty()) {
 					distanceFromStartNode = getRandDoubleBetRange(1.0, edgeLength);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
-					randObj.setObjId(edgeId * m_objToEdgeId + j);
+					//randObj.setObjId(edgeId * m_objToEdgeId + j);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 					isAcceptableDistance = false;
@@ -107,12 +107,12 @@ public class RandomObjectGenerator {
 						}
 
 					}
-					randObj.setObjId(edgeId * 10 + j);
+					//randObj.setObjId(edgeId * m_objToEdgeId + j);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 				}
-
+				randObj.setObjId(edgeId * m_objToEdgeId + j);
 				randObj.setType(rand.nextBoolean());
 				graph2.addObjectOnEdge(edgeId, randObj);
 				// System.out.println("edgeId: " + edgeId + "; " + "randObj: " + randObj);

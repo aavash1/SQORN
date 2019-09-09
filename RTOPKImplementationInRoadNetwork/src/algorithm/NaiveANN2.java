@@ -28,12 +28,12 @@ public class NaiveANN2 {
 		//PriorityQueue<Integer> roadObjectIds = new PriorityQueue<Integer>();
 		//PriorityQueue<RoadObject> roadObjects = new PriorityQueue<RoadObject>();
 		
-		NearestNeighbor3 nn = new NearestNeighbor3();
+		NearestNeighbor4 nn = new NearestNeighbor4();
 
 
 		if (graph.getTotalNumberOfFalseObjects() >= graph.getTotalNumberOfTrueObjects()) {
 			// Query object = True Object; Data Object = False Object
-			System.out.println("Query object = True Object; Data Object = False Object");
+			System.out.println("Query object = True Object (" + graph.getTotalNumberOfTrueObjects() + "); Data Object = False Object ("+ graph.getTotalNumberOfFalseObjects()+")");
 
 			// Iterate through all objects on every edge
 			for (Integer edgeId : graph.getObjectsOnEdges().keySet()) {
@@ -44,7 +44,7 @@ public class NaiveANN2 {
 			} 
 		} else {
 			// Query object = False Object; Data Object = True Object
-			System.out.println("Query object = False Object; Data Object = True Object");
+			System.out.println("Query object = False Object ("+ graph.getTotalNumberOfFalseObjects() + "); Data Object = True Object (" + graph.getTotalNumberOfTrueObjects()+")");
 
 			// Iterate through all objects on every edge
 			for (Integer edgeId : graph.getObjectsOnEdges().keySet()) {
@@ -61,7 +61,7 @@ public class NaiveANN2 {
 	public void printNearestNeighborSets () { 
 		
 		for (Integer queryObj : nearestNeighborSets.keySet()) { 
-			System.out.println("Query Object ID: " + queryObj + " [edge #" + graph.getEdgeIdOfRoadObject(queryObj) + "] - Data Object ID: " + nearestNeighborSets.get(queryObj) + " [edge #" + graph.getEdgeIdOfRoadObject(nearestNeighborSets.get(queryObj)) + "] Distance: " );
+			System.out.println("Query Object ID: " + queryObj + " [edge #" + graph.getEdgeIdOfRoadObject(queryObj) + "] - Data Object ID: " + nearestNeighborSets.get(queryObj) + " [edge #" + graph.getEdgeIdOfRoadObject(nearestNeighborSets.get(queryObj)) + "]");
 			//System.out.println("Query Object ID: " + queryObj + " - Data Object ID: " + nearestNeighborSets.get(queryObj) + " Distance: " );
 			
 		}
