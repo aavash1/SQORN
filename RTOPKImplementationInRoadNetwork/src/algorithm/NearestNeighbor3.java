@@ -47,6 +47,7 @@ public class NearestNeighbor3 {
 
 		RoadObject nearestObjOnSameEdge = graph.getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
+			// foundRoadObjects.add(nearestObjOnSameEdge);
 			foundObjectsWithSortedDistance.put(
 					graph.getDistanceToNearestObjectFromGivenObjOnEdge(sourceEdgeId, sourceObjId),
 					nearestObjOnSameEdge.getObjectId());					

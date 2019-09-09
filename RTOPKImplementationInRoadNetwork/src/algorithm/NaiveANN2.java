@@ -17,7 +17,7 @@ public class NaiveANN2 {
 	private Graph2 graph;
 	// Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> nearestNeighborSets = new HashMap<Integer, Integer>();
-	private Map<Integer, Map<Integer, Double>> nearestNeighborSetsWithDist = new HashMap Map<Integer, Map<Integer, Double>>();
+	private Map<Integer, Map<Integer, Double>> nearestNeighborSetsWithDist = new HashMap<Integer, Map<Integer, Double>>();
 	//private PathManager annPaths = new PathManager();	
 	// m_paths: Map<Length, List<NodeId>>; Length - length of current path
 	//MultiValuedMap<Double, ArrayList<Integer>> m_paths = new HashSetValuedHashMap<Double, ArrayList<Integer>>();
@@ -38,10 +38,10 @@ public class NaiveANN2 {
 			// Iterate through all objects on every edge
 			for (Integer edgeId : graph.getObjectsOnEdges().keySet()) {
 				for (RoadObject trueObj : graph.getTrueObjectsOnEdgeSortedByDist(edgeId)) {
-					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(graph, trueObj.getObjectId());
+					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(graph, trueObj.getObjectId());// .getNearestFalseObjectIdToGivenObjOnMap(graph, trueObj.getObjectId());
 					nearestNeighborSets.put(trueObj.getObjectId(), nearestFalseObjId);
 				}
-			}
+			} 
 		} else {
 			// Query object = False Object; Data Object = True Object
 			System.out.println("Query object = False Object; Data Object = True Object");
