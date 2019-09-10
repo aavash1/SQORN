@@ -1,6 +1,6 @@
 package testing;
 
-import algorithm.NaiveANN2;
+import algorithm.NaiveANN;
 import framework.Graph;
 import framework.RoadObject;
 
@@ -141,7 +141,7 @@ public class NaiveANNManualDatasetTest {
 		gr.addObjectOnEdge(12, qObject121);
 
 		gr.printObjectsOnEdges();
-		NaiveANN2 nann2 = new NaiveANN2();
+		NaiveANN nann2 = new NaiveANN();
 
 		nann2.computeANN(gr);
 		nann2.printNearestNeighborSets();
