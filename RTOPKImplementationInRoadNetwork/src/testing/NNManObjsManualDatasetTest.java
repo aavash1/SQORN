@@ -4,7 +4,7 @@ import algorithm.NearestNeighbor;
 import framework.Graph;
 import framework.RoadObject;
 
-public class NNTestOnManObjsManDataset {
+public class NNManObjsManualDatasetTest {
 
 	public static void main(String[] args) {
 		Graph gr = new Graph();

@@ -18,10 +18,14 @@ public class Graph {
 	// (nodeId, longitude, latitude)
 	private ArrayList<Node> m_nodesWithInfo = new ArrayList<Node>();
 	private ArrayList<Edge> m_edgesWithInfo = new ArrayList<Edge>();
-
-	// We will be using this to create a object as it stores.
+	private ArrayList<RoadObject> m_objectsWithInfo = new ArrayList<RoadObject>();
+	// Use this to create a object as it stores.
 	// m_objectsOnEdges: Map<Edge Id, ArrayList<RoadObjects>>
 	private Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges = new HashMap<Integer, ArrayList<RoadObject>>();
+
+	// Use this when read Object Dataset from file
+	// m_objectsOnMap: Map < Map<StartNode, EndNode>, <ObjID, DistFromSN> >
+	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnMap = new HashMap<>();
 
 	private int m_totalNumberOfObjects = 0;
 	private int m_totalNumberOfTrueObjects = 0;
@@ -32,7 +36,6 @@ public class Graph {
 
 	////////////////////////////////////// [Currently not
 	////////////////////////////////////// used////////////////////////////////////////
-	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnEdges1 = new HashMap<>();
 	// Multivalued Map can work for duplicate keys
 	private MultiValuedMap<Integer, RoadObject> m_objectsOnEdges2 = new HashSetValuedHashMap<Integer, RoadObject>();
 	private Map<Integer, RoadObject> m_objectsOnEdges3 = new HashMap<Integer, RoadObject>();
@@ -419,7 +422,58 @@ public class Graph {
 	/////////////////////////////////// [Road Object related
 	////////////////////////////////////////////////////////////////////////////////////////////////// methods///////////////////////////////////
 
-	// Working with m_objectsOnEdges: Map<Integer, List<RoadObject>>
+	// Working with m_objectsOnMap: Map<Integer, List<RoadObject>>
+	// Implementation for POI mapping in respective edges.
+	public boolean addObjectOnMap(int objId, int startNode, int endNode, double distFromStartNode) {
+
+		if (!hasEdge(startNode, endNode)) {
+			return false;
+		}
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+
+		if (m_objectsOnMap.containsKey(edge)) {
+			m_objectsOnMap.get(edge).put(objId, distFromStartNode);
+		} else {
+			Map<Integer, Double> pois = new HashMap<>();
+			pois.put(objId, distFromStartNode);
+
+			m_objectsOnMap.put(edge, pois);
+		}
+		return true;
+	}
+
+	public void printObjectsOnMap() {
+		System.out.println("Road Objects: ");
+
+		for (Map<Integer, Integer> key : m_objectsOnMap.keySet()) {
+
+			System.out.println("Edge " + key + ":\t" + m_objectsOnMap.get(key));
+		}
+	}
+
+	public ArrayList<Integer> getObjectsfromMap(int startNode, int endNode) {
+		if (!hasEdge(startNode, endNode)) {
+			return null;
+		}
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+		ArrayList<Integer> int_POI = new ArrayList<Integer>();
+		for (Integer key : m_objectsOnMap.get(edge).keySet()) {
+			int_POI.add(key);
+		}
+		return int_POI;
+	}
+
+	public Map<Integer, Double> getObjectsWithDistanceFromMap(int startNode, int endNode) {
+		if (!hasEdge(startNode, endNode)) {
+			return null;
+		}
+		Map<Integer, Integer> edge = new HashMap<>();
+		edge.put(startNode, endNode);
+		return m_objectsOnMap.get(edge);
+	}
+
 	public boolean addObjectOnEdge(int edgeId, RoadObject newObj) {
 
 		boolean isEdgeExists = false;
@@ -444,7 +498,7 @@ public class Graph {
 				if (poi.getObjectId() == newObj.getObjectId()
 						|| poi.getDistanceFromStartNode() == newObj.getDistanceFromStartNode()) {
 					System.out.println("Either objId (" + newObj.getObjectId() + ") or dist from SN ("
-							+ newObj.getDistanceFromStartNode() + ") is existed on edge: " + edgeId);
+							+ newObj.getDistanceFromStartNode() + ") is existed on same edge: " + edgeId);
 					return false;
 				}
 			}
@@ -476,7 +530,7 @@ public class Graph {
 	// Working with m_objectsOnEdges: Map<Integer, List<RoadObject>>
 	public void printObjectsOnEdges() {
 
-		System.out.println("Object Information: ");
+		System.out.println("Road Object: ");
 		int generatedObjCounter = 0;
 
 		for (Integer key : m_objectsOnEdges.keySet()) {
@@ -490,11 +544,19 @@ public class Graph {
 
 	public RoadObject getRoadObject(int objId) {
 
-		for (Integer edgeId : m_objectsOnEdges.keySet()) {
-			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-				if (obj.getObjectId() == objId) {
-					return obj;
-				}
+		// for (Integer edgeId : m_objectsOnEdges.keySet()) {
+		// for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+		// if (obj.getObjectId() == objId) {
+		// return obj;
+		// }
+		// }
+		// }
+		// Faster, but keep method getEdgeIdOfRoadObject() working with Objects from
+		// Dataset
+		int edgeId = getEdgeIdOfRoadObject(objId);
+		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+			if (obj.getObjectId() == objId) {
+				return obj;
 			}
 		}
 		return null;
@@ -528,6 +590,14 @@ public class Graph {
 		return objId / m_objToEdgeId;
 	}
 
+	public ArrayList<RoadObject> getObjectsWithInfo() {
+		return m_objectsWithInfo;
+	}
+
+	public void setObjectsWithInfo(ArrayList<RoadObject> objs) {
+		m_objectsWithInfo = objs;
+	}
+
 	public int getTotalNumberOfObjects() {
 		return m_totalNumberOfObjects;
 	}
@@ -556,7 +626,7 @@ public class Graph {
 		if (m_objectsOnEdges.get(edgeId) != null) {
 			return m_objectsOnEdges.get(edgeId).size();
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 			return 0;
 		}
 	}
@@ -565,7 +635,7 @@ public class Graph {
 		if (m_objectsOnEdges.get(edgeId) != null) {
 			return m_objectsOnEdges.get(edgeId);
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 
@@ -597,7 +667,7 @@ public class Graph {
 				}
 			}
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 		}
 		return numberOfTrueObjs;
 	}
@@ -612,7 +682,7 @@ public class Graph {
 			}
 			return listOfTrueObjs;
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 	}
@@ -644,7 +714,7 @@ public class Graph {
 				}
 			}
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 		}
 		return numberOfFalseObjs;
 	}
@@ -659,7 +729,7 @@ public class Graph {
 			}
 			return listOfFalseObjs;
 		} else {
-			//System.out.println("There are no objects on the edge #" + edgeId);
+			// System.out.println("There are no objects on the edge #" + edgeId);
 			return new ArrayList<RoadObject>();
 		}
 	}
@@ -976,7 +1046,7 @@ public class Graph {
 		double minDistance = Double.MAX_VALUE;
 		RoadObject sourceObj = getRoadObjectOnEdge(edgeId, sourceObjId);
 		RoadObject nearestObj = null;// new RoadObject();
-		if (getTrueObjectsOnGivenEdge(edgeId).size() > 0 ) {
+		if (getTrueObjectsOnGivenEdge(edgeId).size() > 0) {
 			for (RoadObject obj : getTrueObjectsOnGivenEdge(edgeId)) {
 				if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
 						&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
@@ -1002,7 +1072,7 @@ public class Graph {
 		double minDistance = Double.MAX_VALUE;
 		RoadObject sourceObj = getRoadObjectOnEdge(edgeId, sourceObjId);
 		RoadObject nearestObj = null;// new RoadObject();
-		if (getFalseObjectsOnGivenEdge(edgeId).size() > 0 ) {
+		if (getFalseObjectsOnGivenEdge(edgeId).size() > 0) {
 			for (RoadObject obj : getFalseObjectsOnGivenEdge(edgeId)) {
 				if ((Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) < minDistance)
 						&& (Math.abs(obj.getDistanceFromStartNode() - sourceObj.getDistanceFromStartNode()) != 0)) {
@@ -1052,40 +1122,12 @@ public class Graph {
 	////////////////////////////////////// Currently not used
 	////////////////////////////////////////////////////////////////////////////////////////////////// methods//////////////////////////////////
 
-	// Working with m_objectsOnEdges1: Map<Map<Integer, Integer>, Map<Integer,
-	// Double>>
-	public boolean addObject1(int objectId, int startNode, int endNode, double distanceFromStartNode) {
-		if (!hasEdge(startNode, endNode)) {
-			return false;
-		}
-		Map<Integer, Integer> edge = new HashMap<>();
-		edge.put(startNode, endNode);
-
-		if (m_objectsOnEdges1.containsKey(edge)) {
-			m_objectsOnEdges1.get(edge).put(objectId, distanceFromStartNode);
-		} else {
-			Map<Integer, Double> randObjects = new HashMap<>();
-			randObjects.put(objectId, distanceFromStartNode);
-			m_objectsOnEdges1.put(edge, randObjects);
-		}
-		return true;
-	}
-
 	////////////////////////////////////// Currently not
 	////////////////////////////////////// used//////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////// Archive///////////////////////////////////////////////////
-	public void printObjectsOnEdges2() {
-
-		System.out.println("Object Information: ");
-
-		for (Integer key : m_objectsOnEdges2.keySet()) {
-			System.out.println("Edge " + key + ";\t" + m_objectsOnEdges2.get(key));
-		}
-	}
-
 	public boolean addObjectOnEdge2(int edgeId, RoadObject newObj) {
 
 		if (m_objectsOnEdges2.containsKey(newObj)) {

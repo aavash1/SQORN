@@ -3,7 +3,7 @@ package testing;
 import algorithm.ClusertingAlgorithm;
 import framework.Graph;
 
-public class nodeClusteringTest {
+public class NodesClusteringTest3 {
 	public static void main(String[] args) {
 		Graph gr = new Graph();
 		ClusertingAlgorithm cla = new ClusertingAlgorithm();

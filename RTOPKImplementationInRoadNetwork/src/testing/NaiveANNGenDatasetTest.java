@@ -4,7 +4,7 @@ import algorithm.NaiveANN2;
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
 
-public class NaiveANN2Test2 {
+public class NaiveANNGenDatasetTest {
 
 	public static void main(String[] args) {
 		Graph gr = new Graph();

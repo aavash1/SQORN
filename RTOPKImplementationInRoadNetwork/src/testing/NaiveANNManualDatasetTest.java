@@ -4,7 +4,7 @@ import algorithm.NaiveANN2;
 import framework.Graph;
 import framework.RoadObject;
 
-public class ANNTestingForNewTestCase {
+public class NaiveANNManualDatasetTest {
 	public static void main(String[] args) {
 		Graph gr = new Graph();
 
