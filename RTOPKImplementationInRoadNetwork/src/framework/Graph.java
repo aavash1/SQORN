@@ -542,15 +542,7 @@ public class Graph {
 				+ generatedObjCounter);
 	}
 
-	public RoadObject getRoadObject(int objId) {
-
-		// for (Integer edgeId : m_objectsOnEdges.keySet()) {
-		// for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-		// if (obj.getObjectId() == objId) {
-		// return obj;
-		// }
-		// }
-		// }
+	public RoadObject getGeneratedRoadObject(int objId) {
 		// Faster, but keep method getEdgeIdOfRoadObject() working with Objects from
 		// Dataset
 		int edgeId = getEdgeIdOfRoadObject(objId);
@@ -559,6 +551,19 @@ public class Graph {
 				return obj;
 			}
 		}
+		return null;
+	}
+
+	public RoadObject getDatasetRoadObject(int objId) {
+
+		for (Integer edgeId : m_objectsOnEdges.keySet()) {
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getObjectId() == objId) {
+					return obj;
+				}
+			}
+		}
+
 		return null;
 	}
 
@@ -1108,7 +1113,7 @@ public class Graph {
 		ArrayList<RoadObject> roadObjList = new ArrayList<RoadObject>();
 		if (roadObjIdList.size() > 0) {
 			for (Integer objId : roadObjIdList) {
-				roadObjList.add(getRoadObject(objId));
+				roadObjList.add(getGeneratedRoadObject(objId));
 			}
 		}
 		return roadObjList;

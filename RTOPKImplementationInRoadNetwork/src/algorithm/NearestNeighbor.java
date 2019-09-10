@@ -27,7 +27,7 @@ public class NearestNeighbor {
 
 		// Source Info
 		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getRoadObject(sourceObjId);
+		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
 		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
 		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
 
@@ -121,7 +121,7 @@ public class NearestNeighbor {
 
 		// Source Info
 		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getRoadObject(sourceObjId);
+		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
 		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
 		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
 
@@ -217,7 +217,7 @@ public class NearestNeighbor {
 
 		// Source Info
 		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getRoadObject(sourceObjId);
+		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
 		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
 		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
 
