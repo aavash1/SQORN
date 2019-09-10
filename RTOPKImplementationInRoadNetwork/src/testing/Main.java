@@ -30,7 +30,7 @@ public class Main {
 		String manualEdgeDataset = "Datasets/ManualEdgeDataset1.txt";
 		String manualEdgeDataset2 = "Datasets/ManualEdgeDataset2.txt";
 
-		//String manualnodeDatasetFile = "Datasets/nodeTestAstar.csv";
+		// String manualnodeDatasetFile = "Datasets/nodeTestAstar.csv";
 		String manualNodeDatasetA2 = "Datasets/DatasetForAStar1.txt";
 		String manualDatasetForAStar = "Datasets/DatasetForAStarAlg-nodes.csv";
 
@@ -188,12 +188,12 @@ public class Main {
 		// knnAlg2.getKNNNodesWithDistance4(4, 3);
 
 		// --------A Star Algorithms TESTS-----------------------
-		Graph roadNetwork8 = um.readMergedPOI(manualNodeDatasetA2);
-		ArrayList<Node> nodesInfo = um.readNodeFile(manualDatasetForAStar);//(manualnodeDatasetFile);
-		roadNetwork8.setNodesWithInfo(nodesInfo);
-		roadNetwork8.printGraph();
+		// Graph roadNetwork8 = um.readMergedPOI(manualNodeDatasetA2);
+		ArrayList<Node> nodesInfo = um.readNodeFile(manualDatasetForAStar);// (manualnodeDatasetFile);
+		// roadNetwork8.setNodesWithInfo(nodesInfo);
+		// roadNetwork8.printGraph();
 
-		AStarAlgorithm aStarAlg = new AStarAlgorithm(roadNetwork8);
+		// AStarAlgorithm aStarAlg = new AStarAlgorithm(roadNetwork8);
 		Scanner sc2 = new Scanner(System.in);
 		System.out.println("-----Test of A Star Algorith-----");
 		System.out.println();
@@ -202,17 +202,17 @@ public class Main {
 		System.out.println("Enter destination node id (10 is recommended):");
 		int destinationId2 = sc2.nextInt();
 
-		System.out.println();
-		aStarAlg.execute(roadNetwork8.getNodesWithInfo().get(sourceId2),
-				roadNetwork8.getNodesWithInfo().get(destinationId2));
-		LinkedList<Node> path2 = aStarAlg.getPath(roadNetwork8.getNodesWithInfo().get(destinationId2));
+//		System.out.println();
+//		aStarAlg.execute(roadNetwork8.getNodesWithInfo().get(sourceId2),
+//				roadNetwork8.getNodesWithInfo().get(destinationId2));
+//		LinkedList<Node> path2 = aStarAlg.getPath(roadNetwork8.getNodesWithInfo().get(destinationId2));
 
 		// assertNotNull(path);
 		// assertTrue(path.size() > 0);
 
-		for (Node vertex : path2) {
-			System.out.println("The path is: "+vertex);
-		}
+//		for (Node vertex : path2) {
+//			System.out.println("The path is: " + vertex);
+//		}
 
 	}
 

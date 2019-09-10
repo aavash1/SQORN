@@ -235,49 +235,49 @@ public class UtilsManagment {
 
 	}
 
-	public Graph readMergedPOI(String fileName) {
-		Graph graph = new Graph();
-		String line = "";
-		int startNode = 0, endNode = 0;
-		int poiId = 0;
-		double edge_length;
-		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-			while ((line = br.readLine()) != null) {
-				String[] record = line.split(" ");
-				if (record.length == 4) {
-					if (!isInteger(record[3])) {
-						// System.out.println("Line has 4 numbers and it ends with double");
-						poiId++;
-						graph.addPoi(poiId, startNode, endNode, Double.parseDouble(record[1]),
-								Integer.parseInt(record[0]));
-						poiId++;
-						graph.addPoi(poiId, startNode, endNode, Double.parseDouble(record[3]),
-								Integer.parseInt(record[2]));
-
-					} else {
-						// System.out.println("Line has 4 numbers and it ends with integer");
-						startNode = Integer.parseInt(record[0]);
-						endNode = Integer.parseInt(record[1]);
-						edge_length = Double.parseDouble(record[2]);
-						graph.addEdge(startNode, endNode, edge_length);
-
-					}
-
-				} else {
-					// System.out.println("line has 2 or more than 4 numbers");
-					for (int i = 0; i < record.length - 1; i += 2) {
-						poiId++;
-						graph.addPoi(poiId, startNode, endNode, Double.parseDouble(record[i + 1]),
-								Integer.parseInt(record[i]));
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return graph;
-
-	}
+//	public Graph readMergedPOI(String fileName) {
+//		Graph graph = new Graph();
+//		String line = "";
+//		int startNode = 0, endNode = 0;
+//		int poiId = 0;
+//		double edge_length;
+//		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+//			while ((line = br.readLine()) != null) {
+//				String[] record = line.split(" ");
+//				if (record.length == 4) {
+//					if (!isInteger(record[3])) {
+//						// System.out.println("Line has 4 numbers and it ends with double");
+//						poiId++;
+//						graph.addObject1(poiId, startNode, endNode, Double.parseDouble(record[1]),
+//								Integer.parseInt(record[0]));
+//						poiId++;
+//						graph.addObject1(poiId, startNode, endNode, Double.parseDouble(record[3]),
+//								Integer.parseInt(record[2]));
+//
+//					} else {
+//						// System.out.println("Line has 4 numbers and it ends with integer");
+//						startNode = Integer.parseInt(record[0]);
+//						endNode = Integer.parseInt(record[1]);
+//						edge_length = Double.parseDouble(record[2]);
+//						graph.addEdge(startNode, endNode, edge_length);
+//
+//					}
+//
+//				} else {
+//					// System.out.println("line has 2 or more than 4 numbers");
+//					for (int i = 0; i < record.length - 1; i += 2) {
+//						poiId++;
+//						graph.addPoi(poiId, startNode, endNode, Double.parseDouble(record[i + 1]),
+//								Integer.parseInt(record[i]));
+//					}
+//				}
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return graph;
+//
+//	}
 
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph
@@ -287,12 +287,12 @@ public class UtilsManagment {
 
 	// load information of pois from csv file and add these pois to list of pois in
 	// a give graph
-	public void loadPoiInfo(Graph graph, String csvFile) {
-		graph.setPoisWithInfo(readPOIFile2(csvFile));
-
-		// graph.getPois().get(0).setPoiCategoryId(intPOICategoryId);
-
-	}
+//	public void loadPoiInfo(Graph graph, String csvFile) {
+//		graph.setPoisWithInfo(readPOIFile2(csvFile));
+//
+//		// graph.getPois().get(0).setPoiCategoryId(intPOICategoryId);
+//
+//	}
 
 	public static int convertDoubleToInteger(double dValue) {
 		return (int) Math.round(dValue);

@@ -28,7 +28,7 @@ public class NaiveANN2 {
 		//PriorityQueue<Integer> roadObjectIds = new PriorityQueue<Integer>();
 		//PriorityQueue<RoadObject> roadObjects = new PriorityQueue<RoadObject>();
 		
-		NearestNeighbor4 nn = new NearestNeighbor4();
+		NearestNeighbor nn = new NearestNeighbor();
 
 
 		if (graph.getTotalNumberOfFalseObjects() >= graph.getTotalNumberOfTrueObjects()) {

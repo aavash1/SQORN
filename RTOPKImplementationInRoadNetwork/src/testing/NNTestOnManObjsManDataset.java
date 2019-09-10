@@ -1,9 +1,6 @@
 package testing;
 
 import algorithm.NearestNeighbor;
-import algorithm.NearestNeighbor2;
-import algorithm.NearestNeighbor3;
-import algorithm.NearestNeighbor4;
 import framework.Graph;
 import framework.RoadObject;
 
@@ -75,10 +72,10 @@ public class NNTestOnManObjsManDataset {
 		rObj9.setDistanceFromStartNode(8.0);
 		rObj9.setType(false);
 
-		 gr.addObjectOnEdge(2, rObj6);
-		 gr.addObjectOnEdge(4, rObj7);
-		 gr.addObjectOnEdge(6, rObj8);
-		 gr.addObjectOnEdge(9, rObj9);
+		gr.addObjectOnEdge(2, rObj6);
+		gr.addObjectOnEdge(4, rObj7);
+		gr.addObjectOnEdge(6, rObj8);
+		gr.addObjectOnEdge(9, rObj9);
 
 		// extra objects for Scenario #3
 		gr.addEdge(4, 9, 7.0);
@@ -88,7 +85,7 @@ public class NNTestOnManObjsManDataset {
 		rObj10.setObjId(111);
 		rObj10.setDistanceFromStartNode(1.0);
 		rObj10.setType(false);
-		//gr.addObjectOnEdge(11, rObj10);
+		// gr.addObjectOnEdge(11, rObj10);
 
 		gr.printGraph();
 		System.out.println();
@@ -103,7 +100,7 @@ public class NNTestOnManObjsManDataset {
 //		int nearestFalseObj = gr.getNearestFalseObjectIdToGivenObjOnMap(31);
 //		System.out.println(nearestFalseObj);
 
-		NearestNeighbor4 nn = new NearestNeighbor4();
+		NearestNeighbor nn = new NearestNeighbor();
 		RoadObject nearestObj = nn.getNearestObjectToGivenObjOnMap(gr, 31);
 		System.out.println(nearestObj);
 

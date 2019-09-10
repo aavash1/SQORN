@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import framework.Graph;
 import framework.RoadObject;
 
-public class NearestNeighbor4 {
+public class NearestNeighbor {
 
 	private Graph graph;
 
@@ -41,14 +41,14 @@ public class NearestNeighbor4 {
 
 		// Create a queue for Traversing
 		LinkedList<Integer> nonClearedNodeQueue = new LinkedList<Integer>();
-		
+
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
 		RoadObject nearestObjOnSameEdge = graph.getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
 			foundObjectsWithSortedDistance.put(
 					graph.getDistanceToNearestObjectFromGivenObjOnEdge(sourceEdgeId, sourceObjId),
-					nearestObjOnSameEdge.getObjectId());					
+					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
@@ -70,10 +70,11 @@ public class NearestNeighbor4 {
 			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
-				
+
 				int edgeId = graph.getEdgeId(currentNode, adjNode);
-				if (visitedEdges.contains(edgeId))	continue;
-				
+				if (visitedEdges.contains(edgeId))
+					continue;
+
 				RoadObject nearestObjOnAdjEdge = graph.getNearestObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
@@ -84,23 +85,23 @@ public class NearestNeighbor4 {
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if(graph.isStartNode(currentNode, edgeId)) { 
+					if (graph.isStartNode(currentNode, edgeId)) {
 						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
-					} else { 
+					} else {
 						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
-					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);					
+					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
 					if (distanceFromQueryToAdjNode < foundObjectsWithSortedDistance.firstKey()) {
-						nonClearedNodeQueue.add(adjNode);					
+						nonClearedNodeQueue.add(adjNode);
 					}
 					visitedEdges.add(edgeId);
 				}
 			}
 		}
 		double nearestObjDist = foundObjectsWithSortedDistance.firstKey();
-		//System.out.println("Distance to the nearest Object: " + nearestObjDist);
-		
+		// System.out.println("Distance to the nearest Object: " + nearestObjDist);
+
 		int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
 		int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
 		nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
@@ -111,7 +112,7 @@ public class NearestNeighbor4 {
 	public int getNearestObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		return getNearestObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 	}
-	
+
 	///// get Nearest True Object to a given Object on whole Map
 	public RoadObject getNearestTrueObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
@@ -134,14 +135,13 @@ public class NearestNeighbor4 {
 
 		// Create a queue for Traversing
 		LinkedList<Integer> nonClearedNodeQueue = new LinkedList<Integer>();
-		
+
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
 		RoadObject nearestObjOnSameEdge = graph.getNearestTrueObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
-			foundObjectsWithSortedDistance.put(
-					graph.getDistanceToNearestTrueObjectOnEdge(sourceEdgeId, sourceObjId),
-					nearestObjOnSameEdge.getObjectId());					
+			foundObjectsWithSortedDistance.put(graph.getDistanceToNearestTrueObjectOnEdge(sourceEdgeId, sourceObjId),
+					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
@@ -163,10 +163,11 @@ public class NearestNeighbor4 {
 			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
-				
+
 				int edgeId = graph.getEdgeId(currentNode, adjNode);
-				if (visitedEdges.contains(edgeId))	continue;
-				
+				if (visitedEdges.contains(edgeId))
+					continue;
+
 				RoadObject nearestObjOnAdjEdge = graph.getNearestTrueObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
@@ -177,37 +178,38 @@ public class NearestNeighbor4 {
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if(graph.isStartNode(currentNode, edgeId)) { 
+					if (graph.isStartNode(currentNode, edgeId)) {
 						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
-					} else { 
+					} else {
 						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
-					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);					
+					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
 					if (distanceFromQueryToAdjNode < foundObjectsWithSortedDistance.firstKey()) {
-						nonClearedNodeQueue.add(adjNode);					
+						nonClearedNodeQueue.add(adjNode);
 					}
 					visitedEdges.add(edgeId);
 				}
 			}
 		}
 		double nearestObjDist = foundObjectsWithSortedDistance.firstKey();
-		//System.out.println("Distance to the nearest Object: " + nearestObjDist);
-		
+		// System.out.println("Distance to the nearest Object: " + nearestObjDist);
+
 		int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
 		int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
 		nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
 
 		return nearestObj;
 	}
+
 	public int getNearestTrueObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		if (getNearestTrueObjectToGivenObjOnMap(gr, sourceObjId) != null) {
 			return getNearestTrueObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 		}
 		return -1;
 	}
-	
-///// get Nearest False Object to a given Object on whole Map
+
+	///// get Nearest False Object to a given Object on whole Map
 	public RoadObject getNearestFalseObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
 		graph = gr;
@@ -229,14 +231,13 @@ public class NearestNeighbor4 {
 
 		// Create a queue for Traversing
 		LinkedList<Integer> nonClearedNodeQueue = new LinkedList<Integer>();
-		
+
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
 		RoadObject nearestObjOnSameEdge = graph.getNearestFalseObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
-			foundObjectsWithSortedDistance.put(
-					graph.getDistanceToNearestFalseObjectOnEdge(sourceEdgeId, sourceObjId),
-					nearestObjOnSameEdge.getObjectId());					
+			foundObjectsWithSortedDistance.put(graph.getDistanceToNearestFalseObjectOnEdge(sourceEdgeId, sourceObjId),
+					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
@@ -258,10 +259,11 @@ public class NearestNeighbor4 {
 			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
-				
+
 				int edgeId = graph.getEdgeId(currentNode, adjNode);
-				if (visitedEdges.contains(edgeId))	continue;
-				
+				if (visitedEdges.contains(edgeId))
+					continue;
+
 				RoadObject nearestObjOnAdjEdge = graph.getNearestFalseObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
@@ -272,36 +274,46 @@ public class NearestNeighbor4 {
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if(graph.isStartNode(currentNode, edgeId)) { 
+					if (graph.isStartNode(currentNode, edgeId)) {
 						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
-					} else { 
+					} else {
 						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
-					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);					
-					if (distanceFromQueryToAdjNode < foundObjectsWithSortedDistance.firstKey()) {
-						nonClearedNodeQueue.add(adjNode);					
+					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
+					if (foundObjectsWithSortedDistance.isEmpty()) {
+
+						nonClearedNodeQueue.add(adjNode);
+					} else {
+						if (distanceFromQueryToAdjNode < foundObjectsWithSortedDistance.firstKey()) {
+							nonClearedNodeQueue.add(adjNode);
+						}
 					}
 					visitedEdges.add(edgeId);
 				}
 			}
 		}
-		double nearestObjDist = foundObjectsWithSortedDistance.firstKey();
-		//System.out.println("Distance to the nearest Object: " + nearestObjDist);
-		
-		int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
-		int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
-		nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
+		if (!foundObjectsWithSortedDistance.isEmpty()) {
+			double nearestObjDist = foundObjectsWithSortedDistance.firstKey();
+			// System.out.println("Distance to the nearest Object: " + nearestObjDist);
+
+			int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
+			int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
+			nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
+		} else {
+			nearestObj = null;
+		}
 
 		return nearestObj;
 	}
+
 	public int getNearestFalseObjectIdToGivenObjOnMap(Graph gr, int sourceObjId) {
 		if (getNearestFalseObjectToGivenObjOnMap(gr, sourceObjId) != null) {
 			return getNearestFalseObjectToGivenObjOnMap(gr, sourceObjId).getObjectId();
 		}
 		return -1;
 	}
-	
+
 	public <K, V> K getMapKey(Map<K, V> map, V value) {
 		for (Map.Entry<K, V> entry : map.entrySet()) {
 			if (entry.getValue().equals(value)) {
