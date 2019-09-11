@@ -17,19 +17,19 @@ import framework.RoadObject;
 
 public class NearestNeighbor {
 
-	private Graph graph;
+	private Graph m_graph;
 
 	///// get Nearest Object to a given Object on whole Map
 	public RoadObject getNearestObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
-		graph = gr;
+		m_graph = gr;
 		RoadObject nearestObj;// return value
 
 		// Source Info
-		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
-		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
-		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
+		int sourceEdgeId = m_graph.getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject sourceObj = m_graph.getDatasetRoadObject(sourceObjId);
+		int sourceStartNodeId = m_graph.getStartNodeIdOfEdge(sourceEdgeId);
+		int sourceEndNodeId = m_graph.getEndNodeIdOfEdge(sourceEdgeId);
 
 		// foundObjectsWithSortedDistance: Map<Total distance, Object Id>, Total
 		// distance from query object to the found object
@@ -44,16 +44,16 @@ public class NearestNeighbor {
 
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
-		RoadObject nearestObjOnSameEdge = graph.getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
+		RoadObject nearestObjOnSameEdge = m_graph.getNearestObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
 			foundObjectsWithSortedDistance.put(
-					graph.getDistanceToNearestObjectFromGivenObjOnEdge(sourceEdgeId, sourceObjId),
+					m_graph.getDistanceToNearestObjectFromGivenObjOnEdge(sourceEdgeId, sourceObjId),
 					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
 		double distanceFromQueryToStartNode = sourceObj.getDistanceFromStartNode();
-		double distanceFromQueryToEndNode = graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
+		double distanceFromQueryToEndNode = m_graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
 
 		foundNodesWithSortedDistance.put(distanceFromQueryToStartNode, sourceStartNodeId);
 		foundNodesWithSortedDistance.put(distanceFromQueryToEndNode, sourceEndNodeId);
@@ -67,28 +67,28 @@ public class NearestNeighbor {
 			currentNode = nonClearedNodeQueue.poll();
 			double distanceFromQueryToCurrentNode = getMapKey(foundNodesWithSortedDistance, currentNode);
 
-			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
+			Iterator<Integer> iteratorAdjNodes = m_graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
 
-				int edgeId = graph.getEdgeId(currentNode, adjNode);
+				int edgeId = m_graph.getEdgeId(currentNode, adjNode);
 				if (visitedEdges.contains(edgeId))
 					continue;
 
-				RoadObject nearestObjOnAdjEdge = graph.getNearestObjectToGivenNodeOnEdge(edgeId, currentNode);
+				RoadObject nearestObjOnAdjEdge = m_graph.getNearestObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
 
 					double distanceFromQueryObj = distanceFromQueryToCurrentNode
-							+ graph.getDistanceToNearestObjectFromGivenNodeOnEdge(edgeId, currentNode);
+							+ m_graph.getDistanceToNearestObjectFromGivenNodeOnEdge(edgeId, currentNode);
 					foundObjectsWithSortedDistance.put(distanceFromQueryObj, nearestObjOnAdjEdge.getObjectId());
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if (graph.isStartNode(currentNode, edgeId)) {
-						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
+					if (m_graph.isStartNode(currentNode, edgeId)) {
+						adjEdgeLength = m_graph.getEdgeDistance(currentNode, adjNode);
 					} else {
-						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
+						adjEdgeLength = m_graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
 					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
@@ -103,8 +103,8 @@ public class NearestNeighbor {
 		// System.out.println("Distance to the nearest Object: " + nearestObjDist);
 
 		int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
-		int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
-		nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
+		int edgeOfNearestObj = m_graph.getEdgeIdOfRoadObject(nearestObjId);
+		nearestObj = m_graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
 
 		return nearestObj;
 	}
@@ -116,14 +116,14 @@ public class NearestNeighbor {
 	///// get Nearest True Object to a given Object on whole Map
 	public RoadObject getNearestTrueObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
-		graph = gr;
+		m_graph = gr;
 		RoadObject nearestObj;
 
 		// Source Info
-		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
-		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
-		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
+		int sourceEdgeId = m_graph.getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject sourceObj = m_graph.getDatasetRoadObject(sourceObjId);
+		int sourceStartNodeId = m_graph.getStartNodeIdOfEdge(sourceEdgeId);
+		int sourceEndNodeId = m_graph.getEndNodeIdOfEdge(sourceEdgeId);
 
 		// foundObjectsWithSortedDistance: Map<Total distance, Object Id>, Total
 		// distance from query object to the found object
@@ -138,15 +138,15 @@ public class NearestNeighbor {
 
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
-		RoadObject nearestObjOnSameEdge = graph.getNearestTrueObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
+		RoadObject nearestObjOnSameEdge = m_graph.getNearestTrueObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
-			foundObjectsWithSortedDistance.put(graph.getDistanceToNearestTrueObjectOnEdge(sourceEdgeId, sourceObjId),
+			foundObjectsWithSortedDistance.put(m_graph.getDistanceToNearestTrueObjectOnEdge(sourceEdgeId, sourceObjId),
 					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
 		double distanceFromQueryToStartNode = sourceObj.getDistanceFromStartNode();
-		double distanceFromQueryToEndNode = graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
+		double distanceFromQueryToEndNode = m_graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
 
 		foundNodesWithSortedDistance.put(distanceFromQueryToStartNode, sourceStartNodeId);
 		foundNodesWithSortedDistance.put(distanceFromQueryToEndNode, sourceEndNodeId);
@@ -160,28 +160,28 @@ public class NearestNeighbor {
 			currentNode = nonClearedNodeQueue.poll();
 			double distanceFromQueryToCurrentNode = getMapKey(foundNodesWithSortedDistance, currentNode);
 
-			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
+			Iterator<Integer> iteratorAdjNodes = m_graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
 
-				int edgeId = graph.getEdgeId(currentNode, adjNode);
+				int edgeId = m_graph.getEdgeId(currentNode, adjNode);
 				if (visitedEdges.contains(edgeId))
 					continue;
 
-				RoadObject nearestObjOnAdjEdge = graph.getNearestTrueObjectToGivenNodeOnEdge(edgeId, currentNode);
+				RoadObject nearestObjOnAdjEdge = m_graph.getNearestTrueObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
 
 					double distanceFromQueryObj = distanceFromQueryToCurrentNode
-							+ graph.getDistanceToNearestTrueObjectFromGivenNodeOnEdge(edgeId, currentNode);
+							+ m_graph.getDistanceToNearestTrueObjectFromGivenNodeOnEdge(edgeId, currentNode);
 					foundObjectsWithSortedDistance.put(distanceFromQueryObj, nearestObjOnAdjEdge.getObjectId());
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if (graph.isStartNode(currentNode, edgeId)) {
-						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
+					if (m_graph.isStartNode(currentNode, edgeId)) {
+						adjEdgeLength = m_graph.getEdgeDistance(currentNode, adjNode);
 					} else {
-						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
+						adjEdgeLength = m_graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
 					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
@@ -196,8 +196,8 @@ public class NearestNeighbor {
 		// System.out.println("Distance to the nearest Object: " + nearestObjDist);
 
 		int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
-		int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
-		nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
+		int edgeOfNearestObj = m_graph.getEdgeIdOfRoadObject(nearestObjId);
+		nearestObj = m_graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
 
 		return nearestObj;
 	}
@@ -212,14 +212,14 @@ public class NearestNeighbor {
 	///// get Nearest False Object to a given Object on whole Map
 	public RoadObject getNearestFalseObjectToGivenObjOnMap(Graph gr, int sourceObjId) {
 
-		graph = gr;
+		m_graph = gr;
 		RoadObject nearestObj;// return value
 
 		// Source Info
-		int sourceEdgeId = graph.getEdgeIdOfRoadObject(sourceObjId);
-		RoadObject sourceObj = graph.getGeneratedRoadObject(sourceObjId);
-		int sourceStartNodeId = graph.getStartNodeIdOfEdge(sourceEdgeId);
-		int sourceEndNodeId = graph.getEndNodeIdOfEdge(sourceEdgeId);
+		int sourceEdgeId = m_graph.getEdgeIdOfRoadObject(sourceObjId);
+		RoadObject sourceObj = m_graph.getDatasetRoadObject(sourceObjId);
+		int sourceStartNodeId = m_graph.getStartNodeIdOfEdge(sourceEdgeId);
+		int sourceEndNodeId = m_graph.getEndNodeIdOfEdge(sourceEdgeId);
 
 		// foundObjectsWithSortedDistance: Map<Total distance, Object Id>, Total
 		// distance from query object to the found object
@@ -234,15 +234,15 @@ public class NearestNeighbor {
 
 		Set<Integer> visitedEdges = new HashSet<Integer>();
 
-		RoadObject nearestObjOnSameEdge = graph.getNearestFalseObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
+		RoadObject nearestObjOnSameEdge = m_graph.getNearestFalseObjectToGivenObjOnEdge(sourceEdgeId, sourceObjId);
 		if (nearestObjOnSameEdge != null) {
-			foundObjectsWithSortedDistance.put(graph.getDistanceToNearestFalseObjectOnEdge(sourceEdgeId, sourceObjId),
+			foundObjectsWithSortedDistance.put(m_graph.getDistanceToNearestFalseObjectOnEdge(sourceEdgeId, sourceObjId),
 					nearestObjOnSameEdge.getObjectId());
 		}
 		visitedEdges.add(sourceEdgeId);
 
 		double distanceFromQueryToStartNode = sourceObj.getDistanceFromStartNode();
-		double distanceFromQueryToEndNode = graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
+		double distanceFromQueryToEndNode = m_graph.getDistanceFromNodeToGivenObjOnSameEdge(sourceEndNodeId, sourceObjId);
 
 		foundNodesWithSortedDistance.put(distanceFromQueryToStartNode, sourceStartNodeId);
 		foundNodesWithSortedDistance.put(distanceFromQueryToEndNode, sourceEndNodeId);
@@ -256,28 +256,28 @@ public class NearestNeighbor {
 			currentNode = nonClearedNodeQueue.poll();
 			double distanceFromQueryToCurrentNode = getMapKey(foundNodesWithSortedDistance, currentNode);
 
-			Iterator<Integer> iteratorAdjNodes = graph.getAdjNodeIds(currentNode).listIterator();
+			Iterator<Integer> iteratorAdjNodes = m_graph.getAdjNodeIds(currentNode).listIterator();
 			while (iteratorAdjNodes.hasNext()) {
 				int adjNode = iteratorAdjNodes.next();
 
-				int edgeId = graph.getEdgeId(currentNode, adjNode);
+				int edgeId = m_graph.getEdgeId(currentNode, adjNode);
 				if (visitedEdges.contains(edgeId))
 					continue;
 
-				RoadObject nearestObjOnAdjEdge = graph.getNearestFalseObjectToGivenNodeOnEdge(edgeId, currentNode);
+				RoadObject nearestObjOnAdjEdge = m_graph.getNearestFalseObjectToGivenNodeOnEdge(edgeId, currentNode);
 
 				if (nearestObjOnAdjEdge != null) {
 
 					double distanceFromQueryObj = distanceFromQueryToCurrentNode
-							+ graph.getDistanceToNearestFalseObjectFromGivenNodeOnEdge(edgeId, currentNode);
+							+ m_graph.getDistanceToNearestFalseObjectFromGivenNodeOnEdge(edgeId, currentNode);
 					foundObjectsWithSortedDistance.put(distanceFromQueryObj, nearestObjOnAdjEdge.getObjectId());
 					visitedEdges.add(edgeId);
 				} else {
 					double adjEdgeLength;
-					if (graph.isStartNode(currentNode, edgeId)) {
-						adjEdgeLength = graph.getEdgeDistance(currentNode, adjNode);
+					if (m_graph.isStartNode(currentNode, edgeId)) {
+						adjEdgeLength = m_graph.getEdgeDistance(currentNode, adjNode);
 					} else {
-						adjEdgeLength = graph.getEdgeDistance(adjNode, currentNode);
+						adjEdgeLength = m_graph.getEdgeDistance(adjNode, currentNode);
 					}
 					double distanceFromQueryToAdjNode = distanceFromQueryToCurrentNode + adjEdgeLength;
 					foundNodesWithSortedDistance.put(distanceFromQueryToAdjNode, adjNode);
@@ -298,8 +298,8 @@ public class NearestNeighbor {
 			// System.out.println("Distance to the nearest Object: " + nearestObjDist);
 
 			int nearestObjId = foundObjectsWithSortedDistance.get(nearestObjDist);
-			int edgeOfNearestObj = graph.getEdgeIdOfRoadObject(nearestObjId);
-			nearestObj = graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
+			int edgeOfNearestObj = m_graph.getEdgeIdOfRoadObject(nearestObjId);
+			nearestObj = m_graph.getRoadObjectOnEdge(edgeOfNearestObj, nearestObjId);
 		} else {
 			nearestObj = null;
 		}

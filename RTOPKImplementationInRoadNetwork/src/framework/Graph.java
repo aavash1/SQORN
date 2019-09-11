@@ -182,6 +182,15 @@ public class Graph {
 		return -1;
 	}
 
+	public int getFirstIntersectionNode() {
+		for (Node n : m_nodesWithInfo) {
+			if (isIntersectionNode(n.getNodeId())) {
+				return n.getNodeId();
+			}
+		}
+		return -1;
+	}
+
 	////////////////////////////////////// Node related
 	////////////////////////////////////// methods]///////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -529,8 +538,8 @@ public class Graph {
 
 	// Working with m_objectsOnEdges: Map<Integer, List<RoadObject>>
 	public void printObjectsOnEdges() {
-
-		System.out.println("Road Object: ");
+		System.out.println();
+		System.out.println("Road Objects Information: ");
 		int generatedObjCounter = 0;
 
 		for (Integer key : m_objectsOnEdges.keySet()) {
@@ -1113,7 +1122,7 @@ public class Graph {
 		ArrayList<RoadObject> roadObjList = new ArrayList<RoadObject>();
 		if (roadObjIdList.size() > 0) {
 			for (Integer objId : roadObjIdList) {
-				roadObjList.add(getGeneratedRoadObject(objId));
+				roadObjList.add(getDatasetRoadObject(objId));
 			}
 		}
 		return roadObjList;

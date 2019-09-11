@@ -11,11 +11,11 @@ import framework.RoadObject;
 
 public class RandomObjectGenerator {
 
-	private int m_totalNumberofEdge;
-	private int m_totalNumerofNode;
-	private int m_totalNumberofObject, m_totalNumberofDataObject, m_intTotalNumberofQueryObject,
-			m_maxNumberofObjectPerEdge;
-	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
+//	private int m_totalNumberofEdges;
+//	private int m_totalNumerofNodes;
+//	private int m_totalNumberofObject, m_totalNumberofDataObject, m_intTotalNumberofQueryObject,
+//			m_maxNumberofObjectPerEdge;
+//	private double m_minDistanceBetweenNodeandObject, m_minDistanceBetweenObject;
 
 	private static int m_objToEdgeId = 10; // this number helps to identify edge on which obj is located, sync it with
 											// same variable in Graph class
@@ -40,13 +40,14 @@ public class RandomObjectGenerator {
 	private static int m_totalNumberOfEdges;
 	private static double m_totalLengthOfEdges;
 
-	public static void generateRandomObjectsOnMap(Graph graph2) {
+	public static void generateRandomObjectsOnMap(Graph graph) {
 		
 		
 		int edgeId = 0;
+		int objCounter = 0;
 		double distanceFromStartNode = 0.0;
 		double edgeLength;
-		int totalNumberOfEdges = graph2.getNumberOfEdges();
+		int totalNumberOfEdges = graph.getNumberOfEdges();
 		
 		Random rand = new Random();
 		int randomNumberOfEdges = 7;//getRandIntBetRange(6, totalNumberOfEdges);
@@ -71,7 +72,7 @@ public class RandomObjectGenerator {
 			}
 			isAcceptableEdgeId = false;
 			// System.out.println("edgeId: " + edgeId);
-			edgeLength = graph2.getEdgeDistance(edgeId);
+			edgeLength = graph.getEdgeDistance(edgeId);
 			// System.out.println("edgeLength: " + edgeLength);
 			maxNumberOfObjsPerEdge = (int) (edgeLength / minDistanceBetObjs - 1);
 			// System.out.println("maxNumberOfObjsPerEdge: " + maxNumberOfObjsPerEdge);
@@ -85,13 +86,10 @@ public class RandomObjectGenerator {
 
 				if (randomDistances.isEmpty()) {
 					distanceFromStartNode = getRandDoubleBetRange(1.0, edgeLength);
-					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
-					//randObj.setObjId(edgeId * m_objToEdgeId + j);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 					isAcceptableDistance = false;
 					isThereDistanceConflict = false;
-					// System.out.println("randomDistances2 (0): " + randomDistances2.get(0));
 				} else {
 					while (!isAcceptableDistance) {
 						distanceFromStartNode = getRandDoubleBetRange(1, edgeLength);
@@ -107,14 +105,14 @@ public class RandomObjectGenerator {
 						}
 
 					}
-					//randObj.setObjId(edgeId * m_objToEdgeId + j);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
-					// System.out.println("distanceFromStartNode: " + distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
 				}
-				randObj.setObjId(edgeId * m_objToEdgeId + j);
+				//randObj.setObjId(edgeId * m_objToEdgeId + j); // This is good if it is certain that all edges will have max 9 objects
+				objCounter++;
+				randObj.setObjId(objCounter);
 				randObj.setType(rand.nextBoolean());
-				graph2.addObjectOnEdge(edgeId, randObj);
+				graph.addObjectOnEdge(edgeId, randObj);
 				// System.out.println("edgeId: " + edgeId + "; " + "randObj: " + randObj);
 				isAcceptableDistance = false;
 				isThereDistanceConflict = false;
@@ -123,11 +121,11 @@ public class RandomObjectGenerator {
 		}
 		
 		// For Statistics
-		m_totalNumberOfObjects = graph2.getTotalNumberOfObjects();
-		m_totalNumberOfTrueObjects = graph2.getTotalNumberOfTrueObjects();
-		m_totalNumberOfFalseObjects = graph2.getTotalNumberOfFalseObjects();
+		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
+		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
+		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
 		m_totalNumberOfEdges = totalNumberOfEdges;
-		m_totalLengthOfEdges = graph2.getTotalLengthOfAllEdges();
+		m_totalLengthOfEdges = graph.getTotalLengthOfAllEdges();
 
 	}
 
