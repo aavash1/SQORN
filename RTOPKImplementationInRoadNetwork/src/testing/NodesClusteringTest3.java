@@ -10,7 +10,7 @@ public class NodesClusteringTest3 {
 
 		gr.addEdge(1, 2, 18.3698);
 		gr.addEdge(1, 3, 20.5499);
-		//gr.addEdge(2, 3, 19.0658);
+		// gr.addEdge(2, 3, 19.0658);
 		gr.addEdge(3, 4, 15.887);
 		gr.addEdge(3, 5, 17.01466);
 		gr.addEdge(5, 6, 23.963);
@@ -23,7 +23,7 @@ public class NodesClusteringTest3 {
 		System.out.println("--------------------THIS IS TEST FOR CLUSTERING--------------------");
 		System.out.println();
 		System.out.println();
-		cla.clusterAllNodes(gr);
+		// cla.clusterAllNodes(gr);
 		// cla.displayNodeSequence();
 		// System.out.println(cla.getSequenceList());
 	}
