@@ -20,7 +20,7 @@ public class ClusteringRoadObjects {
 	private Set<Integer> m_clusteredObjects = new HashSet<Integer>();
 	boolean m_typeOfClusteredObjects;
 	
-	public void cluster(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters, boolean typeOfClusteredObjects) {
+	public Map<Integer, LinkedList<Integer>> cluster(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters, boolean typeOfClusteredObjects) {
 
 		m_graph = gr;
 		m_nodeClusters = nodeClusters;
@@ -53,6 +53,7 @@ public class ClusteringRoadObjects {
 			
 						
 		}
+		return m_objectIdClusters;
 	}
 	
 	public void printRoadObjectClusters() { 
@@ -66,7 +67,12 @@ public class ClusteringRoadObjects {
 		}		
 		System.out.println("Total number of Clustered Objects: " + m_clusteredObjects.size());
 		System.out.println("Total number of Clusters: " + m_objectIdClusters.size());
-		System.out.println("Road Object Clusters: " + m_objectIdClusters);
+		System.out.println("Road Object Clusters: ");// + m_objectIdClusters);
+		for (Integer index : m_objectIdClusters.keySet()) { 
+			System.out.println("Object Cluster # " + index + ": " + m_objectIdClusters.get(index));
+		}
+		
+		System.out.println();
 	}
 
 }

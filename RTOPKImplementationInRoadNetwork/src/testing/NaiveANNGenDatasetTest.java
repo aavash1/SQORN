@@ -1,6 +1,6 @@
 package testing;
 
-import algorithm.NaiveANN;
+import algorithm.ANNNaive;
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
 
@@ -62,8 +62,8 @@ public class NaiveANNGenDatasetTest {
 		//gr.getNearestObjectOnEdge(edgeId, sourceObj)	
 		
 		System.out.println();
-		NaiveANN nAnn = new NaiveANN();
-		nAnn.computeANN(gr);
+		ANNNaive nAnn = new ANNNaive();
+		nAnn.compute(gr);
 		nAnn.printNearestNeighborSets();
 
 	}
