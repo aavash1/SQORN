@@ -1,13 +1,15 @@
 package testing;
 
-import algorithm.ClusteringNodes5;
-import algorithm.NaiveANN;
+import algorithm.ANNClustered;
+import algorithm.ANNNaive;
 import framework.Graph;
 import framework.RoadObject;
 
-public class NodesClusteringTest5 {
+public class ANNClusteredTest {
 
 	public static void main(String[] args) {
+		
+		
 		Graph gr = new Graph();
 
 		gr.addEdge(1, 2, 40.6);
@@ -299,14 +301,14 @@ public class NodesClusteringTest5 {
 		gr.printObjectsOnEdges();
 
 		System.out.println();
-		NaiveANN nAnn = new NaiveANN();
-		nAnn.computeANN(gr);
-		nAnn.printNearestNeighborSets();
+		ANNNaive annNaive = new ANNNaive();
+		annNaive.compute(gr);
+		annNaive.printNearestNeighborSets();
 		
-		ClusteringNodes5 clusteringNode5 = new ClusteringNodes5();
-		clusteringNode5.cluster(gr);
-		System.out.println();
-
+		ANNClustered  annClustered = new ANNClustered();
+		annClustered.compute(gr, true);
+		
+		
 	}
 
 }

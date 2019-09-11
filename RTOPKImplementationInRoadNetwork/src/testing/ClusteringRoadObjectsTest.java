@@ -1,15 +1,15 @@
 package testing;
 
-import algorithm.BFS;
-import algorithm.ClusertingAlgorithm;
 import algorithm.ClusteringNodes;
-import algorithm.NaiveANN;
+import algorithm.ClusteringRoadObjects;
+import algorithm.ANNNaive;
 import framework.Graph;
 import framework.RoadObject;
 
-public class NodesClusteringTest {
+public class ClusteringRoadObjectsTest {
 
 	public static void main(String[] args) {
+
 		Graph gr = new Graph();
 
 		gr.addEdge(1, 2, 40.6);
@@ -38,9 +38,9 @@ public class NodesClusteringTest {
 		gr.addEdge(22, 23, 26.00);
 		gr.addEdge(22, 24, 43.11);
 		gr.addEdge(20, 24, 22.43);
-		gr.addEdge(19, 20, 30);
+		gr.addEdge(20, 19, 30);
 		gr.addEdge(15, 25, 90);
-
+		
 		gr.printEdgesInfo();
 
 		RoadObject rObj1 = new RoadObject();
@@ -271,8 +271,6 @@ public class NodesClusteringTest {
 		qObj260.setDistanceFromStartNode(13.25);
 		qObj260.setType(false);
 
-		gr.addObjectOnEdge(26, qObj260);
-
 		RoadObject rObj280 = new RoadObject();
 		rObj280.setObjId(281);
 		rObj280.setDistanceFromStartNode(13.05);
@@ -297,17 +295,21 @@ public class NodesClusteringTest {
 		gr.addObjectOnEdge(28, rObj281);
 		gr.addObjectOnEdge(28, qObj282);
 		gr.addObjectOnEdge(28, qObj283);
+		
+		gr.addObjectOnEdge(26, qObj260);
 
 		gr.printObjectsOnEdges();
-
-		System.out.println();
-		NaiveANN nAnn = new NaiveANN();
-		nAnn.computeANN(gr);
-		// nAnn.printNearestNeighborSets();
-
-		ClusertingAlgorithm cl = new ClusertingAlgorithm();
-		cl.cluster(gr, 1);
-		cl.printClusteredNodes();
+		
+		ANNNaive nAnn = new ANNNaive();
+		nAnn.compute(gr);
+		nAnn.printNearestNeighborSets();
+		
+		ClusteringNodes clusteringNodes = new ClusteringNodes();		
+		
+		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+		clusteringObjects.cluster(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.printRoadObjectClusters();
+		
 	}
 
 }

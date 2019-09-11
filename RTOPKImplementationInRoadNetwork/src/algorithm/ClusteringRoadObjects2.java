@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -12,6 +13,7 @@ public class ClusteringRoadObjects2 {
 
 	private Map<Integer, LinkedList<Integer>> m_objectClusters = new HashMap<Integer, LinkedList<Integer>>();
 	private int m_objectClusterCounter = 0;
+	private ArrayList<Integer> visitedEdges = new ArrayList<Integer>();
 
 	public void clusterObject(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters) {
 
@@ -21,12 +23,15 @@ public class ClusteringRoadObjects2 {
 				int startNode = nodeClusters.get(index).get(i);
 				int endNode = nodeClusters.get(index).get(i + 1);
 				int edgeId = gr.getEdgeId(startNode, endNode);
-				LinkedList<Integer> clusteredObject = new LinkedList<Integer>();
-				for (Integer objectId : gr.getTrueObjectsIdOnGivenEdge(edgeId)) {
+				if (!visitedEdges.contains(edgeId)) {
+					visitedEdges.add(edgeId);
+					LinkedList<Integer> clusteredObject = new LinkedList<Integer>();
+					for (Integer objectId : gr.getTrueObjectsIdOnGivenEdge(edgeId)) {
 
-					clusteredObject.add(objectId);
-					m_objectClusterCounter++;
-					m_objectClusters.put(m_objectClusterCounter, clusteredObject);
+						clusteredObject.add(objectId);
+						m_objectClusterCounter++;
+						m_objectClusters.put(m_objectClusterCounter, clusteredObject);
+					}
 				}
 
 			}
