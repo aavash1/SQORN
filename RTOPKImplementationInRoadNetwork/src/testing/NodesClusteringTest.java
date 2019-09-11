@@ -303,10 +303,11 @@ public class NodesClusteringTest {
 		System.out.println();
 		NaiveANN nAnn = new NaiveANN();
 		nAnn.computeANN(gr);
-		nAnn.printNearestNeighborSets();
+		// nAnn.printNearestNeighborSets();
 
 		ClusertingAlgorithm cl = new ClusertingAlgorithm();
-		cl.clusterNodes(gr);
+		cl.cluster(gr, 1);
+		cl.printClusteredNodes();
 	}
 
 }

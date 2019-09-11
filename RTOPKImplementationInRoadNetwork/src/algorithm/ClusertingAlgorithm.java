@@ -1,57 +1,89 @@
 package algorithm;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import framework.Graph;
-import framework.Graph;
+
 import framework.Node;
 
 public class ClusertingAlgorithm {
 	private ArrayList<List<Integer>> nodeSequences = new ArrayList<List<Integer>>();
-	private ArrayList<Integer> vistitedNodes = new ArrayList<Integer>();
-	private ArrayList<Integer> clearedNodes = new ArrayList<Integer>();
+	private ArrayList<Integer> visitedEdges = new ArrayList<Integer>();
+	private LinkedList<Integer> nonClearedNodes = new LinkedList<Integer>();
 
-	private int setCounter = 0;
+	// private ArrayList<Integer> nodePath2 = new ArrayList<Integer>();
+	private int currentNodeId;// = 0;
 
-	public void clusterNodes(Graph gr) {
-		for (Node nodeId : gr.getNodesWithInfo()) {
-			if (!gr.isIntermediateNode(nodeId.getNodeId())) {
-				vistitedNodes.add(nodeId.getNodeId());
-				setCounter = gr.getAdjNodeIds(nodeId.getNodeId()).size();
-				for (int i = 0; i < setCounter; i++) {
-					while (setCounter != 0) {
+	public void cluster(Graph graph, int initialNodeIdToTraverse) {
+		nonClearedNodes.add(initialNodeIdToTraverse);
+		while (nonClearedNodes.size() != 0) {
+			currentNodeId = nonClearedNodes.poll();
+			Iterator<Integer> i = graph.getAdjNodeIds(currentNodeId).listIterator();
+			while (i.hasNext()) {
+				int adjNode = i.next();
+				ArrayList<Integer> nodeCluster = new ArrayList<Integer>();
 
-						if (gr.isIntersectionNode(gr.getAdjNodeIds(nodeId.getNodeId()).get(i))
-								|| (gr.isTerminalNode(gr.getAdjNodeIds(nodeId.getNodeId()).get(i)))) {
-							List<Integer> nodeSeq = new ArrayList<Integer>();
+				if (!visitedEdges.contains(graph.getEdgeId(currentNodeId, adjNode))) {
 
-							nodeSeq.add(nodeId.getNodeId());
-							nodeSeq.add(gr.getAdjNodeIds(nodeId.getNodeId()).get(i));
-							nodeSequences.add(nodeSeq);
-							clearedNodes.add(gr.getAdjNodeIds(nodeId.getNodeId()).get(i));
-							setCounter -= 1;
+					visitedEdges.add(graph.getEdgeId(currentNodeId, adjNode));
+					nodeCluster.add(currentNodeId);
+					if (graph.isTerminalNode(adjNode)) {
 
-						} else {
-							gr.getAdjNodeIds(gr.getAdjNodeIds(nodeId.getNodeId()).get(i));
-							for (int adjNodes : gr.getAdjNodeIds(gr.getAdjNodeIds(nodeId.getNodeId()).get(i))) {
-							if(gr.isIntermediateNode(adjNodes)) {
-								while(!gr.getAdjNodeIds(adjNodes).isEmpty()) {
-									
-								}
-							}
+						nodeCluster.add(adjNode);
+						nodeSequences.add(nodeCluster);
 
-							}
+					} else if (graph.isIntersectionNode(adjNode)) {
+						nodeCluster.add(adjNode);
+						nodeSequences.add(nodeCluster);
+						nonClearedNodes.add(adjNode);
 
-						}
+					} else {
+						nodeCluster.add(adjNode);
+
+						traverseIntermediateNode(graph, adjNode, nodeCluster);
 
 					}
+				}
+
+			}
+		}
+		// System.out.println(nodeSequences);
+	}
+
+	private void traverseIntermediateNode(Graph graph, int nodeId, ArrayList<Integer> nodePath) {
+		Iterator<Integer> j = graph.getAdjNodeIds(nodeId).listIterator();
+		while (j.hasNext()) {
+			int n = j.next();
+			if (!visitedEdges.contains(graph.getEdgeId(nodeId, n))) {
+				visitedEdges.add(graph.getEdgeId(nodeId, n));
+				if (graph.isTerminalNode(n)) {
+					nodePath.add(n);
+					nodeSequences.add(nodePath);
+
+				} else if (graph.isIntersectionNode(n)) {
+					nodePath.add(n);
+					nodeSequences.add(nodePath);
+					nonClearedNodes.add(n);
+
+				} else {
+					nodePath.add(n);
+					traverseIntermediateNode(graph, n, nodePath);
 
 				}
 
 			}
+
+		}
+	}
+
+	public void printClusteredNodes() {
+		for (int i = 0; i < nodeSequences.size(); i++) {
+			System.out.println("[ " + nodeSequences.get(i) + " ]");
 		}
 	}
 
