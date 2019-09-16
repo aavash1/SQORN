@@ -84,6 +84,16 @@ public class ANNClustered3 {
 						System.out.println("The nearest True object of " + m_objectIdClusters.get(index).get(i) + " is "
 								+ nn.getNearestTrueObjectToGivenObjOnMap(m_graph, m_objectIdClusters.get(index).get(i))
 										.getObjectId());
+						double dist1 = m_graph.getDistanceBetweenTwoTrueObjects(i, beginingExitQueryObj);
+						double dist2 = m_graph.getDistanceBetweenTwoTrueObjects(i, endExitQueryObj);
+
+						if (dist1 > dist2) {
+							int nearest = m_nearestNeighborSets.get(beginingExitQueryObj).valueOf(beginingExitQueryObj);
+							m_nearestNeighborSets.put(i, nearest);
+						} else {
+							int nearest = m_nearestNeighborSets.get(endExitQueryObj).valueOf(endExitQueryObj);
+							m_nearestNeighborSets.put(i, nearest);
+						}
 
 					}
 				}

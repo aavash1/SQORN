@@ -914,6 +914,8 @@ public class Graph {
 	// This method will be used to get the distance between two true objects.
 	// Useful for the comparison of the distance between two true objects and
 	// assigning the Nearest Neighbor.
+	// source Id should be the inner true object while the destination object should
+	// be boundary objects
 	public double getDistanceBetweenTwoTrueObjects(int sourceObjectId, int destObjId) {
 		double distance = 0.0;
 		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjectId);
@@ -921,12 +923,45 @@ public class Graph {
 
 		if (sourceEdgeId == destEdgeId) {
 			int startNode = getStartAndEndNodes(sourceEdgeId).get(0);
-			int endNode = getStartAndEndNodes(sourceEdgeId).get(1);
+			// int endNode = getStartAndEndNodes(sourceEdgeId).get(1);
 
 			distance = getDistanceFromNodeToGivenObjOnSameEdge(startNode, destObjId)
 					- getDistanceFromNodeToGivenObjOnSameEdge(startNode, sourceObjectId);
 		} else {
 			// need to build up a logic here//
+			int destObjNodeStart = getStartAndEndNodes(destEdgeId).get(1);
+			int srcObjNodeStart = getStartAndEndNodes(sourceEdgeId).get(0);
+			int bridgeEdgeId = getEdgeIdStrictOrder(srcObjNodeStart, destObjNodeStart);
+
+			if (getAdjacencyEdgeIds(destEdgeId).contains(bridgeEdgeId)
+					&& getAdjacencyEdgeIds(sourceEdgeId).contains(bridgeEdgeId)) {
+				if (getStartAndEndNodes(destEdgeId).get(0) == getStartAndEndNodes(bridgeEdgeId).get(1)
+						&& getStartAndEndNodes(sourceEdgeId).get(1) == getStartAndEndNodes(bridgeEdgeId).get(0)) {
+					distance = (getEdgeDistance(destEdgeId)
+							- (getObjectsWithInfo().get(destObjId).getDistanceFromStartNode())
+							+ getEdgeDistance(bridgeEdgeId)
+							+ (getObjectsWithInfo().get(sourceObjectId).getDistanceFromStartNode()));
+				} else {
+					distance = (getEdgeDistance(sourceEdgeId)
+							- (getObjectsWithInfo().get(sourceObjectId).getDistanceFromStartNode())
+							+ getEdgeDistance(bridgeEdgeId)
+							+ (getObjectsWithInfo().get(destObjId).getDistanceFromStartNode()));
+
+				}
+
+			} else {
+				if ((getStartAndEndNodes(sourceEdgeId).get(0) == getStartAndEndNodes(destEdgeId).get(1))) {
+					distance = (getEdgeDistance(destEdgeId)
+							- getObjectsWithInfo().get(destObjId).getDistanceFromStartNode()
+							+ getObjectsWithInfo().get(sourceObjectId).getDistanceFromStartNode());
+
+				} else {
+					distance = (getEdgeDistance(sourceEdgeId)
+							- getObjectsWithInfo().get(sourceObjectId).getDistanceFromStartNode()
+							+ getObjectsWithInfo().get(destObjId).getDistanceFromStartNode());
+					;
+				}
+			}
 
 		}
 
