@@ -1,12 +1,12 @@
 package testing;
 
 import algorithm.ANNClustered;
-import algorithm.ANNClustered2;
+import algorithm.ANNClustered3;
 import algorithm.ANNNaive;
 import framework.Graph;
 import framework.RoadObject;
 
-public class ANNClusteredTest2 {
+public class ANNClusteredTest3 {
 
 	public static void main(String[] args) {
 
@@ -305,9 +305,12 @@ public class ANNClusteredTest2 {
 		annNaive.compute(gr);
 		annNaive.printNearestNeighborSets();
 
-		ANNClustered2 ann2 = new ANNClustered2();
-		ann2.compute(gr, true);
-		ann2.printNearestSets();
+		ANNClustered3 ann3 = new ANNClustered3();
+		ann3.compute(gr, true);
+		ann3.printNearestSets();
+
+		// System.out.println(gr.getDistanceBetweenTwoTrueObjects(qObj282.getObjectId(),
+		// qObj181.getObjectId()));
 
 	}
 

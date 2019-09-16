@@ -911,6 +911,28 @@ public class Graph {
 		return getDistanceFromNodeToGivenObjOnSameEdge(sourceNode, nearestObj.getObjectId());
 	}
 
+	// This method will be used to get the distance between two true objects.
+	// Useful for the comparison of the distance between two true objects and
+	// assigning the Nearest Neighbor.
+	public double getDistanceBetweenTwoTrueObjects(int sourceObjectId, int destObjId) {
+		double distance = 0.0;
+		int sourceEdgeId = getEdgeIdOfRoadObject(sourceObjectId);
+		int destEdgeId = getEdgeIdOfRoadObject(destObjId);
+
+		if (sourceEdgeId == destEdgeId) {
+			int startNode = getStartAndEndNodes(sourceEdgeId).get(0);
+			int endNode = getStartAndEndNodes(sourceEdgeId).get(1);
+
+			distance = getDistanceFromNodeToGivenObjOnSameEdge(startNode, destObjId)
+					- getDistanceFromNodeToGivenObjOnSameEdge(startNode, sourceObjectId);
+		} else {
+			// need to build up a logic here//
+
+		}
+
+		return distance;
+	}
+
 	// False Object
 	// Get Nearest False Object to given Node on same Edge
 	public RoadObject getNearestFalseObjectToGivenNodeOnEdge(int edgeId, int sourceNode) {

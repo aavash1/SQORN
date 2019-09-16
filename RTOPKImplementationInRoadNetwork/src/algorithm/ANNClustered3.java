@@ -7,7 +7,7 @@ import java.util.Map;
 import framework.Graph;
 import framework.RoadObject;
 
-public class ANNClustered2 {
+public class ANNClustered3 {
 
 	Graph m_graph;
 
@@ -41,11 +41,30 @@ public class ANNClustered2 {
 			for (Integer index : m_objectIdClusters.keySet()) {
 				// System.out.println("Object Cluster # " + index + ": " +
 				// m_objectIdClusters.get(index));
-				if (m_objectIdClusters.get(index).size() > 1) {
+
+				if (m_objectIdClusters.get(index).size() == 1) {
+					int queryObj = m_objectIdClusters.get(index).getFirst();
+					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, queryObj);
+					m_nearestNeighborSets.put(queryObj, nearestFalseObjId);
+
+				} else if (m_objectIdClusters.get(index).size() == 2) {
 					beginingExitQueryObj = m_objectIdClusters.get(index).getFirst();
-					System.out.println("The index of the beginingObject " + beginingExitQueryObj + " is: "
-							+ m_objectIdClusters.get(index).indexOf(beginingExitQueryObj));
 					endExitQueryObj = m_objectIdClusters.get(index).getLast();
+					int nearestFalseObjForBeginingExit = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph,
+							beginingExitQueryObj);
+					int nearestFalseObjForEndExit = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, endExitQueryObj);
+					m_nearestNeighborSets.put(beginingExitQueryObj, nearestFalseObjForBeginingExit);
+					m_nearestNeighborSets.put(endExitQueryObj, nearestFalseObjForEndExit);
+
+				} else {
+					beginingExitQueryObj = m_objectIdClusters.get(index).getFirst();
+					int indexOfBeginningObject = m_objectIdClusters.get(index).indexOf(beginingExitQueryObj);
+
+					endExitQueryObj = m_objectIdClusters.get(index).getLast();
+					int indexOfEndObject = m_objectIdClusters.get(index).indexOf(endExitQueryObj);
+					System.out.println(
+							"The First Index is: " + indexOfBeginningObject + ", & Last Index is: " + indexOfEndObject);
+
 					int nearestFalseObjForBeginingExit = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph,
 							beginingExitQueryObj);
 					int nearestFalseObjForEndExit = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, endExitQueryObj);
@@ -61,16 +80,12 @@ public class ANNClustered2 {
 					// put other query objects that are close to endExitQueryObj
 					// m_nearestNeighborSets.put(__, nearestFalseObjForEndExit);
 					for (int i = m_objectIdClusters.get(index).indexOf(beginingExitQueryObj) + 1; i < m_objectIdClusters
-							.get(index).indexOf(endExitQueryObj) - 1; i++) {
-						nn.getNearestTrueObjectIdToGivenObjOnMap(gr, i);
-						System.out.println(nn.getNearestTrueObjectIdToGivenObjOnMap(gr, i));
+							.get(index).size() - 1; i++) {
+						System.out.println("The nearest True object of " + m_objectIdClusters.get(index).get(i) + " is "
+								+ nn.getNearestTrueObjectToGivenObjOnMap(m_graph, m_objectIdClusters.get(index).get(i))
+										.getObjectId());
 
 					}
-
-				} else {
-					int queryObj = m_objectIdClusters.get(index).getFirst();
-					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, queryObj);
-					m_nearestNeighborSets.put(queryObj, nearestFalseObjId);
 				}
 			}
 
