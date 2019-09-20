@@ -14,6 +14,7 @@ public class ANNClustered3 {
 	// m_nearestNeighborSets: Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> m_nearestNeighborSets = new HashMap<Integer, Integer>();
 	private Map<Integer, LinkedList<Integer>> m_objectIdClusters;
+	private Map<Integer, LinkedList<Integer>> m_nodeIdClusters;
 
 	public void compute(Graph gr, boolean queryObjectType) {
 		System.out.println();
@@ -25,6 +26,9 @@ public class ANNClustered3 {
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
 		m_objectIdClusters = clusteringObjects.cluster(gr, clusteringNodes.cluster(gr), queryObjectType);
+		m_nodeIdClusters = clusteringNodes.cluster(gr);
+		// m_nodeIdClusters = clusteringObjects.cluster(gr, clusteringNodes.cluster(gr),
+		// queryObjectType);
 		clusteringNodes.printNodeClusters();
 		clusteringObjects.printRoadObjectClusters();
 
@@ -45,6 +49,7 @@ public class ANNClustered3 {
 				if (m_objectIdClusters.get(index).size() == 1) {
 					int queryObj = m_objectIdClusters.get(index).getFirst();
 					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, queryObj);
+
 					m_nearestNeighborSets.put(queryObj, nearestFalseObjId);
 
 				} else if (m_objectIdClusters.get(index).size() == 2) {
@@ -84,22 +89,19 @@ public class ANNClustered3 {
 						System.out.println("The nearest True object of " + m_objectIdClusters.get(index).get(i) + " is "
 								+ nn.getNearestTrueObjectToGivenObjOnMap(m_graph, m_objectIdClusters.get(index).get(i))
 										.getObjectId());
-						double dist1 = m_graph.getDistanceBetweenTwoTrueObjects(i, beginingExitQueryObj);
-						double dist2 = m_graph.getDistanceBetweenTwoTrueObjects(i, endExitQueryObj);
-
-						if (dist1 > dist2) {
-							int nearest = m_nearestNeighborSets.get(beginingExitQueryObj).valueOf(beginingExitQueryObj);
-							m_nearestNeighborSets.put(i, nearest);
-						} else {
-							int nearest = m_nearestNeighborSets.get(endExitQueryObj).valueOf(endExitQueryObj);
-							m_nearestNeighborSets.put(i, nearest);
-						}
+						m_graph.getDistanceBetweenTwoTrueObjectsOnObjectCluster(m_nodeIdClusters, m_objectIdClusters,
+								beginingExitQueryObj, endExitQueryObj, i);
+						// double dist1 = m_graph.getDistanceBetweenTwoObjectsOnMap(i,
+						// beginingExitQueryObj);
+						// double dist2 = m_graph.getDistanceBetweenTwoObjectsOnMap(i, endExitQueryObj);
 
 					}
 				}
 			}
 
-		} else {
+		}
+
+		{
 			// Query object = False Object; Data Object = True Object
 			System.out.println("Query object = False Object (" + m_graph.getTotalNumberOfFalseObjects()
 					+ "); Data Object = True Object (" + m_graph.getTotalNumberOfTrueObjects() + ")");

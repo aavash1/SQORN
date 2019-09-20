@@ -14,7 +14,7 @@ public class ClusteringNodes {
 	private Graph m_graph;
 	// m_nodeClusters: HashMap < index, LinkedList<Node ID> >
 	private Map<Integer, LinkedList<Integer>> m_nodeClusters = new HashMap<Integer, LinkedList<Integer>>();
-	private int m_clusterCounter = 0;	
+	private int m_clusterCounter = 0;
 
 	// Create a queue for Traversing
 	private LinkedList<Integer> m_nonClearedNodeQueue = new LinkedList<Integer>();
@@ -54,10 +54,10 @@ public class ClusteringNodes {
 					m_clusteredNodes.add(adjNode);
 					m_clusterCounter++;
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
-					//System.out.println("New cluster:");
-					//System.out.println(nodeCluster);
-					//System.out.println("All current clusters (" + m_clusterCounter + ") :");
-					//System.out.println(m_nodeClusters);
+					// System.out.println("New cluster:");
+					// System.out.println(nodeCluster);
+					// System.out.println("All current clusters (" + m_clusterCounter + ") :");
+					// System.out.println(m_nodeClusters);
 				}
 
 				if (m_graph.isIntermediateNode(adjNode)) {
@@ -77,17 +77,17 @@ public class ClusteringNodes {
 					m_clusteredNodes.add(adjNode);
 					m_clusterCounter++;
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
-					//System.out.println("New cluster:");
-					//System.out.println(nodeCluster);
-					//System.out.println("All current clusters (" + m_clusterCounter + ") :");
-					//System.out.println(m_nodeClusters);
+					// System.out.println("New cluster:");
+					// System.out.println(nodeCluster);
+					// System.out.println("All current clusters (" + m_clusterCounter + ") :");
+					// System.out.println(m_nodeClusters);
 					m_nonClearedNodeQueue.add(adjNode);
 				}
 
 			}
 
 		}
-		
+
 		return m_nodeClusters;
 	}
 
@@ -132,13 +132,17 @@ public class ClusteringNodes {
 			}
 		}
 	}
-	
-	public void printNodeClusters () { 
+
+	public Map<Integer, LinkedList<Integer>> getClusteredNodesSet() {
+		return m_nodeClusters;
+	}
+
+	public void printNodeClusters() {
 		System.out.println();
 		System.out.println("Total number of Nodes: " + m_graph.getNumberOfNodes());
 		System.out.println("Total number of Clustered Nodes: " + m_clusteredNodes.size());
-		System.out.println("Number of Clusters: " +  m_clusterCounter);
-		for ( Integer index : m_nodeClusters.keySet()) { 
+		System.out.println("Number of Clusters: " + m_clusterCounter);
+		for (Integer index : m_nodeClusters.keySet()) {
 			System.out.println("Node Cluster # " + index + ": " + m_nodeClusters.get(index));
 		}
 	}
