@@ -301,9 +301,9 @@ public class ANNClusteredTest3 {
 		gr.printObjectsOnEdges();
 
 		System.out.println();
-		ANNNaive annNaive = new ANNNaive();
-		annNaive.compute(gr);
-		annNaive.printNearestNeighborSets();
+//		ANNNaive annNaive = new ANNNaive();
+//		annNaive.compute(gr);
+//		annNaive.printNearestNeighborSets();
 
 		ANNClustered3 ann3 = new ANNClustered3();
 		ann3.compute(gr, true);

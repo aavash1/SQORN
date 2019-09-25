@@ -40,7 +40,7 @@ public class ClusteringRoadObjectsTest {
 		gr.addEdge(20, 24, 22.43);
 		gr.addEdge(20, 19, 30);
 		gr.addEdge(15, 25, 90);
-		
+
 		gr.printEdgesInfo();
 
 		RoadObject rObj1 = new RoadObject();
@@ -295,21 +295,21 @@ public class ClusteringRoadObjectsTest {
 		gr.addObjectOnEdge(28, rObj281);
 		gr.addObjectOnEdge(28, qObj282);
 		gr.addObjectOnEdge(28, qObj283);
-		
+
 		gr.addObjectOnEdge(26, qObj260);
 
 		gr.printObjectsOnEdges();
-		
+
 		ANNNaive nAnn = new ANNNaive();
 		nAnn.compute(gr);
 		nAnn.printNearestNeighborSets();
-		
-		ClusteringNodes clusteringNodes = new ClusteringNodes();		
-		
+
+		ClusteringNodes clusteringNodes = new ClusteringNodes();
+
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		clusteringObjects.cluster(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.cluster2(gr, clusteringNodes.cluster(gr), true);
 		clusteringObjects.printRoadObjectClusters();
-		
+
 	}
 
 }

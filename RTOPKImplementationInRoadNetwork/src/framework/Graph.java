@@ -6,8 +6,7 @@ import java.util.*;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 
-import algorithm.ClusteringRoadObjects;
-import algorithm.ClusteringRoadObjects2;
+import algorithm.ClusteringRoadObjects;;
 
 public class Graph {
 	private int m_numEdges;
@@ -557,7 +556,7 @@ public class Graph {
 	public RoadObject getGeneratedRoadObject(int objId) {
 		// Faster, but keep method getEdgeIdOfRoadObject() working with Objects from
 		// Dataset
-		int edgeId = getEdgeIdOfRoadObject(objId);
+		int edgeId = getEdgeOfRoadObjectByFormula(objId);
 		for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
 			if (obj.getObjectId() == objId) {
 				return obj;
@@ -597,13 +596,17 @@ public class Graph {
 	}
 
 	public int getEdgeIdOfRoadObject(int objId) {
-		// for (Integer edgeId : m_objectsOnEdges.keySet()) {
-		// for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
-		// if (obj.getObjectId() == objId) {
-		// return edgeId;
-		// }
-		// }
-		// }
+		for (Integer edgeId : m_objectsOnEdges.keySet()) {
+			for (RoadObject obj : m_objectsOnEdges.get(edgeId)) {
+				if (obj.getObjectId() == objId) {
+					return edgeId;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public int getEdgeOfRoadObjectByFormula(int objId) {
 		return objId / m_objToEdgeId;
 	}
 
@@ -938,35 +941,31 @@ public class Graph {
 
 		if (boundaryStartTrueObjectEdgeId == currentTrueObjectEdgeId) {
 			distance = getDistanceBetweenTwoObjectsOnEdge(boundaryBeginTrueObjectId, currentTrueObjectId);
-		} else {
-			for (LinkedList<Integer> objectsClusterlist : objectIdCluster.values()) {
-				if ((objectIdCluster.get(objectsClusterlist).getFirst() == boundaryBeginTrueObjectId)
-						|| (objectIdCluster.get(objectsClusterlist).getLast() == boundaryEndTrueObjectId)) {
-					for (LinkedList<Integer> nodeClusterList : nodeIdCluster.values()) {
-						if (nodeClusterList.size() > 2) {
-							for (int i = 0; i < nodeClusterList.size(); i++) {
-								if (nodeClusterList.get(i) == getStartNodeIdOfEdge(
-										getEdgeIdOfRoadObject(boundaryBeginTrueObjectId))) {
-									double distanceToSum = getEdgeDistance(boundaryStartTrueObjectEdgeId)
-											- (m_objectsWithInfo.get(boundaryStartTrueObjectEdgeId)
-													.getDistanceFromStartNode());
-									if (getEdgeId(nodeClusterList.get(i + 1), nodeClusterList
-											.get(i + 2)) == (getEdgeIdOfRoadObject(currentTrueObjectEdgeId))) {
-										distanceToSum = distanceToSum
-												+ m_objectsWithInfo.get(currentTrueObjectId).getDistanceFromStartNode();
-										distance = distanceToSum;
-									}
+		} else if ((boundaryStartTrueObjectEdgeId == currentTrueObjectEdgeId)
+				&& (boundaryEndTrueObjectEdgeId == currentTrueObjectEdgeId)) {
+			if (getDistanceBetweenTwoObjectsOnEdge(boundaryBeginTrueObjectId,
+					currentTrueObjectId) > getDistanceBetweenTwoObjectsOnEdge(boundaryEndTrueObjectEdgeId,
+							currentTrueObjectId)) {
+				distance = getDistanceBetweenTwoObjectsOnEdge(boundaryEndTrueObjectEdgeId, currentTrueObjectId);
 
-								}
+			} else
+				distance = getDistanceBetweenTwoObjectsOnEdge(boundaryBeginTrueObjectId, currentTrueObjectId);
+		} else {
+			for (Integer index : objectIdCluster.keySet()) {
+				if ((objectIdCluster.get(index).getFirst() == boundaryBeginTrueObjectId)
+						&& (objectIdCluster.get(index).getLast() == boundaryEndTrueObjectId)) {
+					for (Integer nodeIndex : nodeIdCluster.keySet()) {
+						for (int i = 0; i < nodeIdCluster.get(nodeIndex).size() - 1; i++) {
+							if (getEdgeId(nodeIdCluster.get(nodeIndex).get(i), nodeIdCluster.get(nodeIndex)
+									.get(i + 1)) == (getEdgeIdOfRoadObject(boundaryBeginTrueObjectId))) {
+								double distanceToSum = getEdgeDistance(getEdgeIdOfRoadObject(boundaryBeginTrueObjectId))
+										- m_objectsWithInfo.get(boundaryBeginTrueObjectId).getDistanceFromStartNode();
+								distance += distanceToSum;
 							}
 
 						}
-
 					}
-					for (int i = 0; i < objectIdCluster.get(objectsClusterlist).size(); i++) {
-						objectIdCluster.get(objectsClusterlist).get(i);
 
-					}
 				}
 
 			}
@@ -974,6 +973,81 @@ public class Graph {
 		}
 
 		return distance;
+
+	}
+
+	public double getDistanceBetweenBoundaryObjAndCurrentObj(LinkedList<Integer> currentNodeIdCluster,
+			LinkedList<Integer> currentObjectIdCluster, int boundaryTrueObjectId, int currentTrueObjectId) {
+
+		double distanceSum = 0.0;
+		double distance = 0.0;
+		int boundaryTrueObjectEdgeId = getEdgeIdOfRoadObject(boundaryTrueObjectId);
+		int currentTrueObjectEdgeId = getEdgeIdOfRoadObject(currentTrueObjectId);
+
+		if (boundaryTrueObjectEdgeId == currentTrueObjectEdgeId) {
+			distance = getDistanceBetweenTwoObjectsOnEdge(boundaryTrueObjectId, currentTrueObjectId);
+		} else {
+			boolean isCurrentObjectFound = false;
+			boolean startToAddDist = false;
+			while (!isCurrentObjectFound) {
+				if (currentObjectIdCluster.getFirst() == boundaryTrueObjectId) {
+
+					for (int i = 0; i < currentNodeIdCluster.size() - 1; i++) {
+						int currentEdgeId = getEdgeId(currentNodeIdCluster.get(i), currentNodeIdCluster.get(i + 1));
+						if (currentEdgeId == boundaryTrueObjectEdgeId) {
+							startToAddDist = true;
+
+							distance = getDistanceFromNodeToGivenObjOnSameEdge(currentNodeIdCluster.get(i + 1),
+									boundaryTrueObjectId);
+
+						}
+						if (startToAddDist) {
+							if (getTrueObjectsIdOnGivenEdge(currentEdgeId).contains(currentTrueObjectId)) {
+								distance = getDistanceFromNodeToGivenObjOnSameEdge(currentNodeIdCluster.get(i),
+										currentTrueObjectId);
+								isCurrentObjectFound = true;
+
+							} else {
+								distance = getEdgeDistance(currentEdgeId);
+
+							}
+
+						}
+						distanceSum += distance;
+					}
+
+				} else {
+					// here if the boundary object is end object
+					for (int i = currentNodeIdCluster.size() - 1; i > 0; i--) {
+						int currentEdgeId = getEdgeId(currentNodeIdCluster.get(i), currentNodeIdCluster.get(i - 1));
+						if (currentEdgeId == boundaryTrueObjectEdgeId) {
+							startToAddDist = true;
+
+							distance = getDistanceFromNodeToGivenObjOnSameEdge(currentNodeIdCluster.get(i - 1),
+									boundaryTrueObjectId);
+
+						}
+						if (startToAddDist) {
+							if (getTrueObjectsIdOnGivenEdge(currentEdgeId).contains(currentTrueObjectId)) {
+								distance = getDistanceFromNodeToGivenObjOnSameEdge(currentNodeIdCluster.get(i),
+										currentTrueObjectId);
+								isCurrentObjectFound = true;
+
+							} else {
+								distance = getEdgeDistance(currentEdgeId);
+
+							}
+
+						}
+						distanceSum += distance;
+					}
+				}
+
+			}
+		}
+
+		return distanceSum;
+
 	}
 
 	// False Object
@@ -990,10 +1064,11 @@ public class Graph {
 
 	// Distance between: given Object -> Nearest False Object
 	public double getDistanceToNearestFalseObjectOnEdge(int edgeId, int sourceObjId) {
-		RoadObject nearestFalseObj = getNearestTrueObjectToGivenObjOnEdge(edgeId, sourceObjId);
+		RoadObject nearestFalseObj = getNearestFalseObjectToGivenObjOnEdge(edgeId, sourceObjId);
 		if (nearestFalseObj == null)
 			return -1;
 		RoadObject sourceObject = getRoadObjectOnEdge(edgeId, sourceObjId);
+		
 		return Math.abs(sourceObject.getDistanceFromStartNode() - nearestFalseObj.getDistanceFromStartNode());
 	}
 

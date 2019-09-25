@@ -57,6 +57,43 @@ public class ClusteringRoadObjects {
 		return m_objectIdClusters;
 	}
 
+	public Map<Integer, LinkedList<Integer>> cluster2(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
+			boolean typeOfClusteredObjects) {
+
+		m_graph = gr;
+		m_nodeClusters = nodeClusters;
+		m_typeOfClusteredObjects = typeOfClusteredObjects;
+		int m_clusterCounter = 0;
+		// boolean clusteredObjectExists = false;
+
+		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
+			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
+			ArrayList<Integer> objectsOnEdge = new ArrayList<Integer>();
+			// boolean clusteredObjectExists = false;
+			for (int i = 0; i < m_nodeClusters.get(nodeClusterIndex).size() - 1; i++) {
+				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
+						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
+
+				if (typeOfClusteredObjects) {
+					objectsOnEdge = m_graph.getTrueObjectsIdOnGivenEdge(edgeId);
+				} else {
+					objectCluster.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
+				}
+				if (!objectsOnEdge.isEmpty()) {
+					objectCluster.addAll(objectsOnEdge);
+					m_clusteredObjects.addAll(objectCluster);
+					// clusteredObjectExists = true;
+				}
+			}
+			// if (clusteredObjectExists) {
+			m_clusterCounter++;
+			m_objectIdClusters.put(m_clusterCounter, objectCluster);
+			// }
+
+		}
+		return m_objectIdClusters;
+	}
+
 	public void printRoadObjectClusters() {
 
 		System.out.println();
