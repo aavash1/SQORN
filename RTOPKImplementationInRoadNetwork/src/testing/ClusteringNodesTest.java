@@ -299,11 +299,14 @@ public class ClusteringNodesTest {
 		gr.printObjectsOnEdges();
 
 		System.out.println();
-		ANNNaive nAnn = new ANNNaive();
-		nAnn.compute(gr);
-		nAnn.printNearestNeighborSets();
+//		ANNNaive nAnn = new ANNNaive();
+//		nAnn.compute(gr);
+//		nAnn.printNearestNeighborSets();
 
 		ClusteringNodes clusteringNode5 = new ClusteringNodes();
+		clusteringNode5.cluster(gr);
+		clusteringNode5.printNodeClusters();
+		System.out.println();
 		clusteringNode5.cluster(gr);
 		clusteringNode5.printNodeClusters();
 		System.out.println();

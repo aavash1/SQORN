@@ -300,14 +300,15 @@ public class ClusteringRoadObjectsTest {
 
 		gr.printObjectsOnEdges();
 
-		ANNNaive nAnn = new ANNNaive();
-		nAnn.compute(gr);
-		nAnn.printNearestNeighborSets();
+//		ANNNaive nAnn = new ANNNaive();
+//		nAnn.compute(gr);
+//		nAnn.printNearestNeighborSets();
 
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		clusteringObjects.cluster2(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
+		clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
 		clusteringObjects.printRoadObjectClusters();
 
 	}
