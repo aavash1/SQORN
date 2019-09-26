@@ -1,12 +1,10 @@
 package testing;
 
 import algorithm.ANNClustered;
-import algorithm.ANNClustered3;
-import algorithm.ANNNaive;
 import framework.Graph;
 import framework.RoadObject;
 
-public class ANNClusteredTest3 {
+public class ANNClusteredTest {
 
 	public static void main(String[] args) {
 
@@ -305,7 +303,7 @@ public class ANNClusteredTest3 {
 //		annNaive.compute(gr);
 //		annNaive.printNearestNeighborSets();
 
-		ANNClustered3 ann3 = new ANNClustered3();
+		ANNClustered ann3 = new ANNClustered();
 		ann3.compute(gr, true);
 		ann3.printNearestSets();
 

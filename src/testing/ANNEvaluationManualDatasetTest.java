@@ -2,7 +2,7 @@ package testing;
 
 import java.util.ArrayList;
 
-import algorithm.ANNClustered3;
+import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import framework.Graph;
 import framework.Node;
@@ -311,7 +311,7 @@ public class ANNEvaluationManualDatasetTest {
 		//annNaive.printNearestNeighborSets();
 		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 		
-		ANNClustered3 ann3 = new ANNClustered3();
+		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();
 		ann3.compute(gr, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
