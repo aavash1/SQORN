@@ -26,7 +26,7 @@ public class NaiveANNGenDatasetTest {
 		gr.printEdgesInfo();
 		System.out.println();
 		
-		RandomObjectGenerator.generateRandomObjectsOnMap(gr);
+		//RandomObjectGenerator.generateRandomObjectsOnMap(gr);
 		gr.printObjectsOnEdges();
 		RandomObjectGenerator.printStatistics();
 

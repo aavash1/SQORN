@@ -114,20 +114,17 @@ public class RandomObjGenTestManualDataset {
 
 		// ranG.generateRandomObjectsOnMap(gr);
 		// ranG.generateRandomObjectsOnMap2(gr);
-		 RandomObjectGenerator.generateRandomObjectsOnMap(gr);
-		 System.out.println("---This is after generator------");
+		// RandomObjectGenerator.generateRandomObjectsOnMap(gr);
+		System.out.println("---This is after generator------");
 		// gr.printGraph();
-		 gr.printObjectsOnEdges();
+		gr.printObjectsOnEdges();
 
-		 RandomObjectGenerator.printStatistics();
-		 
+		RandomObjectGenerator.printStatistics();
 
 		// randomDistanceGeneratorTest();
-		
-		
+
 	}
 
-	
 	public static void randomDistanceGeneratorTest() {
 		System.out.println("Random acceptable distance generator");
 		Boolean isThereDistanceConflict = false;

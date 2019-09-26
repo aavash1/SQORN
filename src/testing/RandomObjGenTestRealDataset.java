@@ -3,7 +3,9 @@ package testing;
 import java.util.ArrayList;
 
 import algorithm.RandomObjectGenerator;
+import framework.Edge;
 import framework.Graph;
+import framework.Node;
 import framework.UtilsManagment;
 
 public class RandomObjGenTestRealDataset {
@@ -19,16 +21,17 @@ public class RandomObjGenTestRealDataset {
 		long startTimeCal;
 		long graphLoadingTimeCal;
 		double graphLoadingTimeDCal;
-//		startTimeCal = System.nanoTime();
-//		calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);
-//		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
-//		calGraph.setNodesWithInfo(calNodesInfo);
-//		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(calEdgeDataset);
-//		calGraph.setEdgeWithInfo(calEdgeInfo);
-//		graphLoadingTimeCal = System.nanoTime() - startTimeCal;
-//		graphLoadingTimeDCal = (double) graphLoadingTimeCal / 1000000000.0;
-		// calGraph.printGraph();
-//		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
+		startTimeCal = System.nanoTime();
+		
+		calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);
+		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
+		calGraph.setNodesWithInfo(calNodesInfo);
+		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(calEdgeDataset);
+		calGraph.setEdgeWithInfo(calEdgeInfo);
+		graphLoadingTimeCal = System.nanoTime() - startTimeCal;
+		graphLoadingTimeDCal = (double) graphLoadingTimeCal / 1000000000.0;
+		calGraph.printGraph();
+		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
 		startTimeCal = System.nanoTime();
 		Graph calGraph2 = new Graph();
@@ -39,14 +42,11 @@ public class RandomObjGenTestRealDataset {
 		// calGraph2.printGraph();
 		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
-		
-		//ranG.generateObjectOnEdge(gr);
+		// ranG.generateObjectOnEdge(gr);
 		System.out.println("---This is after generator------");
-		//rg.generateRandomObjectsOnMap(calGraph2);
-		//calGraph2.printGraph();
+		// rg.generateRandomObjectsOnMap(calGraph2);
+		// calGraph2.printGraph();
 		calGraph2.printObjectsOnEdges();
-		
-		
-		
+
 	}
 }
