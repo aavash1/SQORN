@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.google.common.collect.MinMaxPriorityQueue;
+
 import framework.Edge;
 import framework.Graph;
 import framework.RoadObject;
@@ -39,8 +41,7 @@ public class RandomObjectGenerator {
 	private static int m_totalNumberOfEdges;
 	private static double m_totalLengthOfEdges;
 
-	public static void generateRandomObjectsOnMap(Graph graph, int numOfObjPerEdge, Double minEdgeLength,
-			Double minDistBetweenObjects) {
+	public static void generateRandomObjectsOnMap(Graph graph) {
 
 //		int minNumberOfObjsPerEdge = 4;
 //		double minDistanceBetObjs = 0.00011;
@@ -50,9 +51,24 @@ public class RandomObjectGenerator {
 		double distanceFromStartNode = 0.0;
 		double edgeLength;
 		int totalNumberOfEdges = graph.getNumberOfEdges();
+		double minDistBetweenObjects;
+		double minEdgeLength = Double.MAX_VALUE;
+		// double minLength;
+
+		for (Edge edge : graph.getEdgesWithInfo()) {
+
+			if (edge.getLength() < minEdgeLength) {
+				minEdgeLength = edge.getLength();
+			}
+
+		}
+
+		minDistBetweenObjects = Math.round(minEdgeLength / 3 * 100000.0) / 100000.0;
+		System.out.println("Min Dist between objects for California only is: " + minDistBetweenObjects);
+		System.out.println("Min edgeLength for California only is: " + minEdgeLength);
 
 		Random rand = new Random();
-		int randomNumberOfEdges = getRandIntBetRange(6, totalNumberOfEdges);
+		int randomNumberOfEdges = getRandIntBetRange(totalNumberOfEdges / 2, totalNumberOfEdges);
 		System.out.println("randomNumberOfEdges: " + randomNumberOfEdges);
 		int randomNumberOfObjsOnEdge;
 		Boolean isAcceptableDistance = false;
@@ -61,10 +77,13 @@ public class RandomObjectGenerator {
 
 		ArrayList<Integer> randomlyChosenEdgeIds = new ArrayList<Integer>();
 		ArrayList<Double> randomDistances = new ArrayList<Double>();
+
 		printGeneratorParameters();
 
 		// i - edge
-		for (int i = 0; i < randomNumberOfEdges; i++) {
+		for (
+
+				int i = 0; i < randomNumberOfEdges; i++) {
 
 			while (!isAcceptableEdgeId) {
 				edgeId = getRandIntBetRange(1, totalNumberOfEdges);
@@ -75,17 +94,21 @@ public class RandomObjectGenerator {
 			isAcceptableEdgeId = false;
 			// System.out.println("edgeId: " + edgeId);
 			edgeLength = graph.getEdgeDistance(edgeId);
+			System.out.println("Current Edge is: "+edgeId+" Edge length: "+edgeLength);
+		
 			// System.out.println("edgeLength: " + edgeLength);
 			maxNumberOfObjsPerEdge = (int) (edgeLength / minDistBetweenObjects - 1);
 			// System.out.println("maxNumberOfObjsPerEdge: " + maxNumberOfObjsPerEdge);
-			randomNumberOfObjsOnEdge = getRandIntBetRange(numOfObjPerEdge, maxNumberOfObjsPerEdge);
+			// randomNumberOfObjsOnEdge = getRandIntBetRange(minNumOfObjectsPerEdge,
+			// maxNumberOfObjsPerEdge);
+			randomNumberOfObjsOnEdge = getRandIntBetRange(maxNumberOfObjsPerEdge / 5, maxNumberOfObjsPerEdge);
 			System.out.println("randomNumberOfObjsOnEdge # " + edgeId + ": " + randomNumberOfObjsOnEdge);
 
 			randomDistances.clear();
 			// j - obj
 			for (int j = 0; j < randomNumberOfObjsOnEdge; j++) {
 				RoadObject randObj = new RoadObject();
-
+				System.out.println("First For Loop");
 				if (randomDistances.isEmpty()) {
 					distanceFromStartNode = getRandDoubleBetRange(minEdgeLength, edgeLength);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
@@ -94,9 +117,11 @@ public class RandomObjectGenerator {
 					isThereDistanceConflict = false;
 				} else {
 					while (!isAcceptableDistance) {
+						System.out.println("First While Loop");
 						distanceFromStartNode = getRandDoubleBetRange(minEdgeLength, edgeLength);
 						isThereDistanceConflict = false;
 						for (int k = 0; k < randomDistances.size(); k++) {
+							System.out.println("SEcond For Loop");
 							if (!((randomDistances.get(k) + minDistBetweenObjects <= distanceFromStartNode)
 									|| (randomDistances.get(k) - minDistBetweenObjects >= distanceFromStartNode))) {
 								isThereDistanceConflict = true;
@@ -138,7 +163,7 @@ public class RandomObjectGenerator {
 	}
 
 	public static double getRandDoubleBetRange(double min, double max) {
-		double x = Math.round((ThreadLocalRandom.current().nextDouble(min, max)) * 100.0) / 100.0;
+		double x = Math.round((ThreadLocalRandom.current().nextDouble(min, max)) * 100000.0) / 100000.0;
 		return x;
 	}
 
