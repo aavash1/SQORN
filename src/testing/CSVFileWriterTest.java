@@ -39,8 +39,8 @@ public class CSVFileWriterTest {
 		gr.addEdge(20, 19, 30);
 		gr.addEdge(15, 25, 90);
 
-		gr.printEdgesInfo();
-//
+		// gr.printEdgesInfo();
+		
 //		RoadObject rObj1 = new RoadObject();
 //		rObj1.setObjId(11);
 //		rObj1.setDistanceFromStartNode(30.44);
@@ -295,11 +295,16 @@ public class CSVFileWriterTest {
 //		gr.addObjectOnEdge(28, qObj283);
 //
 //		gr.addObjectOnEdge(26, qObj260);
-
-		// gr.printObjectsOnEdges();
+//
+//		for (int i = 0; i < gr.getEdgesWithInfo().size() - 1; i++) {
+//			System.out.println(gr.getEdgesWithInfo().get(i));
+//		}
 		String datasetFile = "C:\\Users\\Aavash\\Desktop\\newCSVFile.csv";
 		// um.readObjectFileReturnGraph("C:\\Users\\Aavash\\Desktop\\newCSVFile.csv");
-		um.readObjectFileReturnGraph(datasetFile);
+		// um.readObjectFileReturnGraph(datasetFile);
+		// System.out.println("Loaded Successfully");
+
+		um.readObjectFileReturnGraph2(gr, datasetFile);
 		System.out.println("Loaded Successfully");
 
 		gr.printObjectsOnEdges();

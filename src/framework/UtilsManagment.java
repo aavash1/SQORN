@@ -211,6 +211,37 @@ public class UtilsManagment {
 
 	}
 
+	public Graph readObjectFileReturnGraph2(Graph graph, String csvFilename) {
+
+		String line = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 4) {
+					ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
+
+					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
+					RoadObject rObject = new RoadObject();
+					int edgeId = Integer.parseInt(record[0]);
+
+					rObject.setObjId(Integer.parseInt(record[1]));
+					rObject.setType(Boolean.parseBoolean(record[2]));
+					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
+					rObj.add(rObject);
+
+					// graph.setEdgeWithInfo(edgesInfo);
+					graph.addObjectOnEdge(edgeId, rObject);
+
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return graph;
+
+	}
+
 	// Method to read the POI with category Id files from the data-set
 	public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
 		String line = "";
@@ -346,8 +377,6 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
-					// ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
-					// ArrayList<Node> nodesInfo = new ArrayList<Node>();
 
 					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
 					RoadObject rObject = new RoadObject();
@@ -358,7 +387,6 @@ public class UtilsManagment {
 					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
 					rObj.add(rObject);
 
-					// graph.setEdgeWithInfo(edgesInfo);
 					graph.addObjectOnEdge(edgeId, rObject);
 					graph.setObjectsWithInfo(rObj);
 
