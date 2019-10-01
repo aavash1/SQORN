@@ -346,8 +346,8 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
-					ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
-					ArrayList<Node> nodesInfo = new ArrayList<Node>();
+					// ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
+					// ArrayList<Node> nodesInfo = new ArrayList<Node>();
 
 					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
 					RoadObject rObject = new RoadObject();
@@ -358,7 +358,7 @@ public class UtilsManagment {
 					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
 					rObj.add(rObject);
 
-					graph.setEdgeWithInfo(edgesInfo);
+					// graph.setEdgeWithInfo(edgesInfo);
 					graph.addObjectOnEdge(edgeId, rObject);
 					graph.setObjectsWithInfo(rObj);
 
