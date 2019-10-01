@@ -2,12 +2,16 @@ package framework;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.opencsv.CSVWriter;
 
 public class UtilsManagment {
 	final String csvSplitBy = ",";
@@ -191,7 +195,6 @@ public class UtilsManagment {
 					Edge ed = new Edge();
 					ed.setEdgeId(Integer.parseInt(record[0]));
 					ed.setStartNodeId(Integer.parseInt(record[1]));
-
 					ed.setEndNodeId(Integer.parseInt(record[2]));
 					ed.setLength(Double.parseDouble(record[3]));
 
@@ -274,6 +277,97 @@ public class UtilsManagment {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return graph;
+
+	}
+
+	// method to create the RoadObjectFile from the previously Generated Objects
+	public void createRandomObjectFile(Map<Integer, ArrayList<RoadObject>> roadObjects) {
+		// Directory: C:\\Users\\Aavash\\Desktop\\newCSVFile.csv
+		String calRoadObjCSVFileName = "C:\\Users\\Aavash\\Desktop\\newCSVFile.csv";
+		try {
+			FileWriter outputFile = new FileWriter(calRoadObjCSVFileName);
+			// Using CSV Functions to write the fine with comma separated Values.
+			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
+					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+
+			for (Integer edgeId : roadObjects.keySet()) {
+				List<String[]> data = new ArrayList<String[]>();
+				for (int i = 0; i < roadObjects.get(edgeId).size() - 1; i++) {
+
+					data.add(new String[] { Integer.toString(edgeId),
+							Integer.toString(roadObjects.get(edgeId).get(i).getObjectId()),
+							String.valueOf((roadObjects.get(edgeId).get(i).getType())),
+							Double.toString(roadObjects.get(edgeId).get(i).getDistanceFromStartNode()) });
+
+				}
+				writer.writeAll(data);
+
+			}
+			System.out.println("Written Successfully");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
+
+		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
+
+		String line = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 4) {
+					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
+
+					RoadObject rObject = new RoadObject();
+					rObject.setObjId(Integer.parseInt(record[1]));
+					rObject.setType(Boolean.parseBoolean(record[2]));
+					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
+					rObj.add(rObject);
+					m_objectsOnEdge.put(Integer.parseInt(record[0]), rObj);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return m_objectsOnEdge;
+
+	}
+
+	public Graph readObjectFileReturnGraph(String csvFilename) {
+
+		Graph graph = new Graph();
+		String line = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 4) {
+					ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
+					ArrayList<Node> nodesInfo = new ArrayList<Node>();
+
+					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
+					RoadObject rObject = new RoadObject();
+					int edgeId = Integer.parseInt(record[0]);
+
+					rObject.setObjId(Integer.parseInt(record[1]));
+					rObject.setType(Boolean.parseBoolean(record[2]));
+					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
+					rObj.add(rObject);
+
+					graph.setEdgeWithInfo(edgesInfo);
+					graph.addObjectOnEdge(edgeId, rObject);
+					graph.setObjectsWithInfo(rObj);
+
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return graph;
 
 	}
