@@ -27,7 +27,8 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		// Parameters to Pass(graph, minEdgeLength, minNumOfObjectPerEdge,
 		// minDistBetweenObjects)
 		// NOTE: Length of edge is less than 0.00099
-		rang.generateRandomObjectsOnMap2(calGraph);
+		rang.generateRandomObjectsOnMap(calGraph);
+		calGraph.printObjectsOnEdges();
 
 	}
 
