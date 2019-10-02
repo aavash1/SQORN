@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ public class UtilsManagment {
 	final String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
 
-	private int poiID;
+	//private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
 																							// value is category name
 	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
@@ -183,7 +184,7 @@ public class UtilsManagment {
 
 	}
 
-	public Boolean readEdgeFile(Graph graph, String csvFilename) {
+	public boolean readEdgeFile(Graph graph, String csvFilename) {
 
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
@@ -209,71 +210,13 @@ public class UtilsManagment {
 		graph.setEdgeWithInfo(listEd);
 		return true;
 
-	}
-
-	public Graph readObjectFileReturnGraph2(Graph graph, String csvFilename) {
-
-		String line = "";
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
-			while ((line = br.readLine()) != null) {
-				String[] record = line.split(csvSplitBy);
-				if (record.length == 4) {
-					ArrayList<Edge> edgesInfo = new ArrayList<Edge>();
-
-					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
-					RoadObject rObject = new RoadObject();
-					int edgeId = Integer.parseInt(record[0]);
-
-					rObject.setObjId(Integer.parseInt(record[1]));
-					rObject.setType(Boolean.parseBoolean(record[2]));
-					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
-					rObj.add(rObject);
-
-					// graph.setEdgeWithInfo(edgesInfo);
-					graph.addObjectOnEdge(edgeId, rObject);
-
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return graph;
-
-	}
-
-	// Method to read the POI with category Id files from the data-set
-	public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
-		String line = "";
-		ArrayList<RoadObject> listObjs = new ArrayList<RoadObject>();
-
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
-			while ((line = br.readLine()) != null) {
-				String[] record = line.split(csvSplitBy);
-				if (record.length == 3) {
-					RoadObject obj = new RoadObject();
-					obj.setLongitude(Double.parseDouble(record[0]));
-					obj.setLatitude(Double.parseDouble(record[1]));
-					obj.setObjCategoryId(Integer.parseInt(record[2]));
-					poiID++;
-					obj.setObjId(poiID);
-					//
-					listObjs.add(obj);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return listObjs;
-
-	}
+	}	
 
 	public Graph readMergedObjectFile(String fileName) {
 		Graph graph = new Graph();
 		String line = "";
 		int startNode = 0, endNode = 0;
-		int objId = 0; // currently not used
+		//int objId = 0; // currently not used
 		double edge_length;
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			while ((line = br.readLine()) != null) {
@@ -281,10 +224,10 @@ public class UtilsManagment {
 				if (record.length == 4) {
 					if (!isInteger(record[3])) {
 						// System.out.println("Line has 4 numbers and it ends with double");
-						objId++;
+						//objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[0]), startNode, endNode,
 								Double.parseDouble(record[1]));
-						objId++;
+						//objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[2]), startNode, endNode,
 								Double.parseDouble(record[3]));
 
@@ -299,7 +242,7 @@ public class UtilsManagment {
 				} else {
 					// System.out.println("line has 2 or more than 4 numbers");
 					for (int i = 0; i < record.length - 1; i += 2) {
-						objId++;
+						//objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[i]), startNode, endNode,
 								Double.parseDouble(record[i + 1]));
 					}
@@ -309,39 +252,66 @@ public class UtilsManagment {
 			e.printStackTrace();
 		}
 		return graph;
-
 	}
 
 	// method to create the RoadObjectFile from the previously Generated Objects
-	public void createRandomObjectFile(Map<Integer, ArrayList<RoadObject>> roadObjects) {
-		// Directory: C:\\Users\\Aavash\\Desktop\\newCSVFile.csv
-		String calRoadObjCSVFileName = "C:\\Users\\Aavash\\Desktop\\newCSVFile.csv";
+	public void writeRoadObjsOnEdgeFile (Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge) {
+		
+		Date currentDate = new Date();		
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdgeCSVFile_" + currentDate.getTime() + ".csv";
 		try {
-			FileWriter outputFile = new FileWriter(calRoadObjCSVFileName);
+			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
 			// Using CSV Functions to write the fine with comma separated Values.
 			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
 					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
 
-			for (Integer edgeId : roadObjects.keySet()) {
+			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
 				List<String[]> data = new ArrayList<String[]>();
-				for (int i = 0; i < roadObjects.get(edgeId).size() - 1; i++) {
+				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
 
 					data.add(new String[] { Integer.toString(edgeId),
-							Integer.toString(roadObjects.get(edgeId).get(i).getObjectId()),
-							String.valueOf((roadObjects.get(edgeId).get(i).getType())),
-							Double.toString(roadObjects.get(edgeId).get(i).getDistanceFromStartNode()) });
+							Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
+							String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
+							Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()) });
 
 				}
 				writer.writeAll(data);
-
 			}
-			System.out.println("Written Successfully");
+			System.out.println("File: "+ roadObjsOnEdgeCSVFile + " is written Successfully");
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	// Method to read the POI with category Id files from the data-set
+		public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
+			String line = "";
+			int poiID = 0;
+			ArrayList<RoadObject> listObjs = new ArrayList<RoadObject>();
+
+			try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+				while ((line = br.readLine()) != null) {
+					String[] record = line.split(csvSplitBy);
+					if (record.length == 3) {
+						RoadObject obj = new RoadObject();
+						obj.setLongitude(Double.parseDouble(record[0]));
+						obj.setLatitude(Double.parseDouble(record[1]));
+						obj.setObjCategoryId(Integer.parseInt(record[2]));
+						poiID++;
+						obj.setObjId(poiID);
+						//
+						listObjs.add(obj);
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return listObjs;
+
+		}
+	
 	public Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
 
 		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
@@ -367,38 +337,7 @@ public class UtilsManagment {
 
 		return m_objectsOnEdge;
 
-	}
-
-	public Graph readObjectFileReturnGraph(String csvFilename) {
-
-		Graph graph = new Graph();
-		String line = "";
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
-			while ((line = br.readLine()) != null) {
-				String[] record = line.split(csvSplitBy);
-				if (record.length == 4) {
-
-					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
-					RoadObject rObject = new RoadObject();
-					int edgeId = Integer.parseInt(record[0]);
-
-					rObject.setObjId(Integer.parseInt(record[1]));
-					rObject.setType(Boolean.parseBoolean(record[2]));
-					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
-					rObj.add(rObject);
-
-					graph.addObjectOnEdge(edgeId, rObject);
-					graph.setObjectsWithInfo(rObj);
-
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return graph;
-
-	}
+	}	
 
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph

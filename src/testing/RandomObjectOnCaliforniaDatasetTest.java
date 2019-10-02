@@ -11,7 +11,6 @@ public class RandomObjectOnCaliforniaDatasetTest {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 		Graph calGraph = new Graph();
-		RandomObjectGenerator rang = new RandomObjectGenerator();
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
@@ -23,11 +22,8 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
 		// calGraph.printGraph();
-
-		// Parameters to Pass(graph, minEdgeLength, minNumOfObjectPerEdge,
-		// minDistBetweenObjects)
-		// NOTE: Length of edge is less than 0.00099
-		rang.generateRandomObjectsOnMap(calGraph);
+		
+		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph);
 		calGraph.printObjectsOnEdges();
 
 	}

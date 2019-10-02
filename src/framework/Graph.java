@@ -26,7 +26,7 @@ public class Graph {
 	private Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges = new HashMap<Integer, ArrayList<RoadObject>>();
 
 	// Use this when read Object Dataset from file
-	// m_objectsOnMap: Map < Map<StartNode, EndNode>, <ObjID, DistFromSN> >
+	// m_objectsOnMap: Map < Map<StartNode, EndNode>, Map<ObjID, DistFromSN> >
 	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnMap = new HashMap<>();
 
 	private int m_totalNumberOfObjects = 0;
@@ -434,6 +434,7 @@ public class Graph {
 	////////////////////////////////////////////////////////////////////////////////////////////////// methods///////////////////////////////////
 
 	// Working with m_objectsOnMap: Map<Integer, List<RoadObject>>
+	// m_objectsOnMap: Map < Map<StartNode, EndNode>, <ObjID, DistFromSN> >
 	// Implementation for POI mapping in respective edges.
 	public boolean addObjectOnMap(int objId, int startNode, int endNode, double distFromStartNode) {
 
@@ -536,6 +537,10 @@ public class Graph {
 			}
 		}
 		return true;
+	}
+
+	public void setObjectsOnEdges(Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges) {
+		this.m_objectsOnEdges = m_objectsOnEdges;
 	}
 
 	// Working with m_objectsOnEdges: Map<Integer, List<RoadObject>>

@@ -3,7 +3,7 @@ package testing;
 import framework.Graph;
 import framework.UtilsManagment;
 
-public class DatasetLoadingTimeComputationTest {
+public class DatasetLoadingTimeTest {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
