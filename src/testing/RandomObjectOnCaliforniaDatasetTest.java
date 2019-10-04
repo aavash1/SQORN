@@ -1,7 +1,7 @@
 package testing;
 
 import java.util.ArrayList;
-import algorithm.RandomObjectGenerator;
+import algorithm.RandomObjectGenerator2;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
@@ -22,9 +22,10 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
 		// calGraph.printGraph();
-		
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph);
-		calGraph.printObjectsOnEdges();
+
+		RandomObjectGenerator2.generateRandomObjectsOnMap(calGraph, 0.49);
+		// calGraph.printObjectsOnEdges();
+		RandomObjectGenerator2.printStatistics();
 
 	}
 

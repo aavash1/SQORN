@@ -510,7 +510,7 @@ public class Graph {
 				if (poi.getObjectId() == newObj.getObjectId()
 						|| poi.getDistanceFromStartNode() == newObj.getDistanceFromStartNode()) {
 					System.out.println("Either objId (" + newObj.getObjectId() + ") or dist from SN ("
-							+ newObj.getDistanceFromStartNode() + ") is existed on same edge: " + edgeId);
+							+ newObj.getDistanceFromStartNode() + ") exists on same edge: " + edgeId);
 					return false;
 				}
 			}
@@ -554,8 +554,11 @@ public class Graph {
 					+ m_objectsOnEdges.get(key).size() + ") " + m_objectsOnEdges.get(key));
 			generatedObjCounter += m_objectsOnEdges.get(key).size();
 		}
-		System.out.println("Total lenght of all edges: " + getTotalLengthOfAllEdges() + " Total number of Objs: "
-				+ generatedObjCounter);
+		System.out.println("Total number of edges: " + m_edgesWithInfo.size());
+		System.out.println("Total number of edges populated with RoadObjects: " + m_objectsOnEdges.size());
+		System.out.println("Total number of true objects: " + m_totalNumberOfTrueObjects);
+		System.out.println("Total number of false objects: " + m_totalNumberOfFalseObjects);
+		System.out.println("Total number of objects: " + generatedObjCounter);
 	}
 
 	public RoadObject getGeneratedRoadObject(int objId) {

@@ -28,7 +28,6 @@ public class RandomObjectGenerator {
 	private static int m_totalNumberOfEdges;
 	private static double m_totalLengthOfEdges;
 
-
 	public static void generateRandomObjectsOnMap(Graph graph) {
 
 		int edgeId = 0;
@@ -46,7 +45,7 @@ public class RandomObjectGenerator {
 			}
 		}
 
-		minDistBetweenObjects = Math.round((minEdgeLength / 3 ) * 100000.0) / 100000.0;
+		minDistBetweenObjects = Math.round((minEdgeLength / 3) * 100000.0) / 100000.0;
 		System.out.println("Min Dist between objects for California only is: " + minDistBetweenObjects);
 		System.out.println("Min edgeLength for California only is: " + minEdgeLength);
 
@@ -83,49 +82,52 @@ public class RandomObjectGenerator {
 			// maxNumberOfObjsPerEdge);
 			// randomNumberOfObjsOnEdge = getRandIntBetRange(maxNumberOfObjsPerEdge / 5,
 			// maxNumberOfObjsPerEdge);
-			randomNumberOfObjsOnEdge = getRandIntBetRange(maxNumberOfObjectsPerEdge / 5, maxNumberOfObjectsPerEdge/2);
+			randomNumberOfObjsOnEdge = getRandIntBetRange(maxNumberOfObjectsPerEdge / 5, maxNumberOfObjectsPerEdge / 2);
 			// randomNumberOfObjsOnEdge = getRandIntBetRange(1, 2);
 
-			//System.out.println("randomNumberOfObjsOnEdge # " + edgeId + ": " + randomNumberOfObjsOnEdge);
-
+			// System.out.println("randomNumberOfObjsOnEdge # " + edgeId + ": " +
+			// randomNumberOfObjsOnEdge);
+			ArrayList<Double> checkedRandomDistances = new ArrayList<Double>();
 			randomDistances.clear();
-			//System.out.println("Number of edges completed: " + genEdgeCounter);
+			checkedRandomDistances.clear();
+			// System.out.println("Number of edges completed: " + genEdgeCounter);
 			// j - obj
 			int genObjCounter = 0;
-			
-			ArrayList<Double> checkedRandomDistances = new ArrayList<Double>();
+
 			for (int j = 0; j < randomNumberOfObjsOnEdge; j++) {
 				RoadObject randObj = new RoadObject();
-				checkedRandomDistances.clear();
-				//System.out.println("First For Loop");
+
+				// System.out.println("First For Loop");
 				if (randomDistances.isEmpty()) {
-					//System.out.println("randomDistances is empty");
+					// System.out.println("randomDistances is empty");
 					distanceFromStartNode = getRandDoubleBetRange(minEdgeLength, edgeLength);
 					randObj.setDistanceFromStartNode(distanceFromStartNode);
 					randomDistances.add(distanceFromStartNode);
-					
+
 					checkedRandomDistances.add(distanceFromStartNode);
-					
+
 					isAcceptableDistance = false;
 					isThereDistanceConflict = false;
 					genObjCounter++;
 				} else {
 					while (!isAcceptableDistance) {
-						//System.out.println("First While Loop");
-						
+						// System.out.println("First While Loop");
+
 						distanceFromStartNode = getRandDoubleBetRange(minEdgeLength, edgeLength);
-						if(checkedRandomDistances.contains(distanceFromStartNode)) { 
+						if (checkedRandomDistances.contains(distanceFromStartNode)) {
+							isAcceptableDistance = false;
 							continue;
 						}
-						//isThereDistanceConflict = false;
+						// isThereDistanceConflict = false;
 						checkedRandomDistances.add(distanceFromStartNode);
 						for (int k = 0; k < randomDistances.size(); k++) {
-							//System.out.println("SEcond For Loop");
+							// System.out.println("SEcond For Loop");
 							isThereDistanceConflict = false;
 							if (!((randomDistances.get(k) + minDistBetweenObjects <= distanceFromStartNode)
 									|| (randomDistances.get(k) - minDistBetweenObjects >= distanceFromStartNode))) {
 								isThereDistanceConflict = true;
-								//System.err.println("There is a distance conflict, Current dist: "+ distanceFromStartNode);
+								// System.err.println("There is a distance conflict, Current dist: "+
+								// distanceFromStartNode);
 								continue;
 							}
 //							System.out.println("Current Edge Length: " + edgeLength);
@@ -157,11 +159,11 @@ public class RandomObjectGenerator {
 				isAcceptableDistance = false;
 				isThereDistanceConflict = false;
 				System.out.println("Chosen number of edges to generate on: " + randomNumberOfEdges);
-				System.out.println("Current edge: " + i + ", length: " +  edgeLength);
-				System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge/2);
+				System.out.println("Current edge: " + i + ", length: " + edgeLength);
+				System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge / 2);
 				System.out.println("Chosen number of object per edge: " + randomNumberOfObjsOnEdge);
 				System.out.println("Num of Objects generated: " + genObjCounter);
-				//System.out.println("Num of tries: " + genObjCounterConfl);
+				// System.out.println("Num of tries: " + genObjCounterConfl);
 			}
 
 		}

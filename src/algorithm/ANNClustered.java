@@ -34,7 +34,7 @@ public class ANNClustered {
 		NearestNeighbor nn = new NearestNeighbor();
 
 		int boundaryStartQueryObj, boundaryEndQueryObj;
-
+		int objectClusterCounter = 0;
 		if (queryObjectType) {
 			// Query object = True Object; Data Object = False Object
 			System.out.println("Query object = True Object (" + m_graph.getTotalNumberOfTrueObjects()
@@ -42,6 +42,8 @@ public class ANNClustered {
 
 			// Iterate through boundary objects of object clusters
 			for (Integer index : m_objectIdClusters.keySet()) {
+				objectClusterCounter++;
+				System.out.println(objectClusterCounter + " out of " + m_objectIdClusters.size());
 
 				if (!m_objectIdClusters.get(index).isEmpty()) {
 					if (m_objectIdClusters.get(index).size() == 1) {
@@ -126,6 +128,8 @@ public class ANNClustered {
 
 			// Iterate through boundary objects of object clusters
 			for (Integer index : m_objectIdClusters.keySet()) {
+				objectClusterCounter++;
+				System.out.println(objectClusterCounter + " out of " + m_objectIdClusters.size());
 
 				if (!m_objectIdClusters.get(index).isEmpty()) {
 					if (m_objectIdClusters.get(index).size() == 1) {

@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,13 +14,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections4.MultiValuedMap;
+
 import com.opencsv.CSVWriter;
 
 public class UtilsManagment {
 	final String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
 
-	//private int poiID;
+	// private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
 																							// value is category name
 	private HashMap<Integer, String> m_hmapCategoriesType = new HashMap<Integer, String>(); // key is category Id and
@@ -210,13 +214,13 @@ public class UtilsManagment {
 		graph.setEdgeWithInfo(listEd);
 		return true;
 
-	}	
+	}
 
 	public Graph readMergedObjectFile(String fileName) {
 		Graph graph = new Graph();
 		String line = "";
 		int startNode = 0, endNode = 0;
-		//int objId = 0; // currently not used
+		// int objId = 0; // currently not used
 		double edge_length;
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			while ((line = br.readLine()) != null) {
@@ -224,10 +228,10 @@ public class UtilsManagment {
 				if (record.length == 4) {
 					if (!isInteger(record[3])) {
 						// System.out.println("Line has 4 numbers and it ends with double");
-						//objId++;
+						// objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[0]), startNode, endNode,
 								Double.parseDouble(record[1]));
-						//objId++;
+						// objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[2]), startNode, endNode,
 								Double.parseDouble(record[3]));
 
@@ -242,7 +246,7 @@ public class UtilsManagment {
 				} else {
 					// System.out.println("line has 2 or more than 4 numbers");
 					for (int i = 0; i < record.length - 1; i += 2) {
-						//objId++;
+						// objId++;
 						graph.addObjectOnMap(Integer.parseInt(record[i]), startNode, endNode,
 								Double.parseDouble(record[i + 1]));
 					}
@@ -255,9 +259,9 @@ public class UtilsManagment {
 	}
 
 	// method to create the RoadObjectFile from the previously Generated Objects
-	public void writeRoadObjsOnEdgeFile (Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge) {
-		
-		Date currentDate = new Date();		
+	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge) {
+
+		Date currentDate = new Date();
 		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdgeCSVFile_" + currentDate.getTime() + ".csv";
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
@@ -277,7 +281,7 @@ public class UtilsManagment {
 				}
 				writer.writeAll(data);
 			}
-			System.out.println("File: "+ roadObjsOnEdgeCSVFile + " is written Successfully");
+			System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -285,33 +289,33 @@ public class UtilsManagment {
 	}
 
 	// Method to read the POI with category Id files from the data-set
-		public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
-			String line = "";
-			int poiID = 0;
-			ArrayList<RoadObject> listObjs = new ArrayList<RoadObject>();
+	public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
+		String line = "";
+		int poiID = 0;
+		ArrayList<RoadObject> listObjs = new ArrayList<RoadObject>();
 
-			try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
-				while ((line = br.readLine()) != null) {
-					String[] record = line.split(csvSplitBy);
-					if (record.length == 3) {
-						RoadObject obj = new RoadObject();
-						obj.setLongitude(Double.parseDouble(record[0]));
-						obj.setLatitude(Double.parseDouble(record[1]));
-						obj.setObjCategoryId(Integer.parseInt(record[2]));
-						poiID++;
-						obj.setObjId(poiID);
-						//
-						listObjs.add(obj);
-					}
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+				if (record.length == 3) {
+					RoadObject obj = new RoadObject();
+					obj.setLongitude(Double.parseDouble(record[0]));
+					obj.setLatitude(Double.parseDouble(record[1]));
+					obj.setObjCategoryId(Integer.parseInt(record[2]));
+					poiID++;
+					obj.setObjId(poiID);
+					//
+					listObjs.add(obj);
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-
-			return listObjs;
-
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-	
+
+		return listObjs;
+
+	}
+
 	public Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
 
 		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
@@ -337,7 +341,7 @@ public class UtilsManagment {
 
 		return m_objectsOnEdge;
 
-	}	
+	}
 
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph
@@ -354,6 +358,42 @@ public class UtilsManagment {
 
 	public static int convertDoubleToInteger(double dValue) {
 		return (int) Math.round(dValue);
+
+	}
+
+	public static Double getMinimumKey(MultiValuedMap<Double, Integer> multivaluemap) {
+		ArrayList<Double> keys = new ArrayList<Double>(multivaluemap.keySet());
+
+		Collections.sort(keys);
+
+		return keys.get(0);
+	}
+
+	public static Double getSecondKey(MultiValuedMap<Double, Integer> multivaluemap) {
+		ArrayList<Double> keys = new ArrayList<Double>(multivaluemap.keySet());
+
+		Collections.sort(keys);
+		if (keys.size() > 1) {
+			return keys.get(1);
+		} else
+			return keys.get(0);
+
+	}
+
+	public static <K, V> K getMapKey(MultiValuedMap<K, V> map, V value) {
+		if (map != null) {
+			for (Map.Entry<K, V> entry : map.entries()) {
+				if (entry.getValue().equals(value)) {
+					return entry.getKey();
+				}
+			}
+		}
+		return null;
+	}
+
+	public static int getFirstElementFromCollection(Collection<Integer> colls) {
+
+		return colls.iterator().next();
 
 	}
 
