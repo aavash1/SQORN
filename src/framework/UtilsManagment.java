@@ -288,6 +288,63 @@ public class UtilsManagment {
 		}
 	}
 
+	public static void writeEvaluationResultInTextFile(int totalNumOfNodes, int totalNumOfEdges,
+			int totalNumOfRandomEdges, int totalNumOfObjectssGenerated, int totalNumOfTrueObjects,
+			int totalNumOfFalseObjects, int totalNumOfNodeClusters, int totalNumOfObjectClusters,
+			double timeElapsedToComputeANNNAive, double timeElapsedToComputeANNCLustered) {
+
+		Date currentDate = new Date();
+		String evaluationResultTxtFile = "ResultFiles/evaluationResultFile_" + currentDate.getTime() + ".txt";
+		try {
+
+			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);
+
+			outputFile.write(String.format("The total number of Nodes in Data set: %s", totalNumOfNodes));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("The total number of Edges in Data set: %s", totalNumOfEdges));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Number of Edges selected Randomly: %s", totalNumOfRandomEdges));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile
+					.write(String.format("Total number of Random Objects Generated: %s", totalNumOfObjectssGenerated));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of TRUE Objects: %s", totalNumOfTrueObjects));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of FALSE Objects: %s", totalNumOfFalseObjects));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of Node clusters: %s", totalNumOfNodeClusters));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of Object clusters: %s", totalNumOfObjectClusters));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(
+					String.format("Time elapsed to compute Naive ANN:  %.4f secs", timeElapsedToComputeANNNAive));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Time elapsed to compute Clustered ANN: %.4f secs",
+					timeElapsedToComputeANNCLustered));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+		// Using CSV Functions to write the fine with comma separated Values.
+//			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
+//					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+
+//			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
+//				List<String[]> data = new ArrayList<String[]>();
+//				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
+
+//					data.add(new String[] { Integer.toString(edgeId),
+//							Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
+//							String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
+//							Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()) });
+//
+//				}
+//				writer.writeAll(data);
+
+	}
+
 	// Method to read the POI with category Id files from the data-set
 	public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
 		String line = "";
