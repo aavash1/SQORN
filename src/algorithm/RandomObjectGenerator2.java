@@ -212,6 +212,11 @@ public class RandomObjectGenerator2 {
 
 	}
 
+	public static int getTotalNumberOfRandomEdges() {
+		int randomNumberOfEdges = m_totalNumberOfEdges;
+		return randomNumberOfEdges;
+	}
+
 	// public int getDistinctRandomEdgeId ()
 	// {
 	// while (!isAcceptableEdgeId) {

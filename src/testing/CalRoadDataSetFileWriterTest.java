@@ -34,7 +34,7 @@ public class CalRoadDataSetFileWriterTest {
 
 		calGraph.printObjectsOnEdges();
 		long startTimeWriter = System.nanoTime();
-		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges());
+		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), "California");
 		long graphLoadingTimeWriter = System.nanoTime() - startTimeWriter;
 		double graphLoadingTimeDWriter = (double) graphLoadingTimeWriter / 1000000000.0;
 		System.out.println("Time to Generate Objects: " + elapsedTimeAfterRound);

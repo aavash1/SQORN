@@ -1,0 +1,10 @@
+The total number of Nodes in Data set: 25
+The total number of Edges in Data set: 28
+Number of Edges selected Randomly: 19
+Total number of Random Objects Generated: 39
+Total number of TRUE Objects: 15
+Total number of FALSE Objects: 24
+Total number of Node clusters: 19
+Total number of Object clusters: 19
+Time elapsed to compute Naive ANN:  0.0647 secs
+Time elapsed to compute Clustered ANN: 0.0174 secs

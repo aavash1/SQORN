@@ -21,19 +21,18 @@ public class ClusteringNodes {
 	private Set<Integer> m_visitedEdges = new HashSet<Integer>();
 	private Set<Integer> m_clusteredNodes = new HashSet<Integer>();
 
-	
-	private void initialize() { 
+	private void initialize() {
 		m_nodeClusters.clear();
 		m_clusterCounter = 0;
 		m_visitedEdges.clear();
 		m_nonClearedNodeQueue.clear();
 		m_clusteredNodes.clear();
 	}
-	
+
 	public Map<Integer, LinkedList<Integer>> cluster(Graph gr) {
 
 		initialize();
-		m_graph = gr;		
+		m_graph = gr;
 
 		int startTraverseNode = m_graph.getFirstIntersectionNode();
 
@@ -144,6 +143,12 @@ public class ClusteringNodes {
 
 	public Map<Integer, LinkedList<Integer>> getClusteredNodesSet() {
 		return m_nodeClusters;
+	}
+
+	public int getTotalNumberOfNodeClusters() {
+		int totalNumberOfNodeClusters = 0;
+		totalNumberOfNodeClusters += m_clusterCounter;
+		return totalNumberOfNodeClusters;
 	}
 
 	public void printNodeClusters() {

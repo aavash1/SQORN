@@ -12,25 +12,26 @@ import framework.Graph;
 public class ClusteringRoadObjects {
 
 	private Graph m_graph;
-	private Map<Integer, LinkedList<Integer>> m_nodeClusters =new HashMap<Integer, LinkedList<Integer>>();
+	private Map<Integer, LinkedList<Integer>> m_nodeClusters = new HashMap<Integer, LinkedList<Integer>>();
 
 	// m_objectClusters: HashMap <index, LinkedList<Obj ID> >
 	private Map<Integer, LinkedList<Integer>> m_objectIdClusters = new HashMap<Integer, LinkedList<Integer>>();
-	//private Map<Integer, LinkedList<Integer>> m_objectClusters = new HashMap<Integer, LinkedList<Integer>>();
+	// private Map<Integer, LinkedList<Integer>> m_objectClusters = new
+	// HashMap<Integer, LinkedList<Integer>>();
 	private Set<Integer> m_clusteredObjects = new HashSet<Integer>();
 	boolean m_typeOfClusteredObjects;
 
-	private void initialize() { 
-		//m_nodeClusters.clear();
+	private void initialize() {
+		// m_nodeClusters.clear();
 		m_objectIdClusters.clear();
-		m_clusteredObjects.clear();		
+		m_clusteredObjects.clear();
 	}
-	
+
 	public Map<Integer, LinkedList<Integer>> cluster(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
 			boolean typeOfClusteredObjects) {
 
 		initialize();
-		
+
 		m_graph = gr;
 		m_nodeClusters = nodeClusters;
 		m_typeOfClusteredObjects = typeOfClusteredObjects;
@@ -65,12 +66,11 @@ public class ClusteringRoadObjects {
 		return m_objectIdClusters;
 	}
 
-	
 	public Map<Integer, LinkedList<Integer>> clusterWithIndex(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
 			boolean typeOfClusteredObjects) {
 
 		initialize();
-		
+
 		m_graph = gr;
 		m_nodeClusters = nodeClusters;
 		m_typeOfClusteredObjects = typeOfClusteredObjects;
@@ -103,6 +103,12 @@ public class ClusteringRoadObjects {
 
 		}
 		return m_objectIdClusters;
+	}
+
+	public int getTotalNumberOfObjectClusters() {
+		int totalNumberOfObjectClusters = 0;
+		totalNumberOfObjectClusters += m_objectIdClusters.size();
+		return totalNumberOfObjectClusters;
 	}
 
 	public void printRoadObjectClusters() {

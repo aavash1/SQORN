@@ -15,6 +15,7 @@ public class ANNClustered {
 	private Map<Integer, Integer> m_nearestNeighborSets = new HashMap<Integer, Integer>();
 	private Map<Integer, LinkedList<Integer>> m_objectIdClusters;
 	private Map<Integer, LinkedList<Integer>> m_nodeIdClusters;
+	private int sizeOfNodeClusters, sizeOfObjectClusters;
 
 	public void compute(Graph gr, boolean queryObjectType) {
 		System.out.println();
@@ -27,6 +28,8 @@ public class ANNClustered {
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
 		m_nodeIdClusters = clusteringNodes.cluster(gr);
 		m_objectIdClusters = clusteringObjects.clusterWithIndex(gr, m_nodeIdClusters, queryObjectType);
+		sizeOfNodeClusters = m_nodeIdClusters.size();
+		sizeOfObjectClusters = m_objectIdClusters.size();
 
 		// clusteringNodes.printNodeClusters();
 		// clusteringObjects.printRoadObjectClusters();
@@ -211,6 +214,16 @@ public class ANNClustered {
 		for (Map.Entry<Integer, Integer> entry : m_nearestNeighborSets.entrySet()) {
 			System.out.println("Query obj: " + entry.getKey() + " - Data obj: " + entry.getValue());
 		}
+	}
+
+	public int getSizeOfNodeClusters() {
+		return sizeOfNodeClusters;
+
+	}
+
+	public int getSizeOfObjectClusters() {
+		return sizeOfObjectClusters;
+
 	}
 
 }

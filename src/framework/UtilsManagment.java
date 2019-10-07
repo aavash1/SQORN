@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -259,10 +260,11 @@ public class UtilsManagment {
 	}
 
 	// method to create the RoadObjectFile from the previously Generated Objects
-	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge) {
+	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge, String datasetName) {
 
 		Date currentDate = new Date();
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdgeCSVFile_" + currentDate.getTime() + ".csv";
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdgeCSVFile_" + datasetName + currentDate.getTime()
+				+ ".csv";
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
 			// Using CSV Functions to write the fine with comma separated Values.
@@ -288,13 +290,20 @@ public class UtilsManagment {
 		}
 	}
 
-	public static void writeEvaluationResultInTextFile(int totalNumOfNodes, int totalNumOfEdges,
-			int totalNumOfRandomEdges, int totalNumOfObjectssGenerated, int totalNumOfTrueObjects,
-			int totalNumOfFalseObjects, int totalNumOfNodeClusters, int totalNumOfObjectClusters,
-			double timeElapsedToComputeANNNAive, double timeElapsedToComputeANNCLustered) {
+	public String getNormalDateTime() {
 
-		Date currentDate = new Date();
-		String evaluationResultTxtFile = "ResultFiles/evaluationResultFile_" + currentDate.getTime() + ".txt";
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
+		return format.format(new Date());
+
+	}
+
+	public void writeNaiveAndClusteredANNTestResult(int totalNumOfNodes, int totalNumOfEdges, int totalNumOfRandomEdges,
+			int totalNumOfObjectssGenerated, int totalNumOfTrueObjects, int totalNumOfFalseObjects,
+			int totalNumOfNodeClusters, int totalNumOfObjectClusters, double timeElapsedToComputeANNNAive,
+			double timeElapsedToComputeANNCLustered) {
+
+		String evaluationResultTxtFile = "ResultFiles/NaiveAndClustedANNResult-" + getNormalDateTime() + ".txt";
 		try {
 
 			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);

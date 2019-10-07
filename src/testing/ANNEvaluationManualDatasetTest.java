@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
+import algorithm.ClusteringNodes;
+import algorithm.ClusteringRoadObjects;
+import algorithm.RandomObjectGenerator2;
 import framework.Graph;
 import framework.Node;
 import framework.RoadObject;
+import framework.UtilsManagment;
 
 public class ANNEvaluationManualDatasetTest {
 
@@ -300,24 +304,41 @@ public class ANNEvaluationManualDatasetTest {
 		gr.addObjectOnEdge(26, qObj260);
 
 		gr.printObjectsOnEdges();
-		
-		
-		System.out.println();
+
 		ANNNaive annNaive = new ANNNaive();
+		ANNClustered annClustered = new ANNClustered();
+
+		System.out.println();
+
 		long startTimeNaive = System.nanoTime();
 		annNaive.compute(gr, true);
 		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
 		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		//annNaive.printNearestNeighborSets();
+		// annNaive.printNearestNeighborSets();
 		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
-		
-		ANNClustered ann3 = new ANNClustered();
+
 		long startTimeClustered = System.nanoTime();
-		ann3.compute(gr, true);
+		annClustered.compute(gr, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
-		//ann3.printNearestSets();
+		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+
+		int totalNumberOfNodes = gr.getNodesWithInfo().size();
+		int totalNumberOfEdges = gr.getEdgesWithInfo().size();
+		int totalNumberOfRandomEdgesSelected = gr.getObjectsOnEdges().size();
+		int totalNumberOfObjectsGenerated = gr.getTotalNumberOfObjects();
+		int totalNumberOfTrueObjects = gr.getTotalNumberOfTrueObjects();
+		int totalNumberOfFalseObjects = gr.getTotalNumberOfFalseObjects();
+		int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
+		int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
+
+		UtilsManagment um = new UtilsManagment();
+		um.writeNaiveAndClusteredANNTestResult(totalNumberOfNodes, totalNumberOfEdges, totalNumberOfRandomEdgesSelected,
+				totalNumberOfObjectsGenerated, totalNumberOfTrueObjects, totalNumberOfFalseObjects,
+				totalNumberOfNodeClusters, totalNumberOfObjectClusters, graphLoadingTimeDNaive,
+				graphLoadingTimeDClustered);
+
 	}
 
 }
