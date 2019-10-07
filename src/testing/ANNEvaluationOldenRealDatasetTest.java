@@ -30,6 +30,7 @@ public class ANNEvaluationOldenRealDatasetTest {
 		ANNClustered annClustered = new ANNClustered();
 
 		RandomObjectGenerator2.generateRandomObjectsOnMap(oldenGraph, 0.2);
+		um.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), "Oldenburg");
 
 		System.out.println();
 

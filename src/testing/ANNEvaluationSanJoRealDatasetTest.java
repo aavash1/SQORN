@@ -16,7 +16,7 @@ public class ANNEvaluationSanJoRealDatasetTest {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 		Graph sanJoaGraph = new Graph();
-		
+
 		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
 
@@ -30,6 +30,7 @@ public class ANNEvaluationSanJoRealDatasetTest {
 		ANNClustered annClustered = new ANNClustered();
 
 		RandomObjectGenerator2.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
+		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");
 
 		System.out.println();
 

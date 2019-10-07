@@ -30,6 +30,7 @@ public class ANNEvaluationSanFRealDatasetTest {
 		ANNClustered annClustered = new ANNClustered();
 
 		RandomObjectGenerator2.generateRandomObjectsOnMap(sanFGraph, 0.2);
+		um.writeRoadObjsOnEdgeFile(sanFGraph.getObjectsOnEdges(), "SanFransisco");
 
 		System.out.println();
 
