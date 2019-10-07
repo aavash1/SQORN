@@ -31,6 +31,8 @@ public class ANNEvaluationNARealDatasetTest {
 
 		RandomObjectGenerator2.generateRandomObjectsOnMap(naGraph, 0.2);
 
+		um.writeRoadObjsOnEdgeFile(naGraph.getObjectsOnEdges(), "NorthAmerica");
+
 		System.out.println();
 
 		long startTimeNaive = System.nanoTime();
