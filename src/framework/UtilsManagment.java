@@ -336,21 +336,37 @@ public class UtilsManagment {
 			ex.printStackTrace();
 		}
 
-		// Using CSV Functions to write the fine with comma separated Values.
-//			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
-//					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+	}
 
-//			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-//				List<String[]> data = new ArrayList<String[]>();
-//				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
+	public void writeObjStats(Graph graph, String datasetName) {
 
-//					data.add(new String[] { Integer.toString(edgeId),
-//							Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
-//							String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
-//							Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()) });
-//
-//				}
-//				writer.writeAll(data);
+		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + datasetName + " " + getNormalDateTime()
+				+ ".txt";
+		try {
+
+			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);
+
+			outputFile
+					.write(String.format("The total number of Nodes in Data set: %s", graph.getNodesWithInfo().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile
+					.write(String.format("The total number of Edges in Data set: %s", graph.getEdgesWithInfo().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Number of Edges containing objects: %s", graph.getObjectsOnEdges().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of Objects: %s", graph.getTotalNumberOfObjects()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of TRUE Objects: %s", graph.getTotalNumberOfTrueObjects()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Percentage of True objects: %3f ",
+					(graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 
 	}
 

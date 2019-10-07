@@ -26,11 +26,10 @@ public class ANNEvaluationCalRealDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		
-
 		RandomObjectGenerator2.generateRandomObjectsOnMap(calGraph, 0.2);
 
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), "California");
+		um.writeObjStats(calGraph, "California");
 		System.out.println("Random Object Files Generated Successfully");
 
 //		System.out.println();
