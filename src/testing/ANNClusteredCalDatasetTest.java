@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
@@ -26,7 +26,7 @@ public class ANNClusteredCalDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator2.generateRandomObjectsOnMap(calGraph, 0.2);
+		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.2);
 		
 
 		ANNClustered ann3 = new ANNClustered();

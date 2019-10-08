@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
@@ -20,15 +20,17 @@ public class ANNEvaluationSanJoRealDatasetTest {
 		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
 
+		sanJoaGraph.setDatasetName("SanJoaquin");
+		
 		sanJoaGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
 		sanJoaGraph.setNodesWithInfo(calNodesInfo);
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		sanJoaGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator2.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
+		RandomObjectGenerator.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
 		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");
-		um.writeObjStats(sanJoaGraph, "SanJoaquin");
+		um.writeObjStats(sanJoaGraph);
 
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

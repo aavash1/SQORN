@@ -13,6 +13,10 @@ public class ANNClustered {
 
 	// m_nearestNeighborSets: Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> m_nearestNeighborSets = new HashMap<Integer, Integer>();
+	public Map<Integer, Integer> getNearestNeighborSets() {
+		return m_nearestNeighborSets;
+	}
+
 	private Map<Integer, LinkedList<Integer>> m_objectIdClusters;
 	private Map<Integer, LinkedList<Integer>> m_nodeIdClusters;
 	private int sizeOfNodeClusters, sizeOfObjectClusters;
@@ -226,5 +230,7 @@ public class ANNClustered {
 		return sizeOfObjectClusters;
 
 	}
+	
+	
 
 }

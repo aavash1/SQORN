@@ -9,6 +9,7 @@ import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import algorithm.ClusteringRoadObjects;;
 
 public class Graph {
+	private String datasetName;
 	private int m_numEdges;
 	private int m_numOfNodes;
 	private int intEdgeId = 0;
@@ -36,6 +37,12 @@ public class Graph {
 	private int m_objToEdgeId = 10; // this number helps to identify edge on which obj is located, sync it with same
 									// variable in RandomObjectGenerator class
 
+	
+	public Graph () {}
+	public Graph (String name) { 
+		datasetName = name;		
+	}
+	
 	////////////////////////////////////// [Currently not
 	////////////////////////////////////// used////////////////////////////////////////
 	// Multivalued Map can work for duplicate keys
@@ -44,6 +51,13 @@ public class Graph {
 	////////////////////////////////////// Currently not
 	////////////////////////////////////// used]////////////////////////////////////////
 
+	public String getDatasetName() {
+		return datasetName;
+	}
+
+	public void setDatasetName(String datasetName) {
+		this.datasetName = datasetName;
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////// [Node related
 	////////////////////////////////////////////////////////////////////////////////////////////////// methods//////////////////////////////////////
@@ -470,11 +484,11 @@ public class Graph {
 		}
 		Map<Integer, Integer> edge = new HashMap<>();
 		edge.put(startNode, endNode);
-		ArrayList<Integer> int_POI = new ArrayList<Integer>();
+		ArrayList<Integer> objsOnMap = new ArrayList<Integer>();
 		for (Integer key : m_objectsOnMap.get(edge).keySet()) {
-			int_POI.add(key);
+			objsOnMap.add(key);
 		}
-		return int_POI;
+		return objsOnMap;
 	}
 
 	public Map<Integer, Double> getObjectsWithDistanceFromMap(int startNode, int endNode) {
@@ -497,6 +511,7 @@ public class Graph {
 
 			if (e.getEdgeId() == edgeId) {
 				isEdgeExists = true;
+				continue;
 			}
 		}
 		if (!isEdgeExists) {

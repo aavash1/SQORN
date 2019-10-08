@@ -13,7 +13,6 @@ public class RandomObjGenTestRealDataset {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 		Graph calGraph = new Graph();
-		RandomObjectGenerator rg = new RandomObjectGenerator();
 
 		String calNodeDataset = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String calEdgeDataset = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
@@ -42,10 +41,9 @@ public class RandomObjGenTestRealDataset {
 		// calGraph2.printGraph();
 		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
-		// ranG.generateObjectOnEdge(gr);
 		System.out.println("---This is after generator------");
-		// rg.generateRandomObjectsOnMap(calGraph2);
-		// calGraph2.printGraph();
+		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph2);
+		calGraph2.printGraph();
 		calGraph2.printObjectsOnEdges();
 
 	}

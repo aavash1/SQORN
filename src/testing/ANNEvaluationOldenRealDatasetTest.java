@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
@@ -20,15 +20,17 @@ public class ANNEvaluationOldenRealDatasetTest {
 		String nodeDatasetFile = "Datasets/OLDN-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/OLDN-Edge_EId-ESrc-EDest-EDist.csv";
 
+		oldenGraph.setDatasetName("Oldenburg");
+		
 		oldenGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
 		oldenGraph.setNodesWithInfo(calNodesInfo);
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		oldenGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator2.generateRandomObjectsOnMap(oldenGraph, 0.2);
+		RandomObjectGenerator.generateRandomObjectsOnMap(oldenGraph, 0.2);
 		um.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), "Oldenburg");
-		um.writeObjStats(oldenGraph, "Oldenburg");
+		um.writeObjStats(oldenGraph);
 
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

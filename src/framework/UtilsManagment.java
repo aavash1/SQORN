@@ -19,6 +19,8 @@ import org.apache.commons.collections4.MultiValuedMap;
 
 import com.opencsv.CSVWriter;
 
+import algorithm.ANNClustered;
+
 public class UtilsManagment {
 	final String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
@@ -262,8 +264,7 @@ public class UtilsManagment {
 	// method to create the RoadObjectFile from the previously Generated Objects
 	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge, String datasetName) {
 
-		Date currentDate = new Date();
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdgeCSVFile_" + datasetName + currentDate.getTime()
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + "_"+ getNormalDateTime()
 				+ ".csv";
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
@@ -290,36 +291,53 @@ public class UtilsManagment {
 		}
 	}
 
-	public String getNormalDateTime() {
+	public static void writeANNQueriesResult(ANNClustered annClustered, String datasetName) {
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+		String annQueriesResultCSVFile = "QueryResults/annQueriesResult_" + datasetName + "_"+ getNormalDateTime()
+				+ ".csv";
+		try {
+			FileWriter outputFile = new FileWriter(annQueriesResultCSVFile);
+			// Using CSV Functions to write the fine with comma separated Values.
+			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
+					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
 
-		return format.format(new Date());
-
+			// Edge ID, Query Obj ID, Edge ID, Data Obj ID -for next version
+			// Query Obj ID, DataObj ID - current version
+			for (Integer qObj : annClustered.getNearestNeighborSets().keySet()) {
+				writer.writeNext(
+						new String[] { qObj.toString(), annClustered.getNearestNeighborSets().get(qObj).toString() });
+			}
+			System.out.println("File: " + annQueriesResultCSVFile + " is written Successfully");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void writeNaiveAndClusteredANNTestResult(int totalNumOfNodes, int totalNumOfEdges, int totalNumOfRandomEdges,
-			int totalNumOfObjectssGenerated, int totalNumOfTrueObjects, int totalNumOfFalseObjects,
-			int totalNumOfNodeClusters, int totalNumOfObjectClusters, double timeElapsedToComputeANNNAive,
+	public void writeNaiveAndClusteredANNTestResult(Graph graph, int totalNumOfNodeClusters,
+			int totalNumOfObjectClusters, double timeElapsedToComputeANNNAive,
 			double timeElapsedToComputeANNCLustered) {
 
-		String evaluationResultTxtFile = "ResultFiles/NaiveAndClustedANNResult-" + getNormalDateTime() + ".txt";
+		String evaluationResultTxtFile = "ResultFiles/NaiveAndClustedANNResult-" + graph.getDatasetName() + "_" + getNormalDateTime() + ".txt";
 		try {
 
 			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);
 
-			outputFile.write(String.format("The total number of Nodes in Data set: %s", totalNumOfNodes));
-			outputFile.write(System.lineSeparator()); // new line
-			outputFile.write(String.format("The total number of Edges in Data set: %s", totalNumOfEdges));
-			outputFile.write(System.lineSeparator()); // new line
-			outputFile.write(String.format("Number of Edges selected Randomly: %s", totalNumOfRandomEdges));
+			outputFile
+					.write(String.format("The total number of Nodes in Data set: %s", graph.getNodesWithInfo().size()));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile
-					.write(String.format("Total number of Random Objects Generated: %s", totalNumOfObjectssGenerated));
+					.write(String.format("The total number of Edges in Data set: %s", graph.getEdgesWithInfo().size()));
 			outputFile.write(System.lineSeparator()); // new line
-			outputFile.write(String.format("Total number of TRUE Objects: %s", totalNumOfTrueObjects));
+			outputFile.write(String.format("Number of Edges containing objects: %s", graph.getObjectsOnEdges().size()));
 			outputFile.write(System.lineSeparator()); // new line
-			outputFile.write(String.format("Total number of FALSE Objects: %s", totalNumOfFalseObjects));
+			outputFile.write(String.format("Total number of Objects: %s", graph.getTotalNumberOfObjects()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of TRUE Objects: %s", graph.getTotalNumberOfTrueObjects()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
+			outputFile.write(String.format("Percentage of True objects: %3f ",
+					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of Node clusters: %s", totalNumOfNodeClusters));
 			outputFile.write(System.lineSeparator()); // new line
@@ -338,9 +356,9 @@ public class UtilsManagment {
 
 	}
 
-	public void writeObjStats(Graph graph, String datasetName) {
+	public void writeObjStats(Graph graph) {
 
-		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + datasetName + " " + getNormalDateTime()
+		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " " + getNormalDateTime()
 				+ ".txt";
 		try {
 
@@ -440,6 +458,14 @@ public class UtilsManagment {
 
 	public static int convertDoubleToInteger(double dValue) {
 		return (int) Math.round(dValue);
+
+	}
+
+	public static String getNormalDateTime() {
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
+		return format.format(new Date());
 
 	}
 

@@ -3,6 +3,7 @@ package testing;
 import algorithm.ANNClustered;
 import framework.Graph;
 import framework.RoadObject;
+import framework.UtilsManagment;
 
 public class ANNClusteredTest {
 
@@ -298,15 +299,19 @@ public class ANNClusteredTest {
 
 		gr.printObjectsOnEdges();
 
+		gr.setDatasetName("Manual Dataset");
+		
 		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();
 //		annNaive.compute(gr);
 //		annNaive.printNearestNeighborSets();
 
-		ANNClustered ann3 = new ANNClustered();
-		ann3.compute(gr, true);
-		ann3.printNearestSets();
+		ANNClustered annClustered = new ANNClustered();
+		annClustered.compute(gr, true);
+		annClustered.printNearestSets();
 
+		UtilsManagment.writeANNQueriesResult(annClustered, gr.getDatasetName());
+		
 		// System.out.println(gr.getDistanceBetweenTwoTrueObjects(qObj282.getObjectId(),
 		// qObj181.getObjectId()));
 

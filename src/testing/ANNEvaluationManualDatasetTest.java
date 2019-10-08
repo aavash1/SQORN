@@ -6,7 +6,7 @@ import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import algorithm.ClusteringNodes;
 import algorithm.ClusteringRoadObjects;
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.Node;
 import framework.RoadObject;
@@ -324,19 +324,11 @@ public class ANNEvaluationManualDatasetTest {
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
 
-		int totalNumberOfNodes = gr.getNodesWithInfo().size();
-		int totalNumberOfEdges = gr.getEdgesWithInfo().size();
-		int totalNumberOfRandomEdgesSelected = gr.getObjectsOnEdges().size();
-		int totalNumberOfObjectsGenerated = gr.getTotalNumberOfObjects();
-		int totalNumberOfTrueObjects = gr.getTotalNumberOfTrueObjects();
-		int totalNumberOfFalseObjects = gr.getTotalNumberOfFalseObjects();
 		int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
 		int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
 
 		UtilsManagment um = new UtilsManagment();
-		um.writeNaiveAndClusteredANNTestResult(totalNumberOfNodes, totalNumberOfEdges, totalNumberOfRandomEdgesSelected,
-				totalNumberOfObjectsGenerated, totalNumberOfTrueObjects, totalNumberOfFalseObjects,
-				totalNumberOfNodeClusters, totalNumberOfObjectClusters, graphLoadingTimeDNaive,
+		um.writeNaiveAndClusteredANNTestResult(gr, totalNumberOfNodeClusters, totalNumberOfObjectClusters, graphLoadingTimeDNaive,
 				graphLoadingTimeDClustered);
 
 	}
