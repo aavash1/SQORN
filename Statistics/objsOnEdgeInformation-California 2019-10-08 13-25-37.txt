@@ -1,0 +1,7 @@
+The total number of Nodes in Data set: 21048
+The total number of Edges in Data set: 21693
+Number of Edges containing objects: 17311
+Total number of Objects: 566662
+Total number of TRUE Objects: 5631
+Total number of FALSE Objects: 561031
+Percentage of True objects: 0.000000 
