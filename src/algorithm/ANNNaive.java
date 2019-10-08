@@ -42,7 +42,7 @@ public class ANNNaive {
 					objCounter++;
 					objGlobalCounter++;
 					System.out.println(objCounter + " completed Objects on Edge: " + edgeId + " out of "
-							+ m_graph.getObjectsOnEdges().get(edgeId).size() + "; Total completed Objs: "
+							+ m_graph.getTrueObjectsIdOnGivenEdge(edgeId).size() + "; Total completed Objs: "
 							+ objGlobalCounter + " / " + m_graph.getTotalNumberOfTrueObjects());
 					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, trueObj.getObjectId());// .getNearestFalseObjectIdToGivenObjOnMap(graph,
 																														// trueObj.getObjectId());
@@ -64,7 +64,7 @@ public class ANNNaive {
 					objCounter++;
 					objGlobalCounter++;
 					System.out.println(objCounter + " completed Objects on Edge: " + edgeId + " out of "
-							+ m_graph.getObjectsOnEdges().get(edgeId).size() + "; Total completed Objs: "
+							+ m_graph.getFalseObjectsIdOnGivenEdge(edgeId).size() + "; Total completed Objs: "
 							+ objGlobalCounter + " / " + m_graph.getTotalNumberOfFalseObjects());
 					int nearestTrueObjId = nn.getNearestTrueObjectIdToGivenObjOnMap(m_graph, falseObj.getObjectId());
 					m_nearestNeighborSets.put(falseObj.getObjectId(), nearestTrueObjId);
@@ -98,7 +98,7 @@ public class ANNNaive {
 					objCounter++;
 					objGlobalCounter++;
 					System.out.println(objCounter + " completed Objects on Edge: " + edgeId + " out of "
-							+ m_graph.getObjectsOnEdges().get(edgeId).size() + "; Total completed Objs: "
+							+ m_graph.getTrueObjectsIdOnGivenEdge(edgeId).size() + "; Total completed Objs: "
 							+ objGlobalCounter + " / " + m_graph.getTotalNumberOfTrueObjects());
 					int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, trueObj.getObjectId());// .getNearestFalseObjectIdToGivenObjOnMap(graph,
 																														// trueObj.getObjectId());
@@ -121,7 +121,7 @@ public class ANNNaive {
 					objCounter++;
 					objGlobalCounter++;
 					System.out.println(objCounter + " completed Objects on Edge: " + edgeId + " out of "
-							+ m_graph.getObjectsOnEdges().get(edgeId).size() + "; Total completed Objs: "
+							+ m_graph.getFalseObjectsIdOnGivenEdge(edgeId).size()  + "; Total completed Objs: "
 							+ objGlobalCounter + " / " + m_graph.getTotalNumberOfFalseObjects());
 					int nearestTrueObjId = nn.getNearestTrueObjectIdToGivenObjOnMap(m_graph, falseObj.getObjectId());
 					m_nearestNeighborSets.put(falseObj.getObjectId(), nearestTrueObjId);

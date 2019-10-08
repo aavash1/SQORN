@@ -26,20 +26,21 @@ public class ANNEvaluationCalRealDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator2.generateRandomObjectsOnMap(calGraph, 0.2);
+		RandomObjectGenerator2.generateRandomObjectsOnMap(calGraph, 0.001);
 
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), "California");
 		um.writeObjStats(calGraph, "California");
 		System.out.println("Random Object Files Generated Successfully");
 
-//		System.out.println();
-//		ANNNaive annNaive = new ANNNaive();
-//		ANNClustered annClustered = new ANNClustered();
-//		long startTimeNaive = System.nanoTime();
-//		annNaive.compute(calGraph, true);
-//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-//		// annNaive.printNearestNeighborSets();
+		System.out.println();
+
+//		ANNNaive annNaive = new ANNNaive(); //
+//
+//		long startTimeNaive = System.nanoTime(); //
+//		annNaive.compute(calGraph, true); //
+//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive; //
+//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0; // //
+//		annNaive.printNearestNeighborSets(); //
 //		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 //
 //		ANNClustered ann3 = new ANNClustered();
@@ -49,7 +50,7 @@ public class ANNEvaluationCalRealDatasetTest {
 //		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 //		// ann3.printNearestSets();
 //		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
-//
+////
 //		int totalNumberOfNodes = calGraph.getNodesWithInfo().size();
 //		int totalNumberOfEdges = calGraph.getEdgesWithInfo().size();
 //		int totalNumberOfRandomEdgesSelected = RandomObjectGenerator2.getTotalNumberOfRandomEdges();

@@ -20,7 +20,8 @@ public class ANNClustered {
 	public void compute(Graph gr, boolean queryObjectType) {
 		System.out.println();
 		System.out.println("Clustered ANN is running ... ");
-
+		System.out.println("Number of edges containing objs: " + gr.getObjectsOnEdges().size() + "/"
+				+ gr.getEdgesWithInfo().size());
 		m_graph = gr;
 
 		ClusteringNodes clusteringNodes = new ClusteringNodes();

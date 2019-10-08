@@ -361,7 +361,7 @@ public class UtilsManagment {
 			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Percentage of True objects: %3f ",
-					(graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {
