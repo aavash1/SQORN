@@ -15,6 +15,7 @@ public class CalRoadDataSetFileWriterTest {
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
 		Graph calGraph = new Graph();
+		calGraph.setDatasetName("California");
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
@@ -34,7 +35,7 @@ public class CalRoadDataSetFileWriterTest {
 
 		calGraph.printObjectsOnEdges();
 		long startTimeWriter = System.nanoTime();
-		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), "California");
+		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
 		long graphLoadingTimeWriter = System.nanoTime() - startTimeWriter;
 		double graphLoadingTimeDWriter = (double) graphLoadingTimeWriter / 1000000000.0;
 		System.out.println("Time to Generate Objects: " + elapsedTimeAfterRound);
