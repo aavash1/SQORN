@@ -30,9 +30,9 @@ public class ANNEvaluationSanFRealDatasetTest {
 
 		
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(sanFGraph, 0.2);
-		um.writeRoadObjsOnEdgeFile(sanFGraph.getObjectsOnEdges(), "SanFransisco");
-		um.writeObjStats(sanFGraph);
+//		RandomObjectGenerator.generateRandomObjectsOnMap(sanFGraph, 0.2);
+//		um.writeRoadObjsOnEdgeFile(sanFGraph.getObjectsOnEdges(), "SanFransisco");
+//		um.writeObjStats(sanFGraph);
 
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

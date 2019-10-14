@@ -23,10 +23,10 @@ public class ANNEvaluationOldenRealDatasetTest {
 		oldenGraph.setDatasetName("Oldenburg");
 		
 		oldenGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
-		oldenGraph.setNodesWithInfo(calNodesInfo);
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		oldenGraph.setEdgeWithInfo(calEdgeInfo);
+		ArrayList<Node> oldenBNodesInfo = um.readNodeFile(nodeDatasetFile);
+		oldenGraph.setNodesWithInfo(oldenBNodesInfo);
+		ArrayList<Edge> oldenBEdgeInfo = um.readEdgeFile(edgeDatasetFile);
+		oldenGraph.setEdgeWithInfo(oldenBEdgeInfo);
 
 		RandomObjectGenerator.generateRandomObjectsOnMap(oldenGraph, 0.2);
 		um.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), "Oldenburg");

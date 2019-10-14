@@ -23,14 +23,16 @@ public class ANNEvaluationSanJoRealDatasetTest {
 		sanJoaGraph.setDatasetName("SanJoaquin");
 		
 		sanJoaGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
-		sanJoaGraph.setNodesWithInfo(calNodesInfo);
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		sanJoaGraph.setEdgeWithInfo(calEdgeInfo);
+		ArrayList<Node> sanJNodesInfo = um.readNodeFile(nodeDatasetFile);
+		sanJoaGraph.setNodesWithInfo(sanJNodesInfo);
+		ArrayList<Edge> sanJEdgeInfo = um.readEdgeFile(edgeDatasetFile);
+		sanJoaGraph.setEdgeWithInfo(sanJEdgeInfo);
+		
+		sanJoaGraph.printEdgesInfo();
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
-		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");
-		um.writeObjStats(sanJoaGraph);
+//		RandomObjectGenerator.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
+//		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");
+//		um.writeObjStats(sanJoaGraph);
 
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

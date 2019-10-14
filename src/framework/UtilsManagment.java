@@ -123,11 +123,18 @@ public class UtilsManagment {
 	public ArrayList<Node> readNodeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Node> listVer = new ArrayList<Node>();
-
+		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
+
 				if (record.length == 3) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
 					Node v = new Node();
 					v.setNodeId(Integer.parseInt(record[0]));
 					v.setLongitude(Double.parseDouble(record[1]));
@@ -148,11 +155,18 @@ public class UtilsManagment {
 	public ArrayList<Edge> readEdgeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
-
+		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
+
 				if (record.length == 4) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
 					Edge ed = new Edge();
 					ed.setEdgeId(Integer.parseInt(record[0]));
 					ed.setStartNodeId(Integer.parseInt(record[1]));
@@ -175,10 +189,18 @@ public class UtilsManagment {
 		Graph graph = new Graph();
 
 		String line = "";
+		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
+
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
 					graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]), Integer.parseInt(record[2]),
 							Double.parseDouble(record[3]));
 				}
@@ -264,7 +286,7 @@ public class UtilsManagment {
 	// method to create the RoadObjectFile from the previously Generated Objects
 	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge, String datasetName) {
 
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + "_"+ getNormalDateTime()
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + "_" + getNormalDateTime()
 				+ ".csv";
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
@@ -293,7 +315,7 @@ public class UtilsManagment {
 
 	public static void writeANNQueriesResult(ANNClustered annClustered, String datasetName) {
 
-		String annQueriesResultCSVFile = "QueryResults/annQueriesResult_" + datasetName + "_"+ getNormalDateTime()
+		String annQueriesResultCSVFile = "QueryResults/annQueriesResult_" + datasetName + "_" + getNormalDateTime()
 				+ ".csv";
 		try {
 			FileWriter outputFile = new FileWriter(annQueriesResultCSVFile);
@@ -318,7 +340,8 @@ public class UtilsManagment {
 			int totalNumOfObjectClusters, double timeElapsedToComputeANNNAive,
 			double timeElapsedToComputeANNCLustered) {
 
-		String evaluationResultTxtFile = "ResultFiles/NaiveAndClustedANNResult-" + graph.getDatasetName() + "_" + getNormalDateTime() + ".txt";
+		String evaluationResultTxtFile = "ResultFiles/NaiveAndClustedANNResult-" + graph.getDatasetName() + "_"
+				+ getNormalDateTime() + ".txt";
 		try {
 
 			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);
@@ -358,8 +381,8 @@ public class UtilsManagment {
 
 	public void writeObjStats(Graph graph) {
 
-		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " " + getNormalDateTime()
-				+ ".txt";
+		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " "
+				+ getNormalDateTime() + ".txt";
 		try {
 
 			FileWriter outputFile = new FileWriter(evaluationResultTxtFile);
@@ -378,8 +401,10 @@ public class UtilsManagment {
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
 			outputFile.write(System.lineSeparator()); // new line
-			outputFile.write(String.format("Percentage of True objects: %3f ",
-					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+			if (graph.getTotalNumberOfObjects() != 0) {
+				outputFile.write(String.format("Percentage of True objects: %3f ",
+						(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+			}
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {

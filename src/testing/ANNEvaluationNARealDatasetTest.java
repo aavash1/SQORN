@@ -17,14 +17,14 @@ public class ANNEvaluationNARealDatasetTest {
 		UtilsManagment um = new UtilsManagment();
 		Graph naGraph = new Graph("NorthAmerica");
 
-		String nodeDatasetFile = "Datasets//NA-Node_NId-NLong-NLat.csv";
+		String nodeDatasetFile = "Datasets/NA-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/NA-Edge_Eid-ESrc-EDest-EDist.csv";
-		
+
 		naGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
-		naGraph.setNodesWithInfo(calNodesInfo);
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		naGraph.setEdgeWithInfo(calEdgeInfo);
+		ArrayList<Node> nANodesInfo = um.readNodeFile(nodeDatasetFile);
+		naGraph.setNodesWithInfo(nANodesInfo);
+		ArrayList<Edge> nAEdgeInfo = um.readEdgeFile(edgeDatasetFile);
+		naGraph.setEdgeWithInfo(nAEdgeInfo);
 
 		RandomObjectGenerator.generateRandomObjectsOnMap(naGraph, 0.2);
 
