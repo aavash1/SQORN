@@ -26,7 +26,7 @@ public class ANNClusteredCalDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.2);
+		//RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.2);
 		
 
 		ANNClustered ann3 = new ANNClustered();

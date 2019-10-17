@@ -37,12 +37,13 @@ public class Graph {
 	private int m_objToEdgeId = 10; // this number helps to identify edge on which obj is located, sync it with same
 									// variable in RandomObjectGenerator class
 
-	
-	public Graph () {}
-	public Graph (String name) { 
-		datasetName = name;		
+	public Graph() {
 	}
-	
+
+	public Graph(String name) {
+		datasetName = name;
+	}
+
 	////////////////////////////////////// [Currently not
 	////////////////////////////////////// used////////////////////////////////////////
 	// Multivalued Map can work for duplicate keys
@@ -292,6 +293,9 @@ public class Graph {
 	}
 
 	public void setEdgeWithInfo(ArrayList<Edge> edgeWithInfo) {
+		if (edgeWithInfo != null) {
+			Collections.sort(edgeWithInfo, Edge.DistanceComparator);
+		}
 		this.m_edgesWithInfo = edgeWithInfo;
 	}
 
@@ -522,10 +526,15 @@ public class Graph {
 
 		if ((m_objectsOnEdges != null) && m_objectsOnEdges.get(edgeId) != null) {
 			for (RoadObject poi : m_objectsOnEdges.get(edgeId)) {
-				if (poi.getObjectId() == newObj.getObjectId()
-						|| poi.getDistanceFromStartNode() == newObj.getDistanceFromStartNode()) {
-					System.out.println("Either objId (" + newObj.getObjectId() + ") or dist from SN ("
-							+ newObj.getDistanceFromStartNode() + ") exists on same edge: " + edgeId);
+				if (poi.getObjectId() == newObj.getObjectId()) {
+
+					System.out.println(
+							"Can't Add Object!! ObjId (" + newObj.getObjectId() + ") exists on same edge: " + edgeId);
+					return false;
+
+				} else if (poi.getDistanceFromStartNode() == newObj.getDistanceFromStartNode()) {
+					System.out.println("Can't Add Object!! Dist from SN (" + newObj.getDistanceFromStartNode()
+							+ ") exists on same edge: " + edgeId);
 					return false;
 				}
 			}

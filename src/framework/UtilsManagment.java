@@ -20,6 +20,7 @@ import org.apache.commons.collections4.MultiValuedMap;
 import com.opencsv.CSVWriter;
 
 import algorithm.ANNClustered;
+import algorithm.ClusteringNodes;
 
 public class UtilsManagment {
 	final String csvSplitBy = ",";
@@ -405,6 +406,51 @@ public class UtilsManagment {
 				outputFile.write(String.format("Percentage of True objects: %3f ",
 						(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
 			}
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	public void writeDatasetStatistics(Graph graph) {
+
+		String datasetStatisticsTxtFile = "Statistics/datasetStatistics-" + graph.getDatasetName() + " "
+				+ getNormalDateTime() + ".txt";
+		ClusteringNodes clusteringNodes = new ClusteringNodes();
+		clusteringNodes.cluster(graph);
+		double minEdgeLength = Double.MAX_VALUE;
+		int maxNoOfObjs = 0;
+		for (Edge edge : graph.getEdgesWithInfo()) {
+			if (edge.getLength() < minEdgeLength) {
+				minEdgeLength = edge.getLength();
+			}
+		}
+
+		double minDistBetweenObjects = Math.round((minEdgeLength / 3) * 100000.0) / 100000.0;
+		for (Edge edge : graph.getEdgesWithInfo()) {
+			maxNoOfObjs += (int) (edge.getLength() / minDistBetweenObjects - 1);
+		}
+
+		try {
+
+			FileWriter outputFile = new FileWriter(datasetStatisticsTxtFile);
+
+			outputFile
+					.write(String.format("The total number of Nodes in Data set: %s", graph.getNodesWithInfo().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile
+					.write(String.format("The total number of Edges in Data set: %s", graph.getEdgesWithInfo().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Number of Edges containing objects: %s", graph.getObjectsOnEdges().size()));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(String.format("Max number of Objects on Graph: %s", maxNoOfObjs));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.write(
+					String.format("Total number of Node Clusters: %s", clusteringNodes.getTotalNumberOfNodeClusters()));
+			outputFile.write(System.lineSeparator()); // new line
+
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {

@@ -21,14 +21,14 @@ public class ANNEvaluationOldenRealDatasetTest {
 		String edgeDatasetFile = "Datasets/OLDN-Edge_EId-ESrc-EDest-EDist.csv";
 
 		oldenGraph.setDatasetName("Oldenburg");
-		
+
 		oldenGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> oldenBNodesInfo = um.readNodeFile(nodeDatasetFile);
 		oldenGraph.setNodesWithInfo(oldenBNodesInfo);
 		ArrayList<Edge> oldenBEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		oldenGraph.setEdgeWithInfo(oldenBEdgeInfo);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(oldenGraph, 0.2);
+		// RandomObjectGenerator.generateRandomObjectsOnMap(oldenGraph, 0.2);
 		um.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), "Oldenburg");
 		um.writeObjStats(oldenGraph);
 

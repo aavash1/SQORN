@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
+import algorithm.ClusteringNodes;
 import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
@@ -15,8 +16,8 @@ public class ANNEvaluationNARealDatasetTest {
 
 	public static void main(String[] args) {
 		UtilsManagment um = new UtilsManagment();
-		Graph naGraph = new Graph("NorthAmerica");
-
+		Graph naGraph = new Graph();
+		naGraph.setDatasetName("NorthAmerica");
 		String nodeDatasetFile = "Datasets/NA-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/NA-Edge_Eid-ESrc-EDest-EDist.csv";
 
@@ -25,11 +26,12 @@ public class ANNEvaluationNARealDatasetTest {
 		naGraph.setNodesWithInfo(nANodesInfo);
 		ArrayList<Edge> nAEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		naGraph.setEdgeWithInfo(nAEdgeInfo);
+		um.writeDatasetStatistics(naGraph);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(naGraph, 0.2);
-
-		um.writeRoadObjsOnEdgeFile(naGraph.getObjectsOnEdges(), naGraph.getDatasetName());
-		um.writeObjStats(naGraph);
+//		RandomObjectGenerator.generateRandomObjectsOnMap(naGraph, 0.2);
+//
+//		um.writeRoadObjsOnEdgeFile(naGraph.getObjectsOnEdges(), naGraph.getDatasetName());
+//		um.writeObjStats(naGraph);
 
 		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

@@ -26,7 +26,7 @@ public class ANNEvaluationCalRealDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.001);
+		//RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.001);
 
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
 		um.writeObjStats(calGraph);

@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.Comparator;
+
 public class Edge {
 	private int m_intEdgeId;
 	private int m_intStartNodeId;
@@ -48,4 +50,16 @@ public class Edge {
 				+ m_intEndNodeId + ", Length=" + m_doubLength + "]";
 	}
 
+	public static Comparator<Edge> DistanceComparator = new Comparator<Edge>() {
+
+		public int compare(Edge edge1, Edge edge2) {
+			double distanceDiff = edge1.getLength() - edge2.getLength();
+			
+			if (distanceDiff > 0 ) return 1;
+			if (distanceDiff < 0 ) return -1;
+			return 0;
+			//return (int) Math.round(distanceDiff);
+		}
+	};
+	
 }
