@@ -21,7 +21,7 @@ public class RandomObjGenTestRealDataset {
 		long graphLoadingTimeCal;
 		double graphLoadingTimeDCal;
 		startTimeCal = System.nanoTime();
-		
+
 		calGraph = um.readEdgeFileReturnGraph(calEdgeDataset);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(calNodeDataset);
 		calGraph.setNodesWithInfo(calNodesInfo);
@@ -42,7 +42,7 @@ public class RandomObjGenTestRealDataset {
 		System.out.println("Elapsed time of California dataset loading: " + graphLoadingTimeDCal + " seconds");
 
 		System.out.println("---This is after generator------");
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph2);
+		// RandomObjectGenerator.generateRandomObjectsOnMap(calGraph2);
 		calGraph2.printGraph();
 		calGraph2.printObjectsOnEdges();
 

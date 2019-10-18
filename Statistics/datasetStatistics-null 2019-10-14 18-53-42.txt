@@ -1,0 +1,6 @@
+The total number of Nodes in Data set: 175813
+The total number of Edges in Data set: 179179
+Number of Edges containing objects: 0
+Max number of Objects on Graph: 0
+Total number of Node Clusters: 12292
+

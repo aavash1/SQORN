@@ -360,8 +360,8 @@ public class UtilsManagment {
 			outputFile.write(String.format("Total number of TRUE Objects: %s", graph.getTotalNumberOfTrueObjects()));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
-			outputFile.write(String.format("Percentage of True objects: %3f ",
-					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+//			outputFile.write(String.format("Percentage of True objects: %3f ",
+//					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of Node clusters: %s", totalNumOfNodeClusters));
 			outputFile.write(System.lineSeparator()); // new line
