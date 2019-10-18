@@ -29,7 +29,7 @@ public class CalRoadDataSetFileWriterTest {
 		// calGraph.printGraph();
 
 		long startGenerationTime = System.nanoTime();
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph);
+		RandomObjectGenerator.generateRandomObjectsOnMap5(calGraph,0.2,20000);
 		long elapsedTimeForGeneration = System.nanoTime() - startGenerationTime;
 		double elapsedTimeAfterRound = (double) elapsedTimeForGeneration / 1000000000.0;
 
