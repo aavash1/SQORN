@@ -621,6 +621,7 @@ public class RandomObjectGenerator {
 					randObj.setType(true);
 					if (graph.addObjectOnEdge(edge.getEdgeId(), randObj)) {
 						objCounter++;
+						
 						System.out.println(objCounter + " Object Added");
 					}
 					// System.out.println("False Trial");
