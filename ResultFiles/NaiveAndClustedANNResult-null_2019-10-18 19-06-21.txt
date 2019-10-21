@@ -1,0 +1,10 @@
+The total number of Nodes in Data set: 21048
+The total number of Edges in Data set: 21693
+Number of Edges containing objects: 0
+Total number of Objects: 0
+Total number of TRUE Objects: 0
+Total number of FALSE Objects: 0
+Total number of Node clusters: 2010
+Total number of Object clusters: 2010
+Time elapsed to compute Naive ANN:  0.0025 secs
+Time elapsed to compute Clustered ANN: 2.0727 secs
