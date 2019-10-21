@@ -1,6 +1,7 @@
 package testing;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
@@ -32,9 +33,15 @@ public class ANNEvaluationCalRealDatasetTest {
 //		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
 //		um.writeObjStats(calGraph);
 
-		ArrayList<RoadObject> listObjs = um.readRoadObjFile(objectDatasetFile);
-		calGraph.setObjectsWithInfo(listObjs);
+		// IF you wrote "ObjectsOnEdge file before (line33),Why are you trying to read ObjectsWithInfo file???
+//		ArrayList<RoadObject> listObjs = um.readRoadObjFile(objectDatasetFile);
+//		calGraph.setObjectsWithInfo(listObjs);
 
+		//You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!! 
+		// Learn about main their difference
+		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
+		calGraph.setObjectsOnEdges(objectsOnEdge);
+		
 		System.out.println();
 
 		ANNNaive annNaive = new ANNNaive(); //
