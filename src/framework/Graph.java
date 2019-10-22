@@ -12,7 +12,7 @@ public class Graph {
 	private String datasetName;
 	private int m_numEdges;
 	private int m_numOfNodes;
-	private int intEdgeId = 0;
+	private int m_edgeId = 0;
 
 	// m_adjancencyMap: Map<startNodeId, Map <endNodeId, edgeLength> >
 	private final Map<Integer, Map<Integer, Double>> m_adjancencyMap = new HashMap<Integer, Map<Integer, Double>>();
@@ -60,8 +60,8 @@ public class Graph {
 		this.datasetName = datasetName;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////// [Node related
-	////////////////////////////////////////////////////////////////////////////////////////////////// methods//////////////////////////////////////
+	////////////////////////////////////// [Node related methods
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private boolean addNode(int nodeId) {
 		if (m_adjancencyMap.containsKey(nodeId)) {
@@ -213,9 +213,8 @@ public class Graph {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////// [Edge related
-	////////////////////////////////////////////////////////////////////////////////////////////////// methods///////////////////////////////////////
-
+	////////////////////////////////////// [Edge related methods
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	public boolean addEdge(int startNode, int endNode, double distance) {
 		if (startNode == endNode) {
 			return false;
@@ -224,8 +223,8 @@ public class Graph {
 		addNode(endNode);
 
 		Edge newEdge = new Edge();
-		intEdgeId++;
-		newEdge.setEdgeId(intEdgeId);
+		m_edgeId++;
+		newEdge.setEdgeId(m_edgeId);
 		newEdge.setStartNodeId(startNode);
 		newEdge.setEndNodeId(endNode);
 		newEdge.setLength(distance);
@@ -265,6 +264,7 @@ public class Graph {
 			m_adjancencyMap.get(startNode).put(endNode, distance);
 			m_adjancencyMap.get(endNode).put(startNode, distance);
 			m_numEdges++;
+			return true;
 		} else {
 			double prev_doubDistance = m_adjancencyMap.get(startNode).get(endNode);
 			m_adjancencyMap.get(startNode).put(endNode, distance);
@@ -297,6 +297,19 @@ public class Graph {
 			Collections.sort(edgeWithInfo, Edge.DistanceComparator);
 		}
 		this.m_edgesWithInfo = edgeWithInfo;
+		this.m_edgeId = edgeWithInfo.size();
+		syncAdjMap(edgeWithInfo);
+	}
+
+	private void syncAdjMap(ArrayList<Edge> edgeWithInfo) {
+
+		for (Edge edge : edgeWithInfo) {
+			addNode(edge.getStartNodeId());
+			addNode(edge.getEndNodeId());
+			m_adjancencyMap.get(edge.getStartNodeId()).put(edge.getEndNodeId(), edge.getLength());
+			m_adjancencyMap.get(edge.getEndNodeId()).put(edge.getStartNodeId(), edge.getLength());
+		}
+
 	}
 
 	public int getNumberOfEdges() {

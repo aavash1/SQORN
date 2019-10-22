@@ -20,29 +20,34 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		//String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California_2019-10-18 18-16-25.csv";
-		
+		// String objectDatasetFile =
+		// "GeneratedFiles/roadObjectsOnEdge_California_2019-10-18 18-16-25.csv";
+
 		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California_2019-10-22 15-11-20.csv";
 
-		calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
+		// calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
 		calGraph.setNodesWithInfo(calNodesInfo);
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
+
 		calGraph.printEdgesInfo();
 		um.writeDatasetStatistics(calGraph);
 		System.out.println("Completed");
+
+		calGraph.printGraph();
 
 		// RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.001);
 
 //		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
 //		um.writeObjStats(calGraph);
 
-		// IF you wrote "ObjectsOnEdge file before (line33),Why are you trying to read ObjectsWithInfo file???
+		// IF you wrote "ObjectsOnEdge file before (line33),Why are you trying to read
+		// ObjectsWithInfo file???
 //		ArrayList<RoadObject> listObjs = um.readRoadObjFile(objectDatasetFile);
 //		calGraph.setObjectsWithInfo(listObjs);
 
-		//You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!! 
+		// You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!!
 		// Learn about main their difference
 //		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
 //		calGraph.setObjectsOnEdges(objectsOnEdge);
