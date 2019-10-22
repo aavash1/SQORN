@@ -2,7 +2,9 @@
 package algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -508,6 +510,7 @@ public class RandomObjectGenerator {
 		double minEdgeLength = Double.MAX_VALUE;
 		// int totalNumOfGenObjCounter = 0;
 		int totalNumOfObjects = totalNumberOfTrueObjects + totalNumberOfFalseObjects;
+		Random rand = new Random();
 		for (Edge edge : graph.getEdgesWithInfo()) {
 			if (edge.getLength() < minEdgeLength) {
 				minEdgeLength = edge.getLength();
@@ -523,6 +526,15 @@ public class RandomObjectGenerator {
 		System.out.println("Total Length of all edges: " + graph.getTotalLengthOfAllEdges());
 		int whileLoopCounter = 0;
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
+
+		LinkedList<Boolean> boolValues = new LinkedList<Boolean>();
+		for (int i = 0; i < totalNumberOfTrueObjects; i++) {
+			boolValues.add(true);
+		}
+		for (int i = 0; i < totalNumberOfFalseObjects; i++) {
+			boolValues.add(false);
+		}
+		Collections.shuffle(boolValues);
 
 		while (objCounter < totalNumOfObjects) {
 
@@ -544,6 +556,7 @@ public class RandomObjectGenerator {
 			// printGeneratorPara"meters();
 			// i - edge
 			// int edgeCounter = 0;
+			boolean testVar;
 			for (Edge edge : graph.getEdgesWithInfo()) {
 				if (objCounter > totalNumOfObjects) {
 					continue;
@@ -618,10 +631,19 @@ public class RandomObjectGenerator {
 					randObj.setObjId(objCounter);
 					// randObj.setType(rand.nextBoolean());
 					// randObj.setType(Math.random() < probOFTrueObjs);
-					randObj.setType(true);
+					if (totalNumOfObjects == boolValues.size()) {
+						System.err.println("equal size");
+					}			
+					
+					if (boolValues != null || !boolValues.isEmpty()) {
+						testVar = boolValues.poll();
+						randObj.setType(testVar);
+					}
+					
+
 					if (graph.addObjectOnEdge(edge.getEdgeId(), randObj)) {
 						objCounter++;
-						
+
 						System.out.println(objCounter + " Object Added");
 					}
 					// System.out.println("False Trial");

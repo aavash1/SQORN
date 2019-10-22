@@ -24,7 +24,8 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		// calGraph.printGraph();
 
 		// RandomObjectGenerator.generateRandomObjectsOnMap2(calGraph, 0.1);
-		RandomObjectGenerator.generateRandomObjectsOnMap5(calGraph, 0.259, 27000);
+		// RandomObjectGenerator.generateRandomObjectsOnMap5(calGraph, 0.259, 27000);
+		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, 7000, 20000);
 		System.out.println("Finished Generating");
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), "California");
 		um.writeDatasetStatistics(calGraph);
