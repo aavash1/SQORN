@@ -29,9 +29,9 @@ public class ANNEvaluationOldenRealDatasetTest {
 		oldenGraph.setEdgeWithInfo(oldenBEdgeInfo);
 
 		// RandomObjectGenerator.generateRandomObjectsOnMap(oldenGraph, 0.2);
-		um.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), "Oldenburg");
-		um.writeObjStats(oldenGraph);
-
+		oldenGraph.printEdgesInfo();
+		um.writeDatasetStatistics(oldenGraph);
+		System.out.println("Completed");
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();
 //		ANNClustered annClustered = new ANNClustered();

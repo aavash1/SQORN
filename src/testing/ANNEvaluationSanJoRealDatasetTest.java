@@ -21,14 +21,15 @@ public class ANNEvaluationSanJoRealDatasetTest {
 		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
 
 		sanJoaGraph.setDatasetName("SanJoaquin");
-		
+
 		sanJoaGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> sanJNodesInfo = um.readNodeFile(nodeDatasetFile);
 		sanJoaGraph.setNodesWithInfo(sanJNodesInfo);
 		ArrayList<Edge> sanJEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		sanJoaGraph.setEdgeWithInfo(sanJEdgeInfo);
-		
 		sanJoaGraph.printEdgesInfo();
+		um.writeDatasetStatistics(sanJoaGraph);
+		System.out.println("Completed");
 
 //		RandomObjectGenerator.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
 //		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");

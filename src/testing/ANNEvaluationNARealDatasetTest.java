@@ -26,8 +26,9 @@ public class ANNEvaluationNARealDatasetTest {
 		naGraph.setNodesWithInfo(nANodesInfo);
 		ArrayList<Edge> nAEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		naGraph.setEdgeWithInfo(nAEdgeInfo);
+		naGraph.printEdgesInfo();
 		um.writeDatasetStatistics(naGraph);
-
+		System.out.println("Completed");
 //		RandomObjectGenerator.generateRandomObjectsOnMap(naGraph, 0.2);
 //
 //		um.writeRoadObjsOnEdgeFile(naGraph.getObjectsOnEdges(), naGraph.getDatasetName());
