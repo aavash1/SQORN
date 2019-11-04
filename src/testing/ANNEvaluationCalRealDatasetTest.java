@@ -23,7 +23,7 @@ public class ANNEvaluationCalRealDatasetTest {
 		// String objectDatasetFile =
 		// "GeneratedFiles/roadObjectsOnEdge_California_2019-10-18 18-16-25.csv";
 
-		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California_2019-10-22 15-11-20.csv";
+		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California_2019-11-04 13-51-19.csv";
 
 		// calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
@@ -31,11 +31,11 @@ public class ANNEvaluationCalRealDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		calGraph.printEdgesInfo();
-		um.writeDatasetStatistics(calGraph);
-		System.out.println("Completed");
-
-		calGraph.printGraph();
+//		calGraph.printEdgesInfo();
+//		um.writeDatasetStatistics(calGraph);
+//		System.out.println("Completed");
+//
+//		calGraph.printGraph();
 
 		// RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.001);
 
@@ -49,28 +49,28 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		// You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!!
 		// Learn about main their difference
-//		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
-//		calGraph.setObjectsOnEdges(objectsOnEdge);
+		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
+		calGraph.setObjectsOnEdges(objectsOnEdge);
 //		
 //		System.out.println();
 //
-//		ANNNaive annNaive = new ANNNaive(); //
-//
-//		long startTimeNaive = System.nanoTime(); //
-//		annNaive.compute(calGraph, true); //
-//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive; //
-//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0; // //
-//		annNaive.printNearestNeighborSets(); //
-//		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
-//
-//		ANNClustered annClustered = new ANNClustered();
-//		long startTimeClustered = System.nanoTime();
-//		annClustered.compute(calGraph, true);
-//		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
-//		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
-//		// ann3.printNearestSets();
-//		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
-////
+		ANNNaive annNaive = new ANNNaive(); //
+
+		long startTimeNaive = System.nanoTime(); //
+		annNaive.compute(calGraph, true); //
+		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive; //
+		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0; // //
+		annNaive.printNearestNeighborSets(); //
+		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+
+		ANNClustered annClustered = new ANNClustered();
+		long startTimeClustered = System.nanoTime();
+		annClustered.compute(calGraph, true);
+		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
+		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
+		// ann3.printNearestSets();
+		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+
 //		int totalNumberOfNodes = calGraph.getNodesWithInfo().size();
 //		int totalNumberOfEdges = calGraph.getEdgesWithInfo().size();
 //		int totalNumberOfRandomEdgesSelected = RandomObjectGenerator.getTotalNumberOfRandomEdges();

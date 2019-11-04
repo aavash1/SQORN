@@ -1,0 +1,4 @@
+The total number of Nodes in Data set: 6105
+The total number of Edges in Data set: 7035
+Total number of Node Clusters: 3797
+
