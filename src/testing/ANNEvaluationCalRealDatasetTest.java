@@ -6,6 +6,7 @@ import java.util.Map;
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import algorithm.RandomObjectGenerator;
+import algorithm.RandomObjectGenerator2;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
@@ -20,10 +21,10 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		// String objectDatasetFile =
-		// "GeneratedFiles/roadObjectsOnEdge_California_2019-10-18 18-16-25.csv";
+		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_110001_2019-11-05 13-30-01.csv";
 
-		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California_2019-11-04 13-51-19.csv";
+		// String objectDatasetFile =
+		// "GeneratedFiles/roadObjectsOnEdge_California_2019-11-04 14-47-41.csv";
 
 		// calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
 		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
@@ -31,29 +32,30 @@ public class ANNEvaluationCalRealDatasetTest {
 		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-//		calGraph.printEdgesInfo();
-//		um.writeDatasetStatistics(calGraph);
-//		System.out.println("Completed");
-//
-//		calGraph.printGraph();
-
+		// calGraph.printEdgesInfo();
+		// um.writeDatasetStatistics(calGraph);
+		// System.out.println("Completed");
+		//
+		// calGraph.printGraph();
+		// RandomObjectGenerator2.generateRandomObjectsOnMap6(calGraph, 50000, 10000);
 		// RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 0.001);
 
-//		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
-//		um.writeObjStats(calGraph);
+		// um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(),
+		// calGraph.getDatasetName());
+		// um.writeObjStats(calGraph);
 
 		// IF you wrote "ObjectsOnEdge file before (line33),Why are you trying to read
 		// ObjectsWithInfo file???
-//		ArrayList<RoadObject> listObjs = um.readRoadObjFile(objectDatasetFile);
-//		calGraph.setObjectsWithInfo(listObjs);
+		// ArrayList<RoadObject> listObjs = um.readRoadObjFile(objectDatasetFile);
+		// calGraph.setObjectsWithInfo(listObjs);
 
 		// You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!!
 		// Learn about main their difference
 		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
 		calGraph.setObjectsOnEdges(objectsOnEdge);
-//		
-//		System.out.println();
-//
+		//
+		// System.out.println();
+		//
 		ANNNaive annNaive = new ANNNaive(); //
 
 		long startTimeNaive = System.nanoTime(); //
@@ -71,17 +73,19 @@ public class ANNEvaluationCalRealDatasetTest {
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
 
-//		int totalNumberOfNodes = calGraph.getNodesWithInfo().size();
-//		int totalNumberOfEdges = calGraph.getEdgesWithInfo().size();
-//		int totalNumberOfRandomEdgesSelected = RandomObjectGenerator.getTotalNumberOfRandomEdges();
-//		int totalNumberOfObjectsGenerated = calGraph.getObjectsWithInfo().size();
-//		int totalNumberOfTrueObjects = calGraph.getTotalNumberOfTrueObjects();
-//		int totalNumberOfFalseObjects = calGraph.getTotalNumberOfFalseObjects();
-//		int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
-//		int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
-//
-//		um.writeNaiveAndClusteredANNTestResult(calGraph, totalNumberOfNodeClusters, totalNumberOfObjectClusters,
-//				graphLoadingTimeDNaive, graphLoadingTimeDClustered);
+		// int totalNumberOfNodes = calGraph.getNodesWithInfo().size();
+		// int totalNumberOfEdges = calGraph.getEdgesWithInfo().size();
+		// int totalNumberOfRandomEdgesSelected =
+		// RandomObjectGenerator.getTotalNumberOfRandomEdges();
+		// int totalNumberOfObjectsGenerated = calGraph.getObjectsWithInfo().size();
+		// int totalNumberOfTrueObjects = calGraph.getTotalNumberOfTrueObjects();
+		// int totalNumberOfFalseObjects = calGraph.getTotalNumberOfFalseObjects();
+		// int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
+		// int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
+		//
+		// um.writeNaiveAndClusteredANNTestResult(calGraph, totalNumberOfNodeClusters,
+		// totalNumberOfObjectClusters,
+		// graphLoadingTimeDNaive, graphLoadingTimeDClustered);
 
 	}
 

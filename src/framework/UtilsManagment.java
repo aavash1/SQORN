@@ -286,29 +286,57 @@ public class UtilsManagment {
 
 	// method to create the RoadObjectFile from the previously Generated Objects
 	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge, String datasetName) {
+		int counter = 0;
+		for (Integer i : roadObjectsOnEdge.keySet()) {
+			counter += roadObjectsOnEdge.get(i).size();
 
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + "_" + getNormalDateTime()
-				+ ".csv";
+		}
+		System.out.println("Object Counter: " + counter);
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + " size_" +counter + "_"
+				+ getNormalDateTime() + ".csv";
+		// try {
+		// FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
+		// Using CSV Functions to write the fine with comma separated Values.
+		// CSVWriter writer = new CSVWriter(outputFile, ',',
+		// CSVWriter.NO_QUOTE_CHARACTER,
+		// CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+
+		// for (Integer edgeId : roadObjectsOnEdge.keySet()) {
+		// List<String[]> data = new ArrayList<String[]>();
+		// for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
+		//
+		// data.add(new String[] { Integer.toString(edgeId),
+		// Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
+		// String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
+		// Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode())
+		// });
+		//
+		// }
+		// writer.writeAll(data);
+		//
+		// }
 		try {
-			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
-			// Using CSV Functions to write the fine with comma separated Values.
-			CSVWriter writer = new CSVWriter(outputFile, ',', CSVWriter.NO_QUOTE_CHARACTER,
-					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-
+			FileWriter outputFile2 = new FileWriter(roadObjsOnEdgeCSVFile);
 			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-				List<String[]> data = new ArrayList<String[]>();
+				// List<String[]> data = new ArrayList<String[]>();
 				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
-
-					data.add(new String[] { Integer.toString(edgeId),
-							Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
-							String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
-							Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()) });
+					outputFile2.write(Integer.toString(edgeId) + ","
+							+ Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()) + ","
+							+ String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())) + ","
+							+ Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()));
+					outputFile2.write(System.lineSeparator());
 
 				}
-				writer.writeAll(data);
+				// writer.writeAll(data);
+
 			}
+
+			// } catch (Exception e) {
+			// // TODO: handle exception
+			// }
+
 			System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
-			writer.close();
+			outputFile2.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -360,8 +388,9 @@ public class UtilsManagment {
 			outputFile.write(String.format("Total number of TRUE Objects: %s", graph.getTotalNumberOfTrueObjects()));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of FALSE Objects: %s", graph.getTotalNumberOfFalseObjects()));
-//			outputFile.write(String.format("Percentage of True objects: %3f ",
-//					(double) (graph.getTotalNumberOfTrueObjects() / graph.getTotalNumberOfObjects())));
+			// outputFile.write(String.format("Percentage of True objects: %3f ",
+			// (double) (graph.getTotalNumberOfTrueObjects() /
+			// graph.getTotalNumberOfObjects())));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Total number of Node clusters: %s", totalNumOfNodeClusters));
 			outputFile.write(System.lineSeparator()); // new line
@@ -420,18 +449,19 @@ public class UtilsManagment {
 				+ getNormalDateTime() + ".txt";
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 		clusteringNodes.cluster(graph);
-//		double minEdgeLength = Double.MAX_VALUE;
-//		int maxNoOfObjs = 0;
-//		for (Edge edge : graph.getEdgesWithInfo()) {
-//			if (edge.getLength() < minEdgeLength) {
-//				minEdgeLength = edge.getLength();
-//			}
-//		}
-//
-//		double minDistBetweenObjects = Math.round((minEdgeLength / 3) * 100000.0) / 100000.0;
-//		for (Edge edge : graph.getEdgesWithInfo()) {
-//			maxNoOfObjs += (int) (edge.getLength() / minDistBetweenObjects - 1);
-//		}
+		// double minEdgeLength = Double.MAX_VALUE;
+		// int maxNoOfObjs = 0;
+		// for (Edge edge : graph.getEdgesWithInfo()) {
+		// if (edge.getLength() < minEdgeLength) {
+		// minEdgeLength = edge.getLength();
+		// }
+		// }
+		//
+		// double minDistBetweenObjects = Math.round((minEdgeLength / 3) * 100000.0) /
+		// 100000.0;
+		// for (Edge edge : graph.getEdgesWithInfo()) {
+		// maxNoOfObjs += (int) (edge.getLength() / minDistBetweenObjects - 1);
+		// }
 
 		try {
 
@@ -443,10 +473,12 @@ public class UtilsManagment {
 			outputFile
 					.write(String.format("The total number of Edges in Data set: %s", graph.getEdgesWithInfo().size()));
 			outputFile.write(System.lineSeparator()); // new line
-//			outputFile.write(String.format("Number of Edges containing objects: %s", graph.getObjectsOnEdges().size()));
-//			outputFile.write(System.lineSeparator()); // new line
-//			outputFile.write(String.format("Max number of Objects on Graph: %s", maxNoOfObjs));
-//			outputFile.write(System.lineSeparator()); // new line
+			// outputFile.write(String.format("Number of Edges containing objects: %s",
+			// graph.getObjectsOnEdges().size()));
+			// outputFile.write(System.lineSeparator()); // new line
+			// outputFile.write(String.format("Max number of Objects on Graph: %s",
+			// maxNoOfObjs));
+			// outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(
 					String.format("Total number of Node Clusters: %s", clusteringNodes.getTotalNumberOfNodeClusters()));
 			outputFile.write(System.lineSeparator()); // new line

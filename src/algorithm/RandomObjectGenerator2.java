@@ -151,13 +151,15 @@ public class RandomObjectGenerator2 {
 
 				isAcceptableDistance = false;
 				isThereDistanceConflict = false;
-//				System.out.println("Chosen number of edges to generate on: " + randomNumberOfEdges);
-//				System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
-//				// System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge /
-//				// 2);
-//				// System.out.println("Chosen number of object per edge: " +
-//				// randomNumberOfObjsOnEdge);
-//				System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
+				// System.out.println("Chosen number of edges to generate on: " +
+				// randomNumberOfEdges);
+				// System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
+				// // System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge
+				// /
+				// // 2);
+				// // System.out.println("Chosen number of object per edge: " +
+				// // randomNumberOfObjsOnEdge);
+				// System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
 
 			}
 
@@ -189,7 +191,7 @@ public class RandomObjectGenerator2 {
 	}
 
 	public static void generateRandomObjectsOnMap3(Graph graph, double probOFTrueObjs, int objNumParam) {
-//objNumParam refers to the minimum number of objects on the minimum edge - 1.
+		// objNumParam refers to the minimum number of objects on the minimum edge - 1.
 		int edgeId = 0;
 		int objCounter = 0;
 		double distanceFromStartNode = 0.0;
@@ -309,13 +311,15 @@ public class RandomObjectGenerator2 {
 
 				isAcceptableDistance = false;
 				isThereDistanceConflict = false;
-//				System.out.println("Chosen number of edges to generate on: " + randomNumberOfEdges);
-//				System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
-//				// System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge /
-//				// 2);
-//				// System.out.println("Chosen number of object per edge: " +
-//				// randomNumberOfObjsOnEdge);
-//				System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
+				// System.out.println("Chosen number of edges to generate on: " +
+				// randomNumberOfEdges);
+				// System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
+				// // System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge
+				// /
+				// // 2);
+				// // System.out.println("Chosen number of object per edge: " +
+				// // randomNumberOfObjsOnEdge);
+				// System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
 
 			}
 
@@ -619,7 +623,7 @@ public class RandomObjectGenerator2 {
 							}
 							if (!isThereDistanceConflict) {
 								// System.out.println("The distance can be used");
-							//	checkedRandomDistances.add(distanceFromStartNode);
+								// checkedRandomDistances.add(distanceFromStartNode);
 								isAcceptableDistance = true;
 							}
 
@@ -635,7 +639,11 @@ public class RandomObjectGenerator2 {
 						System.err.println("equal size");
 					}
 
-					if (boolValues != null && !boolValues.isEmpty()) {
+					if (boolValues == null) {
+						System.err.println("bool values is  null");
+					}
+
+					if (!boolValues.isEmpty()) {
 						testVar = boolValues.poll();
 						randObj.setType(testVar);
 					}
@@ -648,18 +656,21 @@ public class RandomObjectGenerator2 {
 					// System.out.println("False Trial");
 					isAcceptableDistance = false;
 					isThereDistanceConflict = false;
-//						System.out.println("Chosen number of edges to generate on: " + randomNumberOfEdges);
-//						System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
-//						// System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge /
-//						// 2);
-//						// System.out.println("Chosen number of object per edge: " +
-//						// randomNumberOfObjsOnEdge);
-//						System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
+					// System.out.println("Chosen number of edges to generate on: " +
+					// randomNumberOfEdges);
+					// System.out.println("Current edge: " + keyEdgeId + ", length: " + edgeLength);
+					// // System.out.println("Max num of obj on edge: " + maxNumberOfObjectsPerEdge
+					// /
+					// // 2);
+					// // System.out.println("Chosen number of object per edge: " +
+					// // randomNumberOfObjsOnEdge);
+					// System.out.println("Num of Objects generated: " + totalNumOfGenObjCounter);
 
 				}
 			}
-//			System.out.println("While loop Count: " + whileLoopCounter + ", size of acceptedDistancesOnEdge: "
-//					+ acceptedDistancesOnEdge.size() + ", objects: " + objCounter);
+			// System.out.println("While loop Count: " + whileLoopCounter + ", size of
+			// acceptedDistancesOnEdge: "
+			// + acceptedDistancesOnEdge.size() + ", objects: " + objCounter);
 			if (graph.getTotalNumberOfObjects() == 20001) {
 				System.out.println("success");
 			}
@@ -673,6 +684,7 @@ public class RandomObjectGenerator2 {
 		m_totalLengthOfEdges = graph.getTotalLengthOfAllEdges();
 
 		System.out.println("size of acceptedDistancesOnEdge: " + acceptedDistancesOnEdge.size());
+
 	}
 
 	public static void generateRandomObjectsOnMap4(Graph graph, double probOFTrueObjs, int totalNumOfObjsOnMap) {
@@ -885,7 +897,7 @@ public class RandomObjectGenerator2 {
 
 								continue;
 							}
-//				
+							//
 						}
 						if (!isThereDistanceConflict) {
 							isAcceptableDistance = true;
