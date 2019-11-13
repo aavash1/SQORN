@@ -46,20 +46,22 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [EdgeId=" + m_intEdgeId + ", Start Node=" + m_intStartNodeId + ", End Node="
-				+ m_intEndNodeId + ", Length=" + m_doubLength + "]";
+		return "Edge [EdgeId=" + m_intEdgeId + ", Start Node=" + m_intStartNodeId + ", End Node=" + m_intEndNodeId
+				+ ", Length=" + m_doubLength + "]";
 	}
 
 	public static Comparator<Edge> DistanceComparator = new Comparator<Edge>() {
-
+//This is descending order.
 		public int compare(Edge edge1, Edge edge2) {
 			double distanceDiff = edge1.getLength() - edge2.getLength();
-			
-			if (distanceDiff > 0 ) return 1;
-			if (distanceDiff < 0 ) return -1;
+
+			if (distanceDiff > 0)
+				return -1;
+			if (distanceDiff < 0)
+				return 1;
 			return 0;
-			//return (int) Math.round(distanceDiff);
+			// return (int) Math.round(distanceDiff);
 		}
 	};
-	
+
 }

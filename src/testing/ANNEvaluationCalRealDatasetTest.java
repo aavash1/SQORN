@@ -21,16 +21,13 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_110001_2019-11-05 13-30-01.csv";
-
+		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_30000_2019-11-13 13-34-27.csv";
 		// String objectDatasetFile =
 		// "GeneratedFiles/roadObjectsOnEdge_California_2019-11-04 14-47-41.csv";
 
 		// calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
-		calGraph.setNodesWithInfo(calNodesInfo);
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		calGraph.setEdgeWithInfo(calEdgeInfo);
+		um.readEdgeFile(calGraph, edgeDatasetFile);
+		um.readNodeFile(calGraph, nodeDatasetFile);
 
 		// calGraph.printEdgesInfo();
 		// um.writeDatasetStatistics(calGraph);

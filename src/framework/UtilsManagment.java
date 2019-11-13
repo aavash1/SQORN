@@ -123,7 +123,7 @@ public class UtilsManagment {
 	// Method to read the vertex files from the datasets
 	public ArrayList<Node> readNodeFile(String csvFilename) {
 		String line = "";
-		ArrayList<Node> listVer = new ArrayList<Node>();
+		ArrayList<Node> listOfNodes = new ArrayList<Node>();
 		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
@@ -140,7 +140,7 @@ public class UtilsManagment {
 					v.setNodeId(Integer.parseInt(record[0]));
 					v.setLongitude(Double.parseDouble(record[1]));
 					v.setLatitude(Double.parseDouble(record[2]));
-					listVer.add(v);
+					listOfNodes.add(v);
 				}
 
 			}
@@ -148,7 +148,39 @@ public class UtilsManagment {
 			e.printStackTrace();
 		}
 
-		return listVer;
+		return listOfNodes;
+
+	}
+
+	// Method to read the vertex files from the datasets
+	public boolean readNodeFile(Graph graph, String csvFilename) {
+		String line = "";
+		ArrayList<Node> listOfNodes = new ArrayList<Node>();
+		boolean removedBOM = false;
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
+
+				if (record.length == 3) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
+					Node v = new Node();
+					v.setNodeId(Integer.parseInt(record[0]));
+					v.setLongitude(Double.parseDouble(record[1]));
+					v.setLatitude(Double.parseDouble(record[2]));
+					listOfNodes.add(v);
+				}
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		graph.setNodesWithInfo(listOfNodes);
+		return true;
 
 	}
 
@@ -218,11 +250,17 @@ public class UtilsManagment {
 
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
-
+		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
 					Edge ed = new Edge();
 					ed.setEdgeId(Integer.parseInt(record[0]));
 					ed.setStartNodeId(Integer.parseInt(record[1]));
@@ -292,34 +330,14 @@ public class UtilsManagment {
 
 		}
 		System.out.println("Object Counter: " + counter);
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + " size_" +counter + "_"
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + " size_" + counter + "_"
 				+ getNormalDateTime() + ".csv";
-		// try {
-		// FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
-		// Using CSV Functions to write the fine with comma separated Values.
-		// CSVWriter writer = new CSVWriter(outputFile, ',',
-		// CSVWriter.NO_QUOTE_CHARACTER,
-		// CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
 
-		// for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-		// List<String[]> data = new ArrayList<String[]>();
-		// for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
-		//
-		// data.add(new String[] { Integer.toString(edgeId),
-		// Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
-		// String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
-		// Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode())
-		// });
-		//
-		// }
-		// writer.writeAll(data);
-		//
-		// }
 		try {
 			FileWriter outputFile2 = new FileWriter(roadObjsOnEdgeCSVFile);
 			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
 				// List<String[]> data = new ArrayList<String[]>();
-				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
+				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size(); i++) {
 					outputFile2.write(Integer.toString(edgeId) + ","
 							+ Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()) + ","
 							+ String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())) + ","
@@ -330,7 +348,27 @@ public class UtilsManagment {
 				// writer.writeAll(data);
 
 			}
+			// try {
+			// FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
+			// Using CSV Functions to write the fine with comma separated Values.
+			// CSVWriter writer = new CSVWriter(outputFile, ',',
+			// CSVWriter.NO_QUOTE_CHARACTER,
+			// CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
 
+			// for (Integer edgeId : roadObjectsOnEdge.keySet()) {
+			// List<String[]> data = new ArrayList<String[]>();
+			// for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
+			//
+			// data.add(new String[] { Integer.toString(edgeId),
+			// Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
+			// String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
+			// Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode())
+			// });
+			//
+			// }
+			// writer.writeAll(data);
+			//
+			// }
 			// } catch (Exception e) {
 			// // TODO: handle exception
 			// }

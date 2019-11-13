@@ -2,7 +2,6 @@ package testing;
 
 import java.util.ArrayList;
 
-import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;

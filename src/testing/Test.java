@@ -15,8 +15,25 @@ import com.opencsv.CSVWriter;
 public class Test {
 
 	public static void main(String[] args) {
+		double intendednumber = 518332.133324001;
+		ArrayList<Integer> parameters = new ArrayList<Integer>();
+		parameters.add(27000);
+		parameters.add(37000);
+		parameters.add(57000);
+		parameters.add(77000);
+		parameters.add(107000);
+		parameters.add(30000);
+		parameters.add(40000);
+		parameters.add(60000);
+		parameters.add(80000);
+		parameters.add(110000);
 
-		generateRandomTrueFalseObj();
+		for (int i = 0; i < parameters.size(); i++) {
+			double minDistBetweenObjects = Math.round((intendednumber / parameters.get(i)) * 100000.0) / 100000.0;
+			System.out
+					.println("min distance between object for: " + parameters.get(i) + " is " + minDistBetweenObjects);
+
+		}
 
 	}
 
@@ -63,7 +80,7 @@ public class Test {
 		for (int i = 0; i < values.size(); i++) {
 			int randomIndex = rand.nextInt(values.size());
 			newValues.add(values.get(randomIndex));
-			
+
 		}
 		System.out.println("Size of values: " + newValues.size());
 		System.out.println(newValues);
