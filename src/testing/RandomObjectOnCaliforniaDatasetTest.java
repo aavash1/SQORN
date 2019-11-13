@@ -1,6 +1,6 @@
 package testing;
 
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
 
@@ -16,8 +16,8 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		um.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGenerator2.generateRandomObjectsOnMap6(calGraph, 10000, 20000);
-		RandomObjectGenerator2.printStatistics();
+		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 10000, 40000);
+		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
 		um.writeDatasetStatistics(calGraph);

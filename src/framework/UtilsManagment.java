@@ -329,52 +329,25 @@ public class UtilsManagment {
 			counter += roadObjectsOnEdge.get(i).size();
 
 		}
-		System.out.println("Object Counter: " + counter);
+
 		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + " size_" + counter + "_"
 				+ getNormalDateTime() + ".csv";
 
 		try {
-			FileWriter outputFile2 = new FileWriter(roadObjsOnEdgeCSVFile);
+			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
 			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-				// List<String[]> data = new ArrayList<String[]>();
 				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size(); i++) {
-					outputFile2.write(Integer.toString(edgeId) + ","
+					outputFile.write(Integer.toString(edgeId) + ","
 							+ Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()) + ","
 							+ String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())) + ","
 							+ Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()));
-					outputFile2.write(System.lineSeparator());
-
+					outputFile.write(System.lineSeparator());
 				}
-				// writer.writeAll(data);
 
 			}
-			// try {
-			// FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
-			// Using CSV Functions to write the fine with comma separated Values.
-			// CSVWriter writer = new CSVWriter(outputFile, ',',
-			// CSVWriter.NO_QUOTE_CHARACTER,
-			// CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-
-			// for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-			// List<String[]> data = new ArrayList<String[]>();
-			// for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size() - 1; i++) {
-			//
-			// data.add(new String[] { Integer.toString(edgeId),
-			// Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()),
-			// String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())),
-			// Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode())
-			// });
-			//
-			// }
-			// writer.writeAll(data);
-			//
-			// }
-			// } catch (Exception e) {
-			// // TODO: handle exception
-			// }
 
 			System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
-			outputFile2.close();
+			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

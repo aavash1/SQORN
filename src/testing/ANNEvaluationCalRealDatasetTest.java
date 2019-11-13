@@ -6,7 +6,7 @@ import java.util.Map;
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import algorithm.RandomObjectGenerator;
-import algorithm.RandomObjectGenerator2;
+import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
 import framework.Node;
