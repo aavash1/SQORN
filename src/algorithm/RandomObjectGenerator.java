@@ -929,6 +929,7 @@ public class RandomObjectGenerator {
 	public static double getRandDoubleBetRange2(double min, double max) {
 		double x;
 		x = (Math.random() * ((max - min) + 1)) + min;
+		// 1000000000000000.0
 		x = Math.round(x * 1000000000000000.0) / 1000000000000000.0;
 		return x;
 	}
