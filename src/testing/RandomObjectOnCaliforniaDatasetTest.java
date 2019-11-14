@@ -16,7 +16,7 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		um.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 10000, 40000);
+		RandomObjectGenerator.generateRandomObjectsOnMap(calGraph, 10000, 50000);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
 		um.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
