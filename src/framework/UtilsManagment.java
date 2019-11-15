@@ -23,7 +23,7 @@ import algorithm.ANNClustered;
 import algorithm.ClusteringNodes;
 
 public class UtilsManagment {
-	final String csvSplitBy = ",";
+	final static String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
 
 	// private int poiID;
@@ -121,7 +121,7 @@ public class UtilsManagment {
 	}
 
 	// Method to read the vertex files from the datasets
-	public ArrayList<Node> readNodeFile(String csvFilename) {
+	public static ArrayList<Node> readNodeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Node> listOfNodes = new ArrayList<Node>();
 		boolean removedBOM = false;
@@ -153,7 +153,7 @@ public class UtilsManagment {
 	}
 
 	// Method to read the vertex files from the datasets
-	public boolean readNodeFile(Graph graph, String csvFilename) {
+	public static boolean readNodeFile(Graph graph, String csvFilename) {
 		String line = "";
 		ArrayList<Node> listOfNodes = new ArrayList<Node>();
 		boolean removedBOM = false;
@@ -185,7 +185,7 @@ public class UtilsManagment {
 	}
 
 	// Method to read the Edge files from the datasets
-	public ArrayList<Edge> readEdgeFile(String csvFilename) {
+	public static ArrayList<Edge> readEdgeFile(String csvFilename) {
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
 		boolean removedBOM = false;
@@ -217,8 +217,41 @@ public class UtilsManagment {
 		return listEd;
 
 	}
+	
+	public static ArrayList<Double> readEdgeFileReturnListOfEdgeLength(String csvFilename) {
+		String line = "";
+		ArrayList<Double> listEdgeLength = new ArrayList<Double>();
+		boolean removedBOM = false;
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(csvSplitBy);
 
-	public Graph readEdgeFileReturnGraph(String csvFilename) {
+				if (record.length == 4) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
+					//Edge ed = new Edge();
+					//ed.setEdgeId(Integer.parseInt(record[0]));
+					//ed.setStartNodeId(Integer.parseInt(record[1]));
+
+					//ed.setEndNodeId(Integer.parseInt(record[2]));
+					//ed.setLength(Double.parseDouble(record[3]));
+
+					listEdgeLength.add(Double.parseDouble(record[3]));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return listEdgeLength;
+
+	}
+
+	public static Graph readEdgeFileReturnGraph(String csvFilename) {
 		Graph graph = new Graph();
 
 		String line = "";
@@ -246,7 +279,7 @@ public class UtilsManagment {
 
 	}
 
-	public boolean readEdgeFile(Graph graph, String csvFilename) {
+	public static boolean readEdgeFile(Graph graph, String csvFilename) {
 
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
@@ -280,7 +313,7 @@ public class UtilsManagment {
 
 	}
 
-	public Graph readMergedObjectFile(String fileName) {
+	public static Graph readMergedObjectFile(String fileName) {
 		Graph graph = new Graph();
 		String line = "";
 		int startNode = 0, endNode = 0;
@@ -323,7 +356,8 @@ public class UtilsManagment {
 	}
 
 	// method to create the RoadObjectFile from the previously Generated Objects
-	public void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge, String datasetName) {
+	public static void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge,
+			String datasetName) {
 		int counter = 0;
 		for (Integer i : roadObjectsOnEdge.keySet()) {
 			counter += roadObjectsOnEdge.get(i).size();
@@ -376,7 +410,7 @@ public class UtilsManagment {
 		}
 	}
 
-	public void writeNaiveAndClusteredANNTestResult(Graph graph, int totalNumOfNodeClusters,
+	public static void writeNaiveAndClusteredANNTestResult(Graph graph, int totalNumOfNodeClusters,
 			int totalNumOfObjectClusters, double timeElapsedToComputeANNNAive,
 			double timeElapsedToComputeANNCLustered) {
 
@@ -420,7 +454,7 @@ public class UtilsManagment {
 
 	}
 
-	public void writeObjStats(Graph graph) {
+	public static void writeObjStats(Graph graph) {
 
 		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " "
 				+ getNormalDateTime() + ".txt";
@@ -454,7 +488,7 @@ public class UtilsManagment {
 
 	}
 
-	public void writeDatasetStatistics(Graph graph) {
+	public static void writeDatasetStatistics(Graph graph) {
 
 		String datasetStatisticsTxtFile = "Statistics/datasetStatistics-" + graph.getDatasetName() + " "
 				+ getNormalDateTime() + ".txt";
@@ -503,7 +537,7 @@ public class UtilsManagment {
 	}
 
 	// Method to read the POI with category Id files from the data-set
-	public ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
+	public static ArrayList<RoadObject> readRoadObjFile(String csvFilename) {
 		String line = "";
 		int poiID = 0;
 		ArrayList<RoadObject> listObjs = new ArrayList<RoadObject>();
@@ -530,7 +564,7 @@ public class UtilsManagment {
 
 	}
 
-	public Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
+	public static Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
 
 		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
 
@@ -557,6 +591,72 @@ public class UtilsManagment {
 
 	}
 
+	public static void writeObjectParameterInfo() { 
+		
+		// IF you need to have written those parameters in file
+		
+		
+	}
+	
+	public static int getObjectParameter(String datasetName, int totaNumberOfObjects) {
+
+		int objParam = totaNumberOfObjects, maxNumOfObjsPerEdge;
+		int tempTotaNumberOfObjects = 0;
+
+		double totalLengthOfAllEdges = 0;
+		double minDistBetweenObjs = 0;
+
+		ArrayList<Double> listOfEdgeLength = readEdgeFileReturnListOfEdgeLength(datasetName);
+		Collections.sort(listOfEdgeLength);
+		Collections.reverse(listOfEdgeLength);
+		
+		for (int i = 0; i < listOfEdgeLength.size(); i++) {			
+			totalLengthOfAllEdges += listOfEdgeLength.get(i);
+		}
+
+		while (tempTotaNumberOfObjects < totaNumberOfObjects) {
+			if (tempTotaNumberOfObjects == totaNumberOfObjects)
+				break;
+			objParam++;
+			minDistBetweenObjs = totalLengthOfAllEdges / objParam;
+			tempTotaNumberOfObjects=0;
+			for (int i = 0; i < listOfEdgeLength.size(); i++) {
+				maxNumOfObjsPerEdge = getMaxNumOfObjsPerEdge(listOfEdgeLength.get(i), minDistBetweenObjs);
+				tempTotaNumberOfObjects += maxNumOfObjsPerEdge;
+				//System.out.println("edgeLength: " + listOfEdgeLength.get(i) + ", maxNumOfObjsPerEdge: " + maxNumOfObjsPerEdge); 
+				//	System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
+			}
+			//System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
+
+		}
+		return objParam;
+	}
+
+	private static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
+		double m1;
+		if ((edgeLength / minDistBetweenObjs - 1) < 0) {
+			m1 = 0.0;
+		} else {
+			m1 = (edgeLength / minDistBetweenObjs - 1);
+		}
+
+		double m2;
+		if (m1 > minDistBetweenObjs) {
+			m2 = m1;
+		} else {
+			m2 = 0;
+		}
+
+		if (m2 > 0) {
+			if (m2 > 1) {
+				return (int) m2;
+			} else {
+				return 1;
+			}
+		} else {
+			return 0;
+		}
+	}
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph
 	public void loadNodesInfo(Graph graph, String csvFile) {
@@ -620,7 +720,7 @@ public class UtilsManagment {
 	}
 
 	// Private methods
-	private boolean isInteger(String str) {
+	private static boolean isInteger(String str) {
 
 		try {
 			int a = Integer.parseInt(str);
