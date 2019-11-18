@@ -858,7 +858,7 @@ public class RandomObjectGenerator {
 
 				if (acceptedDistancesOnEdge.get(edge.getEdgeId()).isEmpty()) {
 
-					distanceFromStartNode = getRandDoubleBetRange2(0, edgeLength);
+					distanceFromStartNode = getRandDoubleBetRange1(0, edgeLength);
 					checkedRandomDistances.get(edge.getEdgeId()).add(distanceFromStartNode);
 					// randObj.setDistanceFromStartNode(distanceFromStartNode);
 					// acceptedDistancesOnEdge.get(edge.getEdgeId()).add(distanceFromStartNode);
@@ -870,7 +870,7 @@ public class RandomObjectGenerator {
 					int conflictCounter = 0;
 					while (!isAcceptableDistance) {
 
-						distanceFromStartNode = getRandDoubleBetRange2(0, edgeLength);
+						distanceFromStartNode = getRandDoubleBetRange1(0, edgeLength);
 						if (checkedRandomDistances.get(edge.getEdgeId()).contains(distanceFromStartNode)) {
 							continue;
 						}
@@ -1021,6 +1021,15 @@ public class RandomObjectGenerator {
 		Math.pow(x, placing);
 		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
 		return x;
+	}
+	
+	public static double getRandDoubleBetRange1(double min, double max) {
+		double x;
+		x = ThreadLocalRandom.current().nextDouble(min, max);
+		BigDecimal bd=new BigDecimal(Double.toString(x));
+		bd=bd.setScale(17,RoundingMode.HALF_DOWN);
+		double finalValue=bd.doubleValue();
+		return finalValue;
 	}
 
 	public static void printGeneratorParameters() {
