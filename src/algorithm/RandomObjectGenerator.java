@@ -867,7 +867,7 @@ public class RandomObjectGenerator {
 					// isThereDistanceConflict = false;
 
 				} else {
-					int conflictCounter = 0;
+					//int conflictCounter = 0;
 					while (!isAcceptableDistance) {
 
 						distanceFromStartNode = getRandDoubleBetRange1(0, edgeLength);
@@ -905,7 +905,7 @@ public class RandomObjectGenerator {
 
 						}
 						if (!isThereDistanceConflict) {
-							conflictCounter = 0;
+						//	conflictCounter = 0;
 							isAcceptableDistance = true;
 						}
 					}
