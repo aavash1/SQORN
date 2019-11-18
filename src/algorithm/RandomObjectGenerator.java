@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.decimal4j.util.DoubleRounder;
+
 //import com.google.common.collect.MinMaxPriorityQueue;
 
 import framework.Edge;
@@ -42,8 +44,8 @@ public class RandomObjectGenerator {
 	private static double m_minEdgeLength;
 	private static double m_maxEdgeLength;
 	private static double m_minDistBetweenObjs;
-	private static double m_minDistBetweenObjsPrecision = 10000000000000000000.0;
-	private static double m_distFromStartNodePrecision = 100000000000000.0;
+	private static double m_minDistBetweenObjsPrecision = 1000000000000000000000.0;
+	private static double m_distFromStartNodePrecision = 1000000000000000.0;
 
 	public static void generateRandomObjectsOnMap1(Graph graph) {
 
@@ -856,7 +858,7 @@ public class RandomObjectGenerator {
 
 				if (acceptedDistancesOnEdge.get(edge.getEdgeId()).isEmpty()) {
 
-					distanceFromStartNode = getRandDoubleBetRange(0, edgeLength);
+					distanceFromStartNode = getRandDoubleBetRange2(0, edgeLength);
 					checkedRandomDistances.get(edge.getEdgeId()).add(distanceFromStartNode);
 					// randObj.setDistanceFromStartNode(distanceFromStartNode);
 					// acceptedDistancesOnEdge.get(edge.getEdgeId()).add(distanceFromStartNode);
@@ -868,7 +870,7 @@ public class RandomObjectGenerator {
 					int conflictCounter = 0;
 					while (!isAcceptableDistance) {
 
-						distanceFromStartNode = getRandDoubleBetRange(0, edgeLength);
+						distanceFromStartNode = getRandDoubleBetRange2(0, edgeLength);
 						if (checkedRandomDistances.get(edge.getEdgeId()).contains(distanceFromStartNode)) {
 							continue;
 						}
@@ -1003,14 +1005,20 @@ public class RandomObjectGenerator {
 	public static double getRandDoubleBetRange(double min, double max) {
 		double x;
 		x = ThreadLocalRandom.current().nextDouble(min, max);
-		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
+		DoubleRounder.round(x, 17);
+		// DoubleRounder.round(x,m_distFromStartNodePrecision);
+		// x = Math.round(x * m_distFromStartNodePrecision) /
+		// m_distFromStartNodePrecision;
 		return x;
 	}
 
 	public static double getRandDoubleBetRange2(double min, double max) {
+		int placing = 14;
+
 		double x;
 		x = (Math.random() * ((max - min) + 1)) + min;
 		// 1000000000000000.0
+		Math.pow(x, placing);
 		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
 		return x;
 	}
