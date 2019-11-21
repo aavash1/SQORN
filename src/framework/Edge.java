@@ -41,7 +41,10 @@ public class Edge {
 	}
 
 	public void setLength(double doubDistance) {
-		this.m_doubLength = doubDistance;
+		if(doubDistance>0) {
+			this.m_doubLength = doubDistance;
+		}
+		
 	}
 
 	@Override

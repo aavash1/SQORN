@@ -294,7 +294,7 @@ public class Graph {
 
 	public void setEdgeWithInfo(ArrayList<Edge> edgeWithInfo) {
 		if (edgeWithInfo != null) {
-			Collections.sort(edgeWithInfo, Edge.DistanceComparator);
+			// Collections.sort(edgeWithInfo, Edge.DistanceComparator);
 		}
 		this.m_edgesWithInfo = edgeWithInfo;
 		this.m_edgeId = edgeWithInfo.size();
@@ -422,7 +422,9 @@ public class Graph {
 		double total = 0.0;
 		for (Edge edge : m_edgesWithInfo) {
 			total += edge.getLength();
+			//System.out.println("EdgeID: " + edge.getEdgeId() + ", length: " + total);
 		}
+		//System.out.println("Total: " + total);
 		return total;
 	}
 

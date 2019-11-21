@@ -217,7 +217,7 @@ public class UtilsManagment {
 		return listEd;
 
 	}
-	
+
 	public static ArrayList<Double> readEdgeFileReturnListOfEdgeLength(String csvFilename) {
 		String line = "";
 		ArrayList<Double> listEdgeLength = new ArrayList<Double>();
@@ -233,12 +233,12 @@ public class UtilsManagment {
 						removedBOM = true;
 
 					}
-					//Edge ed = new Edge();
-					//ed.setEdgeId(Integer.parseInt(record[0]));
-					//ed.setStartNodeId(Integer.parseInt(record[1]));
+					// Edge ed = new Edge();
+					// ed.setEdgeId(Integer.parseInt(record[0]));
+					// ed.setStartNodeId(Integer.parseInt(record[1]));
 
-					//ed.setEndNodeId(Integer.parseInt(record[2]));
-					//ed.setLength(Double.parseDouble(record[3]));
+					// ed.setEndNodeId(Integer.parseInt(record[2]));
+					// ed.setLength(Double.parseDouble(record[3]));
 
 					listEdgeLength.add(Double.parseDouble(record[3]));
 				}
@@ -280,7 +280,6 @@ public class UtilsManagment {
 	}
 
 	public static boolean readEdgeFile(Graph graph, String csvFilename) {
-
 		String line = "";
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
 		boolean removedBOM = false;
@@ -591,42 +590,44 @@ public class UtilsManagment {
 
 	}
 
-	public static void writeObjectParameterInfo() { 
-		
+	public static void writeObjectParameterInfo() {
+
 		// IF you need to have written those parameters in file
-		
-		
+
 	}
-	
+
 	public static int getObjectParameter(String datasetName, int totaNumberOfObjects) {
 
-		int objParam = totaNumberOfObjects, maxNumOfObjsPerEdge;
+		int objParam = 300000, maxNumOfObjsPerEdge;
 		int tempTotaNumberOfObjects = 0;
 
 		double totalLengthOfAllEdges = 0;
 		double minDistBetweenObjs = 0;
 
 		ArrayList<Double> listOfEdgeLength = readEdgeFileReturnListOfEdgeLength(datasetName);
-		Collections.sort(listOfEdgeLength);
-		Collections.reverse(listOfEdgeLength);
-		
-		for (int i = 0; i < listOfEdgeLength.size(); i++) {			
+		//Collections.sort(listOfEdgeLength);
+		//Collections.reverse(listOfEdgeLength);
+
+		for (int i = 0; i < listOfEdgeLength.size(); i++) {
 			totalLengthOfAllEdges += listOfEdgeLength.get(i);
 		}
-
+		System.out.println("totalLengthOfAllEdges: " + totalLengthOfAllEdges);
 		while (tempTotaNumberOfObjects < totaNumberOfObjects) {
 			if (tempTotaNumberOfObjects == totaNumberOfObjects)
 				break;
 			objParam++;
-			minDistBetweenObjs = totalLengthOfAllEdges / objParam;
-			tempTotaNumberOfObjects=0;
+			minDistBetweenObjs = Math.round(totalLengthOfAllEdges / objParam * 100000000.0) / 100000000.0;
+			tempTotaNumberOfObjects = 0;
 			for (int i = 0; i < listOfEdgeLength.size(); i++) {
 				maxNumOfObjsPerEdge = getMaxNumOfObjsPerEdge(listOfEdgeLength.get(i), minDistBetweenObjs);
 				tempTotaNumberOfObjects += maxNumOfObjsPerEdge;
-				//System.out.println("edgeLength: " + listOfEdgeLength.get(i) + ", maxNumOfObjsPerEdge: " + maxNumOfObjsPerEdge); 
-				//	System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
+				// System.out.println("edgeLength: " + listOfEdgeLength.get(i) + ",
+				// maxNumOfObjsPerEdge: " + maxNumOfObjsPerEdge);
+				// System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " +
+				// tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
 			}
-			//System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
+			//System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects
+				//	+ ", totaNumberOfObjects: " + totaNumberOfObjects);
 
 		}
 		return objParam;
@@ -637,7 +638,7 @@ public class UtilsManagment {
 		if ((edgeLength / minDistBetweenObjs - 1) < 0) {
 			m1 = 0.0;
 		} else {
-			m1 = (edgeLength / minDistBetweenObjs - 1);
+			m1 = Math.round((edgeLength / minDistBetweenObjs - 1) * 100000000.0) / 100000000.0;
 		}
 
 		double m2;
@@ -657,6 +658,7 @@ public class UtilsManagment {
 			return 0;
 		}
 	}
+
 	// load information of nodes from csv file and add these nodes to list of nodes
 	// in a give graph
 	public void loadNodesInfo(Graph graph, String csvFile) {
