@@ -1,0 +1,47 @@
+EdgeId: 75 maxNumberOfObjectsPerEdge: 8
+1 Object Added, distFromSN: 11.4704378005
+2 Object Added, distFromSN: 57.7300710786
+3 Object Added, distFromSN: 35.9544393279
+4 Object Added, distFromSN: 44.7005220113
+5 Object Added, distFromSN: 28.0895263536
+6 Object Added, distFromSN: 0.4496060918
+7 Object Added, distFromSN: 20.4938543799
+
+
+Min Dist between objects: 6.5201563682
+Min edgeLength: 0.005371
+Max edgeLength: 597.573181
+Total Length of all edges: 1958446.3280179347
+ObjectParameter: 300368
+Loop #: 1
+
+
+EdgeId: 75of length: 61.679562 maxNumberOfObjectsPerEdge: 8
+1 Object Added, distFromSN: 50.8272582636
+2 Object Added, distFromSN: 36.6238853849
+3 Object Added, distFromSN: 25.1784977589
+4 Object Added, distFromSN: 8.9017160448
+5 Object Added, distFromSN: 16.274507753
+6 Object Added, distFromSN: 59.0494109341
+7 Object Added, distFromSN: 43.8135777886
+8 Object Added, distFromSN: 1.0941618571
+
+
+EdgeId: 112of length: 151.151871 maxNumberOfObjectsPerEdge: 22
+9 Object Added, distFromSN: 98.6350370594
+10 Object Added, distFromSN: 40.5319280991
+11 Object Added, distFromSN: 140.7495241269
+12 Object Added, distFromSN: 75.8930834054
+13 Object Added, distFromSN: 52.5067245869
+14 Object Added, distFromSN: 132.8737391659
+15 Object Added, distFromSN: 87.1109070707
+16 Object Added, distFromSN: 24.99483411
+17 Object Added, distFromSN: 7.1896783368
+18 Object Added, distFromSN: 66.5464587962
+19 Object Added, distFromSN: 31.5417762511
+20 Object Added, distFromSN: 123.2959221584
+21 Object Added, distFromSN: 110.8234282175
+22 Object Added, distFromSN: 15.6249443002
+23 Object Added, distFromSN: 0.2806487782
+24 Object Added, distFromSN: 150.5594815889
+25 Object Added, distFromSN: 59.7082295621
