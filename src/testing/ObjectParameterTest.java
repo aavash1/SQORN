@@ -24,16 +24,16 @@ public class ObjectParameterTest {
 //		System.out.println("objParamForNA1100000: " + objParamForNA1100000);
 
 		String edgeDatasetFileSanf = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-		Graph sanFGraph = new Graph("SanFrancisco");
-
-		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-
-		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
-		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
+//		Graph sanFGraph = new Graph("SanFrancisco");
+//
+//		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
+//		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
+//
+//		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
+//		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
 		int objParamForSanf30000 = UtilsManagment.getObjectParameter(edgeDatasetFileSanf, 30000);
 		System.out.println("objParamForSanf30000: " + objParamForSanf30000);
-		System.out.println("Total Length of all edges: " + sanFGraph.getTotalLengthOfAllEdges());
+		//System.out.println("Total Length of all edges: " + sanFGraph.getTotalLengthOfAllEdges());
 //		int objParamForSanf40000 = UtilsManagment.getObjectParameter(edgeDatasetFileSanf, 40000);
 //		System.out.println("objParamForSanf40000: " + objParamForSanf40000);
 //		int objParamForSanf60000 = UtilsManagment.getObjectParameter(edgeDatasetFileSanf, 60000);

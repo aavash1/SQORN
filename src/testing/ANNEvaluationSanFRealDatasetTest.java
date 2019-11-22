@@ -14,25 +14,20 @@ import framework.UtilsManagment;
 public class ANNEvaluationSanFRealDatasetTest {
 
 	public static void main(String[] args) {
-		UtilsManagment um = new UtilsManagment();
 		Graph sanFGraph = new Graph();
 
 		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-		String objectDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-		
+		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_SanFrancisco size_30000_2019-11-22 17-56-33.csv";
 
-		ArrayList<Node> sanFNodesInfo = um.readNodeFile(nodeDatasetFile);
-		sanFGraph.setNodesWithInfo(sanFNodesInfo);
-		ArrayList<Edge> sanFEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		sanFGraph.setEdgeWithInfo(sanFEdgeInfo);
+		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
+		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
 
-		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
+		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
 		sanFGraph.setObjectsOnEdges(objectsOnEdge);
 
 		// System.out.println();
 		ANNNaive annNaive = new ANNNaive();
-		ANNClustered annClustered = new ANNClustered();
 		long startTimeNaive = System.nanoTime();
 		annNaive.compute(sanFGraph, true);
 		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;

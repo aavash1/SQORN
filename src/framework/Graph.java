@@ -238,7 +238,7 @@ public class Graph {
 			double prev_doubDistance = m_adjancencyMap.get(startNode).get(endNode);
 			m_adjancencyMap.get(startNode).put(endNode, distance);
 			m_adjancencyMap.get(endNode).put(startNode, distance);
-
+			m_numEdges++;
 			if (prev_doubDistance != distance) {
 
 				return true;
@@ -269,7 +269,7 @@ public class Graph {
 			double prev_doubDistance = m_adjancencyMap.get(startNode).get(endNode);
 			m_adjancencyMap.get(startNode).put(endNode, distance);
 			m_adjancencyMap.get(endNode).put(startNode, distance);
-
+			m_numEdges++;
 			if (prev_doubDistance != distance) {
 
 				return true;
@@ -422,9 +422,9 @@ public class Graph {
 		double total = 0.0;
 		for (Edge edge : m_edgesWithInfo) {
 			total += edge.getLength();
-			//System.out.println("EdgeID: " + edge.getEdgeId() + ", length: " + total);
+			// System.out.println("EdgeID: " + edge.getEdgeId() + ", length: " + total);
 		}
-		//System.out.println("Total: " + total);
+		// System.out.println("Total: " + total);
 		return total;
 	}
 
@@ -580,6 +580,18 @@ public class Graph {
 
 	public void setObjectsOnEdges(Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges) {
 		this.m_objectsOnEdges = m_objectsOnEdges;
+		for (Integer edgeId : m_objectsOnEdges.keySet()) {
+			for (int i = 0; i < m_objectsOnEdges.get(edgeId).size(); i++) {
+				if (m_objectsOnEdges.get(edgeId).get(i).getType()) {
+					m_totalNumberOfTrueObjects++;
+				} else {
+					m_totalNumberOfFalseObjects++;
+				}
+
+			}
+
+		}
+
 	}
 
 	// Working with m_objectsOnEdges: Map<Integer, List<RoadObject>>

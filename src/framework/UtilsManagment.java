@@ -635,10 +635,10 @@ public class UtilsManagment {
 
 	private static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
 		double m1;
-		if ((edgeLength / minDistBetweenObjs - 1) < 0) {
+		if ((edgeLength / minDistBetweenObjs - 6) < 0) {
 			m1 = 0.0;
 		} else {
-			m1 = Math.round((edgeLength / minDistBetweenObjs - 1) * 100000000.0) / 100000000.0;
+			m1 = Math.round((edgeLength / minDistBetweenObjs - 6) * 100000000.0) / 100000000.0;
 		}
 
 		double m2;
