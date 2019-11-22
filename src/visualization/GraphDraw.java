@@ -18,23 +18,23 @@ public class GraphDraw extends JFrame {
 	private final static Color COLOR_NODE_CIRCLE = Color.blue;
 	private final static Color COLOR_NODE_ID = Color.red;
 
-	private int width;
-	private int height;
+	private int nodeCircleWidth;
+	private int nodeCircleHeight;
 
 	Graph graph;
 
 	//if Node/Edge/Poi added to existing and visualized graph, then need to repaint using local method: this.repaint();
 	public GraphDraw() { // Constructor
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		width = 30;
-		height = 30;
+		nodeCircleWidth = 30;
+		nodeCircleHeight = 30;
 	}
 
 	public GraphDraw(String name) { // Construct with label
 		this.setTitle(name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		width = 30;
-		height = 30;
+		nodeCircleWidth = 60;
+		nodeCircleHeight = 60;
 	}
 
 	public void setGraph(Graph g) {
@@ -43,7 +43,7 @@ public class GraphDraw extends JFrame {
 
 	public void paint(Graphics g) { // draw the nodes and edges
 		FontMetrics f = g.getFontMetrics();
-		int nodeHeight = Math.max(height, f.getHeight());
+		int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
 
 		g.setColor(COLOR_EDGE_LINE);
 		int x1, y1, x2, y2;
@@ -59,7 +59,7 @@ public class GraphDraw extends JFrame {
 
 		for (Node n : graph.getNodesWithInfo()) {
 			String str = "5";
-			int nodeWidth = Math.max(width, f.stringWidth(str) + width / 2);
+			int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
 			g.setColor(COLOR_NODE_CIRCLE);
 			g.fillOval((int)(n.getLatitude() - nodeWidth / 2), (int)(n.getLongitude() - nodeHeight / 2), nodeWidth, nodeHeight);
 			g.setColor(COLOR_NODE_ID);
@@ -106,8 +106,8 @@ public class GraphDraw extends JFrame {
 	private Node findPossibleThirdNodeCoordinates(Node n1, Node n2) {
 
 		Node n3 = null;
-		for (int i = 0; i < Math.max(width, height); i++) {
-			for (int j = 0; j < Math.max(width, height); j++) {
+		for (int i = 0; i < Math.max(nodeCircleWidth, nodeCircleHeight); i++) {
+			for (int j = 0; j < Math.max(nodeCircleWidth, nodeCircleHeight); j++) {
 				n3.setLatitude((double) i);
 				n3.setLongitude((double) j);
 				if (isTriangle(n1, n2, n3)) {
