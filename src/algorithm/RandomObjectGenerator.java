@@ -964,10 +964,10 @@ public class RandomObjectGenerator {
 
 	private static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
 		double m1 = 0.0;
-		if ((edgeLength / minDistBetweenObjs - 1) < 0) {
+		if ((edgeLength / minDistBetweenObjs - 6) < 0) {
 			m1 = 0.0;
 		} else {
-			m1 = Math.round((edgeLength / minDistBetweenObjs - 1) * m_minDistBetweenObjsPrecision)
+			m1 = Math.round((edgeLength / minDistBetweenObjs - 6) * m_minDistBetweenObjsPrecision)
 					/ m_minDistBetweenObjsPrecision;
 		}
 
@@ -980,7 +980,7 @@ public class RandomObjectGenerator {
 
 		if (m2 > 0) {
 			if (m2 > 1) {
-				return (int) m2-1;
+				return (int) m2;
 			} else {
 				return 1;
 			}
