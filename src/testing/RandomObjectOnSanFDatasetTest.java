@@ -15,7 +15,7 @@ public class RandomObjectOnSanFDatasetTest {
 		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
 
 		// calGraph.printGraph();
-		RandomObjectGenerator.generateRandomObjectsOnMap6(sanFGraph, 10000, 20000);
+		RandomObjectGenerator.generateRandomObjectsOnMap6(sanFGraph, 10000, 110000);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
 		UtilsManagment.writeRoadObjsOnEdgeFile(sanFGraph.getObjectsOnEdges(), sanFGraph.getDatasetName());

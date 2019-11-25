@@ -102,6 +102,7 @@ public class ClusteringRoadObjects {
 			// }
 
 		}
+		System.out.println("Objects clustering finished. Total number of Objects-Clustered: " + m_clusterCounter);
 		return m_objectIdClusters;
 	}
 

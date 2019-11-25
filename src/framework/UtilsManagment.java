@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -356,15 +356,7 @@ public class UtilsManagment {
 
 	// method to create the RoadObjectFile from the previously Generated Objects
 	public static void writeRoadObjsOnEdgeFile(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge,
-			String datasetName) {
-		int counter = 0;
-		for (Integer i : roadObjectsOnEdge.keySet()) {
-			counter += roadObjectsOnEdge.get(i).size();
-
-		}
-
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/roadObjectsOnEdge_" + datasetName + " size_" + counter + "_"
-				+ getNormalDateTime() + ".csv";
+			String datasetName, String roadObjsOnEdgeCSVFile) {
 
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
@@ -379,7 +371,7 @@ public class UtilsManagment {
 
 			}
 
-			System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
+			//System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
 			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -445,6 +437,25 @@ public class UtilsManagment {
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.write(String.format("Time elapsed to compute Clustered ANN: %.4f secs",
 					timeElapsedToComputeANNCLustered));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	public static void writeFinalEvaluationResult(Graph graph, String fileName, double timeElapsedToComputeANNNAive,
+			double timeElapsedToComputeANNCLustered) {
+
+		try {
+			FileWriter outputFile = new FileWriter(fileName, true);
+
+			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | NAIVE-ANN-TIME |
+			// CLUSTERED-ANN-TIME
+			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + graph.getTotalNumberOfTrueObjects()
+					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + timeElapsedToComputeANNNAive
+					+ csvSplitBy + timeElapsedToComputeANNCLustered));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {
@@ -564,8 +575,7 @@ public class UtilsManagment {
 	}
 
 	public static Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
-int objCount=0;
-int objectCount2=0;
+
 		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
 
 		String line = "";
@@ -573,27 +583,27 @@ int objectCount2=0;
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				if (record.length == 4) {
-					ArrayList<RoadObject> rObj = new ArrayList<RoadObject>();
 
 					RoadObject rObject = new RoadObject();
 					rObject.setObjId(Integer.parseInt(record[1]));
 					rObject.setType(Boolean.parseBoolean(record[2]));
 					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
-					rObj.add(rObject);
-					
-					m_objectsOnEdge.put(Integer.parseInt(record[0]), rObj);
-					objCount++;
-					System.out.println("Object: "+objCount);
+
+					if (!m_objectsOnEdge.containsKey(Integer.parseInt(record[0]))) {
+						ArrayList<RoadObject> roadObjects = new ArrayList<RoadObject>();
+						m_objectsOnEdge.put(Integer.parseInt(record[0]), roadObjects);
+					}
+					if (!m_objectsOnEdge.get(Integer.parseInt(record[0])).contains(rObject)) {
+						m_objectsOnEdge.get(Integer.parseInt(record[0])).add(rObject);
+
+					}
+
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for(Integer edgeId:m_objectsOnEdge.keySet()) {
-			objectCount2+=m_objectsOnEdge.get(edgeId).size();
-			
-			
-		}System.out.println("Final obj c: "+objectCount2);
+
 		return m_objectsOnEdge;
 
 	}
@@ -613,8 +623,8 @@ int objectCount2=0;
 		double minDistBetweenObjs = 0;
 
 		ArrayList<Double> listOfEdgeLength = readEdgeFileReturnListOfEdgeLength(datasetName);
-		//Collections.sort(listOfEdgeLength);
-		//Collections.reverse(listOfEdgeLength);
+		// Collections.sort(listOfEdgeLength);
+		// Collections.reverse(listOfEdgeLength);
 
 		for (int i = 0; i < listOfEdgeLength.size(); i++) {
 			totalLengthOfAllEdges += listOfEdgeLength.get(i);
@@ -634,8 +644,9 @@ int objectCount2=0;
 				// System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " +
 				// tempTotaNumberOfObjects + ", totaNumberOfObjects: " + totaNumberOfObjects);
 			}
-			//System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " + tempTotaNumberOfObjects
-				//	+ ", totaNumberOfObjects: " + totaNumberOfObjects);
+			// System.out.println("objParam: " + objParam + ", tempTotaNumberOfObjects: " +
+			// tempTotaNumberOfObjects
+			// + ", totaNumberOfObjects: " + totaNumberOfObjects);
 
 		}
 		return objParam;
@@ -718,6 +729,16 @@ int objectCount2=0;
 				if (entry.getValue().equals(value)) {
 					return entry.getKey();
 				}
+			}
+		}
+		return null;
+	}
+
+	public static <K, V> K getMapKeyValue(MultiValuedMap<K, V> map) {
+		if (map != null) {
+			for (Map.Entry<K, V> entry : map.entries()) {
+				return entry.getKey();
+
 			}
 		}
 		return null;

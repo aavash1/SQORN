@@ -15,7 +15,7 @@ public class RandomObjectOnNorthAmericaDatasetTest {
 		UtilsManagment.readEdgeFile(northAmericaGraph, edgeDatasetFile);
 		UtilsManagment.readNodeFile(northAmericaGraph, nodeDatasetFile);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap(northAmericaGraph, 10000,30000);
+		RandomObjectGenerator.generateRandomObjectsOnMap6(northAmericaGraph, 10000,100000);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
 		UtilsManagment.writeRoadObjsOnEdgeFile(northAmericaGraph.getObjectsOnEdges(), northAmericaGraph.getDatasetName());

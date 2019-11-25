@@ -95,7 +95,7 @@ public class ClusteringNodes {
 			}
 
 		}
-
+		System.out.println("Node Clustering Completed. Total number of nodes-clusters: " + m_clusterCounter);
 		return m_nodeClusters;
 	}
 
