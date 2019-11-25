@@ -564,7 +564,8 @@ public class UtilsManagment {
 	}
 
 	public static Map<Integer, ArrayList<RoadObject>> readRoadObjectFile(String csvFilename) {
-
+int objCount=0;
+int objectCount2=0;
 		Map<Integer, ArrayList<RoadObject>> m_objectsOnEdge = new HashMap<Integer, ArrayList<RoadObject>>();
 
 		String line = "";
@@ -579,13 +580,20 @@ public class UtilsManagment {
 					rObject.setType(Boolean.parseBoolean(record[2]));
 					rObject.setDistanceFromStartNode(Double.parseDouble(record[3]));
 					rObj.add(rObject);
+					
 					m_objectsOnEdge.put(Integer.parseInt(record[0]), rObj);
+					objCount++;
+					System.out.println("Object: "+objCount);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		for(Integer edgeId:m_objectsOnEdge.keySet()) {
+			objectCount2+=m_objectsOnEdge.get(edgeId).size();
+			
+			
+		}System.out.println("Final obj c: "+objectCount2);
 		return m_objectsOnEdge;
 
 	}

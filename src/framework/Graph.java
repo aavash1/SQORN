@@ -580,7 +580,9 @@ public class Graph {
 
 	public void setObjectsOnEdges(Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges) {
 		this.m_objectsOnEdges = m_objectsOnEdges;
+		
 		for (Integer edgeId : m_objectsOnEdges.keySet()) {
+			m_totalNumberOfObjects+=m_objectsOnEdges.get(edgeId).size();
 			for (int i = 0; i < m_objectsOnEdges.get(edgeId).size(); i++) {
 				if (m_objectsOnEdges.get(edgeId).get(i).getType()) {
 					m_totalNumberOfTrueObjects++;

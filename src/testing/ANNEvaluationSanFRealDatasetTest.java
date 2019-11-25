@@ -26,14 +26,14 @@ public class ANNEvaluationSanFRealDatasetTest {
 		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
 		sanFGraph.setObjectsOnEdges(objectsOnEdge);
 
-		// System.out.println();
-		ANNNaive annNaive = new ANNNaive();
-		long startTimeNaive = System.nanoTime();
-		annNaive.compute(sanFGraph, true);
-		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		// annNaive.printNearestNeighborSets();
-		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+//		// System.out.println();
+//		ANNNaive annNaive = new ANNNaive();
+//		long startTimeNaive = System.nanoTime();
+//		annNaive.compute(sanFGraph, true);
+//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
+//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
+//		// annNaive.printNearestNeighborSets();
+//		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 		//
 		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();

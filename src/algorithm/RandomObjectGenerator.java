@@ -111,7 +111,7 @@ public class RandomObjectGenerator {
 				acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
 			}
 			double edgeLength=graph.getEdgeDistance(randomEdgeId);
-			double distFromStartNode = getRandDoubleBetRange5(0,edgeLength );
+			double distFromStartNode = getRandDoubleBetRange2(0,edgeLength );
 			if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
 				object.setDistanceFromStartNode(distFromStartNode);
 			} else {

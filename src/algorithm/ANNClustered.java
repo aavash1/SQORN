@@ -13,6 +13,7 @@ public class ANNClustered {
 
 	// m_nearestNeighborSets: Map<QueryObjectId, DataObjectId>.
 	private Map<Integer, Integer> m_nearestNeighborSets = new HashMap<Integer, Integer>();
+
 	public Map<Integer, Integer> getNearestNeighborSets() {
 		return m_nearestNeighborSets;
 	}
@@ -42,6 +43,8 @@ public class ANNClustered {
 		NearestNeighbor nn = new NearestNeighbor();
 
 		int boundaryStartQueryObj, boundaryEndQueryObj;
+		int objectCounter = 0;
+		int queriedObjCounter = 0;
 		int objectClusterCounter = 0;
 		if (queryObjectType) {
 			// Query object = True Object; Data Object = False Object
@@ -51,16 +54,22 @@ public class ANNClustered {
 			// Iterate through boundary objects of object clusters
 			for (Integer index : m_objectIdClusters.keySet()) {
 				objectClusterCounter++;
-				System.out.println(objectClusterCounter + " out of " + m_objectIdClusters.size());
+				// System.out.println(objectClusterCounter + " out of " +
+				// m_objectIdClusters.size());
 
 				if (!m_objectIdClusters.get(index).isEmpty()) {
+					objectCounter += m_objectIdClusters.get(index).size();
 					if (m_objectIdClusters.get(index).size() == 1) {
+						queriedObjCounter++;
 						int queryObj = m_objectIdClusters.get(index).getFirst();
 						int nearestFalseObjId = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph, queryObj);
 
+						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 						m_nearestNeighborSets.put(queryObj, nearestFalseObjId);
 
 					} else if (m_objectIdClusters.get(index).size() == 2) {
+						queriedObjCounter += 2;
 						boundaryStartQueryObj = m_objectIdClusters.get(index).getFirst();
 						boundaryEndQueryObj = m_objectIdClusters.get(index).getLast();
 
@@ -68,14 +77,20 @@ public class ANNClustered {
 								boundaryStartQueryObj);
 						int nearestFalseObjForEndExit = nn.getNearestFalseObjectIdToGivenObjOnMap(m_graph,
 								boundaryEndQueryObj);
+						
+						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 
 						m_nearestNeighborSets.put(boundaryStartQueryObj, nearestFalseObjForBeginingExit);
 						m_nearestNeighborSets.put(boundaryEndQueryObj, nearestFalseObjForEndExit);
 
 					} else {
+						queriedObjCounter += 2;
 						boundaryStartQueryObj = m_objectIdClusters.get(index).getFirst();
 						boundaryEndQueryObj = m_objectIdClusters.get(index).getLast();
-
+						
+						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 						Map<RoadObject, Double> nearestFalseObjWithDistBoundaryStart = nn
 								.getNearestFalseObjectToGivenObjOnMap(gr, boundaryStartQueryObj);
 						Map<RoadObject, Double> nearestFalseObjWithDistBoundaryEnd = nn
@@ -230,7 +245,5 @@ public class ANNClustered {
 		return sizeOfObjectClusters;
 
 	}
-	
-	
 
 }

@@ -35,8 +35,8 @@ public class ANNNaive {
 			// Iterate through all objects on every edge
 			for (Integer edgeId : m_graph.getObjectsOnEdges().keySet()) {
 				edgeCounter++;
-				System.out.println(
-						"Completed Number of Edges: " + edgeCounter + " out of " + m_graph.getObjectsOnEdges().size());
+			//System.out.println(
+						//"Completed Number of Edges: " + edgeCounter + " out of " + m_graph.getObjectsOnEdges().size());
 				int objCounter = 0;
 				for (RoadObject trueObj : m_graph.getTrueObjectsOnEdgeSortedByDist(edgeId)) {
 					objCounter++;

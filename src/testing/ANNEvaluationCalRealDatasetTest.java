@@ -16,19 +16,18 @@ import framework.UtilsManagment;
 public class ANNEvaluationCalRealDatasetTest {
 
 	public static void main(String[] args) {
-		UtilsManagment um = new UtilsManagment();
 		Graph calGraph = new Graph("California");
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_30000_2019-11-13 13-34-27.csv";
+		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_30000_2019-11-22 20-25-01.csv";
 		// String objectDatasetFile =
 		// "GeneratedFiles/roadObjectsOnEdge_California_2019-11-04 14-47-41.csv";
 
 		// calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		um.readEdgeFile(calGraph, edgeDatasetFile);
-		um.readNodeFile(calGraph, nodeDatasetFile);
-
+		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
+		
 		// calGraph.printEdgesInfo();
 		// um.writeDatasetStatistics(calGraph);
 		// System.out.println("Completed");
@@ -48,8 +47,13 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		// You need to work with ObjectsOnEdge file, not ObjectsWithInfo!!!
 		// Learn about main their difference
-		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = um.readRoadObjectFile(objectDatasetFile);
+		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
 		calGraph.setObjectsOnEdges(objectsOnEdge);
+		
+		System.out.println(" Total Objects: "+calGraph.getTotalNumberOfObjects());
+		System.out.println(" Total True Objects: "+calGraph.getTotalNumberOfTrueObjects());
+		System.out.println(" Total False Objects: "+calGraph.getTotalNumberOfFalseObjects());
+		
 		//
 		// System.out.println();
 		//
