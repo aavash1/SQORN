@@ -2,6 +2,7 @@ package framework;
 
 //import java.awt.RenderingHints.Key;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.MultiMap;
 import org.apache.commons.collections4.MultiValuedMap;
@@ -579,10 +580,15 @@ public class Graph {
 		return true;
 	}
 
-	public void setObjectsOnEdges(Map<Integer, ArrayList<RoadObject>> m_objectsOnEdges) {
-		this.m_objectsOnEdges = m_objectsOnEdges;
+	public void setObjectsOnEdges(Map<Integer, ArrayList<RoadObject>> objectsOnEdges) {
+		Map<Integer, ArrayList<RoadObject>> sorted = objectsOnEdges.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+		this.m_objectsOnEdges = sorted;
 
 		for (Integer edgeId : m_objectsOnEdges.keySet()) {
+			System.out.println("Eid: "+edgeId);
 			m_totalNumberOfObjects += m_objectsOnEdges.get(edgeId).size();
 			for (int i = 0; i < m_objectsOnEdges.get(edgeId).size(); i++) {
 				if (m_objectsOnEdges.get(edgeId).get(i).getType()) {

@@ -30,25 +30,24 @@ public class ANNEvaluationSanFRealDatasetTest {
 		sanFGraph.setObjectsOnEdges(objectsOnEdge);
 
 		// System.out.println();
-		ANNNaive annNaive = new ANNNaive();
-		long startTimeNaive = System.nanoTime();
-		annNaive.compute(sanFGraph, true);
-		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		// annNaive.printNearestNeighborSets();
-		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
-
-		ClusteringNodes clusteringNodes = new ClusteringNodes();
-
-		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		Map<Integer, LinkedList<Integer>> nodeIdClusters = clusteringNodes.cluster(sanFGraph);
-		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanFGraph,
-				nodeIdClusters, true);
-		
+//		ANNNaive annNaive = new ANNNaive();
+//		long startTimeNaive = System.nanoTime();
+//		annNaive.compute(sanFGraph, true);
+//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
+//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
+//		// annNaive.printNearestNeighborSets();
+//		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+//
+//		ClusteringNodes clusteringNodes = new ClusteringNodes();
+//
+//		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+//		Map<Integer, LinkedList<Integer>> nodeIdClusters = clusteringNodes.cluster(sanFGraph);
+//		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanFGraph,
+//				nodeIdClusters, true);
 
 		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();
-		ann3.computeWithoutClustering(sanFGraph, true, nodeIdClusters, objectIdClusters);
+		ann3.compute1(sanFGraph, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();
@@ -64,7 +63,9 @@ public class ANNEvaluationSanFRealDatasetTest {
 		// int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
 		// int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
 		//
-		// UtilsManagment.writeNaiveAndClusteredANNTestResult(graph, totalNumOfNodeClusters, totalNumOfObjectClusters, timeElapsedToComputeANNNAive, timeElapsedToComputeANNCLustered);
+		// UtilsManagment.writeNaiveAndClusteredANNTestResult(graph,
+		// totalNumOfNodeClusters, totalNumOfObjectClusters,
+		// timeElapsedToComputeANNNAive, timeElapsedToComputeANNCLustered);
 
 	}
 

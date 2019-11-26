@@ -66,7 +66,7 @@ public class ClusteringRoadObjects {
 		return m_objectIdClusters;
 	}
 
-	public Map<Integer, LinkedList<Integer>> clusterWithIndex(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
+	public Map<Integer, LinkedList<Integer>> clusterWithIndex1(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
 			boolean typeOfClusteredObjects) {
 
 		initialize();
@@ -99,6 +99,51 @@ public class ClusteringRoadObjects {
 			// if (clusteredObjectExists) {
 			m_clusterCounter++;
 			m_objectIdClusters.put(m_clusterCounter, objectCluster);
+			// }
+
+		}
+		System.out.println("Objects clustering finished. Total number of Objects-Clustered: " + m_clusterCounter);
+		return m_objectIdClusters;
+	}
+
+	public Map<Integer, LinkedList<Integer>> clusterWithIndex(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
+			boolean typeOfClusteredObjects) {
+
+		initialize();
+
+		m_graph = gr;
+		m_nodeClusters = nodeClusters;
+		m_typeOfClusteredObjects = typeOfClusteredObjects;
+		int m_clusterCounter = 0;
+		// boolean clusteredObjectExists = false;
+
+		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
+			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
+			ArrayList<Integer> objectsOnEdge = new ArrayList<Integer>();
+			// boolean clusteredObjectExists = false;
+			for (int i = 0; i < m_nodeClusters.get(nodeClusterIndex).size() - 1; i++) {
+				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
+						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
+
+				if (typeOfClusteredObjects) {
+
+					objectsOnEdge.addAll(m_graph.getTrueObjectsIdOnGivenEdge(edgeId));
+				} else {
+					objectsOnEdge.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
+				}
+				if (!objectsOnEdge.isEmpty()) {
+					if (objectsOnEdge.contains(20372) || objectsOnEdge.contains(28384) || objectsOnEdge.contains(4324)
+							|| objectsOnEdge.contains(3675)) {
+						System.err.println("obj clustering");
+					}
+					objectCluster.addAll(objectsOnEdge);
+					m_clusteredObjects.addAll(objectCluster);
+					// clusteredObjectExists = true;
+				}
+			}
+			// if (clusteredObjectExists) {
+			m_clusterCounter++;
+			// m_objectIdClusters.put(m_clusterCounter, objectCluster);
 			// }
 
 		}

@@ -53,7 +53,10 @@ public class ClusteringNodes {
 				if (this.m_visitedEdges.contains(edgeId))
 					continue;
 				m_visitedEdges.add(edgeId);
-
+				if (adjNode == 13965 || adjNode == 8257 || adjNode == 13959 || adjNode == 13952 || adjNode == 13949
+						|| adjNode == 13945 || adjNode == 13940) {
+					System.out.println("nodeCLustering");
+				}
 				if (m_graph.isTerminalNode(adjNode)) {
 					LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
 					nodeCluster.add(currentNode);
@@ -61,6 +64,7 @@ public class ClusteringNodes {
 					nodeCluster.add(adjNode);
 					m_clusteredNodes.add(adjNode);
 					m_clusterCounter++;
+
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
 					// System.out.println("New cluster:");
 					// System.out.println(nodeCluster);
