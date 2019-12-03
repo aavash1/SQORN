@@ -1,6 +1,7 @@
 package testing;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
@@ -14,26 +15,19 @@ import framework.UtilsManagment;
 public class ANNEvaluationSanJoRealDatasetTest {
 
 	public static void main(String[] args) {
-		UtilsManagment um = new UtilsManagment();
-		Graph sanJoaGraph = new Graph();
+		Graph sanJoaGraph = new Graph("SanJoaquin");
 
 		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		sanJoaGraph.setDatasetName("SanJoaquin");
+		String objectDatasetFile = "GeneratedFiles/San Joaquin_2019-11-28 15-53-07.csv";
 
-		sanJoaGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> sanJNodesInfo = um.readNodeFile(nodeDatasetFile);
-		sanJoaGraph.setNodesWithInfo(sanJNodesInfo);
-		ArrayList<Edge> sanJEdgeInfo = um.readEdgeFile(edgeDatasetFile);
-		sanJoaGraph.setEdgeWithInfo(sanJEdgeInfo);
-		sanJoaGraph.printEdgesInfo();
-		um.writeDatasetStatistics(sanJoaGraph);
-		System.out.println("Completed");
+		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
+		UtilsManagment.readEdgeFile(sanJoaGraph, edgeDatasetFile);
 
-//		RandomObjectGenerator.generateRandomObjectsOnMap(sanJoaGraph, 0.2);
-//		um.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), "SanJoaquin");
-//		um.writeObjStats(sanJoaGraph);
+		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
+		sanJoaGraph.setObjectsOnEdges(objectsOnEdge);
+
 
 //		System.out.println();
 //		ANNNaive annNaive = new ANNNaive();
@@ -45,13 +39,13 @@ public class ANNEvaluationSanJoRealDatasetTest {
 //		// annNaive.printNearestNeighborSets();
 //		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 //
-//		ANNClustered ann3 = new ANNClustered();
-//		long startTimeClustered = System.nanoTime();
-//		ann3.compute(sanJoaGraph, true);
-//		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
-//		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
-//		// ann3.printNearestSets();
-//		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+		ANNClustered ann3 = new ANNClustered();
+		long startTimeClustered = System.nanoTime();
+		ann3.compute(sanJoaGraph, true);
+		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
+		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
+		// ann3.printNearestSets();
+		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
 //
 //		int totalNumberOfNodes = sanJoaGraph.getNodesWithInfo().size();
 //		int totalNumberOfEdges = sanJoaGraph.getEdgesWithInfo().size();

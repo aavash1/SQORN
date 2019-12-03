@@ -371,7 +371,33 @@ public class UtilsManagment {
 
 			}
 
-			//System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
+			// System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written
+			// Successfully");
+			outputFile.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void writeRoadObjsOnEdgeFile1(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge,
+			String datasetName) {
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + datasetName + "_" + getNormalDateTime() + ".csv";
+
+		try {
+			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
+			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
+				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size(); i++) {
+					outputFile.write(Integer.toString(edgeId) + ","
+							+ Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()) + ","
+							+ String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())) + ","
+							+ Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()));
+					outputFile.write(System.lineSeparator());
+				}
+
+			}
+
+			// System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written
+			// Successfully");
 			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();

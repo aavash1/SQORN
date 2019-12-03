@@ -310,12 +310,12 @@ public class ANNEvaluationManualDatasetTest {
 
 		System.out.println();
 
-		long startTimeNaive = System.nanoTime();
-		annNaive.compute(gr, true);
-		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		// annNaive.printNearestNeighborSets();
-		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+//		long startTimeNaive = System.nanoTime();
+//		annNaive.compute(gr, true);
+//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
+//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
+//		// annNaive.printNearestNeighborSets();
+//		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 
 		long startTimeClustered = System.nanoTime();
 		annClustered.compute(gr, true);
@@ -324,12 +324,10 @@ public class ANNEvaluationManualDatasetTest {
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
 
-		int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
-		int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
-
-		UtilsManagment um = new UtilsManagment();
-		um.writeNaiveAndClusteredANNTestResult(gr, totalNumberOfNodeClusters, totalNumberOfObjectClusters, graphLoadingTimeDNaive,
-				graphLoadingTimeDClustered);
+//
+//		UtilsManagment um = new UtilsManagment();
+//		um.writeNaiveAndClusteredANNTestResult(gr, totalNumberOfNodeClusters, totalNumberOfObjectClusters, graphLoadingTimeDNaive,
+//				graphLoadingTimeDClustered);
 
 	}
 

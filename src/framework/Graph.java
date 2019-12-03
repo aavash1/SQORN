@@ -588,7 +588,7 @@ public class Graph {
 		this.m_objectsOnEdges = sorted;
 
 		for (Integer edgeId : m_objectsOnEdges.keySet()) {
-			System.out.println("Eid: "+edgeId);
+			// System.out.println("Eid: "+edgeId);
 			m_totalNumberOfObjects += m_objectsOnEdges.get(edgeId).size();
 			for (int i = 0; i < m_objectsOnEdges.get(edgeId).size(); i++) {
 				if (m_objectsOnEdges.get(edgeId).get(i).getType()) {

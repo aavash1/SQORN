@@ -21,13 +21,19 @@ public class ANNEvaluationSanFRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_SanFrancisco size_30000_2019-11-25 15-54-12.csv";
+
+		// T=110000 F=10000
+	//	String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-44-02.csv";
+		// T=10000 F=110000
+		String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-24-44.csv";
 
 		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
 		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
 
 		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
 		sanFGraph.setObjectsOnEdges(objectsOnEdge);
+		
+		
 
 		// System.out.println();
 //		ANNNaive annNaive = new ANNNaive();

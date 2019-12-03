@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,35 @@ public class ClusteringNodes {
 		m_clusteredNodes.clear();
 	}
 
+	public boolean nodeClusterValidator(Graph gr, Map<Integer, LinkedList<Integer>> nodeCluster) {
+		boolean flag = false;
+
+		for (Integer nodeClusterIndexId : nodeCluster.keySet()) {
+
+			if (nodeCluster.get(nodeClusterIndexId).size() > 2) {
+				if (gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst())
+						|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast())) {
+					for (int i = 0; i < nodeCluster.get(nodeClusterIndexId).size(); i++) {
+						if (!gr.isIntermediateNode(nodeCluster.get(nodeClusterIndexId).get(i))) {
+							return false;
+						}
+					}
+
+				}
+
+			} else {
+				if ((!gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst()))
+						|| (!gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast()))) {
+					return false;
+				}
+			}
+
+		}
+
+		return true;
+
+	}
+
 	public Map<Integer, LinkedList<Integer>> cluster(Graph gr) {
 
 		initialize();
@@ -53,10 +83,10 @@ public class ClusteringNodes {
 				if (this.m_visitedEdges.contains(edgeId))
 					continue;
 				m_visitedEdges.add(edgeId);
-				if (adjNode == 13965 || adjNode == 8257 || adjNode == 13959 || adjNode == 13952 || adjNode == 13949
-						|| adjNode == 13945 || adjNode == 13940) {
-					System.out.println("nodeCLustering");
-				}
+//				if (adjNode == 13965 || adjNode == 8257 || adjNode == 13959 || adjNode == 13952 || adjNode == 13949
+//						|| adjNode == 13945 || adjNode == 13940) {
+//					System.out.println("nodeCLustering");
+//				}
 				if (m_graph.isTerminalNode(adjNode)) {
 					LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
 					nodeCluster.add(currentNode);

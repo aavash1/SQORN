@@ -50,11 +50,11 @@ public class ANNEvaluationCalRealDatasetTest {
 			//Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(roadObjFileName);
 			//calGraph.setObjectsOnEdges(objectsOnEdge);
 
-			double timeForANNNaive = annNaive.computeReturnTime(calGraph, true);
+		//	double timeForANNNaive = annNaive.computeReturnTime(calGraph, true);
 
 			double timeForClusteredANN = annClustered.compute(calGraph, true);
 
-			UtilsManagment.writeFinalEvaluationResult(calGraph, filename, timeForANNNaive, timeForClusteredANN);
+		//	UtilsManagment.writeFinalEvaluationResult(calGraph, filename, timeForANNNaive, timeForClusteredANN);
 
 		}
 
