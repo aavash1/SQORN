@@ -307,7 +307,7 @@ public class ANNClusteredTest {
 //		annNaive.printNearestNeighborSets();
 
 		ANNClustered annClustered = new ANNClustered();
-		annClustered.compute(gr, true);
+		annClustered.computeWithTime(gr, true);
 		annClustered.printNearestSets();
 
 		UtilsManagment.writeANNQueriesResult(annClustered, gr.getDatasetName());

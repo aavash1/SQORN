@@ -22,7 +22,7 @@ public class clusteringValidationTest {
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 
 		// T=110000 F=10000
-//		String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-44-02.csv";
+		//String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-44-02.csv";
 		// T=10000 F=110000
 		String objectDatasetFile = "GeneratedFiles/roadObjectsOnEdge_California size_110000_2019-11-25 15-42-53.csv";
 
@@ -38,7 +38,8 @@ public class clusteringValidationTest {
 
 		m_nodeIdClusters = clusterNodes.cluster(caliGraph);
 		System.out.println("Validation for NC: " + clusterNodes.nodeClusterValidator(caliGraph, m_nodeIdClusters));
-		m_objectIdClusters = clusterRObjects.cluster(caliGraph, m_nodeIdClusters, true);
+
+		m_objectIdClusters = clusterRObjects.clusterWithIndex(caliGraph, m_nodeIdClusters, true);
 		// clusterNodes.printNodeClusters();
 		// clusterRObjects.printRoadObjectClusters();
 

@@ -46,7 +46,7 @@ public class ANNEvaluationNARealDatasetTest {
 
 		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();
-		ann3.compute(naGraph, true);
+		ann3.computeWithTime(naGraph, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();

@@ -52,7 +52,7 @@ public class ANNEvaluationCalRealDatasetTest {
 
 		//	double timeForANNNaive = annNaive.computeReturnTime(calGraph, true);
 
-			double timeForClusteredANN = annClustered.compute(calGraph, true);
+			double timeForClusteredANN = annClustered.computeWithTime(calGraph, true);
 
 		//	UtilsManagment.writeFinalEvaluationResult(calGraph, filename, timeForANNNaive, timeForClusteredANN);
 

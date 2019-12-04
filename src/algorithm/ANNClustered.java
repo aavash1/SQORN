@@ -22,8 +22,7 @@ public class ANNClustered {
 	private Map<Integer, LinkedList<Integer>> m_nodeIdClusters;
 	private int sizeOfNodeClusters, sizeOfObjectClusters;
 
-	public void compute1(Graph gr, boolean queryObjectType) {
-		// long startTimeNaive = System.nanoTime(); //
+	public void computeWithoutTime(Graph gr, boolean queryObjectType) {
 		System.out.println();
 		System.out.println("Clustered ANN is running ... ");
 		System.out.println("Number of edges containing objs: " + gr.getObjectsOnEdges().size() + "/"
@@ -36,13 +35,13 @@ public class ANNClustered {
 		m_nodeIdClusters = clusteringNodes.cluster(gr);
 		m_objectIdClusters = clusteringObjects.clusterWithIndex(gr, m_nodeIdClusters, queryObjectType);
 
-		System.out.println(
-				"Validation: " + clusteringObjects.nodeObjectValidator(gr, m_nodeIdClusters, m_objectIdClusters));
+//		System.out.println(
+//				"Validation: " + clusteringObjects.nodeObjectValidator(gr, m_nodeIdClusters, m_objectIdClusters));
 		sizeOfNodeClusters = m_nodeIdClusters.size();
 		sizeOfObjectClusters = m_objectIdClusters.size();
 
-		clusteringNodes.printNodeClusters();
-		clusteringObjects.printRoadObjectClusters();
+//		clusteringNodes.printNodeClusters();
+//		clusteringObjects.printRoadObjectClusters();
 
 		NearestNeighbor nn = new NearestNeighbor();
 
@@ -58,10 +57,8 @@ public class ANNClustered {
 			// Iterate through boundary objects of object clusters
 			for (Integer index : m_objectIdClusters.keySet()) {
 				objectClusterCounter++;
-				System.out.println(objectClusterCounter + " out of " + m_objectIdClusters.size());
-				if (objectClusterCounter == 111268) {
-					System.err.println("objet cluster: " + objectClusterCounter);
-				}
+				// System.out.println(objectClusterCounter + " out of " +
+				// m_objectIdClusters.size());
 
 				if (!m_objectIdClusters.get(index).isEmpty()) {
 					objectCounter += m_objectIdClusters.get(index).size();
@@ -73,8 +70,8 @@ public class ANNClustered {
 						if (queriedObjCounter == 132) {
 							System.err.println("err print");
 						}
-						System.out.println(queriedObjCounter + " queried objs " + objectCounter
-								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
+//						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+//								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 						m_nearestNeighborSets.put(queryObj, nearestFalseObjId);
 
 					} else if (m_objectIdClusters.get(index).size() == 2) {
@@ -89,8 +86,8 @@ public class ANNClustered {
 						if (queriedObjCounter == 5689) {
 							System.err.println("err print");
 						}
-						System.out.println(queriedObjCounter + " queried objs " + objectCounter
-								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
+//						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+//								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 
 						m_nearestNeighborSets.put(boundaryStartQueryObj, nearestFalseObjForBeginingExit);
 						m_nearestNeighborSets.put(boundaryEndQueryObj, nearestFalseObjForEndExit);
@@ -100,11 +97,8 @@ public class ANNClustered {
 						boundaryStartQueryObj = m_objectIdClusters.get(index).getFirst();
 						boundaryEndQueryObj = m_objectIdClusters.get(index).getLast();
 
-						if (queriedObjCounter == 5689) {
-							System.err.println("err print");
-						}
-						System.out.println(queriedObjCounter + " queried objs " + objectCounter
-								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
+//						System.out.println(queriedObjCounter + " queried objs " + objectCounter
+//								+ " covered QO on Edge: " + index + " out of " + m_graph.getTotalNumberOfTrueObjects());
 						Map<RoadObject, Double> nearestFalseObjWithDistBoundaryStart = nn
 								.getNearestFalseObjectToGivenObjOnMap(gr, boundaryStartQueryObj);
 						Map<RoadObject, Double> nearestFalseObjWithDistBoundaryEnd = nn
@@ -131,9 +125,7 @@ public class ANNClustered {
 								+ 1; i < m_objectIdClusters.get(index).size() - 1; i++) {
 
 							int currentTrueObject = m_objectIdClusters.get(index).get(i);
-							if (currentTrueObject == 38968) {
-								System.err.println("Debug here once");
-							}
+
 							LinkedList<Integer> currentObjCluster = new LinkedList<Integer>();
 							currentObjCluster.addAll(m_objectIdClusters.get(index));
 							LinkedList<Integer> currentNodeCluster = new LinkedList<Integer>();
@@ -246,12 +238,9 @@ public class ANNClustered {
 				}
 			}
 		}
-//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive; //
-//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-//		return graphLoadingTimeDNaive;
 	}
 
-	public double compute(Graph gr, boolean queryObjectType) {
+	public double computeWithTime(Graph gr, boolean queryObjectType) {
 		long startTimeNaive = System.nanoTime(); //
 		System.out.println();
 		System.out.println("Clustered ANN is running ... ");
@@ -479,6 +468,7 @@ public class ANNClustered {
 		int objectCounter = 0;
 		int queriedObjCounter = 0;
 		int objectClusterCounter = 0;
+		
 		if (queryObjectType) {
 			// Query object = True Object; Data Object = False Object
 //			System.out.println("Query object = True Object (" + m_graph.getTotalNumberOfTrueObjects()
@@ -588,13 +578,16 @@ public class ANNClustered {
 				System.out.println(objectClusterCounter + " out of " + objectIdClusters.size());
 
 				if (!objectIdClusters.get(index).isEmpty()) {
+					objectCounter += objectIdClusters.get(index).size();
 					if (objectIdClusters.get(index).size() == 1) {
+						queriedObjCounter++;
 						int queryObj = objectIdClusters.get(index).getFirst();
 						int nearestTrueObjId = nn.getNearestTrueObjectIdToGivenObjOnMap(m_graph, queryObj);
 
 						m_nearestNeighborSets.put(queryObj, nearestTrueObjId);
 
 					} else if (objectIdClusters.get(index).size() == 2) {
+						queriedObjCounter += 2;
 						boundaryStartQueryObj = objectIdClusters.get(index).getFirst();
 						boundaryEndQueryObj = objectIdClusters.get(index).getLast();
 
@@ -607,6 +600,7 @@ public class ANNClustered {
 						m_nearestNeighborSets.put(boundaryEndQueryObj, nearestTrueObjForEndExit);
 
 					} else {
+						queriedObjCounter += 2;
 						boundaryStartQueryObj = objectIdClusters.get(index).getFirst();
 						boundaryEndQueryObj = objectIdClusters.get(index).getLast();
 

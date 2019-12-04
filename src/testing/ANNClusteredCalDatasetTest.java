@@ -31,7 +31,7 @@ public class ANNClusteredCalDatasetTest {
 
 		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();
-		ann3.compute(calGraph, true);
+		ann3.computeWithTime(calGraph, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();

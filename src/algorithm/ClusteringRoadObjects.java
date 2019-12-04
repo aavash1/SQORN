@@ -31,7 +31,6 @@ public class ClusteringRoadObjects {
 			Map<Integer, LinkedList<Integer>> objectClusters) {
 
 		for (Integer nodeClusterIndexId : nodeClusters.keySet()) {
-
 			ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
 
 			for (int i = 0; i < nodeClusters.get(nodeClusterIndexId).size() - 1; i++) {
@@ -42,14 +41,6 @@ public class ClusteringRoadObjects {
 
 				if (!edgeIdList.contains(gr.getEdgeIdOfRoadObject(objectClusters.get(nodeClusterIndexId).get(j)))) {
 					System.out.println("index: " + nodeClusterIndexId);
-					System.out.println(" edgeId of TO 1: "
-							+ gr.getEdgeIdOfRoadObject(objectClusters.get(nodeClusterIndexId).get(j))
-							+ " edgeId of TO 2: "
-							+ gr.getEdgeIdOfRoadObject(objectClusters.get(nodeClusterIndexId).get(j + 1))
-							+ " edgeId of TO 3: "
-							+ gr.getEdgeIdOfRoadObject(objectClusters.get(nodeClusterIndexId).get(j + 2))
-							+ " edgeId of TO 4: "
-							+ gr.getEdgeIdOfRoadObject(objectClusters.get(nodeClusterIndexId).get(j + 3)));
 					System.out.println("EdgeList: " + edgeIdList);
 					System.out.println("NodeCluster: " + nodeClusters.get(nodeClusterIndexId));
 					System.out.println("object Cluster: " + objectClusters.get(nodeClusterIndexId));
@@ -71,7 +62,6 @@ public class ClusteringRoadObjects {
 		m_graph = gr;
 		m_nodeClusters = nodeClusters;
 		m_typeOfClusteredObjects = typeOfClusteredObjects;
-		int m_clusterCounter = 0;
 		boolean clusteredObjectExists = false;
 
 		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
@@ -94,51 +84,10 @@ public class ClusteringRoadObjects {
 				}
 			}
 			if (clusteredObjectExists) {
-				m_clusterCounter++;
-				m_objectIdClusters.put(m_clusterCounter, objectCluster);
+				m_objectIdClusters.put(nodeClusterIndex, objectCluster);
 			}
 
 		}
-		return m_objectIdClusters;
-	}
-
-	public Map<Integer, LinkedList<Integer>> clusterWithIndex1(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
-			boolean typeOfClusteredObjects) {
-
-		initialize();
-
-		m_graph = gr;
-		m_nodeClusters = nodeClusters;
-		m_typeOfClusteredObjects = typeOfClusteredObjects;
-		int m_clusterCounter = 0;
-		// boolean clusteredObjectExists = false;
-
-		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
-			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
-			ArrayList<Integer> objectsOnEdge = new ArrayList<Integer>();
-			// boolean clusteredObjectExists = false;
-			for (int i = 0; i < m_nodeClusters.get(nodeClusterIndex).size() - 1; i++) {
-				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
-						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
-
-				if (typeOfClusteredObjects) {
-					objectsOnEdge = m_graph.getTrueObjectsIdOnGivenEdge(edgeId);
-				} else {
-					objectCluster.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
-				}
-				if (!objectsOnEdge.isEmpty()) {
-					objectCluster.addAll(objectsOnEdge);
-					m_clusteredObjects.addAll(objectCluster);
-					// clusteredObjectExists = true;
-				}
-			}
-			// if (clusteredObjectExists) {
-			m_clusterCounter++;
-			m_objectIdClusters.put(m_clusterCounter, objectCluster);
-			// }
-
-		}
-		System.out.println("Objects clustering finished. Total number of Objects-Clustered: " + m_clusterCounter);
 		return m_objectIdClusters;
 	}
 
@@ -150,47 +99,16 @@ public class ClusteringRoadObjects {
 		m_graph = gr;
 		m_nodeClusters = nodeClusters;
 		m_typeOfClusteredObjects = typeOfClusteredObjects;
-		int m_clusterCounter = 0;
-		boolean clusteredObjectExists = false;
 
-//		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
-//			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
-//			ArrayList<Integer> objectsOnEdge = new ArrayList<Integer>();
-//			// boolean clusteredObjectExists = false;
-////			for (int i = 0; i < m_nodeClusters.get(nodeClusterIndex).size() - 1; i++) {
-////				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
-////						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
-////
-////				if (typeOfClusteredObjects) {
-////
-////					objectsOnEdge.addAll(m_graph.getTrueObjectsIdOnGivenEdge(edgeId));
-////				} else {
-////					objectsOnEdge.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
-////				}
-////				if (!objectsOnEdge.isEmpty()) {
-////					if (objectsOnEdge.contains(20372) || objectsOnEdge.contains(28384) || objectsOnEdge.contains(4324)
-////							|| objectsOnEdge.contains(3675)) {
-////						System.err.println("obj clustering");
-////					}
-//////					objectCluster.addAll(objectsOnEdge);
-//////					m_clusteredObjects.addAll(objectCluster);
-////					// clusteredObjectExists = true;
-////				}
-////				objectCluster.addAll(objectsOnEdge);
-////				m_clusteredObjects.addAll(objectCluster);
-////			}
-//			
-//			// if (clusteredObjectExists) {
-//			m_clusterCounter++;
-//			// m_objectIdClusters.put(m_clusterCounter, objectCluster);
-//			// }
-//
-//		}
+		int numberOfContributingClusters = 0;
+		int queriedObjCounter = 0;
+
 		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
 			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
 			ArrayList<Integer> objectsOnEdge = new ArrayList<Integer>();
-			clusteredObjectExists = false;
+
 			for (int i = 0; i < m_nodeClusters.get(nodeClusterIndex).size() - 1; i++) {
+
 				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
 						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
 
@@ -202,16 +120,24 @@ public class ClusteringRoadObjects {
 				if (!objectsOnEdge.isEmpty()) {
 					objectCluster.addAll(objectsOnEdge);
 					m_clusteredObjects.addAll(objectCluster);
-					clusteredObjectExists = true;
 				}
 			}
-			if (clusteredObjectExists) {
-				m_clusterCounter++;
-				m_objectIdClusters.put(m_clusterCounter, objectCluster);
+			if (objectCluster.size() == 1) {
+				queriedObjCounter++;
+			} else if (objectCluster.size() == 2) {
+				queriedObjCounter += 2;
+			} else if (objectCluster.size() > 2) {
+				queriedObjCounter += 2;
+				numberOfContributingClusters++;
 			}
 
+			m_objectIdClusters.put(nodeClusterIndex, objectCluster);
+
 		}
-		System.out.println("Objects clustering finished. Total number of Objects-Clustered: " + m_clusterCounter);
+		System.out.println(
+				"Objects clustering completed. Total number of Objects-Clusters: " + m_objectIdClusters.size());
+		System.out.println("Number of Quired Objects: " + queriedObjCounter);
+		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
 		return m_objectIdClusters;
 	}
 

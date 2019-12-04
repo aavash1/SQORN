@@ -318,7 +318,7 @@ public class ANNEvaluationManualDatasetTest {
 //		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 
 		long startTimeClustered = System.nanoTime();
-		annClustered.compute(gr, true);
+		annClustered.computeWithoutTime(gr, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();

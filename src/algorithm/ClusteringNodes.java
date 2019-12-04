@@ -31,28 +31,32 @@ public class ClusteringNodes {
 	}
 
 	public boolean nodeClusterValidator(Graph gr, Map<Integer, LinkedList<Integer>> nodeCluster) {
-		boolean flag = false;
 
 		for (Integer nodeClusterIndexId : nodeCluster.keySet()) {
-
-			if (nodeCluster.get(nodeClusterIndexId).size() > 2) {
-				if (gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst())
-						|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast())) {
-					for (int i = 0; i < nodeCluster.get(nodeClusterIndexId).size(); i++) {
+			if (nodeCluster.get(nodeClusterIndexId).size() == 2) {
+				if (!((gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst())
+						|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getFirst()))
+						&& (gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getLast())
+								|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast())))) {
+					System.out.println("Node CLuster: " + nodeCluster.get(nodeClusterIndexId));
+					return false;
+				}
+			} else if (nodeCluster.get(nodeClusterIndexId).size() >= 3) {
+				if (((gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst())
+						|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getFirst()))
+						&& (gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getLast())
+								|| gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast())))) {
+					for (int i = 1; i < nodeCluster.get(nodeClusterIndexId).size() - 1; i++) {
 						if (!gr.isIntermediateNode(nodeCluster.get(nodeClusterIndexId).get(i))) {
+							System.out.println("Node Id: " + nodeCluster.get(nodeClusterIndexId).get(i));
+							System.out.println("Node CLuster: " + nodeCluster.get(nodeClusterIndexId));
 							return false;
 						}
 					}
 
 				}
 
-			} else {
-				if ((!gr.isTerminalNode(nodeCluster.get(nodeClusterIndexId).getFirst()))
-						|| (!gr.isIntersectionNode(nodeCluster.get(nodeClusterIndexId).getLast()))) {
-					return false;
-				}
 			}
-
 		}
 
 		return true;
