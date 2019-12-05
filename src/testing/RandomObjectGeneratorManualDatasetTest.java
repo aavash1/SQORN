@@ -9,7 +9,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 	public static void main(String[] args) {
 
 		Graph gr = new Graph();
-		UtilsManagment um=new UtilsManagment();
+		
 
 		gr.addEdge(1, 2, 40.6);
 		gr.addEdge(1, 6, 40);
@@ -41,7 +41,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 		gr.addEdge(15, 25, 90);
 
 		RandomObjectGenerator.generateRandomObjectsOnMap5(gr, 0.1, 50);
-		um.writeRoadObjsOnEdgeFile(gr.getObjectsOnEdges(), "Manual");
+		UtilsManagment.writeRoadObjsOnEdgeFile1(gr.getObjectsOnEdges(), "Manual",10,10);
 		RandomObjectGenerator.printStatistics();
 
 	}

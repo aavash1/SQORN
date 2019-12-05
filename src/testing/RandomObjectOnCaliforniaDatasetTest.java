@@ -11,16 +11,19 @@ public class RandomObjectOnCaliforniaDatasetTest {
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
+		int trueObjSize = 10000;
+		int falseObjSize = 20000;
 
 		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, 10000, 100000);
+		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName());
-		UtilsManagment.writeDatasetStatistics(calGraph);
+		UtilsManagment.writeRoadObjsOnEdgeFile1(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), trueObjSize,
+				falseObjSize);
+		//UtilsManagment.writeDatasetStatistics(calGraph);
 		// calGraph.printObjectsOnEdges();
 
 	}

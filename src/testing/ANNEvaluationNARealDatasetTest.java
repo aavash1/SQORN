@@ -1,11 +1,13 @@
 package testing;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import algorithm.ClusteringNodes;
+import algorithm.ClusteringRoadObjects;
 import algorithm.RandomObjectGenerator;
 import framework.Edge;
 import framework.Graph;
@@ -16,11 +18,12 @@ import framework.UtilsManagment;
 public class ANNEvaluationNARealDatasetTest {
 
 	public static void main(String[] args) {
-		Graph naGraph = new Graph();
+		Graph naGraph = new Graph("NorthAmerica");
 
 		String nodeDatasetFile = "Datasets/NA-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/NA-Edge_Eid-ESrc-EDest-EDist.csv";
-		String objectDatasetFile = "GeneratedFiles/NorthAmerica_2019-11-27 16-48-57.csv";
+		String objectDatasetFile = "GeneratedFiles/NorthAmerica_40000_T_F_10000_30000_2019-12-05 00-25-01.csv";
+		//String objectDatasetFile = "GeneratedFiles/NorthAmerica_40000_T_F_30000_10000_2019-12-05 00-29-15.csv";
 
 		UtilsManagment.readNodeFile(naGraph, nodeDatasetFile);
 		UtilsManagment.readEdgeFile(naGraph, edgeDatasetFile);
@@ -32,25 +35,33 @@ public class ANNEvaluationNARealDatasetTest {
 //
 //		um.writeRoadObjsOnEdgeFile(naGraph.getObjectsOnEdges(), naGraph.getDatasetName());
 //		um.writeObjStats(naGraph);
-
+		
+		
 		System.out.println();
 		ANNNaive annNaive = new ANNNaive();
-		ANNClustered annClustered = new ANNClustered();
-//
-//		long startTimeNaive = System.nanoTime();
-//		annNaive.compute(naGraph, true);
-//		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-//		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-//		// annNaive.printNearestNeighborSets();
-//		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+		long startTimeNaive = System.nanoTime();
+		annNaive.compute(naGraph, true);
+		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
+		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
+		// annNaive.printNearestNeighborSets();
+		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+		
+		ClusteringNodes clusteringNodes = new ClusteringNodes();
+
+		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+		Map<Integer, LinkedList<Integer>> nodeIdClusters = clusteringNodes.cluster(naGraph);
+		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(naGraph,
+				nodeIdClusters, true);
 
 		ANNClustered ann3 = new ANNClustered();
 		long startTimeClustered = System.nanoTime();
-		ann3.computeWithTime(naGraph, true);
+		ann3.computeWithoutClustering(naGraph, true, nodeIdClusters, objectIdClusters);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+		
+		
 //
 //		int totalNumberOfNodes = naGraph.getNodesWithInfo().size();
 //		int totalNumberOfEdges = naGraph.getEdgesWithInfo().size();

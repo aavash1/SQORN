@@ -13,11 +13,13 @@ public class RandomObjectOnSanJoaDatasetTest {
 
 		UtilsManagment.readEdgeFile(sanJoaGraph, edgeDatasetFile);
 		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
+		int trueObjSize = 100000;
+		int falseObjSize = 10000;
 
-		RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraph, 20000, 10000);
+		RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile1(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName());
+		UtilsManagment.writeRoadObjsOnEdgeFile1(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),trueObjSize,falseObjSize);
 
 	}
 

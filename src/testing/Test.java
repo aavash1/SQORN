@@ -12,28 +12,41 @@ import javax.annotation.Generated;
 
 import com.opencsv.CSVWriter;
 
+import framework.Graph;
+import framework.UtilsManagment;
+
 public class Test {
 
 	public static void main(String[] args) {
-		double intendednumber = 518332.133324001;
-		ArrayList<Integer> parameters = new ArrayList<Integer>();
-		parameters.add(27000);
-		parameters.add(37000);
-		parameters.add(57000);
-		parameters.add(77000);
-		parameters.add(107000);
-		parameters.add(30000);
-		parameters.add(40000);
-		parameters.add(60000);
-		parameters.add(80000);
-		parameters.add(110000);
+		Graph gr=new Graph();
+		
+		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
+		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		for (int i = 0; i < parameters.size(); i++) {
-			double minDistBetweenObjects = Math.round((intendednumber / parameters.get(i)) * 100000.0) / 100000.0;
-			System.out
-					.println("min distance between object for: " + parameters.get(i) + " is " + minDistBetweenObjects);
+		UtilsManagment.readNodeFile(gr, nodeDatasetFile);
+		UtilsManagment.readEdgeFile(gr, edgeDatasetFile);
+		
+//		double intendednumber = 518332.133324001;
+//		ArrayList<Integer> parameters = new ArrayList<Integer>();
+//		parameters.add(27000);
+//		parameters.add(37000);
+//		parameters.add(57000);
+//		parameters.add(77000);
+//		parameters.add(107000);
+//		parameters.add(30000);
+//		parameters.add(40000);
+//		parameters.add(60000);
+//		parameters.add(80000);
+//		parameters.add(110000);
+		gr.getTotalLengthOfAllEdges();
+		System.out.println("Ttoal Graph length: "+gr.getTotalLengthOfAllEdges());
 
-		}
+//		for (int i = 0; i < parameters.size(); i++) {
+//			double minDistBetweenObjects = Math.round((intendednumber / parameters.get(i)) * 100000.0) / 100000.0;
+//			System.out
+//					.println("min distance between object for: " + parameters.get(i) + " is " + minDistBetweenObjects);
+//
+//		}
 
 	}
 

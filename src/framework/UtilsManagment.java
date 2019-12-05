@@ -380,8 +380,10 @@ public class UtilsManagment {
 	}
 
 	public static void writeRoadObjsOnEdgeFile1(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge,
-			String datasetName) {
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + datasetName + "_" + getNormalDateTime() + ".csv";
+			String datasetName, int trueObjectSize, int falseObjectSize) {
+		int totalSize = trueObjectSize + falseObjectSize;
+		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + datasetName + "_" + totalSize + "_T_F_" + trueObjectSize+"_"
+				+ falseObjectSize+"_"+ getNormalDateTime() + ".csv";
 
 		try {
 			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);

@@ -22,10 +22,10 @@ public class ANNEvaluationSanFRealDatasetTest {
 		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		// T=110000 F=10000
-		String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-44-02.csv";
-		// T=10000 F=110000
-		//String objectDatasetFile = "GeneratedFiles/SanFrancisco_2019-11-29 17-24-44.csv";
+		// T=30000 F=10000
+		//String objectDatasetFile = "GeneratedFiles/SanFrancisco_40000_T_F_30000_10000_2019-12-05 00-18-39.csv";
+		// T=10000 F=30000
+		String objectDatasetFile = "GeneratedFiles/SanFrancisco_40000_T_F_10000_30000_2019-12-05 00-13-19.csv";
 
 		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
 		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
