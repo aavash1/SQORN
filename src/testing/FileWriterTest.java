@@ -7,7 +7,7 @@ import framework.Graph;
 import framework.RoadObject;
 import framework.UtilsManagment;
 
-public class fileWriterTEEST {
+public class FileWriterTest {
 	public static void main(String[] args) {
 		Graph calGraph = new Graph("California");
 

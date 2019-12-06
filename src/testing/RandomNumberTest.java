@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 
 import org.apache.commons.math3.util.Precision;
 
-public class randomNumberTest {
+public class RandomNumberTest {
 	public static void main(String[] args) {
 		double minimumDist = 0.004049292657077970, calculatedMinDist;
 
