@@ -22,7 +22,7 @@ public class ClusteringRoadObjects {
 	boolean m_typeOfClusteredObjects;
 
 	private void initialize() {
-		// m_nodeClusters.clear();
+		m_nodeClusters.clear();
 		m_objectIdClusters.clear();
 		m_clusteredObjects.clear();
 	}
@@ -134,9 +134,12 @@ public class ClusteringRoadObjects {
 			m_objectIdClusters.put(nodeClusterIndex, objectCluster);
 
 		}
+		System.out.println();
 		System.out.println(
 				"Objects clustering completed. Total number of Objects-Clusters: " + m_objectIdClusters.size());
-		System.out.println("Number of Quired Objects: " + queriedObjCounter);
+		//double diffPerc = 100.0-queriedObjCounter/m_clusteredObjects.size()*100.0;
+		//System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter + "; " + diffPerc + "%");
+		System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter );
 		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
 		return m_objectIdClusters;
 	}

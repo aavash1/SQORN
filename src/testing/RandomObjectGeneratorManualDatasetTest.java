@@ -41,7 +41,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 		gr.addEdge(15, 25, 90);
 
 		RandomObjectGenerator.generateRandomObjectsOnMap5(gr, 0.1, 50);
-		UtilsManagment.writeRoadObjsOnEdgeFile1(gr.getObjectsOnEdges(), "Manual",10,10);
+	//	UtilsManagment.writeRoadObjsOnEdgeFile(gr.getObjectsOnEdges(), "Manual",10,10);
 		RandomObjectGenerator.printStatistics();
 
 	}

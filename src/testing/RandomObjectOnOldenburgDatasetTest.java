@@ -19,7 +19,7 @@ public class RandomObjectOnOldenburgDatasetTest {
 		RandomObjectGenerator.generateRandomObjectsOnMap6(oldenburgGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile1(oldenburgGraph.getObjectsOnEdges(), oldenburgGraph.getDatasetName(),trueObjSize,falseObjSize);
+		//UtilsManagment.writeRoadObjsOnEdgeFile1(oldenburgGraph.getObjectsOnEdges(), oldenburgGraph.getDatasetName(),trueObjSize,falseObjSize);
 
 	}
 

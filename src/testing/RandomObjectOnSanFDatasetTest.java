@@ -20,7 +20,7 @@ public class RandomObjectOnSanFDatasetTest {
 		RandomObjectGenerator.generateRandomObjectsOnMap6(sanFGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile1(sanFGraph.getObjectsOnEdges(), sanFGraph.getDatasetName(),trueObjSize,falseObjSize);
+		//UtilsManagment.writeRoadObjsOnEdgeFile1(sanFGraph.getObjectsOnEdges(), sanFGraph.getDatasetName(),trueObjSize,falseObjSize);
 
 	}
 

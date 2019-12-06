@@ -379,33 +379,6 @@ public class UtilsManagment {
 		}
 	}
 
-	public static void writeRoadObjsOnEdgeFile1(Map<Integer, ArrayList<RoadObject>> roadObjectsOnEdge,
-			String datasetName, int trueObjectSize, int falseObjectSize) {
-		int totalSize = trueObjectSize + falseObjectSize;
-		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + datasetName + "_" + totalSize + "_T_F_" + trueObjectSize
-				+ "_" + falseObjectSize + "_" + getNormalDateTime() + ".csv";
-
-		try {
-			FileWriter outputFile = new FileWriter(roadObjsOnEdgeCSVFile);
-			for (Integer edgeId : roadObjectsOnEdge.keySet()) {
-				for (int i = 0; i < roadObjectsOnEdge.get(edgeId).size(); i++) {
-					outputFile.write(Integer.toString(edgeId) + ","
-							+ Integer.toString(roadObjectsOnEdge.get(edgeId).get(i).getObjectId()) + ","
-							+ String.valueOf((roadObjectsOnEdge.get(edgeId).get(i).getType())) + ","
-							+ Double.toString(roadObjectsOnEdge.get(edgeId).get(i).getDistanceFromStartNode()));
-					outputFile.write(System.lineSeparator());
-				}
-
-			}
-
-			// System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written
-			// Successfully");
-			outputFile.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static void writeANNQueriesResult(ANNClustered annClustered, String datasetName) {
 
 		String annQueriesResultCSVFile = "QueryResults/annQueriesResult_" + datasetName + "_" + getNormalDateTime()
@@ -477,15 +450,19 @@ public class UtilsManagment {
 			double timeElapsedToComputeANNCLustered) {
 
 		String dateTime = getNormalDateTime();
-
+		
+		double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered/timeElapsedToComputeANNNAive * 100);
+		
+		timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
+		
 		try {
 			FileWriter outputFile = new FileWriter(fileName, true);
 
 			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | NAIVE-ANN-TIME |
-			// CLUSTERED-ANN-TIME | CURRENT-TIME
+			// CLUSTERED-ANN-TIME | DIFF-PERC | CURRENT-TIME
 			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + graph.getTotalNumberOfTrueObjects()
 					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + timeElapsedToComputeANNNAive
-					+ csvSplitBy + timeElapsedToComputeANNCLustered + csvSplitBy + dateTime));
+					+ csvSplitBy + timeElapsedToComputeANNCLustered + csvSplitBy + timeDiffPerc + csvSplitBy + dateTime));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {

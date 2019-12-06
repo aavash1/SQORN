@@ -48,10 +48,16 @@ public class RandomObjectGenerator {
 	private static double m_minDistBetweenObjsPrecision = 1000000.0;
 	private static double m_distFromStartNodePrecision = 1000000.0;
 
-	public static String generateRandomObjectsOnMap6(Graph graph, int totalNumberOfTrueObjects,
+	
+	
+	public static void generateRandomObjectsOnMap6(Graph graph, int totalNumberOfTrueObjects,
 			int totalNumberOfFalseObjects) {
-		String fileName = "GeneratedFiles/" + graph.getDatasetName() + "_Q_" + totalNumberOfTrueObjects + "_D_"
-				+ totalNumberOfFalseObjects;
+		
+		graph.removeObjectsOnEdges();
+		
+		// String fileName = "GeneratedFiles/" + graph.getDatasetName() + "_Q_" +
+		// totalNumberOfTrueObjects + "_D_"
+		// + totalNumberOfFalseObjects;
 		int objCounter = 1;
 		int totalNumberOfEdges = graph.getNumberOfEdges();
 		int totalNumOfObjects = totalNumberOfTrueObjects + totalNumberOfFalseObjects;
@@ -71,7 +77,7 @@ public class RandomObjectGenerator {
 		boolean testVar;
 		int randomEdgeId;
 		while (objCounter <= totalNumOfObjects) {
-			randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges);
+			randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges-1);
 			RoadObject object = new RoadObject();
 			object.setObjId(objCounter);
 
@@ -95,8 +101,8 @@ public class RandomObjectGenerator {
 			if (graph.addObjectOnEdge(randomEdgeId, object)) {
 				objCounter++;
 				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
-				System.out.println(objCounter + " Object Added" + ", distFromSN: " + distFromStartNode + " on edge: "
-						+ randomEdgeId + " of length: " + edgeLength);
+				//System.out.println(objCounter + " Object Added" + ", distFromSN: " + distFromStartNode + " on edge: "
+				//		+ randomEdgeId + " of length: " + edgeLength);
 			}
 
 		}
@@ -110,7 +116,8 @@ public class RandomObjectGenerator {
 
 		// System.out.println("size of acceptedDistancesOnEdge: " +
 		// acceptedDistancesOnEdge.size());
-		return fileName;
+		//return fileName;
+		System.out.println("Finished Generating Road Objects");
 	}
 
 	public static void generateRandomObjectsOnMap(Graph graph, int totalNumberOfTrueObjects,

@@ -21,8 +21,7 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile1(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), trueObjSize,
-				falseObjSize);
+		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), "NAMEOFROADOBJDATASET");
 		//UtilsManagment.writeDatasetStatistics(calGraph);
 		// calGraph.printObjectsOnEdges();
 

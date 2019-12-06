@@ -1,17 +1,15 @@
 package testing;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-import algorithm.ClusteringNodes;
-import algorithm.ClusteringRoadObjects;
 
+import algorithm.ClusteringRoadObjects;
+import algorithm.RandomObjectGenerator;
 import framework.Graph;
 
-import framework.RoadObject;
 import framework.UtilsManagment;
 
 public class ANNEvaluationSanJoRealDatasetTest {
@@ -21,40 +19,83 @@ public class ANNEvaluationSanJoRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
-
-		//String objectDatasetFile = "GeneratedFiles/San Joaquin_40000_T_F_10000_30000_2019-12-05 00-33-12.csv";
-		String objectDatasetFile = "GeneratedFiles/San Joaquin_40000_T_F_30000_10000_2019-12-05 00-34-22.csv";
-
-		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
 		UtilsManagment.readEdgeFile(sanJoaGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
 
-		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
-		sanJoaGraph.setObjectsOnEdges(objectsOnEdge);
+		LinkedList<Integer> queryParams = new LinkedList<Integer>();
+		LinkedList<Integer> dataParams = new LinkedList<Integer>();
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(20000);
+		queryParams.add(30000);
+		queryParams.add(50000);
+		queryParams.add(70000);
+		queryParams.add(100000);
 
+		dataParams.add(20000);
+		dataParams.add(30000);
+		dataParams.add(50000);
+		dataParams.add(70000);
+		dataParams.add(100000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
 
-		System.out.println();
-		ANNNaive annNaive = new ANNNaive();
-		long startTimeNaive = System.nanoTime();
-		annNaive.compute(sanJoaGraph, true);
-		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		// annNaive.printNearestNeighborSets();
-		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
+				.readNodeClustersFile("ClusterDatasets/SanFrancisco_node-clusters_2019-12-06 17-43-01.csv");
 
-		ClusteringNodes clusteringNodes = new ClusteringNodes();
+		String graphName = sanJoaGraph.getDatasetName();
 
-		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		Map<Integer, LinkedList<Integer>> nodeIdClusters = clusteringNodes.cluster(sanJoaGraph);
-		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanJoaGraph,
-				nodeIdClusters, true);
-		ANNClustered ann3 = new ANNClustered();
-		long startTimeClustered = System.nanoTime();
-		ann3.computeWithoutClustering(sanJoaGraph, true, nodeIdClusters, objectIdClusters);
-		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
-		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
-		// ann3.printNearestSets();
-		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
+				+ UtilsManagment.getNormalDateTime() + ".csv";
+		while (!queryParams.isEmpty()) {
+			int queryObjNum = queryParams.poll();
+			int dataObjNum = dataParams.poll();
 
+			for (int i = 0; i < 10; i++) {
+				RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraph, queryObjNum, dataObjNum);
+				// RandomObjectGenerator.printStatistics();
+
+				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
+						+ UtilsManagment.getNormalDateTime() + ".csv";
+
+				UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
+						roadObjsOnEdgeCSVFile);
+
+				// Map<Integer, ArrayList<RoadObject>> objectsOnEdge =
+				// UtilsManagment.readRoadObjectFile(roadObjsOnEdgeCSVFile);
+				// calGraph.setObjectsOnEdges(objectsOnEdge);
+
+				ANNNaive annNaive = new ANNNaive();
+				long startTimeNaive = System.nanoTime();
+				annNaive.compute(sanJoaGraph, true);
+				long computationTimeNaive = System.nanoTime() - startTimeNaive;
+				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
+				// annNaive.printNearestNeighborSets();
+				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+
+				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanJoaGraph,
+						nodeClusterFromFile, true);
+
+				ANNClustered annClustered = new ANNClustered();
+				long startTimeClustered = System.nanoTime();
+				annClustered.computeWithoutClustering(sanJoaGraph, true, nodeClusterFromFile, objectIdClusters);
+				long computationTimeClustered = System.nanoTime() - startTimeClustered;
+				double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
+				// ann3.printNearestSets();
+				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
+				System.out.println();
+
+				UtilsManagment.writeFinalEvaluationResult(sanJoaGraph, evaluationResultFile, computationTimeDNaive,
+						computationTimeDClustered);
+			}
+		}
 
 	}
 

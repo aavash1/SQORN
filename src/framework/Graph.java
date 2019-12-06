@@ -620,6 +620,13 @@ public class Graph {
 		System.out.println("Total number of false objects: " + m_totalNumberOfFalseObjects);
 		System.out.println("Total number of objects: " + generatedObjCounter);
 	}
+	
+	public void removeObjectsOnEdges() { 
+		m_objectsOnEdges.clear();
+		m_totalNumberOfObjects = 0;
+		m_totalNumberOfTrueObjects = 0;
+		m_totalNumberOfFalseObjects = 0;
+	}
 
 	public RoadObject getGeneratedRoadObject(int objId) {
 		// Faster, but keep method getEdgeIdOfRoadObject() working with Objects from

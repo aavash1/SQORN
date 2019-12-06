@@ -1,17 +1,16 @@
 package testing;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-import algorithm.ClusteringNodes;
+
 import algorithm.ClusteringRoadObjects;
-import framework.Edge;
+import algorithm.RandomObjectGenerator;
+
 import framework.Graph;
-import framework.Node;
-import framework.RoadObject;
+
 import framework.UtilsManagment;
 
 public class ANNEvaluationSanFRealDatasetTest {
@@ -21,60 +20,83 @@ public class ANNEvaluationSanFRealDatasetTest {
 
 		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
-
-		// T=30000 F=10000
-		//String objectDatasetFile = "GeneratedFiles/SanFrancisco_40000_T_F_30000_10000_2019-12-05 00-18-39.csv";
-		// T=10000 F=30000
-		String objectDatasetFile = "GeneratedFiles/SanFrancisco_40000_T_F_10000_30000_2019-12-05 00-13-19.csv";
-
-		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
 		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
 
-		Map<Integer, ArrayList<RoadObject>> objectsOnEdge = UtilsManagment.readRoadObjectFile(objectDatasetFile);
-		sanFGraph.setObjectsOnEdges(objectsOnEdge);
+		LinkedList<Integer> queryParams = new LinkedList<Integer>();
+		LinkedList<Integer> dataParams = new LinkedList<Integer>();
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(10000);
+		queryParams.add(20000);
+		queryParams.add(30000);
+		queryParams.add(50000);
+		queryParams.add(70000);
+		queryParams.add(100000);
 
-		
+		dataParams.add(20000);
+		dataParams.add(30000);
+		dataParams.add(50000);
+		dataParams.add(70000);
+		dataParams.add(100000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
+		dataParams.add(10000);
 
-		System.out.println();
-		ANNNaive annNaive = new ANNNaive();
-		long startTimeNaive = System.nanoTime();
-		annNaive.compute(sanFGraph, true);
-		long graphLoadingTimeNaive = System.nanoTime() - startTimeNaive;
-		double graphLoadingTimeDNaive = (double) graphLoadingTimeNaive / 1000000000.0;
-		// annNaive.printNearestNeighborSets();
-		System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
+		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
+				.readNodeClustersFile("ClusterDatasets/SanFrancisco_node-clusters_2019-12-06 17-43-01.csv");
 
-		
-		ClusteringNodes clusteringNodes = new ClusteringNodes();
+		String graphName = sanFGraph.getDatasetName();
 
-		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		Map<Integer, LinkedList<Integer>> nodeIdClusters = clusteringNodes.cluster(sanFGraph);
-		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanFGraph,
-				nodeIdClusters, true);
+		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
+				+ UtilsManagment.getNormalDateTime() + ".csv";
+		while (!queryParams.isEmpty()) {
+			int queryObjNum = queryParams.poll();
+			int dataObjNum = dataParams.poll();
 
-		ANNClustered ann3 = new ANNClustered();
-//		long startTimeClustered = System.nanoTime();
-		double graphLoadingTimeDClustered = ann3.computeWithoutClustering(sanFGraph, true, nodeIdClusters,
-				objectIdClusters);
-//		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
-//		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
-		// ann3.printNearestSets();
-		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+			for (int i = 0; i < 10; i++) {
+				RandomObjectGenerator.generateRandomObjectsOnMap6(sanFGraph, queryObjNum, dataObjNum);
+				// RandomObjectGenerator.printStatistics();
 
-		//
-		// int totalNumberOfNodes = sanFGraph.getNodesWithInfo().size();
-		// int totalNumberOfEdges = sanFGraph.getEdgesWithInfo().size();
-		// int totalNumberOfRandomEdgesSelected =
-		// RandomObjectGenerator2.getTotalNumberOfRandomEdges();
-		// int totalNumberOfObjectsGenerated = sanFGraph.getObjectsWithInfo().size();
-		// int totalNumberOfTrueObjects = sanFGraph.getTotalNumberOfTrueObjects();
-		// int totalNumberOfFalseObjects = sanFGraph.getTotalNumberOfFalseObjects();
-		// int totalNumberOfNodeClusters = annClustered.getSizeOfNodeClusters();
-		// int totalNumberOfObjectClusters = annClustered.getSizeOfObjectClusters();
-		//
-		// UtilsManagment.writeNaiveAndClusteredANNTestResult(graph,
-		// totalNumOfNodeClusters, totalNumOfObjectClusters,
-		// timeElapsedToComputeANNNAive, timeElapsedToComputeANNCLustered);
+				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
+						+ UtilsManagment.getNormalDateTime() + ".csv";
+
+				UtilsManagment.writeRoadObjsOnEdgeFile(sanFGraph.getObjectsOnEdges(), sanFGraph.getDatasetName(),
+						roadObjsOnEdgeCSVFile);
+
+				// Map<Integer, ArrayList<RoadObject>> objectsOnEdge =
+				// UtilsManagment.readRoadObjectFile(roadObjsOnEdgeCSVFile);
+				// calGraph.setObjectsOnEdges(objectsOnEdge);
+
+				ANNNaive annNaive = new ANNNaive();
+				long startTimeNaive = System.nanoTime();
+				annNaive.compute(sanFGraph, true);
+				long computationTimeNaive = System.nanoTime() - startTimeNaive;
+				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
+				// annNaive.printNearestNeighborSets();
+				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+
+				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanFGraph,
+						nodeClusterFromFile, true);
+
+				ANNClustered annClustered = new ANNClustered();
+				long startTimeClustered = System.nanoTime();
+				annClustered.computeWithoutClustering(sanFGraph, true, nodeClusterFromFile, objectIdClusters);
+				long computationTimeClustered = System.nanoTime() - startTimeClustered;
+				double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
+				// ann3.printNearestSets();
+				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
+				System.out.println();
+
+				UtilsManagment.writeFinalEvaluationResult(sanFGraph, evaluationResultFile, computationTimeDNaive,
+						computationTimeDClustered);
+			}
+		}
 
 	}
 

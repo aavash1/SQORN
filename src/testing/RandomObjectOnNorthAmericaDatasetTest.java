@@ -20,8 +20,8 @@ public class RandomObjectOnNorthAmericaDatasetTest {
 		RandomObjectGenerator.generateRandomObjectsOnMap6(northAmericaGraph, trueObjSize, falseObjSize);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");
-		UtilsManagment.writeRoadObjsOnEdgeFile1(northAmericaGraph.getObjectsOnEdges(),
-				northAmericaGraph.getDatasetName(),trueObjSize,falseObjSize);
+		//UtilsManagment.writeRoadObjsOnEdgeFile1(northAmericaGraph.getObjectsOnEdges(),
+		//		northAmericaGraph.getDatasetName(),trueObjSize,falseObjSize);
 
 	}
 
