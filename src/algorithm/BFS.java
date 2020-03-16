@@ -27,22 +27,26 @@ public class BFS {
 
 		System.out.println("BFS from " + nodeId + ": ");
 		while (queue.size() != 0) {
-			// Dequeue a vertex from queue and print it
-			nodeId = queue.poll();
-			System.out.print(nodeId + " ");
+			//if(queue.size()<9) {
+				nodeId = queue.poll();
+				System.out.print(nodeId + " ");
 
-			// Get all adjacent vertices of the dequeued vertex s
-			// If a adjacent has not been visited, then mark it
-			// visited and enqueue it
-			Iterator<Integer> i = graph.getAdjNodeIds(nodeId).listIterator();
-			while (i.hasNext()) {
-				int n = i.next();
-				int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
-				if (!visited[indexOfNode2]) {
-					visited[indexOfNode2] = true;
-					queue.add(n);
+				// Get all adjacent vertices of the dequeued vertex s
+				// If a adjacent has not been visited, then mark it
+				// visited and enqueue it
+				Iterator<Integer> i = graph.getAdjNodeIds(nodeId).listIterator();
+				while (i.hasNext()) {
+					int n = i.next();
+					int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
+					if (!visited[indexOfNode2]) {
+						visited[indexOfNode2] = true;
+						queue.add(n);
+					}
 				}
+				
 			}
-		}
+			// Dequeue a vertex from queue and print it
+			
+		//}
 	}
 }

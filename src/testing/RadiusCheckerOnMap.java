@@ -43,11 +43,7 @@ public class RadiusCheckerOnMap {
 		gr.addEdge(15, 25, 90);
 
 		RandomObjectGeneratorWithCentroid rgn = new RandomObjectGeneratorWithCentroid();
-		
-		//rgn.uniqueEdgesWithinRange(200.3, 1, gr);
-		//System.out.println("The edge id: " + gr.getEdgeId(1, 2));
-		ArrayList<Integer> edges1 = rgn.uniqueEdgesWithinRange(2.3, 1, gr);
-		 System.out.println(rgn.uniqueEdgesWithinRange(95.12, 21, gr));
+	
 
 		//System.out.print("[");
 //		for (int i = 0; i < edges1.size(); i++) {

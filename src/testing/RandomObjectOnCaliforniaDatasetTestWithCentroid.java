@@ -1,10 +1,11 @@
 package testing;
 
+import algorithm.RandomObjectGeneratorWithCentroid;
 import algorithm.RandomObjectGeneratorWithGaussian;
 import framework.Graph;
 import framework.UtilsManagment;
 
-public class RandomObjectOnCaliforniaDatasetTestWithGaussian {
+public class RandomObjectOnCaliforniaDatasetTestWithCentroid {
 	public static void main(String[] args) {
 
 		Graph calGraph = new Graph("California");
@@ -18,8 +19,9 @@ public class RandomObjectOnCaliforniaDatasetTestWithGaussian {
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGeneratorWithGaussian.generateRandomObjectsOnMap6(calGraph, trueObjSize, falseObjSize);
-		RandomObjectGeneratorWithGaussian.printStatistics();
+		RandomObjectGeneratorWithCentroid rOGC=new RandomObjectGeneratorWithCentroid();
+		rOGC.generateRandomObjectsOnMap(calGraph, trueObjSize, falseObjSize);
+		rOGC.printStatistics();
 		System.out.println("Finished Generating");
 		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), "NAMEOFROADOBJDATASET");
 		//UtilsManagment.writeDatasetStatistics(calGraph);

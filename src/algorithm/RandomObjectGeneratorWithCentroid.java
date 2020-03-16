@@ -10,15 +10,20 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.decimal4j.util.DoubleRounder;
+
+import com.google.common.annotations.VisibleForTesting;
 
 //import com.google.common.collect.MinMaxPriorityQueue;
 
@@ -68,9 +73,9 @@ public class RandomObjectGeneratorWithCentroid {
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 
 		LinkedList<Boolean> boolValues = new LinkedList<Boolean>();
-		for (int i = 0; i < totalNumberOfTrueObjects; i++) {
-			boolValues.add(true);
-		}
+//		for (int i = 0; i < totalNumberOfTrueObjects; i++) {
+//			boolValues.add(true);
+//		}
 		for (int i = 0; i < totalNumberOfFalseObjects; i++) {
 			boolValues.add(false);
 		}
@@ -79,10 +84,10 @@ public class RandomObjectGeneratorWithCentroid {
 		// System.out.println("Total edge: " + totalNumberOfEdges);
 		boolean testVar;
 		int randomEdgeId;
-		double rangeDistance = 35.00;
+		double rangeDistance = 48.60;
 		if (graph.getObjectsWithInfo().isEmpty()) {
 			while (initialCentroid <= 10) {
-				randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges - 1);
+				randomEdgeId = getRandIntBetRange(1, totalNumberOfEdges - 1);
 				RoadObject object = new RoadObject();
 				object.setObjId(objCounter);
 
@@ -104,6 +109,7 @@ public class RandomObjectGeneratorWithCentroid {
 				}
 				if (graph.addObjectOnEdge(randomEdgeId, object)) {
 					objCounter++;
+					initialCentroid++;
 					acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 					// System.out.println(objCounter + " Object Added" + ", distFromSN: " +
 					// distFromStartNode + " on edge: "
@@ -113,62 +119,87 @@ public class RandomObjectGeneratorWithCentroid {
 
 		} else {
 			for (RoadObject rObj : graph.getObjectsWithInfo()) {
+				int remainingObjectForEachCentroid = 0;
 				int centroidEdge = graph.getEdgeIdOfRoadObject(rObj.getObjectId());
-				int startNode = graph.getStartNodeIdOfEdge(centroidEdge);
-				int endNode = graph.getEndNodeIdOfEdge(centroidEdge);
+				ArrayList<Integer> centroidEdges = getEdgesWithinPerimeter(graph, rangeDistance, centroidEdge);
+				while (remainingObjectForEachCentroid != (totalNumberOfTrueObjects - 10) / 10) {
+					int randomIndex = ThreadLocalRandom.current().nextInt(centroidEdges.size());
+					RoadObject object = new RoadObject();
+					object.setObjId(objCounter);
 
-				double distFromStNode = rObj.getDistanceFromStartNode();
-				double distToEndNode = graph.getEdgeDistance(centroidEdge) - rObj.getDistanceFromStartNode();
+					if (!acceptedDistancesOnEdge.containsKey(randomIndex)) {
+						ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+						acceptedDistancesOnEdge.put(randomIndex, acceptedDistances);
+					}
+					double edgeLength = graph.getEdgeDistance(randomIndex);
+					double distFromStartNode = getRandDoubleBetRange2(0, edgeLength);
+					if (!acceptedDistancesOnEdge.get(randomIndex).contains(distFromStartNode)) {
+						object.setDistanceFromStartNode(distFromStartNode);
+					} else {
+						continue;
 
-				PriorityQueue<Integer> activeQu = new PriorityQueue<Integer>();
-				PriorityQueue<Integer> inactiveQu = new PriorityQueue<Integer>();
+					}
+					if (!boolValues.isEmpty()) {
+						// testVar = boolValues.poll();
+						object.setType(true);
+					}
+					if (graph.addObjectOnEdge(randomIndex, object)) {
+						objCounter++;
+						remainingObjectForEachCentroid++;
+						acceptedDistancesOnEdge.get(randomIndex).add(distFromStartNode);
+						// System.out.println(objCounter + " Object Added" + ", distFromSN: " +
+						// distFromStartNode + " on edge: "
+						// + randomEdgeId + " of length: " + edgeLength);
+					}
+
+				}
 
 			}
+
+			while (objCounter <= totalNumOfObjects) {
+				randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges - 1);
+				RoadObject object = new RoadObject();
+				object.setObjId(objCounter);
+
+				if (!acceptedDistancesOnEdge.containsKey(randomEdgeId)) {
+					ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+					acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
+				}
+				double edgeLength = graph.getEdgeDistance(randomEdgeId);
+				double distFromStartNode = getRandDoubleBetRange2(0, edgeLength);
+				if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
+					object.setDistanceFromStartNode(distFromStartNode);
+				} else {
+					continue;
+
+				}
+
+				if (!boolValues.isEmpty()) {
+					testVar = boolValues.poll();
+					object.setType(testVar);
+				}
+				if (graph.addObjectOnEdge(randomEdgeId, object)) {
+					objCounter++;
+					acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
+					// System.out.println(objCounter + " Object Added" + ", distFromSN: " +
+					// distFromStartNode + " on edge: "
+					// + randomEdgeId + " of length: " + edgeLength);
+				}
+
+			}
+			// System.out.println("objCounter: " + objCounter);
+
+			m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
+			m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
+			m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
+			m_totalNumberOfEdges = totalNumberOfEdges;
+			m_totalNumberOfEdgesContainingObjects = graph.getObjectsOnEdges().size();
+
+			// System.out.println("size of acceptedDistancesOnEdge: " +
+			// acceptedDistancesOnEdge.size());
+			// return fileName;
+			System.out.println("Finished Generating Road Objects");
 		}
-
-		while (objCounter <= totalNumOfObjects) {
-			randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges - 1);
-			RoadObject object = new RoadObject();
-			object.setObjId(objCounter);
-
-			if (!acceptedDistancesOnEdge.containsKey(randomEdgeId)) {
-				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
-				acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
-			}
-			double edgeLength = graph.getEdgeDistance(randomEdgeId);
-			double distFromStartNode = getRandDoubleBetRange2(0, edgeLength);
-			if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
-				object.setDistanceFromStartNode(distFromStartNode);
-			} else {
-				continue;
-
-			}
-
-			if (!boolValues.isEmpty()) {
-				testVar = boolValues.poll();
-				object.setType(testVar);
-			}
-			if (graph.addObjectOnEdge(randomEdgeId, object)) {
-				objCounter++;
-				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
-				// System.out.println(objCounter + " Object Added" + ", distFromSN: " +
-				// distFromStartNode + " on edge: "
-				// + randomEdgeId + " of length: " + edgeLength);
-			}
-
-		}
-		// System.out.println("objCounter: " + objCounter);
-
-		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
-		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
-		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
-		m_totalNumberOfEdges = totalNumberOfEdges;
-		m_totalNumberOfEdgesContainingObjects = graph.getObjectsOnEdges().size();
-
-		// System.out.println("size of acceptedDistancesOnEdge: " +
-		// acceptedDistancesOnEdge.size());
-		// return fileName;
-		System.out.println("Finished Generating Road Objects");
 	}
 
 	private static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
@@ -270,55 +301,74 @@ public class RandomObjectGeneratorWithCentroid {
 		return generateDouble;
 	}
 
-	/// to find the Edges within the range
-	// this method shall be used for all the objects that are generated randomly.
-	// we pass the size of range along with the starting edgeId that contains one
-	/// "data object/query" object chosen as centroid
+	// This method will return the edgelist that are within a certain perimeter.
+	public static ArrayList<Integer> getEdgesWithinPerimeter(Graph graph, double perimeter, int edgeId) {
+		ArrayList<Integer> selectedEdges = new ArrayList<Integer>();
+		LinkedList<HashMap<Integer, Double>> visitedEdges = new LinkedList<HashMap<Integer, Double>>();
+		LinkedList<Integer> edgeQueue = new LinkedList<Integer>();
 
-	// use RadiusCheckerOnMapnewManualDataset.java for testing.
-	public ArrayList<Integer> uniqueEdgesWithinRange(double range, int EdgeId, Graph gr) {
-		ArrayList<Integer> edgeList = new ArrayList<Integer>();
-		PriorityQueue<ComparableEdge> edgeListQueue = new PriorityQueue<>();
-		edgeListQueue.add(new ComparableEdge(0.0, EdgeId));
+		edgeQueue.add(edgeId);
+		double initialDistance = 0.0;
 
-		while (!edgeListQueue.isEmpty()) {
-			ComparableEdge cEdge = edgeListQueue.poll();
-			// edgeList.add(cEdge.EdgeId);
-			edgeList.add(EdgeId);
-			if (cEdge.distance <= range) {
-
-				for (Integer edgeIndex : gr.getAdjacencyEdgeIds(EdgeId)) {
-					if (!edgeList.contains(edgeIndex)) {
-						edgeListQueue
-								.add(new ComparableEdge(cEdge.distance + gr.getEdgeDistance(edgeIndex), edgeIndex));
+		while (!edgeQueue.isEmpty()) {
+			int currentEdge = edgeQueue.poll();
+			if (visitedEdges.isEmpty()) {
+				HashMap<Integer, Double> hashedEdge = new HashMap<Integer, Double>();
+				hashedEdge.put(currentEdge, initialDistance);
+				visitedEdges.add(hashedEdge);
+				if (selectedEdges.isEmpty()) {
+					if (!selectedEdges.contains(currentEdge)) {
+						selectedEdges.add(currentEdge);
 					}
 				}
+				edgeQueue.add(currentEdge);
+			} else {
+				for (Integer edgeIndex : graph.getAdjacencyEdgeIds(currentEdge)) {
+					if (checkIfEdgeExists(visitedEdges, edgeIndex) == true) {
+						continue;
+					} else {
+						double edgeLength = graph.getEdgeDistance(edgeIndex);
+						// System.out.println("Given Edge Len: " + edgeLength);
+
+						for (int i = 0; i < visitedEdges.size(); i++) {
+							if (visitedEdges.get(i).containsKey(currentEdge)) {
+								double currentEdgeDistance = visitedEdges.get(i).get(currentEdge);
+								// System.out.println("Current Edge Len: " + currentEdgeDistance);
+
+								if (edgeLength + currentEdgeDistance <= perimeter) {
+									HashMap<Integer, Double> hashedEdge = new HashMap<Integer, Double>();
+									double lengthAfterAdding = currentEdgeDistance + edgeLength;
+									// System.out.println("Edge Len after adding: " + lengthAfterAdding);
+
+									hashedEdge.put(edgeIndex, lengthAfterAdding);
+									visitedEdges.add(hashedEdge);
+									if (!selectedEdges.contains(edgeIndex)) {
+										selectedEdges.add(edgeIndex);
+									}
+									edgeQueue.add(edgeIndex);
+								}
+
+							}
+						}
+
+					}
+
+				}
 			}
+
 		}
 
-		return edgeList;
-
+		return selectedEdges;
 	}
 
-	// using this nested class to compare the distance between the current edge and
-	// the adjacent edge.
-	private class ComparableEdge implements Comparable<ComparableEdge> {
+	public static boolean checkIfEdgeExists(LinkedList<HashMap<Integer, Double>> visitedEdges, int edgeId) {
 
-		private double distance;
-		// private Edge edge;
-		private int edge_id;
-
-		private ComparableEdge(double distance, int edgeId) {
-			this.distance = distance;
-			this.edge_id = edgeId;
+		for (int i = 0; i < visitedEdges.size(); i++) {
+			if (visitedEdges.get(i).containsKey(edgeId)) {
+				return true;
+			}
 		}
-
-		@Override
-		public int compareTo(ComparableEdge another) {
-			// TODO Auto-generated method stub
-			return Double.compare(distance, another.distance);
-		}
-
+		return false;
 	}
 
 	public static void printGeneratorParameters() {

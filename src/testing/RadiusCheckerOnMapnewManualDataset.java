@@ -1,7 +1,12 @@
 package testing;
 
 import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 
+import algorithm.BFS;
+import algorithm.DFS;
 import algorithm.RandomObjectGenerator;
 import algorithm.RandomObjectGeneratorWithCentroid;
 import framework.Graph;
@@ -98,28 +103,15 @@ public class RadiusCheckerOnMapnewManualDataset {
 		gr.addEdge(26, 51, 18.8);
 		gr.addEdge(26, 25, 16.6);
 		gr.addEdge(50, 51, 6.1);
+		
+		System.out.println(gr.getNumberOfEdges());
+System.out.println(gr.getObjectsWithInfo().isEmpty());
 
-		// gr.printEdgesInfo();
-		// System.out.println(gr.getAdjancencyMap());
+		RandomObjectGeneratorWithCentroid rOGC = new RandomObjectGeneratorWithCentroid();
+		
+		rOGC.generateRandomObjectsOnMap(gr, 150, 500);
+		rOGC.printStatistics();
 
-		RandomObjectGeneratorWithCentroid rgn = new RandomObjectGeneratorWithCentroid();
-
-		// rgn.uniqueEdgesWithinRange(200.3, 1, gr);
-		// System.out.println("The edge id: " + gr.getEdgeId(1, 2));
-		ArrayList<Integer> edges1 = rgn.uniqueEdgesWithinRange(25.2, 5, gr);
-		// System.out.println(rgn.uniqueEdgesWithinRange(95.12, 21, gr));
-
-		System.out.print("[");
-		for (int i = 0; i < edges1.size(); i++) {
-			System.out.print(" " + edges1.get(i));
-
-		}
-		System.out.print(" ]");
-
-		// RandomObjectGenerator.generateRandomObjectsOnMap5(gr, 0.1, 50);
-		// UtilsManagment.writeRoadObjsOnEdgeFile(gr.getObjectsOnEdges(),
-		// "Manual",10,10);
-		// RandomObjectGenerator.printStatistics();
 
 	}
 
