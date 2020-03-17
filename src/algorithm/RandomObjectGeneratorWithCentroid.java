@@ -161,6 +161,7 @@ public class RandomObjectGeneratorWithCentroid {
 				RoadObject object = new RoadObject();
 				object.setObjId(objCounter);
 				object.setType(false);
+				//just moved it here
 				
 				if (!acceptedDistancesOnEdge.containsKey(randomEdgeId)) {
 					ArrayList<Double> acceptedDistances = new ArrayList<Double>();
