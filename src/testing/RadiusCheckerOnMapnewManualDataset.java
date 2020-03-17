@@ -13,11 +13,14 @@ import framework.Graph;
 import framework.UtilsManagment;
 
 public class RadiusCheckerOnMapnewManualDataset {
+	private static double m_minDistBetweenObjsPrecision = 1000000.0;
+	private static double m_distFromStartNodePrecision = 1000000.0;
 
 	public static void main(String[] args) {
 
 		Graph gr = new Graph();
 
+		gr.addEdge(0, 1, 5.4);
 		gr.addEdge(1, 2, 6.2);
 		gr.addEdge(1, 4, 10.0);
 		gr.addEdge(1, 3, 4.1);
@@ -104,15 +107,31 @@ public class RadiusCheckerOnMapnewManualDataset {
 		gr.addEdge(26, 25, 16.6);
 		gr.addEdge(50, 51, 6.1);
 		
-		System.out.println(gr.getNumberOfEdges());
-System.out.println(gr.getObjectsWithInfo().isEmpty());
-
-		RandomObjectGeneratorWithCentroid rOGC = new RandomObjectGeneratorWithCentroid();
+		RandomObjectGeneratorWithCentroid.generateRandomObjectsOnMapWithCentroidForTrueObjects(gr, 30, 40);
+		RandomObjectGeneratorWithCentroid.printStatistics();
 		
-		rOGC.generateRandomObjectsOnMap(gr, 150, 500);
-		rOGC.printStatistics();
+		gr.printObjectsOnEdges();
 
 
+
+	}
+	
+	public static double getRandDoubleBetRangeThreadLocal(double min, double max) {
+		ThreadLocalRandom generator=ThreadLocalRandom.current();
+		double randomValue=generator.nextDouble(min,max);
+		return randomValue;
+	}
+	
+	public static double gaussian(double mean, double variance) {
+		ThreadLocalRandom generator=ThreadLocalRandom.current();
+		double random=mean+generator.nextGaussian()*variance;
+		return random;
+	}
+	
+	public static double getRandDoubleBetRange2(double min, double max) {
+		double x = (Math.random() * ((max - min) + 1)) + min;
+		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
+		return x;
 	}
 
 }

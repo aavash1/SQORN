@@ -31,8 +31,10 @@ public class DFS {
 			int n = i.next();
 			int indexOfNode2 = graph.getIndexOfNodeByNodeId(n);
 			if (!visited[indexOfNode2])
+
 				DFSUtil(n, visited);
 		}
+
 	}
 
 	// The function to do DFS traversal. It uses recursive DFSUtil()

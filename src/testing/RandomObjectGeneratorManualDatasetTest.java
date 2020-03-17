@@ -1,6 +1,7 @@
 package testing;
 
 import algorithm.RandomObjectGenerator;
+import algorithm.RandomObjectGeneratorWithGaussian;
 import framework.Graph;
 import framework.UtilsManagment;
 
@@ -40,9 +41,12 @@ public class RandomObjectGeneratorManualDatasetTest {
 		gr.addEdge(20, 19, 30);
 		gr.addEdge(15, 25, 90);
 
-		RandomObjectGenerator.generateRandomObjectsOnMap5(gr, 0.1, 50);
+		RandomObjectGeneratorWithGaussian.generateRandomObjectsOnMap6(gr, 1000, 3000);
 	//	UtilsManagment.writeRoadObjsOnEdgeFile(gr.getObjectsOnEdges(), "Manual",10,10);
 		RandomObjectGenerator.printStatistics();
+		gr.printObjectsOnMap();
+		//gr.printObjectsOnEdges();
+		gr.printGraph();
 
 	}
 

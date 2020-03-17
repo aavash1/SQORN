@@ -48,13 +48,13 @@ public class RandomObjectGeneratorWithGaussian {
 	private static double m_minDistBetweenObjsPrecision = 1000000.0;
 	private static double m_distFromStartNodePrecision = 1000000.0;
 
-	static Random r=new Random();
-	
+	static Random r = new Random();
+
 	public static void generateRandomObjectsOnMap6(Graph graph, int totalNumberOfTrueObjects,
 			int totalNumberOfFalseObjects) {
-		
+
 		graph.removeObjectsOnEdges();
-		
+
 		// String fileName = "GeneratedFiles/" + graph.getDatasetName() + "_Q_" +
 		// totalNumberOfTrueObjects + "_D_"
 		// + totalNumberOfFalseObjects;
@@ -77,7 +77,7 @@ public class RandomObjectGeneratorWithGaussian {
 		boolean testVar;
 		int randomEdgeId;
 		while (objCounter <= totalNumOfObjects) {
-			randomEdgeId = getRandIntBetRange(0, totalNumberOfEdges-1);
+			randomEdgeId = getRandIntBetRangeGaus(totalNumberOfEdges,5);
 			RoadObject object = new RoadObject();
 			object.setObjId(objCounter);
 
@@ -86,7 +86,7 @@ public class RandomObjectGeneratorWithGaussian {
 				acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
 			}
 			double edgeLength = graph.getEdgeDistance(randomEdgeId);
-			double distFromStartNode = getRandDoubleBetRangeGaus(0, edgeLength);
+			double distFromStartNode = getRandDoubleBetRange2(0, edgeLength);
 			if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
 				object.setDistanceFromStartNode(distFromStartNode);
 			} else {
@@ -101,8 +101,9 @@ public class RandomObjectGeneratorWithGaussian {
 			if (graph.addObjectOnEdge(randomEdgeId, object)) {
 				objCounter++;
 				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
-				//System.out.println(objCounter + " Object Added" + ", distFromSN: " + distFromStartNode + " on edge: "
-				//		+ randomEdgeId + " of length: " + edgeLength);
+				// System.out.println(objCounter + " Object Added" + ", distFromSN: " +
+				// distFromStartNode + " on edge: "
+				// + randomEdgeId + " of length: " + edgeLength);
 			}
 
 		}
@@ -116,7 +117,7 @@ public class RandomObjectGeneratorWithGaussian {
 
 		// System.out.println("size of acceptedDistancesOnEdge: " +
 		// acceptedDistancesOnEdge.size());
-		//return fileName;
+		// return fileName;
 		System.out.println("Finished Generating Road Objects");
 	}
 
@@ -245,8 +246,9 @@ public class RandomObjectGeneratorWithGaussian {
 						for (int k = 0; k < acceptedDistancesOnEdge.get(edge.getEdgeId()).size(); k++) {
 
 							isThereDistanceConflict = false;
-//							Double previousDistance = acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k);
-//							Double newDistance = distanceFromStartNode;
+							// Double previousDistance =
+							// acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k);
+							// Double newDistance = distanceFromStartNode;
 							if (!((acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k)
 									+ m_minDistBetweenObjs <= distanceFromStartNode)
 									|| (acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k)
@@ -259,19 +261,19 @@ public class RandomObjectGeneratorWithGaussian {
 							// System.out.println("conflictCounter: " + conflictCounter + ", distandFromSN:
 							// " + distanceFromStartNode + ", edgeLength: " + edgeLength);
 
-//							if (acceptedDistancesOnEdge.size() == 5) {
-//								System.out.println("debug");
-//							}
-//							if (!((previousDistance + m_minDistBetweenObjs <= newDistance)
-//									|| (previousDistance - m_minDistBetweenObjs >= newDistance))) {
+							// if (acceptedDistancesOnEdge.size() == 5) {
+							// System.out.println("debug");
+							// }
+							// if (!((previousDistance + m_minDistBetweenObjs <= newDistance)
+							// || (previousDistance - m_minDistBetweenObjs >= newDistance))) {
 							// conflictCounter++;
 							// if(conflictCounter > 20)
 							// {
 							// System.out.println("debugg");
 							// }
-//								isThereDistanceConflict = true;
-//								break;
-//							}
+							// isThereDistanceConflict = true;
+							// break;
+							// }
 
 						}
 						if (!isThereDistanceConflict) {
@@ -1087,15 +1089,16 @@ public class RandomObjectGeneratorWithGaussian {
 		int x = (int) ((Math.random() * ((max - min) + 1)) + min);
 		return x;
 	}
-	
-	
-	//to get gaussian random distribution
+
+	// to get gaussian random distribution
 
 	public static int getRandIntBetRangeGaus(double min, double max) {
-		int x = (int) ((r.nextGaussian() * ((max - min) + 1)) + min);
-		return x;
+		int z = (int) (min + r.nextGaussian() * max);
+
+		//int x = (int) ((r.nextGaussian() * ((max - min) + 1)) + min);
+		return z;
 	}
-	//this is the 
+	// this is the
 
 	public static double getRandDoubleBetRange(double min, double max) {
 		double x = ThreadLocalRandom.current().nextDouble(min, max);
@@ -1110,7 +1113,7 @@ public class RandomObjectGeneratorWithGaussian {
 		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
 		return x;
 	}
-	
+
 	public static double getRandDoubleBetRangeGaus(double min, double max) {
 		double x = (r.nextGaussian() * ((max - min) + 1)) + min;
 		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;

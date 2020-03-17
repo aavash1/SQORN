@@ -19,9 +19,6 @@ public class RandomObjectOnCaliforniaDatasetTestWithCentroid {
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGeneratorWithCentroid rOGC=new RandomObjectGeneratorWithCentroid();
-		rOGC.generateRandomObjectsOnMap(calGraph, trueObjSize, falseObjSize);
-		rOGC.printStatistics();
 		System.out.println("Finished Generating");
 		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), "NAMEOFROADOBJDATASET");
 		//UtilsManagment.writeDatasetStatistics(calGraph);
