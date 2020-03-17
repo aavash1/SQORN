@@ -76,7 +76,7 @@ public class RandomObjectGeneratorWithCentroid {
 //		}
 //		Collections.shuffle(boolValues);
 		
-		//boolean testVar;
+		boolean testVar;
 		int randomEdgeId;
 		while(objCounter<=totalNumOfObjects) {
 			if(graph.getObjectsWithInfo().isEmpty()) {
