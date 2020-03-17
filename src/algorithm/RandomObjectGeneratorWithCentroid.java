@@ -56,6 +56,8 @@ public class RandomObjectGeneratorWithCentroid {
 	private static double m_minDistBetweenObjsPrecision = 1000000.0;
 	private static double m_distFromStartNodePrecision = 1000000.0;
 	
+	private static int m_numberOfCentroids = 10;
+	
 	//this method will first generate 10 objects on different random edges
 	//And selects all the edges where 10 object exists and traverses through the whole other perimeter
 	//And it generates remaining number of true objects for the whole other centroids
@@ -76,11 +78,11 @@ public class RandomObjectGeneratorWithCentroid {
 //		}
 //		Collections.shuffle(boolValues);
 		
-		boolean testVar;
+		//boolean testVar;
 		int randomEdgeId;
 		while(objCounter<=totalNumOfObjects) {
-			if(graph.getObjectsWithInfo().isEmpty()) {
-				for(int i=0;i<10;i++) {
+			if(graph.getObjectsWithInfo().isEmpty()) { 
+				for(int i=0;i<m_numberOfCentroids;i++) {
 					//randomEdgeId = (int) getThreadRandomNumberInBetween(0, totalNumberOfEdges-1);
 					randomEdgeId = (int) getThreadRandomNumberInBetween(1, totalNumberOfEdges-1);
 					RoadObject object = new RoadObject();
@@ -118,11 +120,14 @@ public class RandomObjectGeneratorWithCentroid {
 			else {
 				//Select all edges that has 10 true objects and make it as centroid
 				//Generate ((n-10)/10) object for each centroid
+				//Generate ((n-m_numberOfCentroids)/m_numberOfCentroids) object for each centroid  
 				for(Integer edgeWithObjects:graph.getObjectsOnEdges().keySet()) {
 					int centroidObjectCounter=0;
-					int remainingObjectsTobeGenerated=(totalNumberOfTrueObjects-10)/10;
+					int remainingObjectsTobeGenerated=(totalNumberOfTrueObjects-m_numberOfCentroids)/m_numberOfCentroids;
 					ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, 48.3, edgeWithObjects);
 					while(centroidObjectCounter<=remainingObjectsTobeGenerated) {
+						//next line is not what you want to do. You need to select edge which is within perimenter
+						//but you are selecting RANDOM one, and putting edgesSelected.size() inside nextInt() method is not helping you
 						randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));
 						RoadObject object = new RoadObject();
 						object.setObjId(objCounter);
@@ -157,6 +162,11 @@ public class RandomObjectGeneratorWithCentroid {
 				}//ends the for loop here
 				//Generate Rest of other objects "FALSE" objects
 				//randomEdgeId = (int) getThreadRandomNumberInBetween(0, totalNumberOfEdges-1);
+				
+				//I would hope if you could process the rest of code from here in own loop, 
+				//otherwise it goes back too long ago and checks several if statements, 
+				//and goes I guess one more time into unnecessary loop, at line #124 (after 1st time): 
+				//for(Integer edgeWithObjects:graph.getObjectsOnEdges().keySet()) {
 				randomEdgeId = (int) getThreadRandomNumberInBetween(1, totalNumberOfEdges-1);
 				RoadObject object = new RoadObject();
 				object.setObjId(objCounter);
@@ -470,6 +480,10 @@ public class RandomObjectGeneratorWithCentroid {
 						selectedEdges.add(currentEdge);
 					}
 				}
+				// 1st you added edgeID (edgeQueue.add(edgeId);) 
+				//then you polled it from there and assigned to currentEdge (int currentEdge = edgeQueue.poll();)
+				//now you are adding same thing to the queue (next line)
+				//what is point of making this clause of "if (visitedEdges.isEmpty())" statement ? 
 				edgeQueue.add(currentEdge);
 			} else {
 				for (Integer edgeIndex : graph.getAdjacencyEdgeIds(currentEdge)) {
@@ -490,6 +504,9 @@ public class RandomObjectGeneratorWithCentroid {
 									// System.out.println("Edge Len after adding: " + lengthAfterAdding);
 
 									hashedEdge.put(edgeIndex, lengthAfterAdding);
+									//you are looping though visitedEdges (for (int i = 0; i < visitedEdges.size(); i++))
+									// and in next line adding something to the same visitedEdges inside of same loop
+									// does it make sense? 
 									visitedEdges.add(hashedEdge);
 									if (!selectedEdges.contains(edgeIndex)) {
 										selectedEdges.add(edgeIndex);
