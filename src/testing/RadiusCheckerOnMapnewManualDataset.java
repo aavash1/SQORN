@@ -112,31 +112,10 @@ public class RadiusCheckerOnMapnewManualDataset {
 	//	RandomObjectGenerator.printStatistics();
 		
 		//this is the generator for non-uniform distribution
-		RandomObjectGeneratorWithCentroid.generateRandomObjectsOnMapWithCentroidForTrueObjects(gr, 30, 40);
-		RandomObjectGeneratorWithCentroid.printStatistics();
-		
+		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(gr, 30, 40, true);
+		RandomObjectGenerator.printStatistics();		
 		gr.printObjectsOnEdges();
-
-
-
 	}
 	
-	public static double getRandDoubleBetRangeThreadLocal(double min, double max) {
-		ThreadLocalRandom generator=ThreadLocalRandom.current();
-		double randomValue=generator.nextDouble(min,max);
-		return randomValue;
-	}
-	
-	public static double gaussian(double mean, double variance) {
-		ThreadLocalRandom generator=ThreadLocalRandom.current();
-		double random=mean+generator.nextGaussian()*variance;
-		return random;
-	}
-	
-	public static double getRandDoubleBetRange2(double min, double max) {
-		double x = (Math.random() * ((max - min) + 1)) + min;
-		x = Math.round(x * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
-		return x;
-	}
 
 }
