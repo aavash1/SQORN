@@ -371,8 +371,7 @@ public class UtilsManagment {
 
 			}
 
-			// System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written
-			// Successfully");
+			System.out.println("File: " + roadObjsOnEdgeCSVFile + " is written Successfully");
 			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();

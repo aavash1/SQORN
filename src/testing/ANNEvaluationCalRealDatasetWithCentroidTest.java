@@ -6,12 +6,11 @@ import java.util.Map;
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
 import algorithm.ClusteringRoadObjects;
-//import algorithm.RandomObjectGenerator;
-import algorithm.RandomObjectGeneratorWithGaussian;
+import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
 
-public class ANNEvaluationCalRealDatasetTestWithGaussian {
+public class ANNEvaluationCalRealDatasetWithCentroidTest {
 
 	public static void main(String[] args) {
 		Graph calGraph = new Graph("California");
@@ -23,18 +22,18 @@ public class ANNEvaluationCalRealDatasetTestWithGaussian {
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
-		queryParams.add(10000);
-//		queryParams.add(10000);
+		//queryParams.add(10000);
+		//queryParams.add(10000);
 //		queryParams.add(10000);
 //		queryParams.add(10000);
 //		queryParams.add(10000);
 //		queryParams.add(20000);
-//		queryParams.add(30000);
+		//queryParams.add(30000);
 //		queryParams.add(50000);
-//		queryParams.add(70000);
-//		queryParams.add(100000);
-//		
-		dataParams.add(20000);
+queryParams.add(70000);
+//queryParams.add(100000);
+		
+	//	dataParams.add(20000);
 //		dataParams.add(30000);
 //		dataParams.add(50000);
 //		dataParams.add(70000);
@@ -43,8 +42,8 @@ public class ANNEvaluationCalRealDatasetTestWithGaussian {
 //		dataParams.add(10000);
 //		dataParams.add(10000);
 //		dataParams.add(10000);
-//		dataParams.add(10000);
-//		
+dataParams.add(10000);
+		
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
 				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
@@ -59,7 +58,8 @@ public class ANNEvaluationCalRealDatasetTestWithGaussian {
 			int dataObjNum = dataParams.poll();
 			
 			for (int i = 0; i < 1; i++) {
-				RandomObjectGeneratorWithGaussian.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
+				//RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum, true);
 				// RandomObjectGenerator.printStatistics();
 				
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
@@ -71,13 +71,13 @@ public class ANNEvaluationCalRealDatasetTestWithGaussian {
 				// UtilsManagment.readRoadObjectFile(roadObjsOnEdgeCSVFile);
 				// calGraph.setObjectsOnEdges(objectsOnEdge);
 
-				ANNNaive annNaive = new ANNNaive();
-				long startTimeNaive = System.nanoTime();
-				annNaive.compute(calGraph, true);
-				long computationTimeNaive = System.nanoTime() - startTimeNaive;
-				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
+				//ANNNaive annNaive = new ANNNaive();
+			//	long startTimeNaive = System.nanoTime();
+			//	annNaive.compute(calGraph, true);
+			//	long computationTimeNaive = System.nanoTime() - startTimeNaive;
+			//	double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
 				// annNaive.printNearestNeighborSets();
-				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+				//System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
 
 				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
 				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(calGraph,
@@ -93,8 +93,8 @@ public class ANNEvaluationCalRealDatasetTestWithGaussian {
 				System.out.println();
 
 				
-				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+				//UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
+					//	computationTimeDClustered);
 			}
 		}
 		

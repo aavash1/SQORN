@@ -3,7 +3,7 @@ package testing;
 import java.util.ArrayList;
 
 import algorithm.RandomObjectGenerator;
-import algorithm.RandomObjectGeneratorWithCentroid;
+
 import framework.Graph;
 import framework.UtilsManagment;
 
@@ -42,7 +42,7 @@ public class RadiusCheckerOnMap {
 		gr.addEdge(20, 19, 30);
 		gr.addEdge(15, 25, 90);
 
-		RandomObjectGeneratorWithCentroid rgn = new RandomObjectGeneratorWithCentroid();
+
 	
 
 		//System.out.print("[");

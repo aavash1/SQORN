@@ -1,7 +1,8 @@
 package testing;
 
-import algorithm.RandomObjectGeneratorWithCentroid;
-import algorithm.RandomObjectGeneratorWithGaussian;
+import java.util.ArrayList;
+
+import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
 
@@ -19,9 +20,16 @@ public class RandomObjectOnCaliforniaDatasetTestWithCentroid {
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		System.out.println("Finished Generating");
+		//RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, trueObjSize, falseObjSize);
+		//ArrayList<Integer> edgeList=RandomObjectGenerator.getEdgesWithinPerimeter(calGraph, 1.8, 19);
+//		for(int i=0;i<edgeList.size();i++) {
+//			System.out.print(edgeList.get(i)+", ");
+//		}
+		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, trueObjSize, falseObjSize, true);
+		RandomObjectGenerator.printStatistics();
+		System.out.println("Finished Generating datasets on "+calGraph.getDatasetName()+ " dataset");
 		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), "NAMEOFROADOBJDATASET");
-		//UtilsManagment.writeDatasetStatistics(calGraph);
+		UtilsManagment.writeDatasetStatistics(calGraph);
 		// calGraph.printObjectsOnEdges();
 
 	}

@@ -49,7 +49,7 @@ public class RandomObjectGenerator {
 	private static double m_distFromStartNodePrecision = 1000000.0;
 
 	private static int m_numberOfCentroids = 10;
-	private static double m_perimeter = 48.3;
+	private static double m_perimeter = 1.0;
 	
 	public static void generateRandomObjectsOnEdgesWithCentroid(Graph graph, int totalNumberOfTrueObjects,
 			int totalNumberOfFalseObjects, boolean centroidObjType) {
@@ -86,6 +86,7 @@ public class RandomObjectGenerator {
 					
 					if (graph.addObjectOnEdge(randomEdgeId, object)) {
 						objCounter++;
+						//System.out.println(objCounter+" objects added");
 						acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 						centroidEdgeIds.add(randomEdgeId);
 					}
@@ -100,7 +101,7 @@ public class RandomObjectGenerator {
 					int centroidObjectCounter=0;
 					int remainingObjectsTobeGenerated=(totalNumberOfTrueObjects-m_numberOfCentroids)/m_numberOfCentroids;
 					ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
-					System.out.println("remainingObjectsTobeGenerated: " + remainingObjectsTobeGenerated + "; edgesSelected.size(): " + edgesSelected.size());
+					//System.out.println("remainingObjectsTobeGenerated: " + remainingObjectsTobeGenerated + "; edgesSelected.size(): " + edgesSelected.size());
 					while(centroidObjectCounter < remainingObjectsTobeGenerated) {
 						randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));
 						RoadObject object = new RoadObject();
@@ -122,6 +123,7 @@ public class RandomObjectGenerator {
 					
 						if (graph.addObjectOnEdge(randomEdgeId, object)) {
 							objCounter++;
+							//System.out.println(objCounter+" objects added");
 							centroidObjectCounter++;
 							acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 						}
@@ -152,9 +154,10 @@ public class RandomObjectGenerator {
 
 					if (graph.addObjectOnEdge(randomEdgeId, object)) {
 						objCounter++;
+						//System.out.println(objCounter+" objects added");
 						acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 					}
-					System.out.println("end of for loop for false objects, objCounter: "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + " FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+					//System.out.println("end of for loop for false objects, objCounter: "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + " FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 				} 
 		
 		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();

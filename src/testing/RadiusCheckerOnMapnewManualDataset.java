@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import algorithm.BFS;
 import algorithm.DFS;
 import algorithm.RandomObjectGenerator;
-import algorithm.RandomObjectGeneratorWithCentroid;
+
 import framework.Graph;
 import framework.UtilsManagment;
 
