@@ -388,35 +388,33 @@ public class Graph {
 	// VALIDATE THIS METHOD
 	public ArrayList<Integer> getAdjacencyEdgeIds(int edgeId) {
 		ArrayList<Integer> edgeIdList = new ArrayList<Integer>();
-		int startNode = getStartNodeIdOfEdge(edgeId);
-		int endNode = getEndNodeIdOfEdge(edgeId);
+		Integer startNode = getStartNodeIdOfEdge(edgeId);
+		Integer endNode = getEndNodeIdOfEdge(edgeId);
 
 		ArrayList<Integer> adjNodesToStartNode = new ArrayList<Integer>();
 		ArrayList<Integer> adjNodesToEndNode = new ArrayList<Integer>();
 
 		adjNodesToStartNode = getAdjNodeIds(startNode);
+		//adjNodesToStartNode.remove(endNode);
 		adjNodesToEndNode = getAdjNodeIds(endNode);
-
+		//adjNodesToEndNode.remove(startNode);
+		
 		for (Integer adjNode : adjNodesToStartNode) {
+			if(adjNode == endNode) continue;
 			int newAdjEdgeId1 = getEdgeId(adjNode, startNode);
 			if (newAdjEdgeId1 > 0)
-				edgeIdList.add(newAdjEdgeId1);
-			int newAdjEdgeId2 = getEdgeId(startNode, adjNode);
-			if (newAdjEdgeId2 > 0)
-				edgeIdList.add(newAdjEdgeId2);
+				edgeIdList.add(newAdjEdgeId1);			
 
 		}
-		for (Integer adjNode : adjNodesToEndNode) {
-			int newAdjEdgeId1 = getEdgeId(adjNode, endNode);
-			if (newAdjEdgeId1 > 0)
-				edgeIdList.add(newAdjEdgeId1);
+		for (Integer adjNode : adjNodesToEndNode) {		
+			if(adjNode == startNode) continue;
 			int newAdjEdgeId2 = getEdgeId(endNode, adjNode);
 			if (newAdjEdgeId2 > 0)
 				edgeIdList.add(newAdjEdgeId2);
 		}
 		// removing source edge itself (twice)
-		edgeIdList.remove(edgeIdList.indexOf(edgeId));
-		edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
+		//edgeIdList.remove(edgeIdList.indexOf(edgeId));
+		//edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
 		return edgeIdList;
 	}
 
