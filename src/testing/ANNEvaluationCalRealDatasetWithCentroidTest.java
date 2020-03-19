@@ -56,9 +56,22 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 			int queryObjNum = queryParams.poll();
 			int dataObjNum = dataParams.poll();
 
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 12; i++) {
+				if(i<4) {
+					//randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false> object
+					 RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true);
+				}
+				else if((i>=4)&&(i<7)){
+					//randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false> object
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, false);
+				}
+				else if((i>=7)&&(i<11)){
+					//randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false> object
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum);
+				}
+				
 				//RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
-				RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,10000,20000);
+				//RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum);
 				// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true);
 				// RandomObjectGenerator.printStatistics();
 
@@ -92,6 +105,15 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 				// ann3.printNearestSets();
 				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
 				System.out.println();
+				if(i<4) {
+					System.err.println("---------------------------<C,U>-------------------Finished");
+				}
+				else if((i>=4)&&(i<7)){
+					System.err.println("---------------------------<U,C>-------------------Finished");
+				}
+				else if((i>=7)&&(i<11)){
+					System.err.println("---------------------------<C,C>-------------------Finished");
+				}
 
 				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
 						computationTimeDClustered);
