@@ -88,10 +88,12 @@ public class RoadObject {
 
 	public static Comparator<RoadObject> DistanceComparator = new Comparator<RoadObject>() {
 
+		//this should be the case "Every java class is using this comparator
 		public int compare(RoadObject obj1, RoadObject obj2) {
 			double distanceDiff = obj1.getDistanceFromStartNode() - obj2.getDistanceFromStartNode();
 			return (int) Math.round(distanceDiff);
 		}
+
 	};
 
 	public static Comparator<RoadObject> ObjIdComparator = new Comparator<RoadObject>() {
