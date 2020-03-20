@@ -49,7 +49,7 @@ public class RandomObjectGenerator {
 	private static double m_distFromStartNodePrecision = 1000000.0;
 
 	private static int m_numberOfCentroids = 10;
-	//private static double m_perimeter = 1.0;
+	// private static double m_perimeter = 1.0;
 
 	public static void generateRandomObjectsOnEdgeWithCentroidForSameDistribution(Graph graph,
 			int totalNumberOfTrueObjects, int totalNumberOfFalseObjects, double certainPerimeter) {
@@ -59,9 +59,10 @@ public class RandomObjectGenerator {
 		int totalNumberOfObjects = totalNumberOfFalseObjects + totalNumberOfTrueObjects;
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		int randomEdgeId;
-		ArrayList<Integer> centroidEdgeIdsForTrue = new ArrayList<Integer>();
-		ArrayList<Integer> centroidEdgeIdsForFalse = new ArrayList<Integer>();
+
 		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
+		//centroidEdgeBrances will hold all the edges that traverses through first 10 selected centroid edge.
+		ArrayList<Integer> centroidEdgeBranches = new ArrayList<Integer>();
 
 		for (int i = 0; i < m_numberOfCentroids; i++) {
 			randomEdgeId = (int) getThreadRandomNumberInBetween(1, totalNumberOfEdges - 1);
@@ -87,6 +88,10 @@ public class RandomObjectGenerator {
 				// System.out.println(objCounter+" objects added");
 				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 				centroidEdgeIds.add(randomEdgeId);
+				if(!centroidEdgeBranches.contains(randomEdgeId)) {
+					centroidEdgeBranches.add(randomEdgeId);
+				}
+				
 			}
 		}
 		for (Integer edgeWithObjects : centroidEdgeIds) {
@@ -122,6 +127,9 @@ public class RandomObjectGenerator {
 					// System.out.println(objCounter+" objects added");
 					centroidObjectCounter++;
 					acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
+					if(!centroidEdgeBranches.contains(randomEdgeId)) {
+						centroidEdgeBranches.add(randomEdgeId);
+					}
 				}
 				// System.out.println("end of 'while' for one centroid, objCounter:
 				// "+objCounter+ " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
@@ -133,18 +141,19 @@ public class RandomObjectGenerator {
 
 		}
 
-		for (Integer edgeWithObjects : centroidEdgeIds) {
+		
 			// int centroidObjectCounter=0;
 			// int
 			// remainingObjectsTobeGenerated=(totalNumberOfFalseObjects-m_numberOfCentroids)/m_numberOfCentroids;
 			// ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter,
 			// edgeWithObjects);
-			ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
+			//ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
 			// System.out.println("remainingObjectsTobeGenerated: " +
 			// remainingObjectsTobeGenerated + "; edgesSelected.size(): " +
 			// edgesSelected.size());
 			while (objCounter < totalNumberOfObjects) {
-				randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));
+				randomEdgeId = centroidEdgeBranches
+						.get(ThreadLocalRandom.current().nextInt(centroidEdgeBranches.size()));
 				RoadObject object = new RoadObject();
 				object.setObjId(objCounter);
 				object.setType(false);
@@ -176,7 +185,13 @@ public class RandomObjectGenerator {
 			// "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
 			// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 
+		
+		System.out.print("[");
+		for(int i=0;i<centroidEdgeBranches.size();i++) {
+			System.out.print(centroidEdgeBranches.get(i)+", ");
 		}
+		System.out.print("]");
+		System.out.println();
 		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
 		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
 		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
@@ -521,8 +536,9 @@ public class RandomObjectGenerator {
 						for (int k = 0; k < acceptedDistancesOnEdge.get(edge.getEdgeId()).size(); k++) {
 
 							isThereDistanceConflict = false;
-//							Double previousDistance = acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k);
-//							Double newDistance = distanceFromStartNode;
+							// Double previousDistance =
+							// acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k);
+							// Double newDistance = distanceFromStartNode;
 							if (!((acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k)
 									+ m_minDistBetweenObjs <= distanceFromStartNode)
 									|| (acceptedDistancesOnEdge.get(edge.getEdgeId()).get(k)
@@ -535,19 +551,19 @@ public class RandomObjectGenerator {
 							// System.out.println("conflictCounter: " + conflictCounter + ", distandFromSN:
 							// " + distanceFromStartNode + ", edgeLength: " + edgeLength);
 
-//							if (acceptedDistancesOnEdge.size() == 5) {
-//								System.out.println("debug");
-//							}
-//							if (!((previousDistance + m_minDistBetweenObjs <= newDistance)
-//									|| (previousDistance - m_minDistBetweenObjs >= newDistance))) {
+							// if (acceptedDistancesOnEdge.size() == 5) {
+							// System.out.println("debug");
+							// }
+							// if (!((previousDistance + m_minDistBetweenObjs <= newDistance)
+							// || (previousDistance - m_minDistBetweenObjs >= newDistance))) {
 							// conflictCounter++;
 							// if(conflictCounter > 20)
 							// {
 							// System.out.println("debugg");
 							// }
-//								isThereDistanceConflict = true;
-//								break;
-//							}
+							// isThereDistanceConflict = true;
+							// break;
+							// }
 
 						}
 						if (!isThereDistanceConflict) {
