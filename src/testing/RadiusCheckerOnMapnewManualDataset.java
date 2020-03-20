@@ -112,7 +112,7 @@ public class RadiusCheckerOnMapnewManualDataset {
 	//	RandomObjectGenerator.printStatistics();
 		
 		//this is the generator for non-uniform distribution
-		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(gr, 30, 40, true);
+		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(gr, 30, 40, true,24.8);
 		RandomObjectGenerator.printStatistics();		
 		gr.printObjectsOnEdges();
 	}

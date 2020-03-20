@@ -52,7 +52,7 @@ public class RandomObjectGenerator {
 	private static double m_perimeter = 1.0;
 
 	public static void generateRandomObjectsOnEdgeWithCentroidForSameDistribution(Graph graph, int totalNumberOfTrueObjects,
-			int totalNumberOfFalseObjects) {
+			int totalNumberOfFalseObjects, double certainPerimeter) {
 		graph.removeObjectsOnEdges();
 		int objCounter = 1;
 		int totalNumberOfEdges = graph.getNumberOfEdges();
@@ -90,7 +90,8 @@ public class RandomObjectGenerator {
 		for(Integer edgeWithObjects : centroidEdgeIdsForTrue) {
 			int centroidObjectCounter=0;
 			int remainingObjectsTobeGenerated=(totalNumberOfTrueObjects-m_numberOfCentroids)/m_numberOfCentroids;
-			ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+			//ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+			ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
 			//System.out.println("remainingObjectsTobeGenerated: " + remainingObjectsTobeGenerated + "; edgesSelected.size(): " + edgesSelected.size());
 			while(centroidObjectCounter < remainingObjectsTobeGenerated) {
 				randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));
@@ -152,7 +153,8 @@ public class RandomObjectGenerator {
 		for(Integer edgeWithObjects : centroidEdgeIdsForFalse) {
 			int centroidObjectCounter=0;
 			int remainingObjectsTobeGenerated=(totalNumberOfFalseObjects-m_numberOfCentroids)/m_numberOfCentroids;
-			ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+			//ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+			ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
 			//System.out.println("remainingObjectsTobeGenerated: " + remainingObjectsTobeGenerated + "; edgesSelected.size(): " + edgesSelected.size());
 			while(centroidObjectCounter < remainingObjectsTobeGenerated) {
 				randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));
@@ -188,7 +190,7 @@ public class RandomObjectGenerator {
 	}
 	
 	public static void generateRandomObjectsOnEdgesWithCentroid(Graph graph, int totalNumberOfTrueObjects,
-			int totalNumberOfFalseObjects, boolean centroidObjType) {
+			int totalNumberOfFalseObjects, boolean centroidObjType, double certainPerimeter) {
 		graph.removeObjectsOnEdges();
 		int objCounter = 1;
 		int totalNumberOfEdges = graph.getNumberOfEdges();
@@ -236,7 +238,8 @@ public class RandomObjectGenerator {
 				for(Integer edgeWithObjects : centroidEdgeIds) {
 					int centroidObjectCounter=0;
 					int remainingObjectsTobeGenerated=(totalNumberOfTrueObjects-m_numberOfCentroids)/m_numberOfCentroids;
-					ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+					//ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter, edgeWithObjects);
+					ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
 					//System.out.println("remainingObjectsTobeGenerated: " + remainingObjectsTobeGenerated + "; edgesSelected.size(): " + edgesSelected.size());
 					while(centroidObjectCounter < remainingObjectsTobeGenerated) {
 						randomEdgeId = edgesSelected.get(ThreadLocalRandom.current().nextInt(edgesSelected.size()));

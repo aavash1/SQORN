@@ -25,7 +25,7 @@ public class RandomObjectOnCaliforniaDatasetTestWithCentroid {
 //		for(int i=0;i<edgeList.size();i++) {
 //			System.out.print(edgeList.get(i)+", ");
 //		}
-		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, trueObjSize, falseObjSize, true);
+		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, trueObjSize, falseObjSize, true,24.8);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating datasets on "+calGraph.getDatasetName()+ " dataset");
 		UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(), "NAMEOFROADOBJDATASET");

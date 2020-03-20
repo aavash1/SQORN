@@ -5,21 +5,23 @@ import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
+
 import algorithm.ClusteringRoadObjects;
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
+
 import framework.UtilsManagment;
 
-public class ANNEvaluationCalRealDatasetWithCentroidTest {
+public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph calGraph = new Graph("California");
+		Graph sanJoaGraph = new Graph("SanJoaquin");
 
-		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
-		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
+		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
+		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
+		UtilsManagment.readEdgeFile(sanJoaGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
@@ -46,9 +48,9 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 		dataParams.add(10000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
-				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
+				.readNodeClustersFile("ClusterDatasets/SanFrancisco_node-clusters_2019-12-06 17-43-01.csv");
 
-		String graphName = calGraph.getDatasetName();
+		String graphName = sanJoaGraph.getDatasetName();
 
 		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
@@ -57,28 +59,27 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 			int dataObjNum = dataParams.poll();
 
 			for (int i = 0; i < 12; i++) {
-				if(i<4) {
-					//randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false> object
-					 RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true,1.8);
+				if (i < 4) {
+					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(sanJoaGraph, queryObjNum, dataObjNum,
+							true,24.3);
+				} else if ((i >= 4) && (i < 7)) {
+					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(sanJoaGraph, queryObjNum, dataObjNum,
+							false,24.3);
+				} else if ((i >= 7) && (i < 11)) {
+					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(sanJoaGraph,
+							queryObjNum, dataObjNum,24.3);
 				}
-				else if((i>=4)&&(i<7)){
-					//randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false> object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, false,1.8);
-				}
-				else if((i>=7)&&(i<11)){
-					//randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false> object
-					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum,1.8);
-				}
-				
-				//RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
-				//RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum);
-				// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true);
-				// RandomObjectGenerator.printStatistics();
 
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
 						+ UtilsManagment.getNormalDateTime() + ".csv";
 
-				UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+				UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
 						roadObjsOnEdgeCSVFile);
 
 				// Map<Integer, ArrayList<RoadObject>> objectsOnEdge =
@@ -87,19 +88,19 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 
 				ANNNaive annNaive = new ANNNaive();
 				long startTimeNaive = System.nanoTime();
-				annNaive.compute(calGraph, true);
+				annNaive.compute(sanJoaGraph, true);
 				long computationTimeNaive = System.nanoTime() - startTimeNaive;
 				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
 				// annNaive.printNearestNeighborSets();
 				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
 
 				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(calGraph,
+				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(sanJoaGraph,
 						nodeClusterFromFile, true);
 
 				ANNClustered annClustered = new ANNClustered();
 				long startTimeClustered = System.nanoTime();
-				annClustered.computeWithoutClustering(calGraph, true, nodeClusterFromFile, objectIdClusters);
+				annClustered.computeWithoutClustering(sanJoaGraph, true, nodeClusterFromFile, objectIdClusters);
 				long computationTimeClustered = System.nanoTime() - startTimeClustered;
 				double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
 				// ann3.printNearestSets();
@@ -115,7 +116,7 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 					System.err.println("---------------------------<C,C>-------------------Finished");
 				}
 
-				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
+				UtilsManagment.writeFinalEvaluationResult(sanJoaGraph, evaluationResultFile, computationTimeDNaive,
 						computationTimeDClustered);
 			}
 		}
