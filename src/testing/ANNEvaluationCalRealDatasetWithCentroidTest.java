@@ -20,6 +20,7 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
+		double perimeter = 1.68;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
@@ -52,73 +53,134 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 
 		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
+		System.err.println("Test is running now...");
 		while (!queryParams.isEmpty()) {
 			int queryObjNum = queryParams.poll();
 			int dataObjNum = dataParams.poll();
 
-			for (int i = 0; i < 12; i++) {
-				if(i<4) {
-					//randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false> object
-					 RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true,1.8);
-				}
-				else if((i>=4)&&(i<7)){
-					//randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false> object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, false,1.8);
-				}
-				else if((i>=7)&&(i<11)){
-					//randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false> object
-					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum,1.8);
-				}
-				
-				//RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
-				//RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum);
-				// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum, dataObjNum, true);
-				// RandomObjectGenerator.printStatistics();
+			for (int i = 0; i < 15; i++) {
+				if (i < 5) {
+					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
+							true, perimeter);
+					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
+							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
-						+ UtilsManagment.getNormalDateTime() + ".csv";
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+							roadObjsOnEdgeCSVFile);
+					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(calGraph, nodeClusterFromFile,
+							evaluationResultFile);
 
-				UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
-						roadObjsOnEdgeCSVFile);
-
-				// Map<Integer, ArrayList<RoadObject>> objectsOnEdge =
-				// UtilsManagment.readRoadObjectFile(roadObjsOnEdgeCSVFile);
-				// calGraph.setObjectsOnEdges(objectsOnEdge);
-
-				ANNNaive annNaive = new ANNNaive();
-				long startTimeNaive = System.nanoTime();
-				annNaive.compute(calGraph, true);
-				long computationTimeNaive = System.nanoTime() - startTimeNaive;
-				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
-				// annNaive.printNearestNeighborSets();
-				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
-
-				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(calGraph,
-						nodeClusterFromFile, true);
-
-				ANNClustered annClustered = new ANNClustered();
-				long startTimeClustered = System.nanoTime();
-				annClustered.computeWithoutClustering(calGraph, true, nodeClusterFromFile, objectIdClusters);
-				long computationTimeClustered = System.nanoTime() - startTimeClustered;
-				double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
-				// ann3.printNearestSets();
-				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
-				System.out.println();
-				if(i<4) {
 					System.err.println("---------------------------<C,U>-------------------Finished");
-				}
-				else if((i>=4)&&(i<7)){
+				} else if ((i >= 5) && (i < 10)) {
+					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
+							false, perimeter);
+					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
+							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
+
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+							roadObjsOnEdgeCSVFile);
+					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(calGraph, nodeClusterFromFile,
+							evaluationResultFile);
+
 					System.err.println("---------------------------<U,C>-------------------Finished");
-				}
-				else if((i>=7)&&(i<11)){
+				} else if ((i >= 10) && (i < 15)) {
+					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+					// object
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph, queryObjNum, dataObjNum,
+							perimeter);
+					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
+							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
+
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+							roadObjsOnEdgeCSVFile);
+					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(calGraph, nodeClusterFromFile,
+							evaluationResultFile);
+
 					System.err.println("---------------------------<C,C>-------------------Finished");
 				}
 
-				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+				// RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum,
+				// dataObjNum);
+				// RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,queryObjNum,dataObjNum);
+				// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph,queryObjNum,
+				// dataObjNum, true);
+				// RandomObjectGenerator.printStatistics();
+
+//				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum
+//						+ UtilsManagment.getNormalDateTime() + ".csv";
+//
+//				UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+//						roadObjsOnEdgeCSVFile);
+//
+//				// Map<Integer, ArrayList<RoadObject>> objectsOnEdge =
+//				// UtilsManagment.readRoadObjectFile(roadObjsOnEdgeCSVFile);
+//				// calGraph.setObjectsOnEdges(objectsOnEdge);
+//
+//				ANNNaive annNaive = new ANNNaive();
+//				long startTimeNaive = System.nanoTime();
+//				annNaive.compute(calGraph, true);
+//				long computationTimeNaive = System.nanoTime() - startTimeNaive;
+//				double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
+//				// annNaive.printNearestNeighborSets();
+//				System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+//
+//				ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+//				Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(calGraph,
+//						nodeClusterFromFile, true);
+//
+//				ANNClustered annClustered = new ANNClustered();
+//				long startTimeClustered = System.nanoTime();
+//				annClustered.computeWithoutClustering(calGraph, true, nodeClusterFromFile, objectIdClusters);
+//				long computationTimeClustered = System.nanoTime() - startTimeClustered;
+//				double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
+//				// ann3.printNearestSets();
+//				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
+//				System.out.println();
+//				if (i < 4) {
+//					System.err.println("---------------------------<C,U>-------------------Finished");
+//				} else if ((i >= 4) && (i < 7)) {
+//					System.err.println("---------------------------<U,C>-------------------Finished");
+//				} else if ((i >= 7) && (i < 11)) {
+//					System.err.println("---------------------------<C,C>-------------------Finished");
+//				}
+//
+//				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
+//						computationTimeDClustered);
 			}
 		}
+		System.err.println("Experiments has finished successfully.");
+
+	}
+
+	public static void executeAlgorithms(Graph graph, Map<Integer, LinkedList<Integer>> nodeClusterFromFile,
+			String evaluationResultFile) {
+		ANNNaive annNaive = new ANNNaive();
+		long startTimeNaive = System.nanoTime();
+		annNaive.compute(graph, true);
+		long computationTimeNaive = System.nanoTime() - startTimeNaive;
+		double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
+		// annNaive.printNearestNeighborSets();
+		System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+
+		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(graph,
+				nodeClusterFromFile, true);
+
+		ANNClustered annClustered = new ANNClustered();
+		long startTimeClustered = System.nanoTime();
+		annClustered.computeWithoutClustering(graph, true, nodeClusterFromFile, objectIdClusters);
+		long computationTimeClustered = System.nanoTime() - startTimeClustered;
+		double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
+		// ann3.printNearestSets();
+		System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
+		System.out.println();
+
+		UtilsManagment.writeFinalEvaluationResult(graph, evaluationResultFile, computationTimeDNaive,
+				computationTimeDClustered);
 
 	}
 

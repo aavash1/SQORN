@@ -186,12 +186,12 @@ public class RandomObjectGenerator {
 			// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 
 		
-		System.out.print("[");
-		for(int i=0;i<centroidEdgeBranches.size();i++) {
-			System.out.print(centroidEdgeBranches.get(i)+", ");
-		}
-		System.out.print("]");
-		System.out.println();
+//		System.out.print("[");
+//		for(int i=0;i<centroidEdgeBranches.size();i++) {
+//			System.out.print(centroidEdgeBranches.get(i)+", ");
+//		}
+//		System.out.print("]");
+//		System.out.println();
 		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
 		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
 		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
