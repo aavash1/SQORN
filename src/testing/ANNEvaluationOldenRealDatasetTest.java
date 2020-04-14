@@ -92,8 +92,8 @@ public class ANNEvaluationOldenRealDatasetTest {
 				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
 				System.out.println();
 
-				UtilsManagment.writeFinalEvaluationResult(oldenGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+//				UtilsManagment.writeFinalEvaluationResult(oldenGraph, evaluationResultFile, computationTimeDNaive,
+//						computationTimeDClustered);
 			}
 		}
 

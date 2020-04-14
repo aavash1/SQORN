@@ -93,8 +93,8 @@ public class ANNEvaluationSanFRealDatasetTest {
 				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
 				System.out.println();
 
-				UtilsManagment.writeFinalEvaluationResult(sanFGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+//				UtilsManagment.writeFinalEvaluationResult(sanFGraph, evaluationResultFile, computationTimeDNaive,
+//						computationTimeDClustered);
 			}
 		}
 

@@ -24,10 +24,10 @@ public class FileWriterTest {
 		
 		
 		String filename = "QueryResults/" + calGraph.getDatasetName();
-		for (int i = 0; i < 2; i++) {
-			UtilsManagment.writeFinalEvaluationResult(calGraph, filename, (i * 5.3), ( i * 10.3));
-
-		}
+//		for (int i = 0; i < 2; i++) {
+//			UtilsManagment.writeFinalEvaluationResult(calGraph, filename, (i * 5.3), ( i * 10.3));
+//
+//		}
 		System.out.println("done");
 
 	}

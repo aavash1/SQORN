@@ -81,8 +81,8 @@ public class RandomObjectOnSanJoaDatasetTest {
 				System.out.println();
 
 				
-				UtilsManagment.writeFinalEvaluationResult(sanJoaquinGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+//				UtilsManagment.writeFinalEvaluationResult(sanJoaquinGraph, evaluationResultFile, computationTimeDNaive,
+//						computationTimeDClustered);
 			}
 		}
 		

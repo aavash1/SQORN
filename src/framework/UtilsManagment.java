@@ -446,22 +446,23 @@ public class UtilsManagment {
 	}
 
 	public static void writeFinalEvaluationResult(Graph graph, String fileName, double timeElapsedToComputeANNNAive,
-			double timeElapsedToComputeANNCLustered) {
+			double timeElapsedToComputeANNCLustered, String distributionCategory) {
 
 		String dateTime = getNormalDateTime();
-		
-		double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered/timeElapsedToComputeANNNAive * 100);
-		
+
+		double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered / timeElapsedToComputeANNNAive * 100);
+
 		timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
-		
+
 		try {
 			FileWriter outputFile = new FileWriter(fileName, true);
 
 			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | NAIVE-ANN-TIME |
 			// CLUSTERED-ANN-TIME | DIFF-PERC | CURRENT-TIME
 			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + graph.getTotalNumberOfTrueObjects()
-					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + timeElapsedToComputeANNNAive
-					+ csvSplitBy + timeElapsedToComputeANNCLustered + csvSplitBy + timeDiffPerc + csvSplitBy + dateTime));
+					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + distributionCategory + csvSplitBy
+					+ timeElapsedToComputeANNNAive + csvSplitBy + timeElapsedToComputeANNCLustered + csvSplitBy
+					+ timeDiffPerc + csvSplitBy + dateTime));
 			outputFile.write(System.lineSeparator()); // new line
 			outputFile.close();
 		} catch (IOException ex) {
@@ -674,50 +675,49 @@ public class UtilsManagment {
 			ex.printStackTrace();
 		}
 	}
-	
-	public static Map<Integer, LinkedList<Integer>> readNodeClustersFile (String csvFileName) { 
+
+	public static Map<Integer, LinkedList<Integer>> readNodeClustersFile(String csvFileName) {
 		Map<Integer, LinkedList<Integer>> nodeClusters = new HashMap<Integer, LinkedList<Integer>>();
-		
-		String line = "";		
-		//boolean removedBOM = false;
+
+		String line = "";
+		// boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFileName))) {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
-				//if (record.length == 2) {
+				// if (record.length == 2) {
 //					if (!removedBOM && record[0] != "0") {
 //
 //						record[0] = String.valueOf(0);
 //						removedBOM = true;
 //
 //					}
-					if (!nodeClusters.containsKey(Integer.parseInt(record[0]))) {
-						LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
-						
-						// adding first node in cluster (without "[")
-						nodeCluster.add(Integer.parseInt(record[1].substring(1)));	
-						if (record.length > 3 ) {
-							for (int i = 2; i < record.length-1; i++) {
-								nodeCluster.add(Integer.parseInt(record[i].substring(1)));	
-							}
-						}						
-						// adding last node in cluster (without "]")
-						nodeCluster.add(Integer.parseInt(record[record.length-1].substring(1, record[record.length-1].length()-1)));			
-						//nodeCluster.addAll(new LinkedList<Integer>(record[1]))
-						nodeClusters.put(Integer.parseInt(record[0]), nodeCluster);
+				if (!nodeClusters.containsKey(Integer.parseInt(record[0]))) {
+					LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
+
+					// adding first node in cluster (without "[")
+					nodeCluster.add(Integer.parseInt(record[1].substring(1)));
+					if (record.length > 3) {
+						for (int i = 2; i < record.length - 1; i++) {
+							nodeCluster.add(Integer.parseInt(record[i].substring(1)));
+						}
 					}
-					
-					
+					// adding last node in cluster (without "]")
+					nodeCluster.add(Integer
+							.parseInt(record[record.length - 1].substring(1, record[record.length - 1].length() - 1)));
+					// nodeCluster.addAll(new LinkedList<Integer>(record[1]))
+					nodeClusters.put(Integer.parseInt(record[0]), nodeCluster);
+				}
+
 //					if (!nodeClusters.get(Integer.parseInt(record[0])).contains(rObject)) {
 //						m_objectsOnEdge.get(Integer.parseInt(record[0])).add(rObject);
 //
 //					}
-				//}
+				// }
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return nodeClusters;
 	}
 

@@ -92,8 +92,8 @@ public class ANNEvaluationCalRealDatasetTest {
 				System.out.println();
 
 				
-				UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
-						computationTimeDClustered);
+			//	UtilsManagment.writeFinalEvaluationResult(calGraph, evaluationResultFile, computationTimeDNaive,
+	//					computationTimeDClustered);
 			}
 		}
 		

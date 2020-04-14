@@ -93,8 +93,8 @@ public class ANNEvaluationNARealDatasetTest {
 				System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
 				System.out.println();
 
-				UtilsManagment.writeFinalEvaluationResult(northAmericaGraph, evaluationResultFile,
-						computationTimeDNaive, computationTimeDClustered);
+//				UtilsManagment.writeFinalEvaluationResult(northAmericaGraph, evaluationResultFile,
+//						computationTimeDNaive, computationTimeDClustered);
 			}
 		}
 
