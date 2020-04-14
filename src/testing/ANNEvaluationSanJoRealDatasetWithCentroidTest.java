@@ -26,30 +26,31 @@ public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
-		queryParams.add(10000);
-		queryParams.add(10000);
-		queryParams.add(10000);
-		queryParams.add(10000);
-		queryParams.add(10000);
+//		queryParams.add(10000);
+//		queryParams.add(10000);
+//		queryParams.add(10000);
+//		queryParams.add(10000);
+//		queryParams.add(10000);
 		queryParams.add(20000);
 		queryParams.add(30000);
 		queryParams.add(50000);
-		queryParams.add(70000);
-		queryParams.add(100000);
+//		queryParams.add(70000);
+//		queryParams.add(100000);
 
-		dataParams.add(20000);
-		dataParams.add(30000);
-		dataParams.add(50000);
-		dataParams.add(70000);
-		dataParams.add(100000);
-		dataParams.add(10000);
-		dataParams.add(10000);
+//		dataParams.add(20000);
+//		dataParams.add(30000);
+//		dataParams.add(50000);
+//		dataParams.add(70000);
+//		dataParams.add(100000);
+//		dataParams.add(10000);
+//		dataParams.add(10000);
 		dataParams.add(10000);
 		dataParams.add(10000);
 		dataParams.add(10000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
-				.readNodeClustersFile("ClusterDatasets/SanFrancisco_node-clusters_2019-12-06 17-43-01.csv");
+				.readNodeClustersFile("ClusterDatasets/SanJoaquin_node-clusters_2019-12-06 17-55-01.csv");
+		
 
 		String graphName = sanJoaGraph.getDatasetName();
 
