@@ -107,7 +107,7 @@ public class ANNEvaluationCalRealDatasetWithCentroidTest {
 				}
 				else if ((i >= 12) && (i < 16)) {
 					String distribution="<U,U>";
-					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
 					RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"

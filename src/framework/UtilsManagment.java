@@ -457,7 +457,7 @@ public class UtilsManagment {
 		try {
 			FileWriter outputFile = new FileWriter(fileName, true);
 
-			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | NAIVE-ANN-TIME |
+			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | DISTRIBUTION | NAIVE-ANN-TIME |
 			// CLUSTERED-ANN-TIME | DIFF-PERC | CURRENT-TIME
 			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + graph.getTotalNumberOfTrueObjects()
 					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + distributionCategory + csvSplitBy
