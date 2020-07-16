@@ -1,4 +1,4 @@
-package testing;
+package experiment;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -12,7 +12,7 @@ import framework.Graph;
 
 import framework.UtilsManagment;
 
-public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
+public class SQORN1_ANNEvaluationSanJo {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
@@ -73,7 +73,7 @@ public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
@@ -88,7 +88,7 @@ public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
@@ -103,7 +103,7 @@ public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
@@ -118,7 +118,7 @@ public class ANNEvaluationSanJoRealDatasetWithCentroidTest {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(), sanJoaGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(sanJoaGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");

@@ -1,28 +1,26 @@
-package testing;
+package experiment;
 
 import java.util.LinkedList;
 import java.util.Map;
 
 import algorithm.ANNClustered;
 import algorithm.ANNNaive;
-
 import algorithm.ClusteringRoadObjects;
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
-
 import framework.UtilsManagment;
 
-public class ANNEvaluationOldenRealDatasetWithCentroidTest {
+public class SQORN1_ANNEvaluationCal {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph oldenGraph = new Graph("Oldenburg");
+		Graph calGraph = new Graph("California");
 
-		String nodeDatasetFile = "Datasets/OLDEN-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/OLDEN-Edge_Eid-ESrc-EDest-EDist.csv";
-		UtilsManagment.readEdgeFile(oldenGraph, edgeDatasetFile);
-		UtilsManagment.readNodeFile(oldenGraph, nodeDatasetFile);
-		double perimeter=1200.586;
+		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
+		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
+		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
+		double perimeter = 1.68;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
@@ -49,10 +47,9 @@ public class ANNEvaluationOldenRealDatasetWithCentroidTest {
 		dataParams.add(30000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
-				.readNodeClustersFile("ClusterDatasets/Oldenburg_node-clusters_2019-12-06 17-54-10.csv");
-		
+				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
 
-		String graphName = oldenGraph.getDatasetName();
+		String graphName = calGraph.getDatasetName();
 
 		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
@@ -66,14 +63,14 @@ public class ANNEvaluationOldenRealDatasetWithCentroidTest {
 					String distribution="<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(oldenGraph, queryObjNum, dataObjNum,
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
 							true, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(oldenGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
@@ -81,14 +78,14 @@ public class ANNEvaluationOldenRealDatasetWithCentroidTest {
 					String distribution="<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(oldenGraph, queryObjNum, dataObjNum,
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
 							false, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(oldenGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
@@ -96,29 +93,29 @@ public class ANNEvaluationOldenRealDatasetWithCentroidTest {
 					String distribution="<C,C>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(oldenGraph, queryObjNum, dataObjNum,
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph, queryObjNum, dataObjNum,
 							perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(oldenGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
 				}
 				else if ((i >= 12) && (i < 16)) {
 					String distribution="<U,U>";
-					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					ANNEvaluationCalRealDatasetWithCentroidTest.executeAlgorithms(oldenGraph, nodeClusterFromFile,
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
 							evaluationResultFile,distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");
@@ -126,9 +123,10 @@ public class ANNEvaluationOldenRealDatasetWithCentroidTest {
 
 			}
 		}
-		System.err.println("Experiment has completed successfully");
+		System.err.println("Experiments has finished successfully.");
 
 	}
+
 	public static void executeAlgorithms(Graph graph, Map<Integer, LinkedList<Integer>> nodeClusterFromFile,
 			String evaluationResultFile, String distributionCat) {
 		ANNNaive annNaive = new ANNNaive();
