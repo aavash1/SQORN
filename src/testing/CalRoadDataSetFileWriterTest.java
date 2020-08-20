@@ -13,17 +13,16 @@ import framework.UtilsManagment;
 public class CalRoadDataSetFileWriterTest {
 
 	public static void main(String[] args) {
-		UtilsManagment um = new UtilsManagment();
 		Graph calGraph = new Graph();
 		calGraph.setDatasetName("California");
 
 		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		calGraph = um.readEdgeFileReturnGraph(edgeDatasetFile);
-		ArrayList<Node> calNodesInfo = um.readNodeFile(nodeDatasetFile);
+		calGraph = UtilsManagment.readEdgeFileReturnGraph(edgeDatasetFile);
+		ArrayList<Node> calNodesInfo = UtilsManagment.readNodeFile(nodeDatasetFile);
 		calGraph.setNodesWithInfo(calNodesInfo);
-		ArrayList<Edge> calEdgeInfo = um.readEdgeFile(edgeDatasetFile);
+		ArrayList<Edge> calEdgeInfo = UtilsManagment.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
 		// calGraph.printGraph();
