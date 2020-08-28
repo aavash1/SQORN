@@ -298,7 +298,7 @@ public class ClusteringRoadObjectsTest {
 
 		gr.addObjectOnEdge(26, qObj260);
 
-		gr.printObjectsOnEdges();
+		//gr.printObjectsOnEdges();
 
 //		ANNNaive nAnn = new ANNNaive();
 //		nAnn.compute(gr);
@@ -309,7 +309,7 @@ public class ClusteringRoadObjectsTest {
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
 		clusteringObjects.clusterWithIndex2(gr, clusteringNodes.cluster(gr), true);
 		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
-		clusteringNodes.printNodeClusters();
+		//clusteringNodes.printNodeClusters();
 		clusteringObjects.printRoadObjectClusters();
 
 	}
