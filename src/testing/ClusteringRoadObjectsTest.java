@@ -307,7 +307,7 @@ public class ClusteringRoadObjectsTest {
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.clusterWithIndex2(gr, clusteringNodes.cluster(gr), true);
 		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
 		clusteringNodes.printNodeClusters();
 		clusteringObjects.printRoadObjectClusters();
