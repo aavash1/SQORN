@@ -6,6 +6,8 @@ import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 import algorithm.BFS;
+import algorithm.ClusteringNodes;
+import algorithm.ClusteringRoadObjects;
 import algorithm.DFS;
 import algorithm.RandomObjectGenerator;
 
@@ -231,7 +233,7 @@ public class ManualDatasetForANNv2 {
 		
 		RoadObject rObj21= new RoadObject();
 		rObj21.setObjId(251);
-		rObj21.setDistanceFromStartNode(7.8);
+		rObj21.setDistanceFromStartNode(3.8);
 		rObj21.setType(false);
 		gr.addObjectOnEdge(25, rObj21);
 		
@@ -364,7 +366,7 @@ public class ManualDatasetForANNv2 {
 		gr.addObjectOnEdge(42, rObj42);
 		
 		RoadObject rObj43= new RoadObject();
-		rObj43.setObjId(611);
+		rObj43.setObjId(612);
 		rObj43.setDistanceFromStartNode(8.4);
 		rObj43.setType(true);
 		gr.addObjectOnEdge(61, rObj43);
@@ -383,19 +385,19 @@ public class ManualDatasetForANNv2 {
 		
 		///
 		RoadObject rObj46= new RoadObject();
-		rObj46.setObjId(781);
+		rObj46.setObjId(161);
 		rObj46.setDistanceFromStartNode(5.3);
 		rObj46.setType(true);
 		gr.addObjectOnEdge(16, rObj46);
 		
 		RoadObject rObj47= new RoadObject();
-		rObj47.setObjId(781);
+		rObj47.setObjId(162);
 		rObj47.setDistanceFromStartNode(11.1);
 		rObj47.setType(true);
 		gr.addObjectOnEdge(16, rObj47);
 		
 		RoadObject rObj48= new RoadObject();
-		rObj48.setObjId(781);
+		rObj48.setObjId(163);
 		rObj48.setDistanceFromStartNode(15.7);
 		rObj48.setType(true);
 		gr.addObjectOnEdge(16, rObj48);
@@ -451,7 +453,7 @@ public class ManualDatasetForANNv2 {
 		gr.addObjectOnEdge(62, rObj56);
 		
 		RoadObject rObj57= new RoadObject();
-		rObj57.setObjId(621);
+		rObj57.setObjId(622);
 		rObj57.setDistanceFromStartNode(8.5);
 		rObj57.setType(true);
 		gr.addObjectOnEdge(62, rObj57);
@@ -565,7 +567,15 @@ public class ManualDatasetForANNv2 {
 		gr.addObjectOnEdge(34, rObj75);
 
 		//gr.printEdgesInfo();
-		gr.printObjectsOnEdges();
+		//gr.printObjectsOnEdges();
+		
+		ClusteringNodes clusteringNodes = new ClusteringNodes();
+
+		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
+		clusteringObjects.clusterWithIndex2(gr, clusteringNodes.cluster(gr), true);
+		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
+		clusteringNodes.printNodeClusters();
+		clusteringObjects.printRoadObjectClusters();
 	}
 	
 
