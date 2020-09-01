@@ -855,7 +855,7 @@ public class Graph {
 		return objsList;
 	}
 
-	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByDist(int edgeId) {
+	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByDistAsc(int edgeId) {
 		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
 		if (objsList != null) {
 			Collections.sort(objsList, RoadObject.DistanceComparator);
@@ -863,6 +863,15 @@ public class Graph {
 		return objsList;
 	}
 
+	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByDistDesc(int edgeId) {
+		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
+		if (objsList != null) {
+			Collections.sort(objsList, RoadObject.DistanceComparator);
+			Collections.reverse(objsList);
+		}
+		return objsList;
+	}
+	
 	public ArrayList<RoadObject> getAllObjectsOnEdgeSortedByRating(int edgeId) {
 		ArrayList<RoadObject> objsList = new ArrayList<RoadObject>(getAllObjectsOnGivenEdge(edgeId));
 		if (objsList != null) {
@@ -999,7 +1008,7 @@ public class Graph {
 	// All Objects - Get Nearest Object To Start Node
 	public RoadObject getNearestObjectToStartNodeOnEdge(int edgeId) {
 		if (getNumberOfObjectsOnGivenEdge(edgeId) > 0) {
-			return getAllObjectsOnEdgeSortedByDist(edgeId).get(0);
+			return getAllObjectsOnEdgeSortedByDistAsc(edgeId).get(0);
 		}
 		return null;
 	}
@@ -1014,7 +1023,7 @@ public class Graph {
 	public RoadObject getFarthestObjectFromStartNodeOnEdge(int edgeId) {
 		int size = getNumberOfObjectsOnGivenEdge(edgeId);
 		if (size > 0) {
-			return getAllObjectsOnEdgeSortedByDist(edgeId).get(size - 1);
+			return getAllObjectsOnEdgeSortedByDistAsc(edgeId).get(size - 1);
 		}
 		return null;
 	}
@@ -1270,8 +1279,18 @@ public class Graph {
 		ArrayList<RoadObject> allObjectsOfNodeCluster = new ArrayList<RoadObject>();
 
 		for (int i = 0; i < nodeCluster.size() - 1; i++) {
-			int edgeId = getEdgeId(i, i + 1);
-			ArrayList<RoadObject> allObjectsOnEdge = getAllObjectsOnEdgeSortedByDist(edgeId);
+			int edgeId = getEdgeId(nodeCluster.get(i), nodeCluster.get(i + 1));
+			if (edgeId == 66) { 
+				System.out.println();
+			}
+			ArrayList<RoadObject> allObjectsOnEdge = null;
+			if(isStartNode(nodeCluster.get(i),edgeId) ) { 
+				allObjectsOnEdge = getAllObjectsOnEdgeSortedByDistAsc(edgeId);
+			}
+			else { 
+				allObjectsOnEdge = getAllObjectsOnEdgeSortedByDistDesc(edgeId);
+			}
+			
 			allObjectsOfNodeCluster.addAll(allObjectsOnEdge);
 		}
 

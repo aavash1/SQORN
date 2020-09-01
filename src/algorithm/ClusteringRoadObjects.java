@@ -199,7 +199,7 @@ public class ClusteringRoadObjects {
 				// for testing
 				allObjectsOfNodeCluster.addAll(m_graph.getAllObjectsIdOnGivenEdge(edgeId));
 
-				ArrayList<RoadObject> allObjectsOnEdge = m_graph.getAllObjectsOnEdgeSortedByDist(edgeId);
+				ArrayList<RoadObject> allObjectsOnEdge = m_graph.getAllObjectsOnEdgeSortedByDistAsc(edgeId);
 				for (int j = 0; j < allObjectsOnEdge.size(); j++) {
 
 					if (!sameObjCluster) {
@@ -307,31 +307,45 @@ public class ClusteringRoadObjects {
 					.returnAllObjectsOnNodeCluster(m_nodeClusters.get(nodeClusterIndex));
 
 			if (allObjectsOfNodeCluster.size() > 0) {
-				boolean sameObjCluster = false;
-				LinkedList<Integer> objectCluster = null;
-				int size = allObjectsOfNodeCluster.size();
-				for (int i = 0; i < size - 1; i++) {
+				if (allObjectsOfNodeCluster.size() > 1) {
+					boolean sameObjCluster = false;
+					LinkedList<Integer> objectCluster = null;
+					int size = allObjectsOfNodeCluster.size();
+					for (int i = 0; i < size - 1; i++) {
 
-					if (!sameObjCluster) {
-						objectCluster = new LinkedList<Integer>();
-					}
-					if (allObjectsOfNodeCluster.get(i).getType() == typeOfClusteredObjects) {
-
-						objectCluster.add(allObjectsOfNodeCluster.get(i).getObjectId());
-					}
-
-					if (allObjectsOfNodeCluster.get(i + 1).getType() == typeOfClusteredObjects) {
-						sameObjCluster = true;
-					} else {
-						if (objectCluster.size() == 1) {
-							queriedObjCounter++;
-						} else if (objectCluster.size() == 2) {
-							queriedObjCounter += 2;
-						} else if (objectCluster.size() > 2) {
-							queriedObjCounter += 2;
-							numberOfContributingClusters++;
+						if (!sameObjCluster) {
+							objectCluster = new LinkedList<Integer>();
 						}
-						sameObjCluster = false;
+						if (allObjectsOfNodeCluster.get(i).getType() == typeOfClusteredObjects) {
+
+							objectCluster.add(allObjectsOfNodeCluster.get(i).getObjectId());
+						}
+
+						if (allObjectsOfNodeCluster.get(i + 1).getType() == typeOfClusteredObjects) {
+							sameObjCluster = true;
+						} else {
+							if (objectCluster.size() == 1) {
+								queriedObjCounter++;
+							} else if (objectCluster.size() == 2) {
+								queriedObjCounter += 2;
+							} else if (objectCluster.size() > 2) {
+								queriedObjCounter += 2;
+								numberOfContributingClusters++;
+							}
+							sameObjCluster = false;
+							if (objectCluster.size() > 0) {
+								m_objectIdClusters.put(objectClusterIndex, objectCluster);
+								m_clusteredObjects.addAll(objectCluster);
+								objectClusterIndex++;
+							}
+						}
+					}
+					if (allObjectsOfNodeCluster.get(size - 1).getType() == typeOfClusteredObjects
+							&& objectCluster != null) {
+
+						objectCluster.add(allObjectsOfNodeCluster.get((size - 1)).getObjectId());
+					}
+					if (sameObjCluster) {
 						if (objectCluster.size() > 0) {
 							m_objectIdClusters.put(objectClusterIndex, objectCluster);
 							m_clusteredObjects.addAll(objectCluster);
@@ -339,12 +353,12 @@ public class ClusteringRoadObjects {
 						}
 					}
 				}
-				if (allObjectsOfNodeCluster.get(size - 1).getType() == typeOfClusteredObjects && objectCluster != null) {
-
-					objectCluster.add(allObjectsOfNodeCluster.get((size - 1)).getObjectId());
-				}
-				if (sameObjCluster) {
-					if (objectCluster.size() > 0) {
+				else { 
+					// if there is only 1 RoadObject on NodeCluster					
+					if (allObjectsOfNodeCluster.get(0).getType() == typeOfClusteredObjects) {
+						LinkedList<Integer> objectCluster = new LinkedList<Integer>();
+						objectCluster.add(allObjectsOfNodeCluster.get(0).getObjectId());
+						
 						m_objectIdClusters.put(objectClusterIndex, objectCluster);
 						m_clusteredObjects.addAll(objectCluster);
 						objectClusterIndex++;
