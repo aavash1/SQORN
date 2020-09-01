@@ -107,7 +107,6 @@ public class ClusteringRoadObjects {
 
 		int numberOfContributingClusters = 0;
 		int queriedObjCounter = 0;
-		
 
 		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
 			LinkedList<Integer> objectCluster = new LinkedList<Integer>();
@@ -173,7 +172,7 @@ public class ClusteringRoadObjects {
 		int queriedObjCounter = 0;
 
 		int objectClusterIndex = 0;
-		
+
 		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
 
 			LinkedList<Integer> allObjectsOfNodeCluster = new LinkedList<Integer>();
@@ -184,10 +183,10 @@ public class ClusteringRoadObjects {
 				int edgeId = m_graph.getEdgeId(m_nodeClusters.get(nodeClusterIndex).get(i),
 						m_nodeClusters.get(nodeClusterIndex).get(i + 1));
 
-				if(edgeId == 51) { 
+				if (edgeId == 14) {
 					System.out.println();
 				}
-				
+
 				// 1) get 1st query object from start of node cluster,
 				// 2) add it to new object cluster
 				// 3) go for next object (until last object in node cluster)
@@ -200,8 +199,6 @@ public class ClusteringRoadObjects {
 				// for testing
 				allObjectsOfNodeCluster.addAll(m_graph.getAllObjectsIdOnGivenEdge(edgeId));
 
-				
-				
 				ArrayList<RoadObject> allObjectsOnEdge = m_graph.getAllObjectsOnEdgeSortedByDist(edgeId);
 				for (int j = 0; j < allObjectsOnEdge.size(); j++) {
 
@@ -238,8 +235,7 @@ public class ClusteringRoadObjects {
 							}
 
 						}
-					}
-					else { 
+					} else {
 						// last object on Edge
 						if (objectCluster.size() == 1) {
 							queriedObjCounter++;
@@ -249,34 +245,112 @@ public class ClusteringRoadObjects {
 							queriedObjCounter += 2;
 							numberOfContributingClusters++;
 						}
-						
+
 						if (objectCluster.size() > 0) {
 							m_objectIdClusters.put(objectClusterIndex, objectCluster);
 							m_clusteredObjects.addAll(objectCluster);
 
 							// for testing
 							m_allObjectsOnNodeCluster.put(nodeClusterIndex, allObjectsOfNodeCluster);
-							
 
 						}
 					}
 
 				}
-				//sameObjCluster = false;
+				// sameObjCluster = false;
 			}
 			objectClusterIndex++;
 			//
-//				if (typeOfClusteredObjects) {
-//					objectsOnEdge = m_graph.getTrueObjectsIdOnGivenEdge(edgeId);
-//				} else {
-//					objectCluster.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
-//				}
-//				if (!objectsOnEdge.isEmpty()) {
-//					objectCluster.addAll(objectsOnEdge);
-//					m_clusteredObjects.addAll(objectCluster);
-//				}
+			// if (typeOfClusteredObjects) {
+			// objectsOnEdge = m_graph.getTrueObjectsIdOnGivenEdge(edgeId);
+			// } else {
+			// objectCluster.addAll(m_graph.getFalseObjectsIdOnGivenEdge(edgeId));
+			// }
+			// if (!objectsOnEdge.isEmpty()) {
+			// objectCluster.addAll(objectsOnEdge);
+			// m_clusteredObjects.addAll(objectCluster);
+			// }
 			//
 
+		}
+
+		System.out.println();
+		System.out.println(
+				"Objects clustering completed. Total number of Objects-Clusters: " + m_objectIdClusters.size());
+		// double diffPerc = 100.0-queriedObjCounter/m_clusteredObjects.size()*100.0;
+		// System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ",
+		// Actual Quired Objects: " + queriedObjCounter + "; " + diffPerc + "%");
+		System.out.println(
+				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter);
+		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
+		return m_objectIdClusters;
+
+	}
+
+	public Map<Integer, LinkedList<Integer>> clusterWithIndex3(Graph gr, Map<Integer, LinkedList<Integer>> nodeClusters,
+			boolean typeOfClusteredObjects) {
+
+		initialize();
+
+		m_graph = gr;
+		m_nodeClusters = nodeClusters;
+		m_typeOfClusteredObjects = typeOfClusteredObjects;
+
+		int numberOfContributingClusters = 0;
+		int queriedObjCounter = 0;
+
+		int objectClusterIndex = 0;
+
+		for (Integer nodeClusterIndex : m_nodeClusters.keySet()) {
+
+			ArrayList<RoadObject> allObjectsOfNodeCluster = m_graph
+					.returnAllObjectsOnNodeCluster(m_nodeClusters.get(nodeClusterIndex));
+
+			if (allObjectsOfNodeCluster.size() > 0) {
+				boolean sameObjCluster = false;
+				LinkedList<Integer> objectCluster = null;
+				int size = allObjectsOfNodeCluster.size();
+				for (int i = 0; i < size - 1; i++) {
+
+					if (!sameObjCluster) {
+						objectCluster = new LinkedList<Integer>();
+					}
+					if (allObjectsOfNodeCluster.get(i).getType() == typeOfClusteredObjects) {
+
+						objectCluster.add(allObjectsOfNodeCluster.get(i).getObjectId());
+					}
+
+					if (allObjectsOfNodeCluster.get(i + 1).getType() == typeOfClusteredObjects) {
+						sameObjCluster = true;
+					} else {
+						if (objectCluster.size() == 1) {
+							queriedObjCounter++;
+						} else if (objectCluster.size() == 2) {
+							queriedObjCounter += 2;
+						} else if (objectCluster.size() > 2) {
+							queriedObjCounter += 2;
+							numberOfContributingClusters++;
+						}
+						sameObjCluster = false;
+						if (objectCluster.size() > 0) {
+							m_objectIdClusters.put(objectClusterIndex, objectCluster);
+							m_clusteredObjects.addAll(objectCluster);
+							objectClusterIndex++;
+						}
+					}
+				}
+				if (allObjectsOfNodeCluster.get(size - 1).getType() == typeOfClusteredObjects && objectCluster != null) {
+
+					objectCluster.add(allObjectsOfNodeCluster.get((size - 1)).getObjectId());
+				}
+				if (sameObjCluster) {
+					if (objectCluster.size() > 0) {
+						m_objectIdClusters.put(objectClusterIndex, objectCluster);
+						m_clusteredObjects.addAll(objectCluster);
+						objectClusterIndex++;
+					}
+				}
+			}
 		}
 
 		System.out.println();

@@ -224,7 +224,7 @@ public class ClusteringRoadObjectsNewManualTest {
 		
 		RoadObject rObj21= new RoadObject();
 		rObj21.setObjId(251);
-		rObj21.setDistanceFromStartNode(3.8);
+		rObj21.setDistanceFromStartNode(7.8);
 		rObj21.setType(false);
 		gr.addObjectOnEdge(25, rObj21);
 		
@@ -463,7 +463,7 @@ public class ClusteringRoadObjectsNewManualTest {
 		
 		RoadObject rObj60= new RoadObject();
 		rObj60.setObjId(252);
-		rObj60.setDistanceFromStartNode(7.8);
+		rObj60.setDistanceFromStartNode(3.8);
 		rObj60.setType(true);
 		gr.addObjectOnEdge(25, rObj60);
 		
@@ -563,7 +563,7 @@ public class ClusteringRoadObjectsNewManualTest {
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		clusteringObjects.clusterWithIndex2(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.clusterWithIndex3(gr, clusteringNodes.cluster(gr), true);
 		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), true);
 		//clusteringNodes.printNodeClusters();
 		clusteringObjects.printRoadObjectClusters();

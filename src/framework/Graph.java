@@ -395,26 +395,28 @@ public class Graph {
 		ArrayList<Integer> adjNodesToEndNode = new ArrayList<Integer>();
 
 		adjNodesToStartNode = getAdjNodeIds(startNode);
-		//adjNodesToStartNode.remove(endNode);
+		// adjNodesToStartNode.remove(endNode);
 		adjNodesToEndNode = getAdjNodeIds(endNode);
-		//adjNodesToEndNode.remove(startNode);
-		
+		// adjNodesToEndNode.remove(startNode);
+
 		for (Integer adjNode : adjNodesToStartNode) {
-			if(adjNode == endNode) continue;
+			if (adjNode == endNode)
+				continue;
 			int newAdjEdgeId1 = getEdgeId(adjNode, startNode);
 			if (newAdjEdgeId1 > 0)
-				edgeIdList.add(newAdjEdgeId1);			
+				edgeIdList.add(newAdjEdgeId1);
 
 		}
-		for (Integer adjNode : adjNodesToEndNode) {		
-			if(adjNode == startNode) continue;
+		for (Integer adjNode : adjNodesToEndNode) {
+			if (adjNode == startNode)
+				continue;
 			int newAdjEdgeId2 = getEdgeId(endNode, adjNode);
 			if (newAdjEdgeId2 > 0)
 				edgeIdList.add(newAdjEdgeId2);
 		}
 		// removing source edge itself (twice)
-		//edgeIdList.remove(edgeIdList.indexOf(edgeId));
-		//edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
+		// edgeIdList.remove(edgeIdList.indexOf(edgeId));
+		// edgeIdList.remove(edgeIdList.lastIndexOf(edgeId));
 		return edgeIdList;
 	}
 
@@ -618,8 +620,8 @@ public class Graph {
 		System.out.println("Total number of false objects: " + m_totalNumberOfFalseObjects);
 		System.out.println("Total number of objects: " + generatedObjCounter);
 	}
-	
-	public void removeObjectsOnEdges() { 
+
+	public void removeObjectsOnEdges() {
 		m_objectsOnEdges.clear();
 		m_totalNumberOfObjects = 0;
 		m_totalNumberOfTrueObjects = 0;
@@ -1260,6 +1262,21 @@ public class Graph {
 	////////////////////////////////////// Road Object related
 	////////////////////////////////////// methods]////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////// Node cluster related
+	////////////////////////////////////// methods]////////////////////////////////
+	public ArrayList<RoadObject> returnAllObjectsOnNodeCluster(LinkedList<Integer> nodeCluster) {
+
+		ArrayList<RoadObject> allObjectsOfNodeCluster = new ArrayList<RoadObject>();
+
+		for (int i = 0; i < nodeCluster.size() - 1; i++) {
+			int edgeId = getEdgeId(i, i + 1);
+			ArrayList<RoadObject> allObjectsOnEdge = getAllObjectsOnEdgeSortedByDist(edgeId);
+			allObjectsOfNodeCluster.addAll(allObjectsOnEdge);
+		}
+
+		return allObjectsOfNodeCluster;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////// Currently not used
