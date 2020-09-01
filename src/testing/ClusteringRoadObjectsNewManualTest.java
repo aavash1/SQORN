@@ -550,23 +550,22 @@ public class ClusteringRoadObjectsNewManualTest {
 		rObj74.setDistanceFromStartNode(11.9);
 		rObj74.setType(true);
 		gr.addObjectOnEdge(66, rObj74);
-			
+		
 		RoadObject rObj75= new RoadObject();
-		rObj75.setObjId(662);
+		rObj75.setObjId(342);
 		rObj75.setDistanceFromStartNode(10.2);
 		rObj75.setType(true);
 		gr.addObjectOnEdge(34, rObj75);
 
-//		ANNNaive nAnn = new ANNNaive();
-//		nAnn.compute(gr);
-//		nAnn.printNearestNeighborSets();
-
+		gr.printObjectsOnEdges();
+	
+		
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
 		clusteringObjects.clusterWithIndex2(gr, clusteringNodes.cluster(gr), true);
-		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), false);
-		clusteringNodes.printNodeClusters();
+		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), true);
+		//clusteringNodes.printNodeClusters();
 		clusteringObjects.printRoadObjectClusters();
 
 	}
