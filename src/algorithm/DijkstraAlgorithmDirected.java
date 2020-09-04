@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import framework.*;
-public class DijkstraAlgorithm extends RoutingAlgorithm {
+public class DijkstraAlgorithmDirected extends RoutingAlgorithm {
 
 	 	private final List<Node> nodes;
 	    private final List<Edge> edges;
@@ -19,7 +19,7 @@ public class DijkstraAlgorithm extends RoutingAlgorithm {
 	    private Map<Node, Node> predecessors;
 	    private Map<Node, Integer> distance;
 
-	    public DijkstraAlgorithm(Graph graph) {
+	    public DijkstraAlgorithmDirected(Graph graph) {
 	        // create a copy of the array so that we can operate on this array
 	        this.nodes = new ArrayList<Node>(graph.getNodesWithInfo());
 	        this.edges = new ArrayList<Edge>(graph.getEdgesWithInfo());
