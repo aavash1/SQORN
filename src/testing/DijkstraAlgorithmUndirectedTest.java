@@ -17,7 +17,6 @@ public class DijkstraAlgorithmUndirectedTest {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("-----Test of Dijkstra Algorithm-----");
 		String generatedDatasetForDijkstra1 = "Datasets/TextFiles/DatasetForDijkstra1.txt";
-		//Graph roadNetwork4 = UtilsManagment.readMergedObjectFile(generatedDatasetForDijkstra1);
 		Graph roadNetwork4 = UtilsManagment.readEdgeFileReturnGraph(generatedDatasetForDijkstra1);
 		roadNetwork4.printGraph();
 
@@ -32,7 +31,6 @@ public class DijkstraAlgorithmUndirectedTest {
 		System.out.println(nodeList.size());
 		System.out.println(nodeList);
 		System.err.println("");
-	//	DijkstraAlgorithmUndirected dijkstra = new DijkstraAlgorithmUndirected(roadNetwork4);
 		DijkstraAlgorithmUndirected dijkstra = new DijkstraAlgorithmUndirected(roadNetwork4);
 
 		ArrayList<LinkedList<Node>> listofPath = new ArrayList<LinkedList<Node>>();
@@ -43,11 +41,11 @@ public class DijkstraAlgorithmUndirectedTest {
 			int destinationId = nodeList.get(j);
 			// System.out.println("dest id when j at "+j+" is : "+destinationId);
 
-			dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
+			dijkstra.execute(roadNetwork4.getNode(sourceId));
 			if(destinationId==3) {
 				System.out.println();
 			}
-			listofNodes = dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
+			listofNodes = dijkstra.getPath(roadNetwork4.getNode(destinationId));
 			listofPath.add(listofNodes);
 
 		}
@@ -61,11 +59,6 @@ public class DijkstraAlgorithmUndirectedTest {
 			}System.out.println();
 
 		}
-		// dijkstra.execute(roadNetwork4.getNodesWithInfo().get(sourceId));
-		// LinkedList<Node> path =
-		// dijkstra.getPath(roadNetwork4.getNodesWithInfo().get(destinationId));
-
-		// assertNotNull(path); // assertTrue(path.size() > 0);
 
 	}
 
