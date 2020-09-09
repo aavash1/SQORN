@@ -488,7 +488,6 @@ public class Graph {
 		} else {
 			Map<Integer, Double> pois = new HashMap<>();
 			pois.put(objId, distFromStartNode);
-
 			m_objectsOnMap.put(edge, pois);
 		}
 		return true;

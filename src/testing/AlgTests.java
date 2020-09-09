@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import algorithm.AStarAlgorithm;
-import algorithm.DijkstraAlgorithm;
+import algorithm.DijkstraAlgorithmDirected;
 import framework.Graph;
 import framework.Node;
 import framework.UtilsManagment;
@@ -40,7 +40,7 @@ public class AlgTests {
 		// Test of Dijkstra and A* algorithms on California dataset
 		// ----------------------------------------------------------
 		System.out.println("Dijkstra algorithm on California dataset");
-		DijkstraAlgorithm dijkAlgCal = new DijkstraAlgorithm(calGraph);
+		DijkstraAlgorithmDirected dijkAlgCal = new DijkstraAlgorithmDirected(calGraph);
 		
 		Node sourceNodeForDijkAlgCal, destNodeForDijkAlgCal;
 		sourceNodeForDijkAlgCal = calNodesInfo.get(10);		
