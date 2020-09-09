@@ -30,7 +30,10 @@ public class Graph {
 
 	// Use this when read Object Dataset from file
 	// m_objectsOnMap: Map < Map<StartNode, EndNode>, Map<ObjID, DistFromSN> >
-	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnMap = new HashMap<>();
+	private Map<Map<Integer, Integer>, Map<Integer, Double>> m_objectsOnMap = new HashMap<>();	
+	
+	// m_objectsOnMap: Map < Edge Id, Map<ObjID, DistFromSN> >
+	private Map<Integer, Map<Integer, Double>> m_objectsOnMap2 = new HashMap<Integer, Map<Integer, Double>>();
 
 	private int m_totalNumberOfObjects = 0;
 	private int m_totalNumberOfTrueObjects = 0;
@@ -40,6 +43,7 @@ public class Graph {
 									// variable in RandomObjectGenerator class
 
 	public Graph() {
+		
 	}
 
 	public Graph(String name) {
