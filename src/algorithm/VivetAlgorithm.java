@@ -41,12 +41,12 @@ public class VivetAlgorithm {
 		
 		dijkstraAlgorithm.execute(virtualGraph.getNode(virtualNodeId));				
 		
-		ArrayList<LinkedList<Node>> listofPath = new ArrayList<LinkedList<Node>>();
+		//ArrayList<LinkedList<Node>> listofPath = new ArrayList<LinkedList<Node>>();
 		LinkedList<Node> listofNodes = new LinkedList<Node>();
 		
 		ArrayList<Integer> nodeList = new ArrayList<Integer>();
 		for (int i = 0; i < virtualGraph.getNodesWithInfo().size(); i++) {
-			if (virtualGraph.getNodesWithInfo().get(i).getNodeId() != 11) {
+			if (virtualGraph.getNodesWithInfo().get(i).getNodeId() != virtualNodeId) {
 				nodeList.add(virtualGraph.getNodesWithInfo().get(i).getNodeId());
 			}
 		}
@@ -61,10 +61,13 @@ public class VivetAlgorithm {
 			// System.out.println("dest id when j at "+j+" is : "+destinationId);
 
 			listofNodes = dijkstraAlgorithm.getPath(virtualGraph.getNode(destinationId));
-			listofPath.add(listofNodes);
-			
-			// precomputationTable <PotentialQueryObj, PotentialDataObj>
-			populatePrecimputationTable(listofNodes.get(listofNodes.size()-1).getNodeId(), listofNodes.get(1).getNodeId());			
+			//listofPath.add(listofNodes);
+			if (listofNodes != null) {
+				if (listofNodes.size() > 2) {
+					// precomputationTable <PotentialQueryObj, PotentialDataObj>
+					populatePrecimputationTable(listofNodes.get(listofNodes.size()-1).getNodeId(), listofNodes.get(1).getNodeId());		
+				}					
+			}			
 		}
 		
 //		System.out.println("List of shortest paths to every node from virtual node: ");
@@ -85,14 +88,16 @@ public class VivetAlgorithm {
 	
 
 	public void compute(Graph graph) {
-
+		long startTimePrecompute = System.nanoTime();
 		precompute(graph);
-
-		printPrecomputationTable();
-		
+		long precomputeTime = System.nanoTime() - startTimePrecompute;
+		double precomputeTimeD = (double) precomputeTime / 1000000000.0;
+		System.out.println("Time of precomputation for Vivet:  " + precomputeTimeD);
+		//printPrecomputationTable();
+		System.err.println("Precomputation is done! Size of table is " + precomputationTable.size());
 		lookup();
 		
-		printNearestNeighborSets();
+		//printNearestNeighborSets();
 	}
 
 	public Map<Integer, Integer> lookup() {		

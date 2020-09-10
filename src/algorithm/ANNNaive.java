@@ -135,7 +135,8 @@ public class ANNNaive {
 		return graphLoadingTimeDNaive;
 	}
 
-	public Map<Integer, Integer> compute(Graph gr) {
+	public Map<Integer, Integer> compute(
+Graph gr) {
 		System.out.println();
 		System.out.println("Naive ANN is running ... ");
 		this.m_graph = gr;
