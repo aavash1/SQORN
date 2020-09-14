@@ -41,7 +41,7 @@ public class VivetAlgorithm {
 		
 		dijkstraAlgorithm.execute(virtualGraph.getNode(virtualNodeId));				
 		
-		//ArrayList<LinkedList<Node>> listofPath = new ArrayList<LinkedList<Node>>();
+		ArrayList<LinkedList<Node>> listofPath = new ArrayList<LinkedList<Node>>();
 		LinkedList<Node> listofNodes = new LinkedList<Node>();
 		
 		ArrayList<Integer> nodeList = new ArrayList<Integer>();
@@ -61,7 +61,7 @@ public class VivetAlgorithm {
 			// System.out.println("dest id when j at "+j+" is : "+destinationId);
 
 			listofNodes = dijkstraAlgorithm.getPath(virtualGraph.getNode(destinationId));
-			//listofPath.add(listofNodes);
+			listofPath.add(listofNodes);
 			if (listofNodes != null) {
 				if (listofNodes.size() > 2) {
 					// precomputationTable <PotentialQueryObj, PotentialDataObj>
@@ -70,17 +70,17 @@ public class VivetAlgorithm {
 			}			
 		}
 		
-//		System.out.println("List of shortest paths to every node from virtual node: ");
-//		for (int i = 0; i < listofPath.size(); i++) {
-//
-//			if (listofPath.get(i) != null) {
-//				for (Node vertex : listofPath.get(i)) {
-//					System.out.print(vertex.getNodeId()+ " ");
-//					
-//				}
-//			}
-//			System.out.println();
-//		}
+		System.out.println("List of shortest paths to every node from virtual node: ");
+		for (int i = 0; i < listofPath.size(); i++) {
+
+			if (listofPath.get(i) != null) {
+				for (Node vertex : listofPath.get(i)) {
+					System.out.print(vertex.getNodeId()+ " ");
+					
+				}
+			}
+			System.out.println();
+		}
 		
 		
 	}
@@ -93,11 +93,11 @@ public class VivetAlgorithm {
 		long precomputeTime = System.nanoTime() - startTimePrecompute;
 		double precomputeTimeD = (double) precomputeTime / 1000000000.0;
 		System.out.println("Time of precomputation for Vivet:  " + precomputeTimeD);
-		//printPrecomputationTable();
+		printPrecomputationTable();
 		System.err.println("Precomputation is done! Size of table is " + precomputationTable.size());
 		lookup();
 		
-		//printNearestNeighborSets();
+		printNearestNeighborSets();
 	}
 
 	public Map<Integer, Integer> lookup() {		

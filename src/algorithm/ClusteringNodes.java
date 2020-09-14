@@ -21,6 +21,7 @@ public class ClusteringNodes {
 	private LinkedList<Integer> m_nonClearedNodeQueue = new LinkedList<Integer>();
 	private Set<Integer> m_visitedEdges = new HashSet<Integer>();
 	private Set<Integer> m_clusteredNodes = new HashSet<Integer>();
+	private int m_numberOfTerminalNodes=0;
 
 	private void initialize() {
 		m_nodeClusters.clear();
@@ -98,6 +99,7 @@ public class ClusteringNodes {
 					nodeCluster.add(adjNode);
 					m_clusteredNodes.add(adjNode);
 					m_clusterCounter++;
+					m_numberOfTerminalNodes++;
 
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
 					// System.out.println("New cluster:");
@@ -187,6 +189,10 @@ public class ClusteringNodes {
 		int totalNumberOfNodeClusters = 0;
 		totalNumberOfNodeClusters += m_clusterCounter;
 		return totalNumberOfNodeClusters;
+	}
+	
+	public int getNumOfTerminalNodes() {
+		return m_numberOfTerminalNodes;
 	}
 
 	public void printNodeClusters() {

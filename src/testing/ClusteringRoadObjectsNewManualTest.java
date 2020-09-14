@@ -563,10 +563,12 @@ public class ClusteringRoadObjectsNewManualTest {
 		ClusteringNodes clusteringNodes = new ClusteringNodes();
 
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		clusteringObjects.clusterWithIndex3(gr, clusteringNodes.cluster(gr), true);
+		clusteringObjects.clusterWithIndex4(gr, clusteringNodes.cluster(gr), true);
 		// clusteringObjects.clusterWithIndex(gr, clusteringNodes.cluster(gr), true);
-		//clusteringNodes.printNodeClusters();
+		
 		clusteringObjects.printRoadObjectClusters();
+		clusteringNodes.printNodeClusters();
+		System.out.println(clusteringObjects.getNodeClusterAndObjectInfo());
 
 	}
 
