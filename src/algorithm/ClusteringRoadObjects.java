@@ -25,7 +25,12 @@ public class ClusteringRoadObjects {
 	private Map<Integer, LinkedList<Integer>> m_allObjectsOnNodeCluster = new HashMap<Integer, LinkedList<Integer>>();
 	
 	//to store the information of ObjectCluster and Node Cluster
+	// used in clusterWithIndex3()
 	private Map<Integer, ArrayList<Integer>> m_nodeClusterObjectClusterInfo=new HashMap<Integer, ArrayList<Integer>>();
+	
+	//to store the information of ObjectCluster and Node Cluster
+	// used in clusterWithIndex4()
+	private Map<Integer, Integer> m_objectClusterNodeClusterInfo=new HashMap<Integer,Integer>();
 
 	boolean m_typeOfClusteredObjects;
 
@@ -286,7 +291,7 @@ public class ClusteringRoadObjects {
 		// System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ",
 		// Actual Quired Objects: " + queriedObjCounter + "; " + diffPerc + "%");
 		System.out.println(
-				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter);
+				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Queried Objects: " + queriedObjCounter);
 		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
 		return m_objectIdClusters;
 
@@ -312,6 +317,8 @@ public class ClusteringRoadObjects {
 					.returnAllObjectsOnNodeCluster(m_nodeClusters.get(nodeClusterIndex));
 
 			if (allObjectsOfNodeCluster.size() > 0) {
+				
+				ArrayList<Integer> objectClusterIdList=new ArrayList<Integer>();
 				
 				if (allObjectsOfNodeCluster.size() > 1) {
 					boolean sameObjCluster = false;
@@ -345,6 +352,11 @@ public class ClusteringRoadObjects {
 							
 								m_objectIdClusters.put(objectClusterIndex, objectCluster);
 								m_clusteredObjects.addAll(objectCluster);
+								
+								//for reference of nodecluster and objectcluster
+								objectClusterIdList.add(objectClusterIndex);
+								m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
+								
 								objectClusterIndex++;
 							}
 						}
@@ -360,6 +372,11 @@ public class ClusteringRoadObjects {
 					
 							m_objectIdClusters.put(objectClusterIndex, objectCluster);
 							m_clusteredObjects.addAll(objectCluster);
+							
+							//for reference of nodecluster and objectcluster
+							objectClusterIdList.add(objectClusterIndex);
+							m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
+							
 							objectClusterIndex++;
 						}
 					}
@@ -373,6 +390,10 @@ public class ClusteringRoadObjects {
 				
 						m_objectIdClusters.put(objectClusterIndex, objectCluster);
 						m_clusteredObjects.addAll(objectCluster);
+						
+						//for reference of nodecluster and objectcluster
+						objectClusterIdList.add(objectClusterIndex);
+						m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
 					
 						objectClusterIndex++;
 					}
@@ -387,7 +408,7 @@ public class ClusteringRoadObjects {
 		// System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ",
 		// Actual Quired Objects: " + queriedObjCounter + "; " + diffPerc + "%");
 		System.out.println(
-				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter);
+				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Queried Objects: " + queriedObjCounter);
 		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
 		return m_objectIdClusters;
 
@@ -448,10 +469,9 @@ public class ClusteringRoadObjects {
 							sameObjCluster = false;
 							if (objectCluster.size() > 0) {
 								m_objectIdClusters.put(objectClusterIndex, objectCluster);
-								m_clusteredObjects.addAll(objectCluster);
+								m_clusteredObjects.addAll(objectCluster);							
 								
-								objectClusterIdList.add(objectClusterIndex);
-								m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
+								m_objectClusterNodeClusterInfo.put(objectClusterIndex, nodeClusterIndex);
 								objectClusterIndex++;
 							}
 						}
@@ -468,9 +488,7 @@ public class ClusteringRoadObjects {
 							m_objectIdClusters.put(objectClusterIndex, objectCluster);
 							m_clusteredObjects.addAll(objectCluster);
 							
-							//for reference of nodecluster and objectcluster
-							objectClusterIdList.add(objectClusterIndex);
-							m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
+							m_objectClusterNodeClusterInfo.put(objectClusterIndex, nodeClusterIndex);
 							
 							objectClusterIndex++;
 						}
@@ -486,10 +504,7 @@ public class ClusteringRoadObjects {
 						m_objectIdClusters.put(objectClusterIndex, objectCluster);
 						m_clusteredObjects.addAll(objectCluster);
 						
-						//for reference of nodecluster and objectcluster
-						
-						objectClusterIdList.add(objectClusterIndex);
-						m_nodeClusterObjectClusterInfo.put(nodeClusterIndex, objectClusterIdList);
+						m_objectClusterNodeClusterInfo.put(objectClusterIndex, nodeClusterIndex);
 					
 						objectClusterIndex++;
 					}
@@ -504,7 +519,7 @@ public class ClusteringRoadObjects {
 		// System.out.println("Total Query Objs: " + m_clusteredObjects.size() + ",
 		// Actual Quired Objects: " + queriedObjCounter + "; " + diffPerc + "%");
 		System.out.println(
-				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Quired Objects: " + queriedObjCounter);
+				"Total Query Objs: " + m_clusteredObjects.size() + ", Actual Queried Objects: " + queriedObjCounter);
 		System.out.println("Number of Contributing Object clusters: " + numberOfContributingClusters);
 		return m_objectIdClusters;
 
@@ -515,6 +530,9 @@ public class ClusteringRoadObjects {
 		return m_nodeClusterObjectClusterInfo;
 	}
 
+	public Map<Integer,Integer> getObjectClusterNodeClusterInfo(){
+		return m_objectClusterNodeClusterInfo;
+	}
 
 	public int getTotalNumberOfObjectClusters() {
 		int totalNumberOfObjectClusters = 0;

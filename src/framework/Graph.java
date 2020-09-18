@@ -944,6 +944,15 @@ public class Graph {
 			return getEdgeDistance(getStartNodeIdOfEdge(edgeId), getEndNodeIdOfEdge(edgeId)) - distanceFromStartNode;
 		}
 	}
+	
+	public double getDistanceFromNodeToGivenObj(int sourceNode, int objId) {
+		int edgeId= getEdgeIdOfRoadObject(objId);
+		RoadObject obj = getRoadObjectOnEdge(edgeId, objId);
+		double distanceFromStartNode=obj.getDistanceFromStartNode();
+		double remainingDistance=getEdgeDistance(edgeId)-distanceFromStartNode;
+		
+		return 0;
+	}
 
 	public double getDistanceFromNodeToGivenObjOnSameEdge(int edgeId, int sourceNode, int objId) {
 		RoadObject obj = getRoadObjectOnEdge(edgeId, objId);

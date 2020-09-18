@@ -229,11 +229,11 @@ public class ANNEvaluationManualDatasetHeuristicTest {
 		rObj32.setType(true);
 		gr.addObjectOnEdge(17, rObj32);
 
-		gr.printObjectsOnEdges();
+		//gr.printObjectsOnEdges();
 
 		ANNNaive annNaive = new ANNNaive();
 		ANNClusteredOptimizedWithHeuristic annClustered = new ANNClusteredOptimizedWithHeuristic();
-
+		//ANNClustered annClustered = new ANNClustered();
 		System.out.println();
 
 		// long startTimeNaive = System.nanoTime();
@@ -245,12 +245,14 @@ public class ANNEvaluationManualDatasetHeuristicTest {
 		// System.out.println("Time to compute Naive ANN: " + graphLoadingTimeDNaive);
 
 		long startTimeClustered = System.nanoTime();
-	//annClustered.computeWithoutTime(gr, true);
-	annClustered.computeWithTime(gr, true);
+	//	 annClustered.computeWithoutTime(gr, true);
+		 //annClustered.computeWithTime(gr, true);
+		annClustered.computeWithTimeAndHeuristic(gr, true);
 		long graphLoadingTimeClustered = System.nanoTime() - startTimeClustered;
 		double graphLoadingTimeDClustered = (double) graphLoadingTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + graphLoadingTimeDClustered);
+		//System.out.println("Time to compute Clustered ANN with Heuristic: " + graphLoadingTimeDClustered);
 
 		//
 		// UtilsManagment um = new UtilsManagment();

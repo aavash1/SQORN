@@ -98,10 +98,11 @@ public class ClusteringNodes {
 					m_clusteredNodes.add(currentNode);
 					nodeCluster.add(adjNode);
 					m_clusteredNodes.add(adjNode);
-					m_clusterCounter++;
+					//m_clusterCounter++;  // for non-fixed version
 					m_numberOfTerminalNodes++;
 
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
+					m_clusterCounter++; 
 					// System.out.println("New cluster:");
 					// System.out.println(nodeCluster);
 					// System.out.println("All current clusters (" + m_clusterCounter + ") :");
@@ -123,8 +124,9 @@ public class ClusteringNodes {
 					m_clusteredNodes.add(currentNode);
 					nodeCluster.add(adjNode);
 					m_clusteredNodes.add(adjNode);
-					m_clusterCounter++;
+					//m_clusterCounter++; // for non-fixed version
 					m_nodeClusters.put(m_clusterCounter, nodeCluster);
+					m_clusterCounter++; 
 					// System.out.println("New cluster:");
 					// System.out.println(nodeCluster);
 					// System.out.println("All current clusters (" + m_clusterCounter + ") :");
@@ -153,8 +155,9 @@ public class ClusteringNodes {
 			if (m_graph.isTerminalNode(adjNode)) {
 				nodeCluster.add(adjNode);
 				m_clusteredNodes.add(adjNode);
-				m_clusterCounter++;
+				//m_clusterCounter++; // for non-fixed version
 				m_nodeClusters.put(m_clusterCounter, nodeCluster);
+				m_clusterCounter++;
 //				System.out.println("New cluster:");
 //				System.out.println(nodeCluster);
 //				System.out.println("All current clusters (" + m_clusterCounter + ") :");
@@ -170,8 +173,9 @@ public class ClusteringNodes {
 			if (m_graph.isIntersectionNode(adjNode)) {
 				nodeCluster.add(adjNode);
 				m_clusteredNodes.add(adjNode);
-				m_clusterCounter++;
+				//m_clusterCounter++; // for non-fixed version
 				m_nodeClusters.put(m_clusterCounter, nodeCluster);
+				m_clusterCounter++; 
 //				System.out.println("New cluster:");
 //				System.out.println(nodeCluster);
 //				System.out.println("All current clusters (" + m_clusterCounter + ") :");
@@ -194,6 +198,8 @@ public class ClusteringNodes {
 	public int getNumOfTerminalNodes() {
 		return m_numberOfTerminalNodes;
 	}
+	
+
 
 	public void printNodeClusters() {
 		System.out.println();
