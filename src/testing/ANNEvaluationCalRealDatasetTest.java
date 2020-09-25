@@ -9,16 +9,12 @@ import algorithm.ClusteringRoadObjects;
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
+import road_network.CaliforniaRN;
 
 public class ANNEvaluationCalRealDatasetTest {
 
 	public static void main(String[] args) {
-		Graph calGraph = new Graph("California");
-
-		String nodeDatasetFile = "Datasets/CAL-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/CAL-Edge_Eid-ESrc-EDest-EDist.csv";
-		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
-		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
+		Graph calGraph = CaliforniaRN.getGraph();
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();

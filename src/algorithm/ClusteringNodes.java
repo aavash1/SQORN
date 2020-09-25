@@ -158,6 +158,7 @@ public class ClusteringNodes {
 				//m_clusterCounter++; // for non-fixed version
 				m_nodeClusters.put(m_clusterCounter, nodeCluster);
 				m_clusterCounter++;
+				m_numberOfTerminalNodes++;
 //				System.out.println("New cluster:");
 //				System.out.println(nodeCluster);
 //				System.out.println("All current clusters (" + m_clusterCounter + ") :");

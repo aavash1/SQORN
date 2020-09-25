@@ -11,17 +11,13 @@ import algorithm.RandomObjectGenerator;
 import framework.Graph;
 
 import framework.UtilsManagment;
+import road_network.SanJoaquinRN;
 
 public class SQORN1_ANNEvaluationSanJo {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph sanJoaGraph = new Graph("SanJoaquin");
-
-		String nodeDatasetFile = "Datasets/SJ-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
-		UtilsManagment.readEdgeFile(sanJoaGraph, edgeDatasetFile);
-		UtilsManagment.readNodeFile(sanJoaGraph, nodeDatasetFile);
+		Graph sanJoaGraph = SanJoaquinRN.getGraph();
 		double perimeter=800.85;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();

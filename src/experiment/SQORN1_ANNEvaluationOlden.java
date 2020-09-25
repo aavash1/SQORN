@@ -11,17 +11,13 @@ import algorithm.RandomObjectGenerator;
 import framework.Graph;
 
 import framework.UtilsManagment;
+import road_network.OldenburgRN;
 
 public class SQORN1_ANNEvaluationOlden {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph oldenGraph = new Graph("Oldenburg");
-
-		String nodeDatasetFile = "Datasets/OLDEN-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/OLDEN-Edge_Eid-ESrc-EDest-EDist.csv";
-		UtilsManagment.readEdgeFile(oldenGraph, edgeDatasetFile);
-		UtilsManagment.readNodeFile(oldenGraph, nodeDatasetFile);
+		Graph oldenGraph = OldenburgRN.getGraph();
 		double perimeter=1200.586;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
