@@ -471,6 +471,33 @@ public class UtilsManagment {
 
 	}
 
+	public static void writeFinalEvaluationResult(Graph graph, String fileName, String usedAlgorithm, int queryObjSize,
+			int dataObjSize, String distribution, double timeElapsedToCompute) {
+
+		String dateTime = getNormalDateTime();
+
+		// double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered /
+		// timeElapsedToComputeANNNAive * 100);
+
+		// timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
+
+		try {
+			FileWriter outputFile = new FileWriter(fileName, true);
+
+			// DATASET-NAME | ALGORITHM USED | QUERY-OBJ-NUM | DATA-OBJ-NUM | DISTRIBUTION |
+			// ELAPSED TIME | CURRENT-TIME
+			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + usedAlgorithm + csvSplitBy
+					+ graph.getTotalNumberOfTrueObjects() + csvSplitBy + graph.getTotalNumberOfFalseObjects()
+					+ csvSplitBy + distribution + csvSplitBy + timeElapsedToCompute + csvSplitBy + csvSplitBy
+					+ dateTime));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
 	public static void writeObjStats(Graph graph) {
 
 		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " "
@@ -685,12 +712,12 @@ public class UtilsManagment {
 			while ((line = br.readLine()) != null) {
 				String[] record = line.split(csvSplitBy);
 				// if (record.length == 2) {
-//					if (!removedBOM && record[0] != "0") {
-//
-//						record[0] = String.valueOf(0);
-//						removedBOM = true;
-//
-//					}
+				// if (!removedBOM && record[0] != "0") {
+				//
+				// record[0] = String.valueOf(0);
+				// removedBOM = true;
+				//
+				// }
 				if (!nodeClusters.containsKey(Integer.parseInt(record[0]))) {
 					LinkedList<Integer> nodeCluster = new LinkedList<Integer>();
 
@@ -708,10 +735,10 @@ public class UtilsManagment {
 					nodeClusters.put(Integer.parseInt(record[0]), nodeCluster);
 				}
 
-//					if (!nodeClusters.get(Integer.parseInt(record[0])).contains(rObject)) {
-//						m_objectsOnEdge.get(Integer.parseInt(record[0])).add(rObject);
-//
-//					}
+				// if (!nodeClusters.get(Integer.parseInt(record[0])).contains(rObject)) {
+				// m_objectsOnEdge.get(Integer.parseInt(record[0])).add(rObject);
+				//
+				// }
 				// }
 			}
 		} catch (IOException e) {
