@@ -471,6 +471,33 @@ public class UtilsManagment {
 
 	}
 
+	public static void writeFinalEvaluationResultForThreeMethods(Graph graph, String fileName,
+			double timeElapsedToComputeANNNAive, double timeElapsedToComputeANNCLustered,
+			double timeElapsedToComputeVIVET, String distributionCategory) {
+
+		String dateTime = getNormalDateTime();
+
+	//	double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered / timeElapsedToComputeANNNAive * 100);
+
+	//	timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
+
+		try {
+			FileWriter outputFile = new FileWriter(fileName, true);
+
+			// DATASET-NAME | QUERY-OBJ-NUM | DATA-OBJ-NUM | DISTRIBUTION | NAIVE-ANN-TIME |
+			// CLUSTERED-ANN-TIME | VIVET-ANN | CURRENT-TIME
+			outputFile.write(String.format(graph.getDatasetName() + csvSplitBy + graph.getTotalNumberOfTrueObjects()
+					+ csvSplitBy + graph.getTotalNumberOfFalseObjects() + csvSplitBy + distributionCategory + csvSplitBy
+					+ timeElapsedToComputeANNNAive + csvSplitBy + timeElapsedToComputeANNCLustered + csvSplitBy
+					+ timeElapsedToComputeVIVET + csvSplitBy + dateTime));
+			outputFile.write(System.lineSeparator()); // new line
+			outputFile.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
 	public static void writeFinalEvaluationResult(Graph graph, String fileName, String usedAlgorithm, int queryObjSize,
 			int dataObjSize, String distribution, double timeElapsedToCompute) {
 

@@ -44,13 +44,33 @@ public class SQORN2_ANNEvaluationCal {
 		// <C, C> sanFraGraphCC x 4
 		// <U, U> sanFraGraphUU x 4
 
-		Graph calGraphCU1, calGraphCU2, calGraphCU3, calGraphCU4, calGraphUC1, calGraphUC2, calGraphUC3, calGraphUC4,
-				calGraphCC1, calGraphCC2, calGraphCC3, calGraphCC4, calGraphUU1, calGraphUU2, calGraphUU3, calGraphUU4;
+		Graph calGraphCU1 = new Graph();
+		Graph calGraphCU2 = new Graph();
+		Graph calGraphCU3 = new Graph();
+		Graph calGraphCU4 = new Graph();
+
+		Graph calGraphUC1 = new Graph();
+		Graph calGraphUC2 = new Graph();
+		Graph calGraphUC3 = new Graph();
+		Graph calGraphUC4 = new Graph();
+
+		Graph calGraphCC1 = new Graph();
+		Graph calGraphCC2 = new Graph();
+		Graph calGraphCC3 = new Graph();
+		Graph calGraphCC4 = new Graph();
+
+		Graph calGraphUU1 = new Graph();
+		Graph calGraphUU2 = new Graph();
+		Graph calGraphUU3 = new Graph();
+		Graph calGraphUU4 = new Graph();
 
 		ArrayList<Graph> listOfGraphs = new ArrayList<Graph>();
 
 		calGraphCU1 = CaliforniaRN.getGraph();// 0
 		listOfGraphs.add(calGraphCU1);
+		Graph califroniaGraph = new Graph();
+		califroniaGraph = CaliforniaRN.getGraph();
+		listOfGraphs.add(califroniaGraph);
 		calGraphCU2 = CaliforniaRN.getGraph(); // 1
 		listOfGraphs.add(calGraphCU2);
 		calGraphCU3 = CaliforniaRN.getGraph(); // 2
@@ -82,8 +102,14 @@ public class SQORN2_ANNEvaluationCal {
 		calGraphUU4 = CaliforniaRN.getGraph(); // 15
 		listOfGraphs.add(calGraphUU4);
 
+		for (int i = 0; i < listOfGraphs.size(); i++) {
+			System.out.println("The dataset is :" + listOfGraphs.get(i).getDatasetName() + " with edges: "
+					+ listOfGraphs.get(i).getNumberOfEdges());
+		}
+
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
+		// queryParams.add(1000);
 		queryParams.add(30000);
 		queryParams.add(30000);
 		queryParams.add(30000);
@@ -95,6 +121,7 @@ public class SQORN2_ANNEvaluationCal {
 		queryParams.add(70000);
 		queryParams.add(100000);
 
+		// dataParams.add(1000);
 		dataParams.add(20000);
 		dataParams.add(30000);
 		dataParams.add(50000);

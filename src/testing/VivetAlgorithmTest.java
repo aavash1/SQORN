@@ -13,7 +13,7 @@ import framework.UtilsManagment;
 public class VivetAlgorithmTest {
 
 	public static void main(String[] args) {
-
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Graph calGraph = new Graph();
 		calGraph.setDatasetName("California");
 
@@ -26,19 +26,22 @@ public class VivetAlgorithmTest {
 		ArrayList<Edge> calEdgeInfo = UtilsManagment.readEdgeFile(edgeDatasetFile);
 		calGraph.setEdgeWithInfo(calEdgeInfo);
 
-		calGraph.printGraph();
+		// calGraph.printGraph();
 		
 		//TODO: check version of generator and input parameters
-		RandomObjectGenerator.generateRandomObjectsOnMap5(calGraph,0.2,20000);
-		
-		calGraph.printObjectsOnEdges();
-		
+		RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph, 100, 100, 1.6);
+		System.out.println("Objects generated");
 		VivetAlgorithm vivetAlg = new VivetAlgorithm();
 		long startTimeVivet = System.nanoTime();
 		vivetAlg.compute(calGraph);
 		long vivetAlgTime = System.nanoTime() - startTimeVivet;
 		double vivetAlgTimeD = (double) vivetAlgTime / 1000000000.0;
 		System.out.println("Time to compute Vivet ANN: " + vivetAlgTimeD);
+		//RandomObjectGenerator.generateRandomObjectsOnMap5(calGraph,0.2,20000);
+		
+//		calGraph.printObjectsOnEdges();
+		
+
 		
 	}
 

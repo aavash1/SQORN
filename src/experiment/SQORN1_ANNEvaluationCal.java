@@ -3,10 +3,11 @@ package experiment;
 import java.util.LinkedList;
 import java.util.Map;
 
-import algorithm.ANNClustered;
+import algorithm.ANNClusteredOptimizedWithHeuristic;
 import algorithm.ANNNaive;
-import algorithm.ClusteringRoadObjects;
+
 import algorithm.RandomObjectGenerator;
+import algorithm.VivetAlgorithm;
 import framework.Graph;
 import framework.UtilsManagment;
 import road_network.CaliforniaRN;
@@ -15,10 +16,9 @@ public class SQORN1_ANNEvaluationCal {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		
-		
+
 		Graph calGraph = CaliforniaRN.getGraph();
-		double perimeter = 1.68;
+		double perimeter = 1.88;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
@@ -49,7 +49,7 @@ public class SQORN1_ANNEvaluationCal {
 
 		String graphName = calGraph.getDatasetName();
 
-		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_"
+		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_VIVET"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
 		System.err.println("Test is running now...");
 		while (!queryParams.isEmpty()) {
@@ -58,7 +58,7 @@ public class SQORN1_ANNEvaluationCal {
 
 			for (int i = 0; i < 16; i++) {
 				if (i < 4) {
-					String distribution="<C,U>";
+					String distribution = "<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
 					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
@@ -68,12 +68,12 @@ public class SQORN1_ANNEvaluationCal {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
-							evaluationResultFile,distribution);
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
 				} else if ((i >= 4) && (i < 8)) {
-					String distribution="<U,C>";
+					String distribution = "<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
 					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(calGraph, queryObjNum, dataObjNum,
@@ -83,28 +83,27 @@ public class SQORN1_ANNEvaluationCal {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
-							evaluationResultFile,distribution);
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
 				} else if ((i >= 8) && (i < 12)) {
-					String distribution="<C,C>";
+					String distribution = "<C,C>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph, queryObjNum, dataObjNum,
-							perimeter);
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(calGraph,
+							queryObjNum, dataObjNum, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
-							evaluationResultFile,distribution);
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
-				}
-				else if ((i >= 12) && (i < 16)) {
-					String distribution="<U,U>";
+				} else if ((i >= 12) && (i < 16)) {
+					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
 					RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
@@ -113,8 +112,8 @@ public class SQORN1_ANNEvaluationCal {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile,
-							evaluationResultFile,distribution);
+					SQORN1_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");
 				}
@@ -127,6 +126,7 @@ public class SQORN1_ANNEvaluationCal {
 
 	public static void executeAlgorithms(Graph graph, Map<Integer, LinkedList<Integer>> nodeClusterFromFile,
 			String evaluationResultFile, String distributionCat) {
+
 		ANNNaive annNaive = new ANNNaive();
 		long startTimeNaive = System.nanoTime();
 		annNaive.compute(graph, true);
@@ -134,22 +134,28 @@ public class SQORN1_ANNEvaluationCal {
 		double computationTimeDNaive = (double) computationTimeNaive / 1000000000.0;
 		// annNaive.printNearestNeighborSets();
 		System.out.println("Time to compute Naive ANN: " + computationTimeDNaive);
+		System.out.println();
 
-		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(graph,
-				nodeClusterFromFile, true);
-
-		ANNClustered annClustered = new ANNClustered();
+		ANNClusteredOptimizedWithHeuristic annClustered = new ANNClusteredOptimizedWithHeuristic();
 		long startTimeClustered = System.nanoTime();
-		annClustered.computeWithoutClustering(graph, true, nodeClusterFromFile, objectIdClusters);
+		annClustered.computeWithTimeAndHeuristicWithoutClustering(graph, true, nodeClusterFromFile);
 		long computationTimeClustered = System.nanoTime() - startTimeClustered;
 		double computationTimeDClustered = (double) computationTimeClustered / 1000000000.0;
 		// ann3.printNearestSets();
 		System.out.println("Time to compute Clustered ANN: " + computationTimeDClustered);
 		System.out.println();
 
-		UtilsManagment.writeFinalEvaluationResult(graph, evaluationResultFile, computationTimeDNaive,
-				computationTimeDClustered, distributionCat);
+		VivetAlgorithm annVivet = new VivetAlgorithm();
+		long startTimeVivet = System.nanoTime();
+		annVivet.compute(graph);
+		long computationTimeVivet = System.nanoTime() - startTimeVivet;
+		double computationTimeDVivet = (double) computationTimeVivet / 1000000000.0;
+		// annVivet.printNearestNeighborSets();
+		System.out.println("Time to compute VIVET ANN: " + computationTimeDVivet);
+		System.out.println();
+
+		UtilsManagment.writeFinalEvaluationResultForThreeMethods(graph, evaluationResultFile, computationTimeDNaive,
+				computationTimeDClustered, computationTimeDVivet, distributionCat);
 
 	}
 

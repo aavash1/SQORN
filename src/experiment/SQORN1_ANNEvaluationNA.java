@@ -11,17 +11,18 @@ import algorithm.VivetAlgorithm;
 import framework.Graph;
 
 import framework.UtilsManagment;
-import road_network.SanJoaquinRN;
+import road_network.NARN;
 
-public class SQORN1_ANNEvaluationSanJo {
+public class SQORN1_ANNEvaluationNA {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph sanJoaGraph = SanJoaquinRN.getGraph();
-		double perimeter = 800.85;
+		Graph northAmGraph = NARN.getGraph();
+		double perimeter = 1650.112;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
+		// queryParams.add(100);
 		queryParams.add(30000);
 		queryParams.add(30000);
 		queryParams.add(30000);
@@ -33,6 +34,7 @@ public class SQORN1_ANNEvaluationSanJo {
 		queryParams.add(70000);
 		queryParams.add(100000);
 
+		// dataParams.add(100);
 		dataParams.add(20000);
 		dataParams.add(30000);
 		dataParams.add(50000);
@@ -45,9 +47,9 @@ public class SQORN1_ANNEvaluationSanJo {
 		dataParams.add(30000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
-				.readNodeClustersFile("ClusterDatasets/SanJoaquin_node-clusters_2019-12-06 17-55-01.csv");
+				.readNodeClustersFile("ClusterDatasets/NorthAmerica_node-clusters_2019-12-06 17-39-10.csv");
 
-		String graphName = sanJoaGraph.getDatasetName();
+		String graphName = northAmGraph.getDatasetName();
 
 		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_VIVET"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
@@ -61,59 +63,55 @@ public class SQORN1_ANNEvaluationSanJo {
 					String distribution = "<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(sanJoaGraph, queryObjNum, dataObjNum,
-							true, perimeter);
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(northAmGraph, queryObjNum,
+							dataObjNum, true, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(),
-							sanJoaGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationSanJo.executeAlgorithms(sanJoaGraph, nodeClusterFromFile, evaluationResultFile,
-							distribution);
+					UtilsManagment.writeRoadObjsOnEdgeFile(northAmGraph.getObjectsOnEdges(),
+							northAmGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
+					SQORN1_ANNEvaluationNA.executeAlgorithms(northAmGraph, nodeClusterFromFile, evaluationResultFile, distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
 				} else if ((i >= 4) && (i < 8)) {
 					String distribution = "<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(sanJoaGraph, queryObjNum, dataObjNum,
-							false, perimeter);
+					RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(northAmGraph, queryObjNum,
+							dataObjNum, false, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(),
-							sanJoaGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationSanJo.executeAlgorithms(sanJoaGraph, nodeClusterFromFile, evaluationResultFile,
-							distribution);
+					UtilsManagment.writeRoadObjsOnEdgeFile(northAmGraph.getObjectsOnEdges(),
+							northAmGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
+					SQORN1_ANNEvaluationNA.executeAlgorithms(northAmGraph, nodeClusterFromFile, evaluationResultFile, distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
 				} else if ((i >= 8) && (i < 12)) {
 					String distribution = "<C,C>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(sanJoaGraph,
+					RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(northAmGraph,
 							queryObjNum, dataObjNum, perimeter);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(),
-							sanJoaGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationSanJo.executeAlgorithms(sanJoaGraph, nodeClusterFromFile, evaluationResultFile,
-							distribution);
+					UtilsManagment.writeRoadObjsOnEdgeFile(northAmGraph.getObjectsOnEdges(),
+							northAmGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
+					SQORN1_ANNEvaluationNA.executeAlgorithms(northAmGraph, nodeClusterFromFile, evaluationResultFile, distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
 				} else if ((i >= 12) && (i < 16)) {
 					String distribution = "<U,U>";
-					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
+					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateRandomObjectsOnMap6(northAmGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(sanJoaGraph.getObjectsOnEdges(),
-							sanJoaGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationSanJo.executeAlgorithms(sanJoaGraph, nodeClusterFromFile, evaluationResultFile,
-							distribution);
+					UtilsManagment.writeRoadObjsOnEdgeFile(northAmGraph.getObjectsOnEdges(),
+							northAmGraph.getDatasetName(), roadObjsOnEdgeCSVFile);
+					SQORN1_ANNEvaluationNA.executeAlgorithms(northAmGraph, nodeClusterFromFile, evaluationResultFile, distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");
 				}
@@ -153,6 +151,10 @@ public class SQORN1_ANNEvaluationSanJo {
 		// annVivet.printNearestNeighborSets();
 		System.out.println("Time to compute VIVET ANN: " + computationTimeDVivet);
 		System.out.println();
+
+		// UtilsManagment.writeFinalEvaluationResult(graph, evaluationResultFile,
+		// computationTimeDNaive,
+		// computationTimeDClustered, distributionCat);
 
 		UtilsManagment.writeFinalEvaluationResultForThreeMethods(graph, evaluationResultFile, computationTimeDNaive,
 				computationTimeDClustered, computationTimeDVivet, distributionCat);
