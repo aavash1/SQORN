@@ -24,6 +24,7 @@ import framework.Edge;
 import framework.Graph;
 import framework.RoadObject;
 import framework.UtilsManagment;
+import testing.RandomGaussian;
 
 public class RandomObjectGenerator {
 
@@ -51,6 +52,8 @@ public class RandomObjectGenerator {
 	private static int m_numberOfCentroids = 10;
 	// private static double m_perimeter = 1.0;
 
+	private static Random random = new Random();
+
 	public static void generateRandomObjectsOnEdgeWithCentroidForSameDistribution(Graph graph,
 			int totalNumberOfTrueObjects, int totalNumberOfFalseObjects, double certainPerimeter) {
 		graph.removeObjectsOnEdges();
@@ -61,7 +64,8 @@ public class RandomObjectGenerator {
 		int randomEdgeId;
 
 		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
-		//centroidEdgeBrances will hold all the edges that traverses through first 10 selected centroid edge.
+		// centroidEdgeBrances will hold all the edges that traverses through first 10
+		// selected centroid edge.
 		ArrayList<Integer> centroidEdgeBranches = new ArrayList<Integer>();
 
 		for (int i = 0; i < m_numberOfCentroids; i++) {
@@ -88,10 +92,10 @@ public class RandomObjectGenerator {
 				// System.out.println(objCounter+" objects added");
 				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
 				centroidEdgeIds.add(randomEdgeId);
-				if(!centroidEdgeBranches.contains(randomEdgeId)) {
+				if (!centroidEdgeBranches.contains(randomEdgeId)) {
 					centroidEdgeBranches.add(randomEdgeId);
 				}
-				
+
 			}
 		}
 		for (Integer edgeWithObjects : centroidEdgeIds) {
@@ -99,7 +103,7 @@ public class RandomObjectGenerator {
 			int remainingObjectsTobeGenerated = (totalNumberOfTrueObjects - m_numberOfCentroids) / m_numberOfCentroids;
 			// ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter,
 			// edgeWithObjects);
-			ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
+			ArrayList<Integer> edgesSelected = getEdgesWithinRadius(graph, certainPerimeter, edgeWithObjects);
 			// System.out.println("remainingObjectsTobeGenerated: " +
 			// remainingObjectsTobeGenerated + "; edgesSelected.size(): " +
 			// edgesSelected.size());
@@ -127,7 +131,7 @@ public class RandomObjectGenerator {
 					// System.out.println(objCounter+" objects added");
 					centroidObjectCounter++;
 					acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
-					if(!centroidEdgeBranches.contains(randomEdgeId)) {
+					if (!centroidEdgeBranches.contains(randomEdgeId)) {
 						centroidEdgeBranches.add(randomEdgeId);
 					}
 				}
@@ -141,57 +145,55 @@ public class RandomObjectGenerator {
 
 		}
 
-		
-			// int centroidObjectCounter=0;
-			// int
-			// remainingObjectsTobeGenerated=(totalNumberOfFalseObjects-m_numberOfCentroids)/m_numberOfCentroids;
-			// ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter,
-			// edgeWithObjects);
-			//ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
-			// System.out.println("remainingObjectsTobeGenerated: " +
-			// remainingObjectsTobeGenerated + "; edgesSelected.size(): " +
-			// edgesSelected.size());
-			while (objCounter < totalNumberOfObjects) {
-				randomEdgeId = centroidEdgeBranches
-						.get(ThreadLocalRandom.current().nextInt(centroidEdgeBranches.size()));
-				RoadObject object = new RoadObject();
-				object.setObjId(objCounter);
-				object.setType(false);
+		// int centroidObjectCounter=0;
+		// int
+		// remainingObjectsTobeGenerated=(totalNumberOfFalseObjects-m_numberOfCentroids)/m_numberOfCentroids;
+		// ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter,
+		// edgeWithObjects);
+		// ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph,
+		// certainPerimeter, edgeWithObjects);
+		// System.out.println("remainingObjectsTobeGenerated: " +
+		// remainingObjectsTobeGenerated + "; edgesSelected.size(): " +
+		// edgesSelected.size());
+		while (objCounter < totalNumberOfObjects) {
+			randomEdgeId = centroidEdgeBranches.get(ThreadLocalRandom.current().nextInt(centroidEdgeBranches.size()));
+			RoadObject object = new RoadObject();
+			object.setObjId(objCounter);
+			object.setType(false);
 
-				if (!acceptedDistancesOnEdge.containsKey(randomEdgeId)) {
-					ArrayList<Double> acceptedDistances = new ArrayList<Double>();
-					acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
-				}
-				double edgeLength = graph.getEdgeDistance(randomEdgeId);
-				double distFromStartNode = getRandDoubleInBetween(0, edgeLength);
-				if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
-					object.setDistanceFromStartNode(distFromStartNode);
-				} else {
-					continue;
-
-				}
-
-				if (graph.addObjectOnEdge(randomEdgeId, object)) {
-					objCounter++;
-					// System.out.println(objCounter+" objects added");
-					// centroidObjectCounter++;
-					acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
-				}
-				// System.out.println("end of 'while' for one centroid, objCounter:
-				// "+objCounter+ " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
-				// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+			if (!acceptedDistancesOnEdge.containsKey(randomEdgeId)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(randomEdgeId, acceptedDistances);
 			}
-			// System.out.println("end of for loop for all centroids, objCounter:
-			// "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
-			// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+			double edgeLength = graph.getEdgeDistance(randomEdgeId);
+			double distFromStartNode = getRandDoubleInBetween(0, edgeLength);
+			if (!acceptedDistancesOnEdge.get(randomEdgeId).contains(distFromStartNode)) {
+				object.setDistanceFromStartNode(distFromStartNode);
+			} else {
+				continue;
 
-		
-//		System.out.print("[");
-//		for(int i=0;i<centroidEdgeBranches.size();i++) {
-//			System.out.print(centroidEdgeBranches.get(i)+", ");
-//		}
-//		System.out.print("]");
-//		System.out.println();
+			}
+
+			if (graph.addObjectOnEdge(randomEdgeId, object)) {
+				objCounter++;
+				// System.out.println(objCounter+" objects added");
+				// centroidObjectCounter++;
+				acceptedDistancesOnEdge.get(randomEdgeId).add(distFromStartNode);
+			}
+			// System.out.println("end of 'while' for one centroid, objCounter:
+			// "+objCounter+ " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
+			// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+		}
+		// System.out.println("end of for loop for all centroids, objCounter:
+		// "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
+		// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+
+		// System.out.print("[");
+		// for(int i=0;i<centroidEdgeBranches.size();i++) {
+		// System.out.print(centroidEdgeBranches.get(i)+", ");
+		// }
+		// System.out.print("]");
+		// System.out.println();
 		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
 		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
 		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
@@ -202,6 +204,178 @@ public class RandomObjectGenerator {
 		System.out.println("objCounter: " + objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects()
 				+ " FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 
+	}
+
+	public static void generateRandomObjectsOnEdgeWithCentroidGaussian(Graph graph, int totalNumberOfTrueObjects,
+			int totalNumberOfFalseObjects, boolean centroidObjType) {
+		graph.removeObjectsOnEdges();
+		int objCounter = 1;
+		int totalNumberOfEdges = graph.getNumberOfEdges();
+
+		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
+		int selectedRandomEdgeId;
+		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
+
+		// Randomly select one edge from the map and generate distance using Gaussian
+		// function
+		// Traverse to all the neighboring edges from the random edge and add road
+		// object taking the distance from the Gaussian value.
+		// Repeat the same process for next remaining centroid
+		// Need to implement rule so not to repeat the selected edges as centroid or
+		// avoiding the overlapping.
+
+		for (int i = 0; i < 1; i++) {
+			// At first we find one random edge and take it as the centroid edge.
+			// We then generate all other centroidObjectType i.e. "T/F" around it using the
+			// gaussian distance.
+
+			// select the randomEdge from the entire dataset.
+			ArrayList<Double> gaussainDistance = new ArrayList<Double>();
+			gaussainDistance.add(13.15);
+			gaussainDistance.add(12.10);
+			gaussainDistance.add(15.15);
+			gaussainDistance.add(13.12);
+			gaussainDistance.add(14.1);
+			gaussainDistance.add(11.15);
+
+			// ArrayList<Double> gaussainDistance = getGaussianDistributionDistance(7, 1.3);
+			selectedRandomEdgeId = (int) getThreadRandomNumberInBetween(1, totalNumberOfEdges - 1);
+			// ArrayList<Double> gaussainDistance = new ArrayList<Double>();
+			// for (int j = 0; j < (totalNumberOfTrueObjects / 10); j++) {
+			// gaussainDistance.add(getRandDoubleBetRange5(10, 33.4));
+			// }
+
+			RoadObject object = new RoadObject();
+			object.setObjId(objCounter);
+			object.setType(centroidObjType);
+
+			if (!acceptedDistancesOnEdge.containsKey(selectedRandomEdgeId)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(selectedRandomEdgeId, acceptedDistances);
+			}
+			// take the edgeLength of selectedRandomEdgeId and take one Gaussian distance
+			// from the Gaussain distance list and remove it after using to eliminate
+			// repitition
+			double edgeLength = graph.getEdgeDistance(selectedRandomEdgeId);
+			int gaussianDistanceIndex = random.nextInt(gaussainDistance.size());
+			double selectedGaussianDistance = gaussainDistance.get(gaussianDistanceIndex);
+			gaussainDistance.remove(gaussianDistanceIndex);
+
+			// check if the selectedRandomEdge length is greater than the gaussian distance
+			// or not.
+			// If the distance is less than selectedRandomEdge distance, simply put the
+			// object on the edge with
+			// the starting distance as gaussian distance.
+			if (edgeLength > selectedGaussianDistance) {
+				object.setDistanceFromStartNode(selectedGaussianDistance);
+
+				if (graph.addObjectOnEdge(selectedRandomEdgeId, object)) {
+					objCounter++;
+					// System.out.println(objCounter+" objects added");
+					acceptedDistancesOnEdge.get(selectedRandomEdgeId).add(selectedGaussianDistance);
+					centroidEdgeIds.add(selectedRandomEdgeId);
+					// selectedEdgesAroundCentroid.add(selectedRandomEdgeId);
+				}
+			}
+			// else traverse through the selectedRandomEdge to any random adjacent edge
+			// add the distance from the centroid edge to the currentSelectedEdge
+			// compare the distance between the gaussian distance and addedEdgeDistance
+			// if gaussian distance is less then, put it on the currentSelectedEdge
+			// else repeat the iteration by traversing the currentSelectedEdge.
+
+			else {
+				LinkedList<Integer> edgesSelected = new LinkedList<Integer>();
+				LinkedList<HashMap<Integer, Double>> visitedEdgePaths = new LinkedList<HashMap<Integer, Double>>();
+				edgesSelected.add(selectedRandomEdgeId);
+				double initialDistance = 0.0;
+
+				while (!edgesSelected.isEmpty()) {
+					HashMap<Integer, Double> hashedEdge = new HashMap<Integer, Double>();
+					int currentEdge = edgesSelected.poll();
+					hashedEdge.put(currentEdge, initialDistance);
+					visitedEdgePaths.add(hashedEdge);
+
+					ArrayList<Integer> adjacentEdgesFromCentroid = graph.getAdjacencyEdgeIds(currentEdge);
+
+					int nextRandomEdge = adjacentEdgesFromCentroid
+							.get(random.nextInt(adjacentEdgesFromCentroid.size()));
+					adjacentEdgesFromCentroid.removeAll(adjacentEdgesFromCentroid);
+					edgesSelected.add(nextRandomEdge);
+
+					if (!acceptedDistancesOnEdge.containsKey(nextRandomEdge)) {
+						ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+						acceptedDistancesOnEdge.put(nextRandomEdge, acceptedDistances);
+					}
+
+					double currentEdgeLength = graph.getEdgeDistance(currentEdge);
+					double randomEdgeLength = graph.getEdgeDistance(nextRandomEdge);
+
+					// double distanceForRandomEdge = gaussainDistance.get(random.nextInt());
+					if (graph.getStartNodeIdOfEdge(currentEdge) == graph.getEndNodeIdOfEdge(selectedRandomEdgeId)) {
+						double addedDistance = initialDistance + randomEdgeLength;
+						hashedEdge.put(nextRandomEdge, addedDistance);
+						visitedEdgePaths.add(hashedEdge);
+						if (addedDistance > selectedGaussianDistance) {
+
+							if (graph.getStartNodeIdOfEdge(currentEdge) == graph
+									.getEndNodeIdOfEdge(selectedRandomEdgeId)) {
+								double distanceUptoRandomEdge = randomEdgeLength
+										- (addedDistance - selectedGaussianDistance);
+
+								if (!acceptedDistancesOnEdge.get(nextRandomEdge).contains(distanceUptoRandomEdge)) {
+									object.setDistanceFromStartNode(distanceUptoRandomEdge);
+								} else {
+									continue;
+
+								}
+
+								if (graph.addObjectOnEdge(nextRandomEdge, object)) {
+									objCounter++;
+									// System.out.println(objCounter+" objects added");
+									acceptedDistancesOnEdge.get(nextRandomEdge).add(distanceUptoRandomEdge);
+									// centroidEdgeIds.add(nextRandomEdge);
+									edgesSelected.add(selectedRandomEdgeId);
+									hashedEdge.clear();
+								}
+
+							} else {
+								double distanceUptoRandomEdge = selectedGaussianDistance - currentEdgeLength;
+
+								if (!acceptedDistancesOnEdge.get(nextRandomEdge).contains(distanceUptoRandomEdge)) {
+									object.setDistanceFromStartNode(distanceUptoRandomEdge);
+								} else {
+									continue;
+
+								}
+
+								if (graph.addObjectOnEdge(nextRandomEdge, object)) {
+									objCounter++;
+									// System.out.println(objCounter+" objects added");
+									acceptedDistancesOnEdge.get(nextRandomEdge).add(distanceUptoRandomEdge);
+									// centroidEdgeIds.add(nextRandomEdge);
+									edgesSelected.add(selectedRandomEdgeId);
+									hashedEdge.clear();
+								}
+
+							}
+
+						} else {
+							continue;
+						}
+
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	private static ArrayList<Double> getGaussianDistributionDistance(int size, double variance) {
+		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
+
+		return generatedGaussianDistance;
 	}
 
 	public static void generateRandomObjectsOnEdgesWithCentroid(Graph graph, int totalNumberOfTrueObjects,
@@ -261,7 +435,7 @@ public class RandomObjectGenerator {
 			int remainingObjectsTobeGenerated = (totalNumberOfTrueObjects - m_numberOfCentroids) / m_numberOfCentroids;
 			// ArrayList<Integer> edgesSelected=getEdgesWithinPerimeter(graph, m_perimeter,
 			// edgeWithObjects);
-			ArrayList<Integer> edgesSelected = getEdgesWithinPerimeter(graph, certainPerimeter, edgeWithObjects);
+			ArrayList<Integer> edgesSelected = getEdgesWithinRadius(graph, certainPerimeter, edgeWithObjects);
 			// System.out.println("remainingObjectsTobeGenerated: " +
 			// remainingObjectsTobeGenerated + "; edgesSelected.size(): " +
 			// edgesSelected.size());
@@ -1437,7 +1611,7 @@ public class RandomObjectGenerator {
 		return x;
 	}
 
-	public static ArrayList<Integer> getEdgesWithinPerimeter(Graph graph, double perimeter, int edgeId) {
+	public static ArrayList<Integer> getEdgesWithinRadius(Graph graph, double perimeter, int edgeId) {
 		ArrayList<Integer> selectedEdges = new ArrayList<Integer>();
 		LinkedList<HashMap<Integer, Double>> visitedEdges = new LinkedList<HashMap<Integer, Double>>();
 		LinkedList<Integer> edgeQueue = new LinkedList<Integer>();
