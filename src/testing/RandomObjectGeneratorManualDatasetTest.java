@@ -1,5 +1,14 @@
 package testing;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import algorithm.BFS;
+import algorithm.DFS;
 import algorithm.RandomObjectGenerator;
 import algorithm.RandomObjectGeneratorWithGaussian;
 import framework.Graph;
@@ -43,9 +52,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 		gr.addEdge(18, 19, 12);
 		gr.addEdge(19, 20, 10);
 		
-		gr.printEdgesInfo();
-
-	//›RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidGaussian(gr, 1, 1, true);
+		RandomObjectGenerator.traversalUptoCertainDistance2(gr, 7, 19);
 
 	}
 
