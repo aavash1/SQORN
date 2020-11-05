@@ -227,6 +227,109 @@ public class RandomObjectGenerator {
 		graph.removeObjectsOnEdges();
 		int objCounter = 1;
 		int totalNumberOfEdges = graph.getNumberOfEdges();
+		int totalNumberOfNodes = graph.getNumberOfNodes();
+		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
+		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
+
+		// int totalNumberOfObjects = totalNumberOfTrueObjects +
+		// totalNumberOfFalseObjects;
+
+		// For generating 10 centroid, we select 10 random nodes and start genrating
+		// objects in them until
+		// the arraylist of gaussian distance is empty, then generate rest of the
+		// objects "query,data & vice-versa"
+
+		for (int i = 0; i < 10; i++) {
+			ArrayList<Double> randomGaussianDistance = new ArrayList<Double>();
+
+			randomGaussianDistance.add(6.178);
+			randomGaussianDistance.add(5.278);
+			randomGaussianDistance.add(7.18);
+			randomGaussianDistance.add(7.68);
+			randomGaussianDistance.add(5.68);
+			randomGaussianDistance.add(8.1);
+			randomGaussianDistance.add(4.75);
+			randomGaussianDistance.add(8.81);
+			randomGaussianDistance.add(4.25);
+			randomGaussianDistance.add(4.98);
+			Collections.shuffle(randomGaussianDistance);
+
+			int selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
+			int RandomIndex = random.nextInt(randomGaussianDistance.size());
+			double selectedRandomGaussianDistance = randomGaussianDistance.get(RandomIndex);
+			randomGaussianDistance.remove(RandomIndex);
+
+			HashMap<Integer, Double> traversedUpto = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
+					selectedRandomGaussianDistance);
+			// key is Edge number and the last key of the hashmap upto where the traversal
+			// was performed.
+			int key = RandomObjectGenerator.getLast(traversedUpto).getKey();
+			double coveredDistance = RandomObjectGenerator.getLast(traversedUpto).getValue();
+			int startNodeOfKey = graph.getStartNodeIdOfEdge(key);
+			int endNodeOfKey = graph.getEndNodeIdOfEdge(key);
+			double distanceFromStartNode = graph.getEdgeDistance(key)
+					- (coveredDistance - selectedRandomGaussianDistance);
+
+			RoadObject roadObj = new RoadObject();
+			roadObj.setObjId(objCounter);
+			roadObj.setType(centroidObjType);
+
+			if (!acceptedDistancesOnEdge.containsKey(key)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(key, acceptedDistances);
+			}
+
+			if (!acceptedDistancesOnEdge.get(key).contains(distanceFromStartNode)) {
+				roadObj.setDistanceFromStartNode(distanceFromStartNode);
+			}
+
+			if (graph.addObjectOnEdge(key, roadObj)) {
+				objCounter++;
+				// System.out.println(objCounter+" objects added");
+				acceptedDistancesOnEdge.get(key).add(distanceFromStartNode);
+				centroidEdgeIds.add(key);
+			}
+		}
+
+		for (int j = 0; j < totalNumberOfFalseObjects; j++) {
+
+			int selectedRandomEdge = (int) getThreadRandomNumberInBetween(1, totalNumberOfEdges - 1);
+			RoadObject roadObject = new RoadObject();
+			roadObject.setObjId(objCounter);
+			roadObject.setType(!centroidObjType);
+
+			if (!acceptedDistancesOnEdge.containsKey(selectedRandomEdge)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(selectedRandomEdge, acceptedDistances);
+			}
+			double edgeLength = graph.getEdgeDistance(selectedRandomEdge);
+			double distFromStartNode = getRandDoubleInBetween(0, edgeLength);
+			if (!acceptedDistancesOnEdge.get(selectedRandomEdge).contains(distFromStartNode)) {
+				roadObject.setDistanceFromStartNode(distFromStartNode);
+			} else {
+				continue;
+
+			}
+
+			if (graph.addObjectOnEdge(selectedRandomEdge, roadObject)) {
+				objCounter++;
+				// System.out.println(objCounter+" objects added");
+				acceptedDistancesOnEdge.get(selectedRandomEdge).add(distFromStartNode);
+			}
+			// System.out.println("end of for loop for false objects, objCounter:
+			// "+objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects() + "
+			// FalseObjects: " + graph.getTotalNumberOfFalseObjects());
+		}
+
+		m_totalNumberOfObjects = graph.getTotalNumberOfObjects();
+		m_totalNumberOfTrueObjects = graph.getTotalNumberOfTrueObjects();
+		m_totalNumberOfFalseObjects = graph.getTotalNumberOfFalseObjects();
+		m_totalNumberOfEdges = totalNumberOfEdges;
+		m_totalNumberOfEdgesContainingObjects = graph.getObjectsOnEdges().size();
+
+		System.out.println("Finished Generating Road Objects");
+		System.out.println("objCounter: " + objCounter + " TrueObjects: " + graph.getTotalNumberOfTrueObjects()
+				+ " FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 
 	}
 
