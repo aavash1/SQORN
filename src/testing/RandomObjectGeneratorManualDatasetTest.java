@@ -1,5 +1,6 @@
 package testing;
 
+import java.io.ObjectInputStream.GetField;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,8 +52,21 @@ public class RandomObjectGeneratorManualDatasetTest {
 		gr.addEdge(17, 19, 3);
 		gr.addEdge(18, 19, 12);
 		gr.addEdge(19, 20, 10);
-		
-		RandomObjectGenerator.traversalUptoCertainDistance2(gr, 7, 19);
+
+		int randomNodeSelected = 6;
+		double randomGaussianDistance = 12.6;
+
+		HashMap<Integer, Double> finalEdge = RandomObjectGenerator.traverseFromGivenNodeUptoDistance(gr,
+				randomNodeSelected, randomGaussianDistance);
+		int key = RandomObjectGenerator.getLast(finalEdge).getKey();
+		double distance = RandomObjectGenerator.getLast(finalEdge).getValue();
+		int StartNode = gr.getStartNodeIdOfEdge(key);
+		int EndNode = gr.getEndNodeIdOfEdge(key);
+		System.out.println("Traversing from startNode: " + randomNodeSelected + " it would traverse upto node: "
+				+ EndNode + " covering total distance: " + distance + " where the Edge Id:" + key
+				+ " And the startNode= " + StartNode + " and EndNode: " + EndNode);
+
+		// System.out.println(finalEdge);
 
 	}
 
