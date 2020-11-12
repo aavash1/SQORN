@@ -9,8 +9,8 @@ public final class RandomGaussianTest {
 
 		RandomGaussianTest gaussian = new RandomGaussianTest();
 
-		double MEAN = 10.0f;
-		double VARAIANCE = 1.0f;
+		double MEAN = 0.0;
+		double VARAIANCE = 1.00;
 		for (int idx = 1; idx <= 15; idx++) {
 			log("Generated : "+gaussian.getGaussianInt(MEAN, VARAIANCE));
 
