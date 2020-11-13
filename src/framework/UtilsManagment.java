@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +12,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
+import java.util.Random;
 
 import org.apache.commons.collections4.MultiValuedMap;
 
@@ -775,7 +779,7 @@ public class UtilsManagment {
 		return nodeClusters;
 	}
 
-	private static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
+	public static int getMaxNumOfObjsPerEdge(double edgeLength, double minDistBetweenObjs) {
 		double m1;
 		if ((edgeLength / minDistBetweenObjs - 6) < 0) {
 			m1 = 0.0;
@@ -872,9 +876,39 @@ public class UtilsManagment {
 		return colls.iterator().next();
 
 	}
+	
+	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
+		if (map.isEmpty())
+			return null;
+		return map.entrySet().iterator().next();
+	}
 
-	// Private methods
-	private static boolean isInteger(String str) {
+	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
+		try {
+			if (map instanceof LinkedHashMap)
+				return getLastViaReflection(map);
+		} catch (Exception ignore) {
+		}
+		return getLastByIterating(map);
+	}
+
+	public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
+		Entry<K, V> last = null;
+		for (Entry<K, V> e : map.entrySet())
+			last = e;
+		return last;
+	}
+
+	public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
+			throws NoSuchFieldException, IllegalAccessException {
+		Field tail = map.getClass().getDeclaredField("tail");
+		tail.setAccessible(true);
+		return (Entry<K, V>) tail.get(map);
+	}
+	
+
+	
+	public static boolean isInteger(String str) {
 
 		try {
 			int a = Integer.parseInt(str);
@@ -884,6 +918,17 @@ public class UtilsManagment {
 
 		return true;
 	}
+	
+	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation) {
+		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
+		Random gen = new Random();
+		while (size != 0) {
+			generatedGaussianDistance.add(Math.abs(gen.nextGaussian() * standardDeviation));
+			size--;
+		}
+		return generatedGaussianDistance;
+	}
+	
 	// Method to read the POI files from the datasets
 	/*
 	 * public ArrayList<PointOfInterest> readPOIFile(String csvFilename) { String

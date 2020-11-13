@@ -41,7 +41,7 @@ public class RandomObjectGeneratorGaussianCentroidManualDatasetTest {
 		gr.addEdge(15, 25, 90);
 
 	//	RandomObjectGeneratorWithGaussian.generateRandomObjectsOnMap6(gr, 1000, 3000);
-		RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidGaussian(gr, 100, 100, true);
+		RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidGaussian(gr, 10, 20, true);
 		// UtilsManagment.writeRoadObjsOnEdgeFile(gr.getObjectsOnEdges(),
 		// "Manual",10,10);
 	//RandomObjectGenerator.printStatistics();

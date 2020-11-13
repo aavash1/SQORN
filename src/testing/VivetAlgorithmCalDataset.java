@@ -60,7 +60,7 @@ public class VivetAlgorithmCalDataset {
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
 				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
 		ClusteringRoadObjects clusteringObjects = new ClusteringRoadObjects();
-		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex(calGraph,
+		Map<Integer, LinkedList<Integer>> objectIdClusters = clusteringObjects.clusterWithIndex3(calGraph,
 				nodeClusterFromFile, true);
 
 		ANNClustered annClustered = new ANNClustered();

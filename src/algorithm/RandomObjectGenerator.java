@@ -234,99 +234,62 @@ public class RandomObjectGenerator {
 		// int totalNumberOfObjects = totalNumberOfTrueObjects +
 		// totalNumberOfFalseObjects;
 
-		// For generating 10 centroid, we select 10 random nodes and start genrating
+		// For generating 10 centroid, we select 10 random nodes and start generating
 		// objects in them until
 		// the arraylist of gaussian distance is empty, then generate rest of the
 		// objects "query,data & vice-versa"
-		ArrayList<Double> randomGaussianDistance = new ArrayList<Double>();
-		randomGaussianDistance.add(6.178);
-		randomGaussianDistance.add(5.278);
-		randomGaussianDistance.add(7.18);
-		randomGaussianDistance.add(7.68);
-		randomGaussianDistance.add(5.68);
-		randomGaussianDistance.add(8.1);
-		randomGaussianDistance.add(4.75);
-		randomGaussianDistance.add(8.81);
-		randomGaussianDistance.add(4.25);
-		randomGaussianDistance.add(4.98);
-		Collections.shuffle(randomGaussianDistance);
+//		ArrayList<Double> randomGaussianDistance = new ArrayList<Double>();
+//		randomGaussianDistance.add(6.178);
+//		randomGaussianDistance.add(5.278);
+//		randomGaussianDistance.add(7.18);
+//		randomGaussianDistance.add(7.68);
+//		randomGaussianDistance.add(5.68);
+//		randomGaussianDistance.add(8.1);
+//		randomGaussianDistance.add(4.75);
+//		randomGaussianDistance.add(8.81);
+//		randomGaussianDistance.add(4.25);
+//		randomGaussianDistance.add(4.98);
 		
-		//for (int i = 0; i < 10; i++) {
-			int selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
-			while (randomGaussianDistance.size() != 0) {
-				int RandomIndex = random.nextInt(randomGaussianDistance.size());
-				double selectedRandomGaussianDistance = randomGaussianDistance.get(RandomIndex);
-				randomGaussianDistance.remove(RandomIndex);
+		// TODO: work on these two variables left
+		int size = 0;
+		double standardDeviation = 0.0;
+		
+		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(size, standardDeviation);
+		
+		Collections.shuffle(randomGaussianDistance);
 
-				HashMap<Integer, Double> traversedUpto = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
-						selectedRandomGaussianDistance);
-				// key is Edge number and the last key of the hashmap upto where the traversal
-				// was performed.
-				int key = RandomObjectGenerator.getLast(traversedUpto).getKey();
-				double coveredDistance = RandomObjectGenerator.getLast(traversedUpto).getValue();
-				int startNodeOfKey = graph.getStartNodeIdOfEdge(key);
-				int endNodeOfKey = graph.getEndNodeIdOfEdge(key);
-				double distanceFromStartNode = graph.getEdgeDistance(key)
-						- (coveredDistance - selectedRandomGaussianDistance);
+		// for (int i = 0; i < 10; i++) {
+		int selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
+		while (randomGaussianDistance.size() != 0) {
+			int RandomIndex = random.nextInt(randomGaussianDistance.size());
+			double selectedRandomGaussianDistance = randomGaussianDistance.get(RandomIndex);
+			randomGaussianDistance.remove(RandomIndex);
 
-				RoadObject roadObj = new RoadObject();
-				roadObj.setObjId(objCounter);
-				roadObj.setType(centroidObjType);
+			// Map <edgeId, finalDistance>
+			Map<Integer, Double> edgeAndDistance = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
+					selectedRandomGaussianDistance);
+			int edgeId = UtilsManagment.getFirst(edgeAndDistance).getKey();
+			double finalDistance = UtilsManagment.getFirst(edgeAndDistance).getValue();
 
-				if (!acceptedDistancesOnEdge.containsKey(key)) {
-					ArrayList<Double> acceptedDistances = new ArrayList<Double>();
-					acceptedDistancesOnEdge.put(key, acceptedDistances);
-				}
+			RoadObject roadObj = new RoadObject();
+			roadObj.setObjId(objCounter);
+			roadObj.setType(centroidObjType);
 
-				if (!acceptedDistancesOnEdge.get(key).contains(distanceFromStartNode)) {
-					roadObj.setDistanceFromStartNode(distanceFromStartNode);
-				}
+			if (!acceptedDistancesOnEdge.containsKey(edgeId)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(edgeId, acceptedDistances);
+			}
 
-				if (graph.addObjectOnEdge(key, roadObj)) {
-					objCounter++;
-					// System.out.println(objCounter+" objects added");
-					acceptedDistancesOnEdge.get(key).add(distanceFromStartNode);
-					centroidEdgeIds.add(key);
-				}
-			//}
-			// int RandomIndex = random.nextInt(randomGaussianDistance.size());
-			// double selectedRandomGaussianDistance =
-			// randomGaussianDistance.get(RandomIndex);
-			// randomGaussianDistance.remove(RandomIndex);
-			//
-			// HashMap<Integer, Double> traversedUpto =
-			// traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
-			// selectedRandomGaussianDistance);
-			// // key is Edge number and the last key of the hashmap upto where the
-			// traversal
-			// // was performed.
-			// int key = RandomObjectGenerator.getLast(traversedUpto).getKey();
-			// double coveredDistance =
-			// RandomObjectGenerator.getLast(traversedUpto).getValue();
-			// int startNodeOfKey = graph.getStartNodeIdOfEdge(key);
-			// int endNodeOfKey = graph.getEndNodeIdOfEdge(key);
-			// double distanceFromStartNode = graph.getEdgeDistance(key)
-			// - (coveredDistance - selectedRandomGaussianDistance);
-			//
-			// RoadObject roadObj = new RoadObject();
-			// roadObj.setObjId(objCounter);
-			// roadObj.setType(centroidObjType);
-			//
-			// if (!acceptedDistancesOnEdge.containsKey(key)) {
-			// ArrayList<Double> acceptedDistances = new ArrayList<Double>();
-			// acceptedDistancesOnEdge.put(key, acceptedDistances);
-			// }
-			//
-			// if (!acceptedDistancesOnEdge.get(key).contains(distanceFromStartNode)) {
-			// roadObj.setDistanceFromStartNode(distanceFromStartNode);
-			// }
-			//
-			// if (graph.addObjectOnEdge(key, roadObj)) {
-			// objCounter++;
-			// // System.out.println(objCounter+" objects added");
-			// acceptedDistancesOnEdge.get(key).add(distanceFromStartNode);
-			// centroidEdgeIds.add(key);
-			// }
+			if (!acceptedDistancesOnEdge.get(edgeId).contains(finalDistance)) {
+				roadObj.setDistanceFromStartNode(finalDistance);
+			}
+
+			if (graph.addObjectOnEdge(edgeId, roadObj)) {
+				objCounter++;
+				// System.out.println(objCounter+" objects added");
+				acceptedDistancesOnEdge.get(edgeId).add(finalDistance);
+				centroidEdgeIds.add(edgeId);
+			}
 		}
 
 		for (int j = 0; j < totalNumberOfFalseObjects; j++) {
@@ -366,36 +329,41 @@ public class RandomObjectGenerator {
 		m_totalNumberOfEdgesContainingObjects = graph.getObjectsOnEdges().size();
 
 		System.out.println("Finished Generating Road Objects");
-		System.out.println("objCounter: " + (objCounter-1) + " TrueObjects: " + graph.getTotalNumberOfTrueObjects()
+		System.out.println("objCounter: " + (objCounter - 1) + " TrueObjects: " + graph.getTotalNumberOfTrueObjects()
 				+ " FalseObjects: " + graph.getTotalNumberOfFalseObjects());
 
 	}
 
-	// 2. To Generate Gaussian Distance
-	private static ArrayList<Double> getGaussianDistributionDistance(int size, double variance) {
-		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
-
-		return generatedGaussianDistance;
-	}
-
-	// Ends here
 
 	// Method traverseFromGivenNodeUptoDistance and traverseUptoGivenDistance is
 	// used to traverse randomly upto the given distance
 	// using these methods to genrerate object on edges more than the gaussian
-	// distance
-	// starts here
-	public static HashMap<Integer, Double> traverseFromGivenNodeUptoDistance(Graph gr, int nodeId, double distance) {
+	// distance	
+	private static Map<Integer, Double> traverseFromGivenNodeUptoDistance(Graph gr, int nodeId, double distance) {
 
 		ArrayList<Integer> visitedNodes = new ArrayList<Integer>();
 		LinkedHashMap<Integer, Double> visitedEdges = new LinkedHashMap<Integer, Double>();
 		traverseUptoGivenDistance(gr, nodeId, visitedNodes, visitedEdges, distance);
 
-		return visitedEdges;
+		int lastEdgeId = UtilsManagment.getLast(visitedEdges).getKey();
+		double coveredDistance = UtilsManagment.getLast(visitedEdges).getValue();
+		int lastNodeId = visitedNodes.get(visitedNodes.size() - 1);
 
+		double finalDistance;
+
+		if (gr.isStartNode(lastNodeId, lastEdgeId)) {
+			finalDistance = gr.getEdgeDistance(lastEdgeId) - (coveredDistance - distance);
+		} else {
+			finalDistance = coveredDistance - distance;
+		}
+
+		Map<Integer, Double> result = new HashMap<Integer, Double>();
+		result.put(lastEdgeId, finalDistance);
+
+		return result;
 	}
 
-	public static void traverseUptoGivenDistance(Graph graph, int nodeId, ArrayList<Integer> visitedNode,
+	private static void traverseUptoGivenDistance(Graph graph, int nodeId, ArrayList<Integer> visitedNode,
 			LinkedHashMap<Integer, Double> visitedEdges, double distance) {
 
 		double initialDistance = 0.0;
@@ -422,22 +390,17 @@ public class RandomObjectGenerator {
 					break;
 
 				} else {
-					coveredDistance = getLast(visitedEdges).getValue() + selectedEdgeDistance;
+					coveredDistance = UtilsManagment.getLast(visitedEdges).getValue() + selectedEdgeDistance;
 					visitedEdges.put(selectedEdgeId, coveredDistance);
 					if (distance >= coveredDistance) {
 						traverseUptoGivenDistance(graph, indexOfNode2, visitedNode, visitedEdges, distance);
 
 					}
 					break;
-
 				}
-
 			}
-
 		}
 	}
-
-	// Ends here
 
 	public static void generateRandomObjectsOnEdgesWithCentroid(Graph graph, int totalNumberOfTrueObjects,
 			int totalNumberOfFalseObjects, boolean centroidObjType, double certainPerimeter) {
@@ -1806,34 +1769,7 @@ public class RandomObjectGenerator {
 
 	/// These methods are used to get the first and last element of the hashmap
 	// starts here
-	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
-		if (map.isEmpty())
-			return null;
-		return map.entrySet().iterator().next();
-	}
 
-	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
-		try {
-			if (map instanceof LinkedHashMap)
-				return getLastViaReflection(map);
-		} catch (Exception ignore) {
-		}
-		return getLastByIterating(map);
-	}
-
-	private static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
-		Entry<K, V> last = null;
-		for (Entry<K, V> e : map.entrySet())
-			last = e;
-		return last;
-	}
-
-	private static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
-			throws NoSuchFieldException, IllegalAccessException {
-		Field tail = map.getClass().getDeclaredField("tail");
-		tail.setAccessible(true);
-		return (Entry<K, V>) tail.get(map);
-	}
 	// ends here.
 
 	// public int getDistinctRandomEdgeId ()
