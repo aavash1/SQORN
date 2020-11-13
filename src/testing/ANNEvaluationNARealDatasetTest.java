@@ -59,7 +59,7 @@ public class ANNEvaluationNARealDatasetTest {
 			int dataObjNum = dataParams.poll();
 
 			for (int i = 0; i < 10; i++) {
-				RandomObjectGenerator.generateRandomObjectsOnMap6(northAmericaGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateUniformRandomObjectsOnMap(northAmericaGraph, queryObjNum, dataObjNum);
 				// RandomObjectGenerator.printStatistics();
 
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum

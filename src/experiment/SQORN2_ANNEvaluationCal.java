@@ -171,10 +171,10 @@ public class SQORN2_ANNEvaluationCal {
 					dataObjNum, perimeter);
 
 			// <U, U>
-			RandomObjectGenerator.generateRandomObjectsOnMap6(calGraphUU1, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(calGraphUU2, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(calGraphUU3, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(calGraphUU4, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraphUU1, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraphUU2, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraphUU3, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraphUU4, queryObjNum, dataObjNum);
 
 			// NAIVE
 			for (int i = 0; i < listOfGraphs.size(); i++) {

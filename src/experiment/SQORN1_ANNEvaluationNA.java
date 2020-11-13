@@ -105,7 +105,7 @@ public class SQORN1_ANNEvaluationNA {
 					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnMap6(northAmGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateUniformRandomObjectsOnMap(northAmGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 

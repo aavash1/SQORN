@@ -58,7 +58,7 @@ public class ANNEvaluationOldenRealDatasetTest {
 			int dataObjNum = dataParams.poll();
 
 			for (int i = 0; i < 10; i++) {
-				RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraph, queryObjNum, dataObjNum);
 				// RandomObjectGenerator.printStatistics();
 
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum

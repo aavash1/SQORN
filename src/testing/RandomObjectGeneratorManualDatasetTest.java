@@ -27,7 +27,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 
 		// System.out.println(finalEdge);
 		
-		RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidGaussian(gr, 10, 20, true);
+		RandomObjectGenerator.zgenerateCUUCDistribution(gr, 10, 20, true);
 		gr.printObjectsOnEdges();
 
 	}

@@ -145,10 +145,10 @@ public class SQORN2_ANNEvaluationSanFra {
 					queryObjNum, dataObjNum, perimeter);
 
 			// <U, U>
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanFraGraphUU1, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanFraGraphUU2, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanFraGraphUU3, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanFraGraphUU4, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanFraGraphUU1, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanFraGraphUU2, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanFraGraphUU3, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanFraGraphUU4, queryObjNum, dataObjNum);
 
 			// NAIVE
 			for (int i = 0; i < listOfGraphs.size(); i++) {

@@ -106,7 +106,7 @@ public class SQORN1_ANNEvaluationCal {
 					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 

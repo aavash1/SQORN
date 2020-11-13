@@ -54,7 +54,7 @@ public class ANNEvaluationCalRealDatasetTest {
 			int dataObjNum = dataParams.poll();
 			
 			for (int i = 0; i < 10; i++) {
-				RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, queryObjNum, dataObjNum);
 				// RandomObjectGenerator.printStatistics();
 				
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum

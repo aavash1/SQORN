@@ -23,7 +23,7 @@ public class VivetAlgorithmCalDataset {
 		UtilsManagment.readEdgeFile(calGraph, edgeDatasetFile);
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		
-		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, 30000, 20000);
+		RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, 30000, 20000);
 		
 		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + calGraph.getDatasetName() + "_Q_" + 30000 + "_D_" + 20000
 				+ "_" + UtilsManagment.getNormalDateTime() + ".csv";

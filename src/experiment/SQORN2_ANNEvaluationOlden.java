@@ -121,10 +121,10 @@ public class SQORN2_ANNEvaluationOlden {
 					dataObjNum, perimeter);
 
 			// <U, U>
-			RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraphUU1, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraphUU2, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraphUU3, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(oldenGraphUU4, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraphUU1, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraphUU2, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraphUU3, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraphUU4, queryObjNum, dataObjNum);
 
 			// NAIVE
 			for (int i = 0; i < listOfGraphs.size(); i++) {

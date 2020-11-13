@@ -18,7 +18,7 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		UtilsManagment.readNodeFile(calGraph, nodeDatasetFile);
 		// calGraph.printGraph();
 
-		RandomObjectGenerator.generateRandomObjectsOnMap6(calGraph, trueObjSize, falseObjSize);
+		RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, trueObjSize, falseObjSize);
 		//RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(gr, 30, 40, true);
 		RandomObjectGenerator.printStatistics();
 		System.out.println("Finished Generating");

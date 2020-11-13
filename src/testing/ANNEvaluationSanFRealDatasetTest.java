@@ -59,7 +59,7 @@ public class ANNEvaluationSanFRealDatasetTest {
 			int dataObjNum = dataParams.poll();
 
 			for (int i = 0; i < 10; i++) {
-				RandomObjectGenerator.generateRandomObjectsOnMap6(sanFGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanFGraph, queryObjNum, dataObjNum);
 				// RandomObjectGenerator.printStatistics();
 
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum

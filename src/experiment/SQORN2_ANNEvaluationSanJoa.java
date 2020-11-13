@@ -122,10 +122,10 @@ public class SQORN2_ANNEvaluationSanJoa {
 					queryObjNum, dataObjNum, perimeter);
 
 			// <U, U>
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraphUU1, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraphUU2, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraphUU3, queryObjNum, dataObjNum);
-			RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraphUU4, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaGraphUU1, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaGraphUU2, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaGraphUU3, queryObjNum, dataObjNum);
+			RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaGraphUU4, queryObjNum, dataObjNum);
 
 			// NAIVE
 			for (int i = 0; i < listOfGraphs.size(); i++) {

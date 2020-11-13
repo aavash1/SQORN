@@ -47,7 +47,7 @@ public class RandomObjectOnSanJoaDatasetTest {
 			int dataObjNum = dataParams.poll();
 			
 			for (int i = 0; i < 10; i++) {
-				RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaquinGraph, queryObjNum, dataObjNum);
+				RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaquinGraph, queryObjNum, dataObjNum);
 				// RandomObjectGenerator.printStatistics();
 				
 				String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_" + dataObjNum

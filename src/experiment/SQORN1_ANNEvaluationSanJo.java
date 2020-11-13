@@ -106,7 +106,7 @@ public class SQORN1_ANNEvaluationSanJo {
 					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateRandomObjectsOnMap6(sanJoaGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateUniformRandomObjectsOnMap(sanJoaGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
