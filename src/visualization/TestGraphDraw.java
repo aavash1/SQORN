@@ -1,7 +1,6 @@
 package visualization;
 
 import framework.Graph;
-import framework.Graph;
 
 public class TestGraphDraw {
 	

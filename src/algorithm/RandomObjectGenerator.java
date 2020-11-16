@@ -60,7 +60,7 @@ public class RandomObjectGenerator {
 	private static double m_minDistBetweenObjsPrecision = 1000000.0;
 	private static double m_distFromStartNodePrecision = 1000000.0;
 
-	private static int m_numberOfCentroids = 2;
+	private static int m_numberOfCentroids = 10;
 
 	private static Random random = new Random();
 
@@ -1745,32 +1745,33 @@ public class RandomObjectGenerator {
 
 	}
 
-	public static void zcreateCentroidDistribution(Graph graph, int objectCounter,
+	public static int zcreateCentroidDistribution(Graph graph, int objectCounter,
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
 			int numberOfObjects, boolean objectType) {
 		// int objCounter = objectCounter;
-		int centroidObjectSize = numberOfObjects;
+
 		int totalNumberOfNodes = graph.getNodesWithInfo().size();
 
-		centroidObjectSize = numberOfObjects;
+		double standardDeviation = 3.0;
 
-		double standardDeviation = 0.0;
+		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numberOfObjects,
+				standardDeviation);
+		// ArrayList<Double> randomGaussianDistance = new ArrayList<Double>();
+		// randomGaussianDistance.add(6.178);
+		// randomGaussianDistance.add(5.278);
+		// randomGaussianDistance.add(7.18);
+		// randomGaussianDistance.add(7.68);
+		// randomGaussianDistance.add(5.68);
+		//// randomGaussianDistance.add(8.1);
+		//// randomGaussianDistance.add(4.75);
+		//// randomGaussianDistance.add(8.81);
+		//// randomGaussianDistance.add(4.25);
+		//// randomGaussianDistance.add(4.98);
 
-		// ArrayList<Double> randomGaussianDistance =
-		// UtilsManagment.getGaussianDistributionDistance(centroidObjectSize,
-		// standardDeviation);
-		ArrayList<Double> randomGaussianDistance = new ArrayList<Double>();
-		randomGaussianDistance.add(6.178);
-		randomGaussianDistance.add(5.278);
-		randomGaussianDistance.add(7.18);
-		randomGaussianDistance.add(7.68);
-		randomGaussianDistance.add(5.68);
-		randomGaussianDistance.add(8.1);
-		randomGaussianDistance.add(4.75);
-		randomGaussianDistance.add(8.81);
-		randomGaussianDistance.add(4.25);
-		randomGaussianDistance.add(4.98);
-
+		for (int i = 0; i < randomGaussianDistance.size(); i++) {
+			System.out.println(randomGaussianDistance.get(i));
+		}
+		
 		Collections.shuffle(randomGaussianDistance);
 
 		boolean foundCentroidNodeId = false;
@@ -1821,6 +1822,7 @@ public class RandomObjectGenerator {
 				randomGaussianDistance.remove(RandomIndex);
 			}
 		}
+		return objectCounter;
 
 	}
 
@@ -1915,11 +1917,15 @@ public class RandomObjectGenerator {
 		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
 		for (int i = 0; i < m_numberOfCentroids; i++) {
 
-			zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds,
+			// zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge,
+			// centroidEdgeIds,
+			// numOfTrueObjPerCentroid, true);
+			objCounter = zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds,
 					numOfTrueObjPerCentroid, true);
-		}
-		for (int j = 0; j < m_numberOfCentroids; j++) {
-			zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds,
+			// zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge,
+			// centroidEdgeIds,
+			// numOfFalseObjPerCentroid, false);
+			objCounter = zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds,
 					numOfFalseObjPerCentroid, false);
 		}
 

@@ -27,7 +27,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 
 		// System.out.println(finalEdge);
 		
-		RandomObjectGenerator.zgenerateCUUCDistribution(gr, 10, 20, true);
+		RandomObjectGenerator.zgenerateCCDistribution(gr, 10, 10);
 		gr.printObjectsOnEdges();
 
 	}

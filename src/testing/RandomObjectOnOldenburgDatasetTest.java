@@ -1,5 +1,9 @@
 package testing;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
@@ -12,20 +16,13 @@ public class RandomObjectOnOldenburgDatasetTest {
 		String graphName = oldenGraph.getDatasetName();
 //		int trueObjSize = 100000;
 //		int falseObjSize = 10000;
-		int trueObjSize = 10;
-		int falseObjSize = 20;
+		int trueObjSize = 10000;
+	//	int falseObjSize = 20;
 
-//		RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(oldenGraph, trueObjSize, falseObjSize, true,
-//				1200.586);
-//		String roadObjsOnEdgeCSVFile = "GeneratedFiles/" +"FORALLTEST_"+ graphName + "_Q_" + trueObjSize + "_D_" + falseObjSize
-//				+ UtilsManagment.getNormalDateTime() + ".csv";
-
-		RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidGaussian(oldenGraph, trueObjSize, falseObjSize, true);
+		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
+		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
+		RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		oldenGraph.printObjectsOnEdges();
-		// RandomObjectGenerator.printStatistics();
-		System.out.println("Finished Generating");
-		// UtilsManagment.writeRoadObjsOnEdgeFile1(oldenburgGraph.getObjectsOnEdges(),
-		// oldenburgGraph.getDatasetName(),trueObjSize,falseObjSize);
 
 	}
 
