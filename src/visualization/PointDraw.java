@@ -18,13 +18,13 @@ import framework.UtilsManagment;
 public class PointDraw extends JFrame {
 
 	// private final static Color COLOR_EDGE_LINE = Color.black;
-	private final static Color COLOR_NODE_CIRCLE = Color.blue;
-	private final static Color COLOR_NODE_ID = Color.red;
+	private final static Color COLOR_NODE_CIRCLE = Color.black;
+	private final static Color COLOR_NODE_ID = Color.white;
 
 	private int nodeCircleWidth;
 	private int nodeCircleHeight;
 	
-	private static String str = "5";
+	private static String str = "2";
 
 	// Graph graph;
 
@@ -34,15 +34,15 @@ public class PointDraw extends JFrame {
 	// using local method: this.repaint();
 	public PointDraw() { // Constructor
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		nodeCircleWidth = 5;
-		nodeCircleHeight = 5;
+		nodeCircleWidth = 1;
+		nodeCircleHeight = 1;
 	}
 
 	public PointDraw(String name) { // Construct with label
 		this.setTitle(name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		nodeCircleWidth = 5;
-		nodeCircleHeight = 5;
+		nodeCircleWidth = 1;
+		nodeCircleHeight = 1;
 	}
 
 	// public void setGraph(Graph g) {
@@ -55,19 +55,20 @@ public class PointDraw extends JFrame {
 
 	public void paint(Graphics g) { // draw the nodes and edges
 		FontMetrics f = g.getFontMetrics();
+		double scaleFactor=1.8245;
 		int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
 		for (Vector2D point : points) {
 			
 			int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
 			g.setColor(COLOR_NODE_CIRCLE);
-			g.fillOval((int) (point.getX() - nodeWidth / 2), (int) (point.getY() - nodeHeight / 2), nodeWidth,
+			g.fillOval((int) (point.getX()*scaleFactor - nodeWidth / 2), (int) (point.getY()*scaleFactor - nodeHeight / 2), nodeWidth,
 					nodeHeight);
 			g.setColor(COLOR_NODE_ID);
-			g.drawOval((int) (point.getX() - nodeWidth / 2), (int) (point.getY() - nodeHeight / 2), nodeWidth,
+			g.drawOval((int) (point.getX()*scaleFactor - nodeWidth / 2), (int) (point.getY()*scaleFactor - nodeHeight / 2), nodeWidth,
 					nodeHeight);
 			int x, y;
-			x = UtilsManagment.convertDoubleToInteger(point.getX() - f.stringWidth("+") / 2);
-			y = UtilsManagment.convertDoubleToInteger(point.getY() + f.getHeight() / 2);
+			x = UtilsManagment.convertDoubleToInteger(point.getX()*scaleFactor - f.stringWidth("+")/15);
+			y = UtilsManagment.convertDoubleToInteger(point.getY()*scaleFactor + f.getHeight()/10 );
 			g.drawString("+", x, y);
 		}
 

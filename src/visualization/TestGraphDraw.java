@@ -13,9 +13,9 @@ public class TestGraphDraw {
 
 	public static void main(String[] args) {
 
-		double scaleFactor = 6;
+		double scaleFactor = 3000;
 		Random rand = new Random();
-		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getLocationCoordinate(1, 20);
+		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getLocationCoordinate(1, 10000);
 		Graph gr = ManualRN5.getGraph();
 
 		for (int i = 0; i < gr.getEdgesWithInfo().size(); i++) {

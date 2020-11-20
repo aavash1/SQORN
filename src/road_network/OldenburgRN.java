@@ -14,7 +14,7 @@ public class OldenburgRN {
 	public static void initialize() { 
 		
 		String nodeDatasetFile = "Datasets/OLDN-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/OLDN-Edge_Eid-ESrc-EDest-EDist.csv";
+		String edgeDatasetFile = "Datasets/OLDN-Edge_EId-ESrc-EDest-EDist.csv";
 		UtilsManagment.readEdgeFile(gr, edgeDatasetFile);
 		UtilsManagment.readNodeFile(gr, nodeDatasetFile);
 	}

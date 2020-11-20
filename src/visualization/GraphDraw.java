@@ -33,8 +33,8 @@ public class GraphDraw extends JFrame {
 	public GraphDraw(String name) { // Construct with label
 		this.setTitle(name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		nodeCircleWidth = 5;
-		nodeCircleHeight = 5;
+		nodeCircleWidth = 1;
+		nodeCircleHeight = 1;
 	}
 
 	public void setGraph(Graph g) {
