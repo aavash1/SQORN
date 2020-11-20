@@ -1062,6 +1062,7 @@ public class UtilsManagment {
 	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsTodistance(
 			Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
 		Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer, ArrayList<Double>>();
+		
 		return objectsOnRoad;
 	}
 
