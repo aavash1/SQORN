@@ -69,6 +69,22 @@
 			<version>4.1</version>
 
 		</dependency>
+		
+
+<!--<dependency>
+  <groupId>com.github.davidmoten</groupId>
+  <artifactId>RTree</artifactId>
+  <version>0.8.7</version>
+</dependency> -->
+
+<dependency>
+  <groupId>com.github.davidmoten</groupId>
+  <artifactId>rtree2</artifactId>
+  <version>0.9-RC1</version>
+</dependency>
+
 
 	</dependencies>
-</project>
+	
+
+</project> 

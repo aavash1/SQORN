@@ -17,14 +17,16 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		Graph calGraph = CaliforniaRN.getGraph();
 	
 		int trueObjSize = 10000;
-		//int falseObjSize = 20000;
+		int falseObjSize = 20000;
 
 
 		//RandomObjectGenerator.zgenerateCCDistribution(calGraph, trueObjSize, falseObjSize);
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
+	//	RandomObjectGenerator.zgenerateCUUCDistribution(calGraph, trueObjSize, falseObjSize, true);
 		RandomObjectGenerator.zcreateCentroidDistribution(calGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
-		// calGraph.printGraph();
+		calGraph.printObjectsOnEdges();
+
 
 //		RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, trueObjSize, falseObjSize);
 //		//RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(gr, 30, 40, true);

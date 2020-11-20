@@ -26,15 +26,15 @@ public class GraphDraw extends JFrame {
 	//if Node/Edge/Poi added to existing and visualized graph, then need to repaint using local method: this.repaint();
 	public GraphDraw() { // Constructor
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		nodeCircleWidth = 30;
-		nodeCircleHeight = 30;
+		nodeCircleWidth = 5;
+		nodeCircleHeight = 5;
 	}
 
 	public GraphDraw(String name) { // Construct with label
 		this.setTitle(name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		nodeCircleWidth = 60;
-		nodeCircleHeight = 60;
+		nodeCircleWidth = 5;
+		nodeCircleHeight = 5;
 	}
 
 	public void setGraph(Graph g) {

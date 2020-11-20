@@ -2,6 +2,7 @@ package testing;
 
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
+import framework.UtilsManagment;
 import road_network.ManualRN5;
 
 public class RandomObjectGeneratorManualDatasetTest {
@@ -27,8 +28,9 @@ public class RandomObjectGeneratorManualDatasetTest {
 
 		// System.out.println(finalEdge);
 		
-		RandomObjectGenerator.zgenerateCCDistribution(gr, 10, 10);
-		gr.printObjectsOnEdges();
+		//RandomObjectGenerator.zgenerateCCDistribution(gr, 10, 10);
+		//gr.printObjectsOnEdges();
+		System.out.println(UtilsManagment.getLocationCoordinate(1,500));
 
 	}
 

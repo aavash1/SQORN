@@ -1752,7 +1752,7 @@ public class RandomObjectGenerator {
 
 		int totalNumberOfNodes = graph.getNodesWithInfo().size();
 
-		double standardDeviation = 3.0;
+		double standardDeviation = 1;
 
 		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numberOfObjects,
 				standardDeviation);

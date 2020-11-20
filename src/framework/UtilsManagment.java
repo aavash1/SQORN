@@ -1,5 +1,8 @@
 package framework;
 
+//
+//import java.awt.geom.Point2D;
+//import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -20,6 +23,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import com.opencsv.CSVWriter;
 
@@ -481,9 +486,10 @@ public class UtilsManagment {
 
 		String dateTime = getNormalDateTime();
 
-	//	double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered / timeElapsedToComputeANNNAive * 100);
+		// double timeDiffPerc = 100 - (timeElapsedToComputeANNCLustered /
+		// timeElapsedToComputeANNNAive * 100);
 
-	//	timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
+		// timeDiffPerc = Math.round(timeDiffPerc * 100.0) / 100.0;
 
 		try {
 			FileWriter outputFile = new FileWriter(fileName, true);
@@ -876,7 +882,7 @@ public class UtilsManagment {
 		return colls.iterator().next();
 
 	}
-	
+
 	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
 		if (map.isEmpty())
 			return null;
@@ -905,9 +911,7 @@ public class UtilsManagment {
 		tail.setAccessible(true);
 		return (Entry<K, V>) tail.get(map);
 	}
-	
 
-	
 	public static boolean isInteger(String str) {
 
 		try {
@@ -918,7 +922,7 @@ public class UtilsManagment {
 
 		return true;
 	}
-	
+
 	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation) {
 		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
 		Random gen = new Random();
@@ -928,7 +932,139 @@ public class UtilsManagment {
 		}
 		return generatedGaussianDistance;
 	}
-	
+
+	public static ArrayList<Vector2D> getLocationCoordinate(int datasetCode, int numOfObjects) {
+		Random gen = new Random();
+
+		ArrayList<Vector2D> sideLengths = new ArrayList<Vector2D>();
+		Vector2D point;
+		switch (datasetCode) {
+		case 1:
+			while (numOfObjects != 0) {
+				double xLengthforCal = Math.abs(gen.nextGaussian() * 0.09475929);
+				double yLengthforCal = Math.abs(gen.nextGaussian() * 0.10095085);
+				point = new Vector2D(xLengthforCal, yLengthforCal);
+				sideLengths.add(point);
+				numOfObjects--;
+			}
+			break;
+
+		case 2:
+			while (numOfObjects != 0) {
+				double xLengthforSanJoa = Math.abs(gen.nextGaussian() * 100);
+				double yLengthforSanJoa = Math.abs(gen.nextGaussian() * 99.6512793);
+				point = new Vector2D(xLengthforSanJoa, yLengthforSanJoa);
+				sideLengths.add(point);
+				numOfObjects--;
+			}
+
+			break;
+		case 3:
+			while (numOfObjects != 0) {
+				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100);
+				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100);
+				point = new Vector2D(xLengthforOlden, yLengthforOlden);
+				sideLengths.add(point);
+				numOfObjects--;
+			}
+			break;
+		default:
+
+		}
+
+		return sideLengths;
+	}
+
+	public static double getEuclideanDistance(double x1, double y1, double x2, double y2) {
+
+		return Math.sqrt(Math.pow((y2 - y1), 2) + Math.pow((x2 - x1), 2));
+
+	}
+
+	public static double getEuclideanDistance(Node node1, Node node2) {
+		double x1 = node1.getLongitude();
+		double y1 = node1.getLatitude();
+		double x2 = node2.getLongitude();
+		double y2 = node2.getLatitude();
+		return getEuclideanDistance(x1, y1, x2, y2);
+	}
+
+	public static double getEuclideanDistance(Node node, Vector2D roadObject) {
+		double x1 = node.getLongitude();
+		double y1 = node.getLatitude();
+		double x2 = roadObject.getX();
+		double y2 = roadObject.getY();
+		return getEuclideanDistance(x1, y1, x2, y2);
+	}
+
+	public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D roadObject) {
+
+		double distance1 = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObject);
+		double distance2 = getEuclideanDistance(graph.getNode(edge.getEndNodeId()), roadObject);
+
+		if (distance1 + distance2 == edge.getLength()) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	// all edge compare to one object
+	public static boolean isRoadObjectOnAnyEdge(Graph graph, Vector2D roadObject) {
+		for (Edge edge : graph.getEdgesWithInfo()) {
+			if (isRoadObjectOnEdge(graph, edge, roadObject)) {
+				return true;
+			} else
+				return false;
+		}
+		return false;
+
+	}
+
+	// all object compare to one edge
+	public static ArrayList<Vector2D> isRoadObjectOnEdge(Graph graph, Edge edge, ArrayList<Vector2D> dataPoints) {
+		ArrayList<Vector2D> selectedRoadDataPoints = new ArrayList<Vector2D>();
+		for (Vector2D roadObjectPoint : dataPoints) {
+			if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
+				if (!selectedRoadDataPoints.contains(roadObjectPoint)) {
+					selectedRoadDataPoints.add(roadObjectPoint);
+				}
+
+			}
+		}
+		return selectedRoadDataPoints;
+
+	}
+
+	// all object compare to all edge
+	public static Map<Edge, ArrayList<Vector2D>> isRoadObjectOnEdge(Graph graph, ArrayList<Vector2D> dataPoints) {
+		Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge = new HashMap<Edge, ArrayList<Vector2D>>();
+
+		for (Edge edge : graph.getEdgesWithInfo()) {
+			ArrayList<Vector2D> selectedRoadObject = new ArrayList<Vector2D>();
+			for (Vector2D roadObjectPoint : dataPoints) {
+				if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
+					selectedRoadObject.add(roadObjectPoint);
+
+				}
+
+			}
+			if (!selectedRoadObject.isEmpty()) {
+				roadObjectOnEdge.put(edge, selectedRoadObject);
+			}
+
+		}
+
+		return roadObjectOnEdge;
+	}
+
+	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsTodistance(
+			Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
+		Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer, ArrayList<Double>>();
+		return objectsOnRoad;
+	}
+
 	// Method to read the POI files from the datasets
 	/*
 	 * public ArrayList<PointOfInterest> readPOIFile(String csvFilename) { String
