@@ -1059,10 +1059,21 @@ public class UtilsManagment {
 		return roadObjectOnEdge;
 	}
 
-	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsTodistance(
+	// this method will convert the Vector2D to hashmap to hold <edgeId and distance
+	// from startnodes>
+	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsTodistance(Graph graph,
 			Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
 		Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer, ArrayList<Double>>();
-		
+		for (Edge edge : roadObjectOnEdge.keySet()) {
+			ArrayList<Double> distanceFromStartNode = new ArrayList<Double>();
+			for (Vector2D roadObjectPoint : roadObjectOnEdge.get(edge)) {
+
+				double distance = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObjectPoint);
+				distanceFromStartNode.add(distance);
+
+			}
+			objectsOnRoad.put(edge.getEdgeId(), distanceFromStartNode);
+		}
 		return objectsOnRoad;
 	}
 
