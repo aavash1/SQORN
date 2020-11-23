@@ -15,7 +15,7 @@ public class TestGraphDraw {
 
 		double scaleFactor = 3000;
 		Random rand = new Random();
-		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getLocationCoordinate(1, 10000);
+		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getLocationCoordinate(3, 10000);
 		Graph gr = ManualRN5.getGraph();
 
 		for (int i = 0; i < gr.getEdgesWithInfo().size(); i++) {

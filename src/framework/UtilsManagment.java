@@ -936,7 +936,7 @@ public class UtilsManagment {
 	public static ArrayList<Vector2D> getLocationCoordinate(int datasetCode, int numOfObjects) {
 		Random gen = new Random();
 
-		ArrayList<Vector2D> sideLengths = new ArrayList<Vector2D>();
+		ArrayList<Vector2D> points = new ArrayList<Vector2D>();
 		Vector2D point;
 		switch (datasetCode) {
 		case 1:
@@ -944,7 +944,7 @@ public class UtilsManagment {
 				double xLengthforCal = Math.abs(gen.nextGaussian() * 0.09475929);
 				double yLengthforCal = Math.abs(gen.nextGaussian() * 0.10095085);
 				point = new Vector2D(xLengthforCal, yLengthforCal);
-				sideLengths.add(point);
+				points.add(point);
 				numOfObjects--;
 			}
 			break;
@@ -954,17 +954,26 @@ public class UtilsManagment {
 				double xLengthforSanJoa = Math.abs(gen.nextGaussian() * 100);
 				double yLengthforSanJoa = Math.abs(gen.nextGaussian() * 99.6512793);
 				point = new Vector2D(xLengthforSanJoa, yLengthforSanJoa);
-				sideLengths.add(point);
+				points.add(point);
 				numOfObjects--;
 			}
 
 			break;
 		case 3:
 			while (numOfObjects != 0) {
-				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100);
-				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100);
+				double xLengthforOlden = Math.abs(gen.nextGaussian() * (100 + 5000));
+				double yLengthforOlden = Math.abs(gen.nextGaussian() * (100 + 5000));
 				point = new Vector2D(xLengthforOlden, yLengthforOlden);
-				sideLengths.add(point);
+				points.add(point);
+				numOfObjects--;
+			}
+			break;
+		case 4:
+			while (numOfObjects != 0) {
+				double xLengthforOlden = (gen.nextGaussian() * 50) + 650;
+				double yLengthforOlden = (gen.nextGaussian() * 50) + 400;
+				point = new Vector2D(xLengthforOlden, yLengthforOlden);
+				points.add(point);
 				numOfObjects--;
 			}
 			break;
@@ -972,7 +981,7 @@ public class UtilsManagment {
 
 		}
 
-		return sideLengths;
+		return points;
 	}
 
 	public static double getEuclideanDistance(double x1, double y1, double x2, double y2) {
@@ -1061,20 +1070,47 @@ public class UtilsManagment {
 
 	// this method will convert the Vector2D to hashmap to hold <edgeId and distance
 	// from startnodes>
-	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsTodistance(Graph graph,
+	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsToDistance(Graph graph,
 			Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
 		Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer, ArrayList<Double>>();
 		for (Edge edge : roadObjectOnEdge.keySet()) {
-			ArrayList<Double> distanceFromStartNode = new ArrayList<Double>();
-			for (Vector2D roadObjectPoint : roadObjectOnEdge.get(edge)) {
+			if (!roadObjectOnEdge.get(edge).isEmpty()) {
+				ArrayList<Double> distanceFromStartNode = new ArrayList<Double>();
+				for (Vector2D roadObjectPoint : roadObjectOnEdge.get(edge)) {
 
-				double distance = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObjectPoint);
-				distanceFromStartNode.add(distance);
-
+					double distance = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObjectPoint);
+					distanceFromStartNode.add(distance);
+				}
+				objectsOnRoad.put(edge.getEdgeId(), distanceFromStartNode);
 			}
-			objectsOnRoad.put(edge.getEdgeId(), distanceFromStartNode);
+
 		}
 		return objectsOnRoad;
+	}
+
+	public static Map<Integer, ArrayList<RoadObject>> createRoadObjectsOnMap(Graph graph,
+			Map<Integer, ArrayList<Double>> objectsOnRoad, boolean roadObjectType) {
+		Map<Integer, ArrayList<RoadObject>> addedRoadObjects = new HashMap<Integer, ArrayList<RoadObject>>();
+		int roadObjectCount = 1;
+		for (Integer edgeId : objectsOnRoad.keySet()) {
+			if (!objectsOnRoad.get(edgeId).isEmpty()) {
+				ArrayList<RoadObject> roadObjects = new ArrayList<RoadObject>();
+				for (Double distanceFromStart : objectsOnRoad.get(edgeId)) {
+					RoadObject rObject = new RoadObject();
+					rObject.setObjId(roadObjectCount);
+					rObject.setType(roadObjectType);
+					rObject.setDistanceFromStartNode(distanceFromStart);
+
+					graph.addObjectOnEdge(edgeId, rObject);
+					roadObjectCount++;
+				}
+				roadObjects.addAll(roadObjects);
+				addedRoadObjects.put(edgeId, roadObjects);
+
+			}
+
+		}
+		return addedRoadObjects;
 	}
 
 	// Method to read the POI files from the datasets
