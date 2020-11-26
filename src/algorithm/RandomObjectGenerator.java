@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -1831,9 +1832,8 @@ public class RandomObjectGenerator {
 	public static void zcreateCentroidDistribution2(Graph graph, int datasetCode, int objectCounter,
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
 			int numberOfObjects, boolean objectType) {
-		// int objCounter = objectCounter;
 		Map<Edge, ArrayList<Vector2D>> acceptedPoints = new HashMap<Edge, ArrayList<Vector2D>>();
-		int totalNumberOfNodes = graph.getNodesWithInfo().size();
+
 		while (objectCounter < numberOfObjects) {
 			ArrayList<Vector2D> retrievedPoints = UtilsManagment.getEuclideanObjectPoints(datasetCode, numberOfObjects);
 			Map<Edge, ArrayList<Vector2D>> initialAcceptedPoints = UtilsManagment.isRoadObjectOnEdge(graph,
@@ -1844,7 +1844,7 @@ public class RandomObjectGenerator {
 					objectCounter += initialAcceptedPoints.get(edgeIndex).size();
 				} else {
 					if (!acceptedPoints.containsKey(edgeIndex)) {
-						acceptedPoints.put(edgeIndex, initialAcceptedPoints.get(edgeIndex));
+						acceptedPoints.get(edgeIndex).addAll(initialAcceptedPoints.get(edgeIndex));
 						objectCounter += initialAcceptedPoints.get(edgeIndex).size();
 					}
 				}
@@ -1852,11 +1852,26 @@ public class RandomObjectGenerator {
 			}
 
 		}
-		if (objectCounter == numberOfObjects) {
-			Map<Integer, ArrayList<Double>> objectsOnRoad = UtilsManagment.convertRoadObjectPointsToDistance(graph,
-					acceptedPoints);
-			UtilsManagment.createRoadObjectsOnMap(graph, objectsOnRoad, objectType);
+
+		if (objectCounter != numberOfObjects) {
+			while (objectCounter > numberOfObjects) {
+				int remainingObject = objectCounter - numberOfObjects;
+				for (int j = 0; j < remainingObject; j++) {
+					List<Integer> keyEdgeIndex = new ArrayList<Integer>(acceptedDistancesOnEdge.keySet());
+					Integer randomKeyEdgeId = keyEdgeIndex.get(random.nextInt(keyEdgeIndex.size()));
+					ArrayList<Double> randomKeyEdgeIdValue = acceptedDistancesOnEdge.get(randomKeyEdgeId);
+					randomKeyEdgeIdValue.remove(randomKeyEdgeIdValue.get(random.nextInt(randomKeyEdgeIdValue.size())));
+					Collections.shuffle(keyEdgeIndex);
+					objectCounter--;
+					j++;
+				}
+
+			}
+
 		}
+		Map<Integer, ArrayList<Double>> objectsOnRoad = UtilsManagment.convertRoadObjectPointsToDistance(graph,
+				acceptedPoints);
+		UtilsManagment.createRoadObjectsOnMap(graph, objectsOnRoad, objectType);
 
 	}
 

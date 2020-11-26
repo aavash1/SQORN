@@ -16,7 +16,7 @@ public class RandomObjectOnOldenburgDatasetTest {
 		String graphName = oldenGraph.getDatasetName();
 //		int trueObjSize = 100000;
 //		int falseObjSize = 10000;
-		int trueObjSize = 100;
+		int trueObjSize = 10;
 	//	int falseObjSize = 20;
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();

@@ -970,8 +970,8 @@ public class UtilsManagment {
 			break;
 		case 4:
 			while (numOfObjects != 0) {
-				double xLengthforOlden = (gen.nextGaussian() * 5) + 60;
-				double yLengthforOlden = (gen.nextGaussian() * 5) + 40;
+				double xLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
+				double yLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
 				point = new Vector2D(xLengthforOlden, yLengthforOlden);
 				points.add(point);
 				numOfObjects--;
@@ -998,18 +998,18 @@ public class UtilsManagment {
 		return getEuclideanDistance(x1, y1, x2, y2);
 	}
 
-	public static double getEuclideanDistance(Node node, Vector2D roadObject) {
+	public static double getEuclideanDistance(Node node, Vector2D objectPoint) {
 		double x1 = node.getLongitude();
 		double y1 = node.getLatitude();
-		double x2 = roadObject.getX();
-		double y2 = roadObject.getY();
+		double x2 = objectPoint.getX();
+		double y2 = objectPoint.getY();
 		return getEuclideanDistance(x1, y1, x2, y2);
 	}
 
-	public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D roadObject) {
+	public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D objectPoint) {
 
-		double distance1 = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObject);
-		double distance2 = getEuclideanDistance(graph.getNode(edge.getEndNodeId()), roadObject);
+		double distance1 = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), objectPoint);
+		double distance2 = getEuclideanDistance(graph.getNode(edge.getEndNodeId()), objectPoint);
 
 		if (distance1 + distance2 == edge.getLength()) {
 			return true;
@@ -1020,9 +1020,9 @@ public class UtilsManagment {
 	}
 
 	// all edge compare to one object
-	public static boolean isRoadObjectOnAnyEdge(Graph graph, Vector2D roadObject) {
+	public static boolean isRoadObjectOnAnyEdge(Graph graph, Vector2D objectPoint) {
 		for (Edge edge : graph.getEdgesWithInfo()) {
-			if (isRoadObjectOnEdge(graph, edge, roadObject)) {
+			if (isRoadObjectOnEdge(graph, edge, objectPoint)) {
 				return true;
 			} else
 				return false;
@@ -1032,9 +1032,9 @@ public class UtilsManagment {
 	}
 
 	// all object compare to one edge
-	public static ArrayList<Vector2D> isRoadObjectOnEdge(Graph graph, Edge edge, ArrayList<Vector2D> dataPoints) {
+	public static ArrayList<Vector2D> isRoadObjectOnEdge(Graph graph, Edge edge, ArrayList<Vector2D> objectPoints) {
 		ArrayList<Vector2D> selectedRoadDataPoints = new ArrayList<Vector2D>();
-		for (Vector2D roadObjectPoint : dataPoints) {
+		for (Vector2D roadObjectPoint : objectPoints) {
 			if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
 				if (!selectedRoadDataPoints.contains(roadObjectPoint)) {
 					selectedRoadDataPoints.add(roadObjectPoint);
