@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 //
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.decimal4j.util.DoubleRounder;
@@ -1771,7 +1773,7 @@ public class RandomObjectGenerator {
 		for (int i = 0; i < randomGaussianDistance.size(); i++) {
 			System.out.println(randomGaussianDistance.get(i));
 		}
-		
+
 		Collections.shuffle(randomGaussianDistance);
 
 		boolean foundCentroidNodeId = false;
@@ -1823,6 +1825,38 @@ public class RandomObjectGenerator {
 			}
 		}
 		return objectCounter;
+
+	}
+
+	public static void zcreateCentroidDistribution2(Graph graph, int datasetCode, int objectCounter,
+			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
+			int numberOfObjects, boolean objectType) {
+		// int objCounter = objectCounter;
+		Map<Edge, ArrayList<Vector2D>> acceptedPoints = new HashMap<Edge, ArrayList<Vector2D>>();
+		int totalNumberOfNodes = graph.getNodesWithInfo().size();
+		while (objectCounter < numberOfObjects) {
+			ArrayList<Vector2D> retrievedPoints = UtilsManagment.getEuclideanObjectPoints(datasetCode, numberOfObjects);
+			Map<Edge, ArrayList<Vector2D>> initialAcceptedPoints = UtilsManagment.isRoadObjectOnEdge(graph,
+					retrievedPoints);
+			for (Edge edgeIndex : initialAcceptedPoints.keySet()) {
+				if (acceptedPoints.isEmpty()) {
+					acceptedPoints.put(edgeIndex, initialAcceptedPoints.get(edgeIndex));
+					objectCounter += initialAcceptedPoints.get(edgeIndex).size();
+				} else {
+					if (!acceptedPoints.containsKey(edgeIndex)) {
+						acceptedPoints.put(edgeIndex, initialAcceptedPoints.get(edgeIndex));
+						objectCounter += initialAcceptedPoints.get(edgeIndex).size();
+					}
+				}
+
+			}
+
+		}
+		if (objectCounter == numberOfObjects) {
+			Map<Integer, ArrayList<Double>> objectsOnRoad = UtilsManagment.convertRoadObjectPointsToDistance(graph,
+					acceptedPoints);
+			UtilsManagment.createRoadObjectsOnMap(graph, objectsOnRoad, objectType);
+		}
 
 	}
 

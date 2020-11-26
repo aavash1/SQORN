@@ -933,7 +933,7 @@ public class UtilsManagment {
 		return generatedGaussianDistance;
 	}
 
-	public static ArrayList<Vector2D> getLocationCoordinate(int datasetCode, int numOfObjects) {
+	public static ArrayList<Vector2D> getEuclideanObjectPoints(int datasetCode, int numOfObjects) {
 		Random gen = new Random();
 
 		ArrayList<Vector2D> points = new ArrayList<Vector2D>();
@@ -961,8 +961,8 @@ public class UtilsManagment {
 			break;
 		case 3:
 			while (numOfObjects != 0) {
-				double xLengthforOlden = Math.abs(gen.nextGaussian() * (100 + 5000));
-				double yLengthforOlden = Math.abs(gen.nextGaussian() * (100 + 5000));
+				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100 )+5000;
+				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100) +5000;
 				point = new Vector2D(xLengthforOlden, yLengthforOlden);
 				points.add(point);
 				numOfObjects--;
@@ -970,8 +970,8 @@ public class UtilsManagment {
 			break;
 		case 4:
 			while (numOfObjects != 0) {
-				double xLengthforOlden = (gen.nextGaussian() * 50) + 650;
-				double yLengthforOlden = (gen.nextGaussian() * 50) + 400;
+				double xLengthforOlden = (gen.nextGaussian() * 5) + 60;
+				double yLengthforOlden = (gen.nextGaussian() * 5) + 40;
 				point = new Vector2D(xLengthforOlden, yLengthforOlden);
 				points.add(point);
 				numOfObjects--;
@@ -1047,12 +1047,12 @@ public class UtilsManagment {
 	}
 
 	// all object compare to all edge
-	public static Map<Edge, ArrayList<Vector2D>> isRoadObjectOnEdge(Graph graph, ArrayList<Vector2D> dataPoints) {
+	public static Map<Edge, ArrayList<Vector2D>> isRoadObjectOnEdge(Graph graph, ArrayList<Vector2D> objectPoints) {
 		Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge = new HashMap<Edge, ArrayList<Vector2D>>();
 
 		for (Edge edge : graph.getEdgesWithInfo()) {
 			ArrayList<Vector2D> selectedRoadObject = new ArrayList<Vector2D>();
-			for (Vector2D roadObjectPoint : dataPoints) {
+			for (Vector2D roadObjectPoint : objectPoints) {
 				if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
 					selectedRoadObject.add(roadObjectPoint);
 

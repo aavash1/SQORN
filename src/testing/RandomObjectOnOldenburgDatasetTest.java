@@ -16,12 +16,13 @@ public class RandomObjectOnOldenburgDatasetTest {
 		String graphName = oldenGraph.getDatasetName();
 //		int trueObjSize = 100000;
 //		int falseObjSize = 10000;
-		int trueObjSize = 10000;
+		int trueObjSize = 100;
 	//	int falseObjSize = 20;
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
-		RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		//RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		RandomObjectGenerator.zcreateCentroidDistribution2(oldenGraph, 3, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		oldenGraph.printObjectsOnEdges();
 
 	}

@@ -1,5 +1,9 @@
 package testing;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import algorithm.RandomObjectGenerator;
 import framework.Graph;
 import framework.UtilsManagment;
@@ -11,7 +15,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 
 		Graph gr = ManualRN5.getGraph();
 
-		
+		int trueObjSize = 100;
 
 //		int randomNodeSelected = 6;
 //		double randomGaussianDistance = 12.6;
@@ -30,7 +34,12 @@ public class RandomObjectGeneratorManualDatasetTest {
 		
 		//RandomObjectGenerator.zgenerateCCDistribution(gr, 10, 10);
 		//gr.printObjectsOnEdges();
-		System.out.println(UtilsManagment.getLocationCoordinate(1,500));
+		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
+		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
+		//RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		RandomObjectGenerator.zcreateCentroidDistribution2(gr, 4, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		gr.printObjectsOnEdges();
+//		System.out.println(UtilsManagment.getEuclideanObjectPoints(1,500));
 
 	}
 
