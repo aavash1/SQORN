@@ -613,8 +613,8 @@ public class Graph {
 		int generatedObjCounter = 0;
 
 		for (Integer key : m_objectsOnEdges.keySet()) {
-			System.out.println("Edge " + key + ";\t" + "Length: " + getEdgeDistance(key) + " ("
-					+ m_objectsOnEdges.get(key).size() + ") " + m_objectsOnEdges.get(key));
+//			System.out.println("Edge " + key + ";\t" + "Length: " + getEdgeDistance(key) + " ("
+//					+ m_objectsOnEdges.get(key).size() + ") " + m_objectsOnEdges.get(key));
 			generatedObjCounter += m_objectsOnEdges.get(key).size();
 		}
 		System.out.println("Total number of edges: " + m_edgesWithInfo.size());

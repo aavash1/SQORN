@@ -22,7 +22,7 @@ public class RandomObjectOnSanJoaDatasetTest {
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds = new ArrayList<Integer>();
-		RandomObjectGenerator.zcreateCentroidDistribution(sanJoagraph, 1, 1, acceptedDistancesOnEdge, centroidNodeIds,
+		RandomObjectGenerator.zcreateCentroidDistribution(sanJoagraph, 1, 3, acceptedDistancesOnEdge, centroidNodeIds,
 				trueObjSize, true);
 		sanJoagraph.printObjectsOnEdges();
 	}
