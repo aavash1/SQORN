@@ -36,8 +36,15 @@ public class RoadObject {
 		return m_doubDistanceFromStartNode;
 	}
 
-	public void setDistanceFromStartNode(double doubDistanceFromStartNode) {
-		this.m_doubDistanceFromStartNode = doubDistanceFromStartNode;
+	public boolean setDistanceFromStartNode(double doubDistanceFromStartNode) {
+		if (doubDistanceFromStartNode < 0) {
+		//	System.err.println("Negative distance");
+			return false;
+		} else {
+			this.m_doubDistanceFromStartNode = doubDistanceFromStartNode;
+			return true;
+		}
+
 	}
 
 	public double getLongitude() {
@@ -88,7 +95,7 @@ public class RoadObject {
 
 	public static Comparator<RoadObject> DistanceComparator = new Comparator<RoadObject>() {
 
-		//this should be the case "Every java class is using this comparator
+		// this should be the case "Every java class is using this comparator
 		public int compare(RoadObject obj1, RoadObject obj2) {
 			double distanceDiff = obj1.getDistanceFromStartNode() - obj2.getDistanceFromStartNode();
 			return (int) Math.round(distanceDiff);

@@ -961,8 +961,8 @@ public class UtilsManagment {
 			break;
 		case 3:
 			while (numOfObjects != 0) {
-				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100 )+5000;
-				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100) +5000;
+				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100 );
+				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100);
 				point = new Vector2D(xLengthforOlden, yLengthforOlden);
 				points.add(point);
 				numOfObjects--;
@@ -1008,8 +1008,8 @@ public class UtilsManagment {
 
 	public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D objectPoint) {
 
-		double distance1 = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), objectPoint);
-		double distance2 = getEuclideanDistance(graph.getNode(edge.getEndNodeId()), objectPoint);
+		double distance1 = (getEuclideanDistance(graph.getNode(edge.getStartNodeId()), objectPoint))/100;
+		double distance2 = (getEuclideanDistance(graph.getNode(edge.getEndNodeId()), objectPoint))/100;
 
 		if (distance1 + distance2 == edge.getLength()) {
 			return true;
