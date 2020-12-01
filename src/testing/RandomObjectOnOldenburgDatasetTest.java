@@ -16,14 +16,17 @@ public class RandomObjectOnOldenburgDatasetTest {
 		String graphName = oldenGraph.getDatasetName();
 //		int trueObjSize = 100000;
 //		int falseObjSize = 10000;
-		int trueObjSize = 10000;
+		int trueObjSize = 100000;
 	//	int falseObjSize = 20;
+		int valueOfSD=3;
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
-		RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1,100, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		System.out.println(oldenGraph.getDatasetName()+" with "+trueObjSize+" , SD: "+valueOfSD);
+		RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1,valueOfSD, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		//RandomObjectGenerator.zcreateCentroidDistribution2(oldenGraph, 3, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		oldenGraph.printObjectsOnEdges(); 
+		System.out.println("---------------------------------------------------------");
 
 	}
 

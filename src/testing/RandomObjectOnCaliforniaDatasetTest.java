@@ -18,7 +18,7 @@ public class RandomObjectOnCaliforniaDatasetTest {
 	
 		int trueObjSize = 100000;
 		//int falseObjSize = 20000;
-
+		int valueOfSD=3;
 
 //		//RandomObjectGenerator.zgenerateCCDistribution(calGraph, trueObjSize, falseObjSize);
 //		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
@@ -38,9 +38,11 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
-		RandomObjectGenerator.zcreateCentroidDistribution(calGraph, 1,3, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		System.out.println(calGraph.getDatasetName()+" with "+trueObjSize+" , SD: "+valueOfSD);
+		RandomObjectGenerator.zcreateCentroidDistribution(calGraph, 1,valueOfSD, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		//RandomObjectGenerator.zcreateCentroidDistribution2(calGraph, 1, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		calGraph.printObjectsOnEdges();
+		System.out.println("---------------------------------------------------------");
 
 	}
 

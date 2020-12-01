@@ -18,13 +18,16 @@ public class RandomObjectOnSanJoaDatasetTest {
 	public static void main(String[] args) {
 		Graph sanJoagraph = SanJoaquinRN.getGraph();
 
-		int trueObjSize = 10000;
+		int trueObjSize = 100000;
+		int valueOfSD=3;
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds = new ArrayList<Integer>();
-		RandomObjectGenerator.zcreateCentroidDistribution(sanJoagraph, 1, 3, acceptedDistancesOnEdge, centroidNodeIds,
+		System.out.println(sanJoagraph.getDatasetName()+" with "+trueObjSize+" , SD: "+valueOfSD);
+		RandomObjectGenerator.zcreateCentroidDistribution(sanJoagraph, 1, valueOfSD, acceptedDistancesOnEdge, centroidNodeIds,
 				trueObjSize, true);
 		sanJoagraph.printObjectsOnEdges();
+		System.out.println("---------------------------------------------------------");
 	}
 
 }

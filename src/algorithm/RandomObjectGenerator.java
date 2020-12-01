@@ -1845,8 +1845,7 @@ public class RandomObjectGenerator {
 			System.out.println("min: " + Collections.min(countList));
 			System.out.println("max: " + Collections.max(countList));
 			System.out.println("Average: " + added / countList.size());
-			System.out.println();
-			System.out.println();
+			
 			countList.clear();
 			eachCentroidNodes.clear();
 
