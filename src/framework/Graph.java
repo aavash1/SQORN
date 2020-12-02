@@ -620,8 +620,8 @@ public class Graph {
 	//	System.out.println("Total number of edges: " + m_edgesWithInfo.size());
 		System.out.println("Total number of edges populated with RoadObjects: " + m_objectsOnEdges.size());
 		System.out.println("Total number of true objects: " + m_totalNumberOfTrueObjects);
-	//	System.out.println("Total number of false objects: " + m_totalNumberOfFalseObjects);
-	//	System.out.println("Total number of objects: " + generatedObjCounter);
+		System.out.println("Total number of false objects: " + (m_totalNumberOfFalseObjects));
+		System.out.println("Total number of objects: " + (generatedObjCounter-0));
 	}
 
 	public void removeObjectsOnEdges() {

@@ -327,17 +327,16 @@ public class RandomObjectGenerator {
 		ArrayList<Integer> visitedNodes = new ArrayList<Integer>();
 		LinkedHashMap<Integer, Double> visitedEdges = new LinkedHashMap<Integer, Double>();
 		traverseUptoGivenDistance(gr, nodeId, visitedNodes, visitedEdges, distance);
-		
 
 		int lastEdgeId = UtilsManagment.getLast(visitedEdges).getKey();
 		double coveredDistance = UtilsManagment.getLast(visitedEdges).getValue();
 		int lastNodeId = visitedNodes.get(visitedNodes.size() - 1);
 
 		//
-//
+		//
 		int traversedEdgeCount = visitedEdges.size();
 		countList.add(traversedEdgeCount);
-		//System.out.println("Number of edge traversed: "+traversedEdgeCount);
+		// System.out.println("Number of edge traversed: "+traversedEdgeCount);
 
 		//
 		double finalDistance;
@@ -374,13 +373,11 @@ public class RandomObjectGenerator {
 				if (visitedEdges.isEmpty()) {
 					coveredDistance = initialDistance + selectedEdgeDistance;
 					visitedEdges.put(selectedEdgeId, coveredDistance);
-				//	System.out.println("Visted Number:" +visitedEdges.size());
+					// System.out.println("Visted Number:" +visitedEdges.size());
 					if (distance >= coveredDistance) {
 						traverseUptoGivenDistance(graph, indexOfNode2, visitedNode, visitedEdges, distance);
-						
-					
+
 					}
-					
 
 					break;
 
@@ -389,10 +386,9 @@ public class RandomObjectGenerator {
 					visitedEdges.put(selectedEdgeId, coveredDistance);
 					if (distance >= coveredDistance) {
 						traverseUptoGivenDistance(graph, indexOfNode2, visitedNode, visitedEdges, distance);
-					
 
 					}
-				
+
 					break;
 				}
 			}
@@ -1768,96 +1764,106 @@ public class RandomObjectGenerator {
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
 			int numberOfObjects, boolean objectType) {
 		// int objCounter = objectCounter;
+//		System.out.println("Each centroid size:");
+//		System.out.println("Min");
+//		System.out.println("Max");
+//		System.out.println("Average");
+//		System.err.println("------------------------------------");
 
 		int totalNumberOfNodes = graph.getNodesWithInfo().size();
 
-		for (int i = 0; i < m_numberOfCentroids; i++) {
-			int edgeCounter=0;
-			boolean foundCentroidNodeId = false;
+		//for (int i = 0; i < m_numberOfCentroids; i++) {
+		int edgeCounter = 0;
+		boolean foundCentroidNodeId = false;
 
-			int selectedRandomNode = -1;
-			while (!foundCentroidNodeId) {
-				selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
-				System.out.println("selected Random node: " + selectedRandomNode);
+		int selectedRandomNode = -1;
+		while (!foundCentroidNodeId) {
+			selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
+			//System.out.println("selected Random node: " + selectedRandomNode);
 
-				if (centroidNodeIds.isEmpty() || !centroidNodeIds.contains(selectedRandomNode)) {
-					foundCentroidNodeId = true;
-					break;
-				}
-
+			if (centroidNodeIds.isEmpty() || !centroidNodeIds.contains(selectedRandomNode)) {
+				foundCentroidNodeId = true;
+				break;
 			}
-			int numOfObjsPerCentroid=numberOfObjects/m_numberOfCentroids;
-			ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numOfObjsPerCentroid,
-					standardDeviationValue);
-			Collections.shuffle(randomGaussianDistance);
-			ArrayList<Integer> eachCentroidNodes=new ArrayList<Integer>();
-			while (randomGaussianDistance.size() != 0) {
-				
-				
-				int RandomIndex = random.nextInt(randomGaussianDistance.size());
-				double selectedRandomGaussianDistance = randomGaussianDistance.get(RandomIndex);
-
-				// Map <edgeId, finalDistance>
-				Map<Integer, Double> edgeAndDistance = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
-						selectedRandomGaussianDistance);
-				
-				int edgeId = UtilsManagment.getFirst(edgeAndDistance).getKey();
-				double finalDistance = UtilsManagment.getFirst(edgeAndDistance).getValue();
-				if(!eachCentroidNodes.contains(edgeId)){
-					eachCentroidNodes.add(edgeId);
-				}
-				
-
-				RoadObject roadObj = new RoadObject();
-				roadObj.setObjId(objectCounter);
-				roadObj.setType(objectType);
-
-				if (!acceptedDistancesOnEdge.containsKey(edgeId)) {
-					ArrayList<Double> acceptedDistances = new ArrayList<Double>();
-					acceptedDistancesOnEdge.put(edgeId, acceptedDistances);
-				}
-
-				if (!acceptedDistancesOnEdge.get(edgeId).contains(finalDistance)) {
-					if (!roadObj.setDistanceFromStartNode(finalDistance)) {
-						continue;
-					}
-				}
-
-				if (graph.addObjectOnEdge(edgeId, roadObj)) {
-					objectCounter++;
-					// System.out.println(objCounter+" objects added");
-					acceptedDistancesOnEdge.get(edgeId).add(finalDistance);
-					// centroidEdgeIds.add(edgeId);
-					centroidNodeIds.add(selectedRandomNode);
-					centroidNodeIds.addAll(graph.getStartAndEndNodes(edgeId));
-					centroidNodeIds.add(selectedRandomNode);
-					randomGaussianDistance.remove(RandomIndex);
-					
-					
-				}
-		
-			}
-			System.out.println("For the centroid node: "+selectedRandomNode + " generated " + numOfObjsPerCentroid + " objects covering total: "+eachCentroidNodes.size()+" edges.");
-			int added = 0;
-			for (int j = 0; j < countList.size(); j++) {
-				added += countList.get(j);
-			}
-			System.out.println("min: " + Collections.min(countList));
-			System.out.println("max: " + Collections.max(countList));
-			System.out.println("Average: " + added / countList.size());
-			
-			countList.clear();
-			eachCentroidNodes.clear();
 
 		}
+		int numOfObjsPerCentroid = numberOfObjects / m_numberOfCentroids;
+//		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numOfObjsPerCentroid,
+//				standardDeviationValue);
+		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numberOfObjects,
+				standardDeviationValue);
+		Collections.shuffle(randomGaussianDistance);
+		ArrayList<Integer> eachCentroidNodes = new ArrayList<Integer>();
+		while (randomGaussianDistance.size() != 0) {
 
+			int RandomIndex = random.nextInt(randomGaussianDistance.size());
+			double selectedRandomGaussianDistance = randomGaussianDistance.get(RandomIndex);
+
+			// Map <edgeId, finalDistance>
+			Map<Integer, Double> edgeAndDistance = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
+					selectedRandomGaussianDistance);
+
+			int edgeId = UtilsManagment.getFirst(edgeAndDistance).getKey();
+			double finalDistance = UtilsManagment.getFirst(edgeAndDistance).getValue();
+			if (!eachCentroidNodes.contains(edgeId)) {
+				eachCentroidNodes.add(edgeId);
+			}
+
+			RoadObject roadObj = new RoadObject();
+			roadObj.setObjId(objectCounter);
+			roadObj.setType(objectType);
+
+			if (!acceptedDistancesOnEdge.containsKey(edgeId)) {
+				ArrayList<Double> acceptedDistances = new ArrayList<Double>();
+				acceptedDistancesOnEdge.put(edgeId, acceptedDistances);
+			}
+
+			if (!acceptedDistancesOnEdge.get(edgeId).contains(finalDistance)) {
+				if (!roadObj.setDistanceFromStartNode(finalDistance)) {
+					continue;
+				}
+			}
+
+			if (graph.addObjectOnEdge(edgeId, roadObj)) {
+				objectCounter++;
+				// System.out.println(objCounter+" objects added");
+				acceptedDistancesOnEdge.get(edgeId).add(finalDistance);
+				// centroidEdgeIds.add(edgeId);
+				centroidNodeIds.add(selectedRandomNode);
+				centroidNodeIds.addAll(graph.getStartAndEndNodes(edgeId));
+				centroidNodeIds.add(selectedRandomNode);
+				randomGaussianDistance.remove(RandomIndex);
+
+			}
+
+		}
+//		System.out.println("For the centroid node: " + selectedRandomNode + " generated " + numberOfObjects
+//				+ " objects covering total: " + eachCentroidNodes.size() + " edges.");
+//		System.out.println(eachCentroidNodes.size());
 //		int added = 0;
-//		for (int i = 0; i < countList.size(); i++) {
-//			added += countList.get(i);
+//		for (int j = 0; j < countList.size(); j++) {
+//			added += countList.get(j);
 //		}
-//		System.out.println("min: " + Collections.min(countList));
-//		System.out.println("max: " + Collections.max(countList));
-//		System.out.println("Average: " + added / countList.size());
+////		System.out.println("min: " + Collections.min(countList));
+////		System.out.println("max: " + Collections.max(countList));
+////		System.out.println("Average: " + added / countList.size());
+//		System.out.println(Collections.min(countList));
+//		System.out.println(Collections.max(countList));
+//		System.out.println(added / countList.size());
+//		System.out.println(" ");
+//
+//		countList.clear();
+//		eachCentroidNodes.clear();
+
+		//}
+
+		// int added = 0;
+		// for (int i = 0; i < countList.size(); i++) {
+		// added += countList.get(i);
+		// }
+		// System.out.println("min: " + Collections.min(countList));
+		// System.out.println("max: " + Collections.max(countList));
+		// System.out.println("Average: " + added / countList.size());
 		return objectCounter;
 		// 5, 15, 6, 8
 	}
@@ -1912,7 +1918,7 @@ public class RandomObjectGenerator {
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidEdgeIds,
 			int numberOfObject, boolean ObjectType) {
 		// int objCounter = objectCounter;
-		int totalNumOfObjects = numberOfObject;
+		int totalNumOfObjects = objectCounter+numberOfObject;
 		int randomEdgeId;
 		boolean testVar;
 		int totalNumberOfEdges = graph.getEdgesWithInfo().size();
@@ -1960,7 +1966,7 @@ public class RandomObjectGenerator {
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 
 		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
-		if (objectType = true) {
+		if (objectType == true) {
 			// <C,U> : < Query/True - C, Data/False - U >
 			for (int i = 0; i < m_numberOfCentroids; i++) {
 				int numOfObjPerCentroid = numberOfTrueObject / m_numberOfCentroids;

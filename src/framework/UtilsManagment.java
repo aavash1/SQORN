@@ -26,6 +26,7 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import com.google.common.math.Quantiles.ScaleAndIndex;
 import com.opencsv.CSVWriter;
 
 import algorithm.ANNClustered;
@@ -34,6 +35,7 @@ import algorithm.ClusteringNodes;
 public class UtilsManagment {
 	final static String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
+	private static double scalingNumber=1000;
 
 	// private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
@@ -927,7 +929,7 @@ public class UtilsManagment {
 		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
 		Random gen = new Random();
 		while (size != 0) {
-			generatedGaussianDistance.add(Math.abs(gen.nextGaussian() * standardDeviation));
+			generatedGaussianDistance.add((Math.abs(gen.nextGaussian() * standardDeviation))*scalingNumber);
 			size--;
 		}
 		return generatedGaussianDistance;

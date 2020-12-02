@@ -19,7 +19,7 @@ public class RandomObjectOnSanJoaDatasetTest {
 		Graph sanJoagraph = SanJoaquinRN.getGraph();
 
 		int trueObjSize = 100000;
-		int valueOfSD=3;
+		int valueOfSD=2;
 
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds = new ArrayList<Integer>();
