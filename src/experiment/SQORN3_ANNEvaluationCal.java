@@ -9,18 +9,16 @@ import algorithm.ANNNaive;
 import algorithm.RandomObjectGenerator;
 import algorithm.VivetAlgorithm;
 import framework.Graph;
-
 import framework.UtilsManagment;
-import road_network.OldenburgRN;
+import road_network.CaliforniaRN;
 
-public class SQORN3_ANNEvaluationOlden {
+public class SQORN3_ANNEvaluationCal {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Graph oldenGraph = OldenburgRN.getGraph();
+		Graph calGraph = CaliforniaRN.getGraph();
 		int valueOfSD = 2;
-		int datasetScaleFactor = 1000;
-		int redundantnum=0;
+		int datasetScaleFactor = 1;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
@@ -30,6 +28,7 @@ public class SQORN3_ANNEvaluationOlden {
 		queryParams.add(50000);
 		queryParams.add(50000);
 		queryParams.add(50000);
+
 		queryParams.add(20000);
 		queryParams.add(30000);
 		queryParams.add(50000);
@@ -41,6 +40,7 @@ public class SQORN3_ANNEvaluationOlden {
 		dataParams.add(50000);
 		dataParams.add(70000);
 		dataParams.add(100000);
+
 		dataParams.add(50000);
 		dataParams.add(50000);
 		dataParams.add(50000);
@@ -48,9 +48,9 @@ public class SQORN3_ANNEvaluationOlden {
 		dataParams.add(50000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
-				.readNodeClustersFile("ClusterDatasets/Oldenburg_node-clusters_2019-12-06 17-54-10.csv");
+				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
 
-		String graphName = oldenGraph.getDatasetName();
+		String graphName = calGraph.getDatasetName();
 
 		String evaluationResultFile = "ResultFiles/" + graphName + "_" + "_ANNs-Naive-Clustereds_VIVET"
 				+ UtilsManagment.getNormalDateTime() + ".csv";
@@ -64,14 +64,14 @@ public class SQORN3_ANNEvaluationOlden {
 					String distribution = "<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
+					RandomObjectGenerator.zgenerateCUUCDistribution(calGraph, valueOfSD, datasetScaleFactor,
 							queryObjNum, dataObjNum, true);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
 							distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
@@ -79,15 +79,14 @@ public class SQORN3_ANNEvaluationOlden {
 					String distribution = "<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
+					RandomObjectGenerator.zgenerateCUUCDistribution(calGraph, valueOfSD, datasetScaleFactor,
 							queryObjNum, dataObjNum, false);
-
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
 							distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
@@ -95,29 +94,28 @@ public class SQORN3_ANNEvaluationOlden {
 					String distribution = "<C,C>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
-							queryObjNum, dataObjNum);
-
+					RandomObjectGenerator.zgenerateCCDistribution(calGraph, valueOfSD, datasetScaleFactor, queryObjNum,
+							dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
 							distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
 				} else if ((i >= 15) && (i < 20)) {
 					String distribution = "<U,U>";
-					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraph, queryObjNum, dataObjNum);
+					RandomObjectGenerator.generateUniformRandomObjectsOnMap(calGraph, queryObjNum, dataObjNum);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
-					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
+					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
 							distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");
@@ -125,7 +123,7 @@ public class SQORN3_ANNEvaluationOlden {
 
 			}
 		}
-		System.err.println("Experiment has completed successfully");
+		System.err.println("Experiments has finished successfully.");
 
 	}
 
