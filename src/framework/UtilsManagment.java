@@ -35,7 +35,7 @@ import algorithm.ClusteringNodes;
 public class UtilsManagment {
 	final static String csvSplitBy = ",";
 	final int byteOrderMark = 65279;
-	private static double scalingNumber=1000;
+	private static double scalingNumber=1990;
 
 	// private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
@@ -885,34 +885,34 @@ public class UtilsManagment {
 
 	}
 
-	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
-		if (map.isEmpty())
-			return null;
-		return map.entrySet().iterator().next();
-	}
-
-	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
-		try {
-			if (map instanceof LinkedHashMap)
-				return getLastViaReflection(map);
-		} catch (Exception ignore) {
-		}
-		return getLastByIterating(map);
-	}
-
-	public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
-		Entry<K, V> last = null;
-		for (Entry<K, V> e : map.entrySet())
-			last = e;
-		return last;
-	}
-
-	public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
-			throws NoSuchFieldException, IllegalAccessException {
-		Field tail = map.getClass().getDeclaredField("tail");
-		tail.setAccessible(true);
-		return (Entry<K, V>) tail.get(map);
-	}
+//	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
+//		if (map.isEmpty())
+//			return null;
+//		return map.entrySet().iterator().next();
+//	}
+//
+//	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
+//		try {
+//			if (map instanceof LinkedHashMap)
+//				return getLastViaReflection(map);
+//		} catch (Exception ignore) {
+//		}
+//		return getLastByIterating(map);
+//	}
+//
+//	public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
+//		Entry<K, V> last = null;
+//		for (Entry<K, V> e : map.entrySet())
+//			last = e;
+//		return last;
+//	}
+//
+//	public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
+//			throws NoSuchFieldException, IllegalAccessException {
+//		Field tail = map.getClass().getDeclaredField("tail");
+//		tail.setAccessible(true);
+//		return (Entry<K, V>) tail.get(map);
+//	}
 
 	public static boolean isInteger(String str) {
 
@@ -925,15 +925,15 @@ public class UtilsManagment {
 		return true;
 	}
 
-	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation) {
-		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
-		Random gen = new Random();
-		while (size != 0) {
-			generatedGaussianDistance.add((Math.abs(gen.nextGaussian() * standardDeviation))*scalingNumber);
-			size--;
-		}
-		return generatedGaussianDistance;
-	}
+//	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation) {
+//		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
+//		Random gen = new Random();
+//		while (size != 0) {
+//			generatedGaussianDistance.add((Math.abs(gen.nextGaussian() * standardDeviation))*scalingNumber);
+//			size--;
+//		}
+//		return generatedGaussianDistance;
+//	}
 
 	public static ArrayList<Vector2D> getEuclideanObjectPoints(int datasetCode, int numOfObjects) {
 		Random gen = new Random();

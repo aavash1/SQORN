@@ -37,7 +37,7 @@ public class RandomObjectGeneratorManualDatasetTest {
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge=new HashMap<Integer,ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds=new ArrayList<Integer>();
 		//RandomObjectGenerator.zcreateCentroidDistribution(oldenGraph, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
-		RandomObjectGenerator.zcreateCentroidDistribution(gr, 1, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
+		//RandomObjectGenerator.zcreateCentroidDistribution(gr, 1, 1, acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
 		gr.printObjectsOnEdges();
 //		System.out.println(UtilsManagment.getEuclideanObjectPoints(1,500));
 

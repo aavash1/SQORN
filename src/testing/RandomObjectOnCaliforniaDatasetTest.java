@@ -16,9 +16,10 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Graph calGraph = CaliforniaRN.getGraph();
 
-		int trueObjSize = 20000;
+		int trueObjSize = 100000;
 		int falseObjSize = 10000;
 		int valueOfSD = 2;
+		int datasetScaleFactor = 1;
 
 		// //RandomObjectGenerator.zgenerateCCDistribution(calGraph, trueObjSize,
 		// falseObjSize);
@@ -45,12 +46,12 @@ public class RandomObjectOnCaliforniaDatasetTest {
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds = new ArrayList<Integer>();
 		System.out.println(calGraph.getDatasetName() + " with " + trueObjSize + " , SD: " + valueOfSD);
-		//RandomObjectGenerator.zgenerateCUUCDistribution(calGraph, valueOfSD, trueObjSize, falseObjSize, false);
+		RandomObjectGenerator.zgenerateCUUCDistribution(calGraph, valueOfSD,datasetScaleFactor, trueObjSize, falseObjSize, true);
 		// RandomObjectGenerator.zcreateCentroidDistribution(calGraph, 1,valueOfSD,
 		// acceptedDistancesOnEdge, centroidNodeIds, falseObjSize, false);
 		// RandomObjectGenerator.zcreateCentroidDistribution2(calGraph, 1, 1,
 		// acceptedDistancesOnEdge, centroidNodeIds, trueObjSize, true);
-		RandomObjectGenerator.zgenerateCCDistribution(calGraph, valueOfSD, trueObjSize, falseObjSize);
+		//RandomObjectGenerator.zgenerateCCDistribution(calGraph, valueOfSD, trueObjSize, falseObjSize);
 		calGraph.printObjectsOnEdges();
 		System.out.println("---------------------------------------------------------");
 

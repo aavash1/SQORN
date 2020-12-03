@@ -20,16 +20,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //These libraries are for getting last element from the hashmap.
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.LinkedHashMap;
+//import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 //
 import org.apache.commons.math3.random.RandomDataGenerator;
-import org.decimal4j.util.DoubleRounder;
+//import org.decimal4j.util.DoubleRounder;
 
 //import com.google.common.collect.Multiset.Entry;
 
@@ -39,22 +39,22 @@ import framework.Edge;
 import framework.Graph;
 import framework.RoadObject;
 import framework.UtilsManagment;
-import testing.RandomGaussian;
+//import testing.RandomGaussian;
 
 public class RandomObjectGenerator {
 
 	// not complete yet
 	// Object Type: false = data object ; true = query object;
-	private static boolean uniformObjects = false;
-	private static boolean uniformDataObjects = false;
-	private static boolean uniformQueryObjects = false;
-	private static int maxNumberOfObjsPerEdge;
+//	private static boolean uniformObjects = false;
+//	private static boolean uniformDataObjects = false;
+//	private static boolean uniformQueryObjects = false;
+//	private static int maxNumberOfObjsPerEdge;
 	// For Statistics
 	private static int m_totalNumberOfObjects;
 	private static int m_totalNumberOfTrueObjects;
 	private static int m_totalNumberOfFalseObjects;
 	private static int m_totalNumberOfEdges;
-	private static double minDistBetNodeAndObject;
+//	private static double minDistBetNodeAndObject;
 	private static int m_totalNumberOfEdgesContainingObjects;
 	private static double m_totalLengthOfEdges;
 	private static double m_minEdgeLength;
@@ -77,8 +77,8 @@ public class RandomObjectGenerator {
 		int totalNumberOfObjects = totalNumberOfFalseObjects + totalNumberOfTrueObjects;
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		int randomEdgeId;
-		int centroidObjectSize = totalNumberOfObjects;
-		double standardDeviation = 0.0;
+		//int centroidObjectSize = totalNumberOfObjects;
+		//double standardDeviation = 0.0;
 
 		ArrayList<Integer> centroidEdgeIds = new ArrayList<Integer>();
 		// centroidEdgeBrances will hold all the edges that traverses through first 10
@@ -237,8 +237,8 @@ public class RandomObjectGenerator {
 		}
 		double standardDeviation = 0.0;
 
-		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(centroidObjectSize,
-				standardDeviation);
+		ArrayList<Double> randomGaussianDistance = getGaussianDistributionDistance(centroidObjectSize,
+				standardDeviation, 1);
 
 		Collections.shuffle(randomGaussianDistance);
 
@@ -252,8 +252,8 @@ public class RandomObjectGenerator {
 			// Map <edgeId, finalDistance>
 			Map<Integer, Double> edgeAndDistance = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
 					selectedRandomGaussianDistance);
-			int edgeId = UtilsManagment.getFirst(edgeAndDistance).getKey();
-			double finalDistance = UtilsManagment.getFirst(edgeAndDistance).getValue();
+			int edgeId = getFirst(edgeAndDistance).getKey();
+			double finalDistance = getFirst(edgeAndDistance).getValue();
 
 			RoadObject roadObj = new RoadObject();
 			roadObj.setObjId(objCounter);
@@ -328,8 +328,8 @@ public class RandomObjectGenerator {
 		LinkedHashMap<Integer, Double> visitedEdges = new LinkedHashMap<Integer, Double>();
 		traverseUptoGivenDistance(gr, nodeId, visitedNodes, visitedEdges, distance);
 
-		int lastEdgeId = UtilsManagment.getLast(visitedEdges).getKey();
-		double coveredDistance = UtilsManagment.getLast(visitedEdges).getValue();
+		int lastEdgeId = getLast(visitedEdges).getKey();
+		double coveredDistance = getLast(visitedEdges).getValue();
 		int lastNodeId = visitedNodes.get(visitedNodes.size() - 1);
 
 		//
@@ -382,7 +382,7 @@ public class RandomObjectGenerator {
 					break;
 
 				} else {
-					coveredDistance = UtilsManagment.getLast(visitedEdges).getValue() + selectedEdgeDistance;
+					coveredDistance = getLast(visitedEdges).getValue() + selectedEdgeDistance;
 					visitedEdges.put(selectedEdgeId, coveredDistance);
 					if (distance >= coveredDistance) {
 						traverseUptoGivenDistance(graph, indexOfNode2, visitedNode, visitedEdges, distance);
@@ -715,7 +715,7 @@ public class RandomObjectGenerator {
 					// isThereDistanceConflict = false;
 
 				} else {
-					int conflictCounter = 0;
+					//int conflictCounter = 0;
 					while (!isAcceptableDistance) {
 
 						distanceFromStartNode = getRandDoubleBetRange5(0, edgeLength);
@@ -738,7 +738,7 @@ public class RandomObjectGenerator {
 								break;
 							}
 
-							conflictCounter++;
+						//	conflictCounter++;
 							// System.out.println("conflictCounter: " + conflictCounter + ", distandFromSN:
 							// " + distanceFromStartNode + ", edgeLength: " + edgeLength);
 
@@ -1148,9 +1148,9 @@ public class RandomObjectGenerator {
 
 		// printGeneratorPara"meters();
 		// i - edge
-		int edgeCounter = 0;
+		//int edgeCounter = 0;
 		for (Integer keyEdgeId : mapOfEdgeObjectNumber.keySet()) {
-			edgeCounter++;
+		//	edgeCounter++;
 			// System.out.println("Finished Generating on: " + edgeCounter + " out of " +
 			// mapOfEdgeObjectNumber.size());
 			ArrayList<Double> checkedRandomDistances = new ArrayList<Double>();
@@ -1760,26 +1760,59 @@ public class RandomObjectGenerator {
 
 	}
 
+	// To get the first and last key of the map
+	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
+		if (map.isEmpty())
+			return null;
+		return map.entrySet().iterator().next();
+	}
+
+	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
+		try {
+			if (map instanceof LinkedHashMap)
+				return getLastViaReflection(map);
+		} catch (Exception ignore) {
+		}
+		return getLastByIterating(map);
+	}
+
+	public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
+		Entry<K, V> last = null;
+		for (Entry<K, V> e : map.entrySet())
+			last = e;
+		return last;
+	}
+
+	public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
+			throws NoSuchFieldException, IllegalAccessException {
+		Field tail = map.getClass().getDeclaredField("tail");
+		tail.setAccessible(true);
+		return (Entry<K, V>) tail.get(map);
+	}
+	// --ends here//
+
+	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation,
+			int scaleFactor) {
+		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
+		Random gen = new Random();
+		while (size != 0) {
+			generatedGaussianDistance.add((Math.abs(gen.nextGaussian() * standardDeviation)) * scaleFactor);
+			size--;
+		}
+		return generatedGaussianDistance;
+	}
+
 	public static int zcreateCentroidDistribution(Graph graph, int objectCounter, double standardDeviationValue,
-			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
-			int numberOfObjects, boolean objectType) {
-		// int objCounter = objectCounter;
-//		System.out.println("Each centroid size:");
-//		System.out.println("Min");
-//		System.out.println("Max");
-//		System.out.println("Average");
-//		System.err.println("------------------------------------");
+			int scaleFactor, Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge,
+			ArrayList<Integer> centroidNodeIds, int numberOfObjects, boolean objectType) {
 
 		int totalNumberOfNodes = graph.getNodesWithInfo().size();
-
-		//for (int i = 0; i < m_numberOfCentroids; i++) {
-		int edgeCounter = 0;
 		boolean foundCentroidNodeId = false;
 
 		int selectedRandomNode = -1;
 		while (!foundCentroidNodeId) {
 			selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
-			//System.out.println("selected Random node: " + selectedRandomNode);
+			System.out.println("selected Random node: " + selectedRandomNode);
 
 			if (centroidNodeIds.isEmpty() || !centroidNodeIds.contains(selectedRandomNode)) {
 				foundCentroidNodeId = true;
@@ -1787,11 +1820,8 @@ public class RandomObjectGenerator {
 			}
 
 		}
-		int numOfObjsPerCentroid = numberOfObjects / m_numberOfCentroids;
-//		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numOfObjsPerCentroid,
-//				standardDeviationValue);
-		ArrayList<Double> randomGaussianDistance = UtilsManagment.getGaussianDistributionDistance(numberOfObjects,
-				standardDeviationValue);
+		ArrayList<Double> randomGaussianDistance = getGaussianDistributionDistance(numberOfObjects,
+				standardDeviationValue, scaleFactor);
 		Collections.shuffle(randomGaussianDistance);
 		ArrayList<Integer> eachCentroidNodes = new ArrayList<Integer>();
 		while (randomGaussianDistance.size() != 0) {
@@ -1803,8 +1833,8 @@ public class RandomObjectGenerator {
 			Map<Integer, Double> edgeAndDistance = traverseFromGivenNodeUptoDistance(graph, selectedRandomNode,
 					selectedRandomGaussianDistance);
 
-			int edgeId = UtilsManagment.getFirst(edgeAndDistance).getKey();
-			double finalDistance = UtilsManagment.getFirst(edgeAndDistance).getValue();
+			int edgeId = getFirst(edgeAndDistance).getKey();
+			double finalDistance = getFirst(edgeAndDistance).getValue();
 			if (!eachCentroidNodes.contains(edgeId)) {
 				eachCentroidNodes.add(edgeId);
 			}
@@ -1837,25 +1867,26 @@ public class RandomObjectGenerator {
 			}
 
 		}
-//		System.out.println("For the centroid node: " + selectedRandomNode + " generated " + numberOfObjects
-//				+ " objects covering total: " + eachCentroidNodes.size() + " edges.");
-//		System.out.println(eachCentroidNodes.size());
-//		int added = 0;
-//		for (int j = 0; j < countList.size(); j++) {
-//			added += countList.get(j);
-//		}
-////		System.out.println("min: " + Collections.min(countList));
-////		System.out.println("max: " + Collections.max(countList));
-////		System.out.println("Average: " + added / countList.size());
-//		System.out.println(Collections.min(countList));
-//		System.out.println(Collections.max(countList));
-//		System.out.println(added / countList.size());
-//		System.out.println(" ");
-//
-//		countList.clear();
-//		eachCentroidNodes.clear();
+		// System.out.println("For the centroid node: " + selectedRandomNode + "
+		// generated " + numberOfObjects
+		// + " objects covering total: " + eachCentroidNodes.size() + " edges.");
+		// System.out.println(eachCentroidNodes.size());
+		// int added = 0;
+		// for (int j = 0; j < countList.size(); j++) {
+		// added += countList.get(j);
+		// }
+		// System.out.println("min: " + Collections.min(countList));
+		// System.out.println("max: " + Collections.max(countList));
+		// System.out.println("Average: " + added / countList.size());
+		// System.out.println(Collections.min(countList));
+		// System.out.println(Collections.max(countList));
+		// System.out.println(added / countList.size());
+		// System.out.println(" ");
+		//
+		// countList.clear();
+		// eachCentroidNodes.clear();
 
-		//}
+		// }
 
 		// int added = 0;
 		// for (int i = 0; i < countList.size(); i++) {
@@ -1918,7 +1949,7 @@ public class RandomObjectGenerator {
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidEdgeIds,
 			int numberOfObject, boolean ObjectType) {
 		// int objCounter = objectCounter;
-		int totalNumOfObjects = objectCounter+numberOfObject;
+		int totalNumOfObjects = objectCounter + numberOfObject;
 		int randomEdgeId;
 		boolean testVar;
 		int totalNumberOfEdges = graph.getEdgesWithInfo().size();
@@ -1959,8 +1990,8 @@ public class RandomObjectGenerator {
 		}
 	}
 
-	public static void zgenerateCUUCDistribution(Graph graph, double standardDeviationValue, int numberOfTrueObject,
-			int numberOfFalseObject, boolean objectType) {
+	public static void zgenerateCUUCDistribution(Graph graph, double standardDeviationValue, int scaleFactor,
+			int numberOfTrueObject, int numberOfFalseObject, boolean objectType) {
 		graph.removeObjectsOnEdges();
 		int objCounter = 1;
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
@@ -1970,8 +2001,8 @@ public class RandomObjectGenerator {
 			// <C,U> : < Query/True - C, Data/False - U >
 			for (int i = 0; i < m_numberOfCentroids; i++) {
 				int numOfObjPerCentroid = numberOfTrueObject / m_numberOfCentroids;
-				zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, acceptedDistancesOnEdge,
-						centroidEdgeIds, numOfObjPerCentroid, objectType);
+				zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, scaleFactor,
+						acceptedDistancesOnEdge, centroidEdgeIds, numOfObjPerCentroid, objectType);
 				objCounter += numOfObjPerCentroid;
 			}
 			zcreateUniformDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds, numberOfFalseObject,
@@ -1982,8 +2013,8 @@ public class RandomObjectGenerator {
 			// <U,C> : < Query/True - U, Data/False - C >
 			for (int i = 0; i < m_numberOfCentroids; i++) {
 				int numOfObjPerCentroid = numberOfFalseObject / m_numberOfCentroids;
-				zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, acceptedDistancesOnEdge,
-						centroidEdgeIds, numOfObjPerCentroid, objectType);
+				zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, scaleFactor,
+						acceptedDistancesOnEdge, centroidEdgeIds, numOfObjPerCentroid, objectType);
 				objCounter += numOfObjPerCentroid;
 			}
 			zcreateUniformDistribution(graph, objCounter, acceptedDistancesOnEdge, centroidEdgeIds, numberOfTrueObject,
@@ -1994,8 +2025,8 @@ public class RandomObjectGenerator {
 
 	}
 
-	public static void zgenerateCCDistribution(Graph graph, double standardDeviationValue, int numberOfTrueObject,
-			int numberOfFalseObject) {
+	public static void zgenerateCCDistribution(Graph graph, double standardDeviationValue, int scaleFactor,
+			int numberOfTrueObject, int numberOfFalseObject) {
 
 		// <C,C> : < Query/True - C, Data/False - C >
 		graph.removeObjectsOnEdges();
@@ -2009,13 +2040,13 @@ public class RandomObjectGenerator {
 			// zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge,
 			// centroidEdgeIds,
 			// numOfTrueObjPerCentroid, true);
-			objCounter = zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, acceptedDistancesOnEdge,
-					centroidEdgeIds, numOfTrueObjPerCentroid, true);
+			objCounter = zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, scaleFactor,
+					acceptedDistancesOnEdge, centroidEdgeIds, numOfTrueObjPerCentroid, true);
 			// zcreateCentroidDistribution(graph, objCounter, acceptedDistancesOnEdge,
 			// centroidEdgeIds,
 			// numOfFalseObjPerCentroid, false);
-			objCounter = zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, acceptedDistancesOnEdge,
-					centroidEdgeIds, numOfFalseObjPerCentroid, false);
+			objCounter = zcreateCentroidDistribution(graph, objCounter, standardDeviationValue, scaleFactor,
+					acceptedDistancesOnEdge, centroidEdgeIds, numOfFalseObjPerCentroid, false);
 		}
 
 	}

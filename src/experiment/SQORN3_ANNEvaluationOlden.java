@@ -13,26 +13,38 @@ import framework.Graph;
 import framework.UtilsManagment;
 import road_network.OldenburgRN;
 
-public class SQORN1_ANNEvaluationOldenNEWGAUSSIAN {
+public class SQORN3_ANNEvaluationOlden {
 
 	public static void main(String[] args) {
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Graph oldenGraph = OldenburgRN.getGraph();
 		int valueOfSD = 2;
+		int datasetScaleFactor = 1000;
 
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
 
-		queryParams.add(400000);
-		queryParams.add(600000);
-		queryParams.add(800000);
-		queryParams.add(1000000);
-		
+		queryParams.add(50000);
+		queryParams.add(50000);
+		queryParams.add(50000);
+		queryParams.add(50000);
+		queryParams.add(50000);
+		queryParams.add(20000);
+		queryParams.add(30000);
+		queryParams.add(50000);
+		queryParams.add(70000);
+		queryParams.add(100000);
+
+		dataParams.add(20000);
+		dataParams.add(30000);
+		dataParams.add(50000);
+		dataParams.add(70000);
+		dataParams.add(100000);
 		dataParams.add(50000);
 		dataParams.add(50000);
 		dataParams.add(50000);
 		dataParams.add(50000);
-		
+		dataParams.add(50000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
 				.readNodeClustersFile("ClusterDatasets/Oldenburg_node-clusters_2019-12-06 17-54-10.csv");
@@ -46,60 +58,55 @@ public class SQORN1_ANNEvaluationOldenNEWGAUSSIAN {
 			int queryObjNum = queryParams.poll();
 			int dataObjNum = dataParams.poll();
 
-			for (int i = 0; i < 4; i++) {
-				if (i < 1) {
+			for (int i = 0; i < 20; i++) {
+				if (i < 5) {
 					String distribution = "<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, queryObjNum, dataObjNum,
-							true);
-					// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(oldenGraph,
-					// queryObjNum, dataObjNum,
-					// true, perimeter);
+					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
+							queryObjNum, dataObjNum, true);
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationOldenNEWGAUSSIAN.executeAlgorithms(oldenGraph, nodeClusterFromFile,
-							evaluationResultFile, distribution);
+					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
-				} else if ((i >= 1) && (i < 2)) {
+				} else if ((i >= 5) && (i < 10)) {
 					String distribution = "<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, queryObjNum, dataObjNum,
-							false);
-					// RandomObjectGenerator.generateRandomObjectsOnEdgesWithCentroid(oldenGraph,
-					// queryObjNum, dataObjNum,
-					// false, perimeter);
+					RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
+							queryObjNum, dataObjNum, false);
+
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationOldenNEWGAUSSIAN.executeAlgorithms(oldenGraph, nodeClusterFromFile,
-							evaluationResultFile, distribution);
+					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
-				} else if ((i >= 2) && (i < 3)) {
+				} else if ((i >= 10) && (i < 15)) {
 					String distribution = "<C,C>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
-					RandomObjectGenerator.zgenerateCCDistribution(oldenGraph, valueOfSD, queryObjNum, dataObjNum);
-					// RandomObjectGenerator.generateRandomObjectsOnEdgeWithCentroidForSameDistribution(oldenGraph,
-					// queryObjNum, dataObjNum, perimeter);
+					RandomObjectGenerator.zgenerateCCDistribution(oldenGraph, valueOfSD, datasetScaleFactor,
+							queryObjNum, dataObjNum);
+
 					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
 							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationOldenNEWGAUSSIAN.executeAlgorithms(oldenGraph, nodeClusterFromFile,
-							evaluationResultFile, distribution);
+					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<C,C>-------------------Finished");
-				} else if ((i >= 3) && (i < 4)) {
+				} else if ((i >= 15) && (i < 20)) {
 					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
 					// object
@@ -109,8 +116,8 @@ public class SQORN1_ANNEvaluationOldenNEWGAUSSIAN {
 
 					UtilsManagment.writeRoadObjsOnEdgeFile(oldenGraph.getObjectsOnEdges(), oldenGraph.getDatasetName(),
 							roadObjsOnEdgeCSVFile);
-					SQORN1_ANNEvaluationOldenNEWGAUSSIAN.executeAlgorithms(oldenGraph, nodeClusterFromFile,
-							evaluationResultFile, distribution);
+					SQORN3_ANNEvaluationOlden.executeAlgorithms(oldenGraph, nodeClusterFromFile, evaluationResultFile,
+							distribution);
 
 					System.err.println("---------------------------<U,U>-------------------Finished");
 				}

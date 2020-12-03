@@ -23,9 +23,9 @@ public class RandomObjectOnOldenburgDatasetTest {
 		Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge = new HashMap<Integer, ArrayList<Double>>();
 		ArrayList<Integer> centroidNodeIds = new ArrayList<Integer>();
 		//System.out.println(oldenGraph.getDatasetName() + " with " + trueObjSize + " , SD: " + valueOfSD);
-		RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize, true);
-		RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize, false);
-		RandomObjectGenerator.zgenerateCCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize);
+//		RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize, true);
+//		RandomObjectGenerator.zgenerateCUUCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize, false);
+//		RandomObjectGenerator.zgenerateCCDistribution(oldenGraph, valueOfSD, trueObjSize, falseObjSize);
 		RandomObjectGenerator.generateUniformRandomObjectsOnMap(oldenGraph, trueObjSize, falseObjSize);
 	
 		oldenGraph.printObjectsOnEdges();
