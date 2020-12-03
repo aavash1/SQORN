@@ -23,8 +23,16 @@ public class SQORN1_ANNEvaluationOldenNEWGAUSSIAN {
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
 
-		queryParams.add(500);
-		dataParams.add(500);
+		queryParams.add(400000);
+		queryParams.add(600000);
+		queryParams.add(800000);
+		queryParams.add(1000000);
+		
+		dataParams.add(50000);
+		dataParams.add(50000);
+		dataParams.add(50000);
+		dataParams.add(50000);
+		
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
 				.readNodeClustersFile("ClusterDatasets/Oldenburg_node-clusters_2019-12-06 17-54-10.csv");
