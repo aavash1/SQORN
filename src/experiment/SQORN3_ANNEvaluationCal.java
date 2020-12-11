@@ -23,29 +23,29 @@ public class SQORN3_ANNEvaluationCal {
 		LinkedList<Integer> queryParams = new LinkedList<Integer>();
 		LinkedList<Integer> dataParams = new LinkedList<Integer>();
 
-		queryParams.add(50000);
-		queryParams.add(50000);
-		queryParams.add(50000);
-		queryParams.add(50000);
-		queryParams.add(50000);
+		queryParams.add(1024);
+		queryParams.add(65600);
+//		queryParams.add(50000);
+//		queryParams.add(50000);
+//		queryParams.add(50000);
+//
+//		queryParams.add(20000);
+//		queryParams.add(30000);
+//		queryParams.add(50000);
+//		queryParams.add(70000);
+//		queryParams.add(100000);
 
-		queryParams.add(20000);
-		queryParams.add(30000);
-		queryParams.add(50000);
-		queryParams.add(70000);
-		queryParams.add(100000);
-
-		dataParams.add(20000);
-		dataParams.add(30000);
-		dataParams.add(50000);
-		dataParams.add(70000);
-		dataParams.add(100000);
-
-		dataParams.add(50000);
-		dataParams.add(50000);
-		dataParams.add(50000);
-		dataParams.add(50000);
-		dataParams.add(50000);
+		dataParams.add(65600);
+		dataParams.add(2048);
+//		dataParams.add(50000);
+//		dataParams.add(70000);
+//		dataParams.add(100000);
+//
+//		dataParams.add(50000);
+//		dataParams.add(50000);
+//		dataParams.add(50000);
+//		dataParams.add(50000);
+//		dataParams.add(50000);
 
 		Map<Integer, LinkedList<Integer>> nodeClusterFromFile = UtilsManagment
 				.readNodeClustersFile("ClusterDatasets/California_node-clusters_2019-12-06 17-35-41.csv");
@@ -59,8 +59,8 @@ public class SQORN3_ANNEvaluationCal {
 			int queryObjNum = queryParams.poll();
 			int dataObjNum = dataParams.poll();
 
-			for (int i = 0; i < 20; i++) {
-				if (i < 5) {
+			for (int i = 0; i < 6; i++) {
+				if (i < 2) {
 					String distribution = "<C,U>";
 					// randomObjectwillgenerate <Centroid, Uniform> distribution of <true,false>
 					// object
@@ -75,7 +75,7 @@ public class SQORN3_ANNEvaluationCal {
 							distribution);
 
 					System.err.println("---------------------------<C,U>-------------------Finished");
-				} else if ((i >= 5) && (i < 10)) {
+				} else if ((i >= 2) && (i < 4)) {
 					String distribution = "<U,C>";
 					// randomObjectwillgenerate <Uniform, Centroid> distribution of <true,false>
 					// object
@@ -90,22 +90,24 @@ public class SQORN3_ANNEvaluationCal {
 							distribution);
 
 					System.err.println("---------------------------<U,C>-------------------Finished");
-				} else if ((i >= 10) && (i < 15)) {
-					String distribution = "<C,C>";
-					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
-					// object
-					RandomObjectGenerator.zgenerateCCDistribution(calGraph, valueOfSD, datasetScaleFactor, queryObjNum,
-							dataObjNum);
-					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
-							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
-
-					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
-							roadObjsOnEdgeCSVFile);
-					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
-							distribution);
-
-					System.err.println("---------------------------<C,C>-------------------Finished");
-				} else if ((i >= 15) && (i < 20)) {
+				}
+//				} else if ((i >= 10) && (i < 15)) {
+//					String distribution = "<C,C>";
+//					// randomObjectwillgenerate <Centroid, Centroid> distribution of <true,false>
+//					// object
+//					RandomObjectGenerator.zgenerateCCDistribution(calGraph, valueOfSD, datasetScaleFactor, queryObjNum,
+//							dataObjNum);
+//					String roadObjsOnEdgeCSVFile = "GeneratedFiles/" + graphName + "_Q_" + queryObjNum + "_D_"
+//							+ dataObjNum + UtilsManagment.getNormalDateTime() + ".csv";
+//
+//					UtilsManagment.writeRoadObjsOnEdgeFile(calGraph.getObjectsOnEdges(), calGraph.getDatasetName(),
+//							roadObjsOnEdgeCSVFile);
+//					SQORN3_ANNEvaluationCal.executeAlgorithms(calGraph, nodeClusterFromFile, evaluationResultFile,
+//							distribution);
+//
+//					System.err.println("---------------------------<C,C>-------------------Finished");
+//				} 
+					else if ((i >= 4) && (i < 6)) {
 					String distribution = "<U,U>";
 					// randomObjectwillgenerate <Uniform, Uniform> distribution of <true,false>
 					// object
