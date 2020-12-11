@@ -1812,7 +1812,7 @@ public class RandomObjectGenerator {
 		int selectedRandomNode = -1;
 		while (!foundCentroidNodeId) {
 			selectedRandomNode = (int) getThreadRandomNumberInBetween(1, totalNumberOfNodes - 1);
-			//System.out.println("selected Random node: " + selectedRandomNode);
+			System.out.println("selected Random node: " + selectedRandomNode);
 
 			if (centroidNodeIds.isEmpty() || !centroidNodeIds.contains(selectedRandomNode)) {
 				foundCentroidNodeId = true;

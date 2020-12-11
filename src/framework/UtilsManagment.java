@@ -34,6 +34,7 @@ import algorithm.ClusteringNodes;
 
 public class UtilsManagment {
 	final static String csvSplitBy = ",";
+	final static String txtSplitBy=" ";
 	final int byteOrderMark = 65279;
 	private static double scalingNumber=1990;
 
@@ -194,6 +195,38 @@ public class UtilsManagment {
 		return true;
 
 	}
+	
+	//Method to read the node Files "TXT" from the dataset
+	public static boolean readTxtNodeFile(Graph graph, String txtFilename) {
+		String line = "";
+		ArrayList<Node> listOfNodes = new ArrayList<Node>();
+		boolean removedBOM = false;
+		try (BufferedReader br = new BufferedReader(new FileReader(txtFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(txtSplitBy);
+
+				if (record.length == 4) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
+					Node v = new Node();
+					v.setNodeId(Integer.parseInt(record[1]));
+					v.setLongitude(Double.parseDouble(record[2]));
+					v.setLatitude(Double.parseDouble(record[3]));
+					listOfNodes.add(v);
+				}
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		graph.setNodesWithInfo(listOfNodes);
+		return true;
+
+	}
 
 	// Method to read the Edge files from the datasets
 	public static ArrayList<Edge> readEdgeFile(String csvFilename) {
@@ -312,6 +345,42 @@ public class UtilsManagment {
 
 					listEd.add(ed);
 					graph.addEdge(Integer.parseInt(record[0]), Integer.parseInt(record[1]), Integer.parseInt(record[2]),
+							Double.parseDouble(record[3]));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		graph.setEdgeWithInfo(listEd);
+		return true;
+
+	}
+	
+	//Method to read the txtEdge File
+	public static boolean readTxtEdgeFile(Graph graph, String txtFilename) {
+		String line = "";
+		int counter=0;
+		ArrayList<Edge> listEd = new ArrayList<Edge>();
+		boolean removedBOM = false;
+		try (BufferedReader br = new BufferedReader(new FileReader(txtFilename))) {
+			while ((line = br.readLine()) != null) {
+				String[] record = line.split(txtSplitBy);
+				if (record.length == 4) {
+					if (!removedBOM && record[0] != "0") {
+
+						record[0] = String.valueOf(0);
+						removedBOM = true;
+
+					}
+					Edge ed = new Edge();
+					counter+=1;
+					ed.setEdgeId(counter);
+					ed.setStartNodeId(Integer.parseInt(record[1]));
+					ed.setEndNodeId(Integer.parseInt(record[2]));
+					ed.setLength(Double.parseDouble(record[3]));
+
+					listEd.add(ed);
+					graph.addEdge(counter, Integer.parseInt(record[1]), Integer.parseInt(record[2]),
 							Double.parseDouble(record[3]));
 				}
 			}

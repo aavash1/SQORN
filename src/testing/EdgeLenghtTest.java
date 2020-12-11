@@ -7,14 +7,16 @@ public class EdgeLenghtTest {
 
 	public static void main(String[] args) {
 		
-		Graph sanFGraph = new Graph("SanFrancisco");
-		String nodeDatasetFile = "Datasets/SANF-Node_NId-NLong-NLat.csv";
-		String edgeDatasetFile = "Datasets/SANF-Edge_Eid-ESrc-EDest-EDist.csv";
+		Graph northWestUSAGraph = new Graph("NorthWestUSA");
 
-		UtilsManagment.readNodeFile(sanFGraph, nodeDatasetFile);
-		UtilsManagment.readEdgeFile(sanFGraph, edgeDatasetFile);
+		String nodeDatasetFile = "Datasets/NW-Node_NId_NLong_NLat.csv";
+
+		String edgeDatasetFile = "Datasets/NW-Edge_Eid-ESrc-EDest-EDist.csv";
+
+		UtilsManagment.readNodeFile(northWestUSAGraph, nodeDatasetFile);
+		UtilsManagment.readEdgeFile(northWestUSAGraph, edgeDatasetFile);
 		
-		System.out.println(sanFGraph.getTotalLengthOfAllEdges());
+		System.out.println(northWestUSAGraph.getTotalLengthOfAllEdges());
 
 	}
 
