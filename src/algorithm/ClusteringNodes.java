@@ -65,7 +65,7 @@ public class ClusteringNodes {
 	}
 
 	public Map<Integer, LinkedList<Integer>> cluster(Graph gr) {
-
+System.err.println("Clustering nodes...");
 		initialize();
 		m_graph = gr;
 
