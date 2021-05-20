@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+//import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import framework.Graph;
 import framework.Graph;
@@ -28,7 +28,7 @@ public class PointDraw extends JFrame {
 
 	// Graph graph;
 
-	ArrayList<Vector2D> points;
+	//ArrayList<Vector2D> points;
 
 	// if Node/Edge/Poi added to existing and visualized graph, then need to repaint
 	// using local method: this.repaint();
@@ -49,38 +49,38 @@ public class PointDraw extends JFrame {
 	// this.graph = g;
 	// }
 
-	public void setPoints(ArrayList<Vector2D> points) {
-		this.points = points;
-	}
+//	public void setPoints(ArrayList<Vector2D> points) {
+//		this.points = points;
+//	}
 
-	public void paint(Graphics g) { // draw the nodes and edges
-		FontMetrics f = g.getFontMetrics();
-		// double scaleFactor=1.8245;
-//		int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
-//		int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
-//		g.setColor(COLOR_NODE_CIRCLE);
-//		g.fillOval((int) (250 - nodeWidth / 2), (int) (250 - nodeHeight / 2), nodeWidth,
-//				nodeHeight);
-//		g.setColor(COLOR_NODE_ID);
-
-		for (Vector2D point : points) {
-			int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
-			int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
-			g.setColor(COLOR_NODE_CIRCLE);
-			//g.fillOval((int) (point.getX() - nodeWidth / 2), (int) (point.getY() - nodeHeight / 2), nodeWidth,
-				//	nodeHeight);
-
-			
-			g.drawOval((int) (point.getX() - nodeWidth / 30), (int) (point.getY() - nodeHeight / 30), nodeWidth,
-					nodeHeight);
-
-			int x, y;
-			x = UtilsManagment.convertDoubleToInteger(point.getX() - f.stringWidth("."));
-			y = UtilsManagment.convertDoubleToInteger(point.getY() + f.getHeight());
-			//g.drawString(".", x, y);
-		}
-
-	}
+//	public void paint(Graphics g) { // draw the nodes and edges
+//		FontMetrics f = g.getFontMetrics();
+//		// double scaleFactor=1.8245;
+////		int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
+////		int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
+////		g.setColor(COLOR_NODE_CIRCLE);
+////		g.fillOval((int) (250 - nodeWidth / 2), (int) (250 - nodeHeight / 2), nodeWidth,
+////				nodeHeight);
+////		g.setColor(COLOR_NODE_ID);
+//
+//		for (Vector2D point : points) {
+//			int nodeHeight = Math.max(nodeCircleHeight, f.getHeight());
+//			int nodeWidth = Math.max(nodeCircleWidth, f.stringWidth(str) + nodeCircleWidth / 2);
+//			g.setColor(COLOR_NODE_CIRCLE);
+//			//g.fillOval((int) (point.getX() - nodeWidth / 2), (int) (point.getY() - nodeHeight / 2), nodeWidth,
+//				//	nodeHeight);
+//
+//			
+//			g.drawOval((int) (point.getX() - nodeWidth / 30), (int) (point.getY() - nodeHeight / 30), nodeWidth,
+//					nodeHeight);
+//
+//			int x, y;
+//			x = UtilsManagment.convertDoubleToInteger(point.getX() - f.stringWidth("."));
+//			y = UtilsManagment.convertDoubleToInteger(point.getY() + f.getHeight());
+//			//g.drawString(".", x, y);
+//		}
+//
+//	}
 
 	// These 5 methods might be possible in future
 	private double calculateDistance(Node n1, Node n2) {

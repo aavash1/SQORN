@@ -3,7 +3,7 @@ package visualization;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+//import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import framework.Graph;
 import framework.UtilsManagment;
@@ -15,22 +15,22 @@ public class TestGraphDraw {
 
 		double scaleFactor = 3000;
 		Random rand = new Random();
-		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getEuclideanObjectPoints(3, 10000);
+//		ArrayList<Vector2D> xyCoordinates = UtilsManagment.getEuclideanObjectPoints(3, 10000);
 		Graph gr = ManualRN5.getGraph();
-
-		for (int i = 0; i < gr.getEdgesWithInfo().size(); i++) {
-			double longit1 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getX();
-			double latid1 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getY();
-			double longit2 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getX();
-			double latid2 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getY();
-			int st = gr.getEdgesWithInfo().get(i).getStartNodeId();
-			int dst = gr.getEdgesWithInfo().get(i).getEndNodeId();
-			gr.getNode(st).setLongitude(longit1*scaleFactor);
-			gr.getNode(st).setLatitude(latid1*scaleFactor);
-			gr.getNode(dst).setLongitude(longit2*scaleFactor);
-			gr.getNode(dst).setLatitude(latid2*scaleFactor);
-
-		}
+//
+//		for (int i = 0; i < gr.getEdgesWithInfo().size(); i++) {
+//			double longit1 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getX();
+//			double latid1 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getY();
+//			double longit2 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getX();
+//			double latid2 = xyCoordinates.get(rand.nextInt(xyCoordinates.size())).getY();
+//			int st = gr.getEdgesWithInfo().get(i).getStartNodeId();
+//			int dst = gr.getEdgesWithInfo().get(i).getEndNodeId();
+//			gr.getNode(st).setLongitude(longit1*scaleFactor);
+//			gr.getNode(st).setLatitude(latid1*scaleFactor);
+//			gr.getNode(dst).setLongitude(longit2*scaleFactor);
+//			gr.getNode(dst).setLatitude(latid2*scaleFactor);
+//
+//		}
 		// Graph roadNetwork1 = new Graph();
 //		for (int i = 0; i < 20; i++) {
 //			int st = rand.nextInt();

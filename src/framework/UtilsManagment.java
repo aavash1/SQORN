@@ -23,8 +23,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+//import org.apache.commons.math3.geometry.Point;
+//import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import com.google.common.math.Quantiles.ScaleAndIndex;
 import com.opencsv.CSVWriter;
@@ -34,9 +34,10 @@ import algorithm.ClusteringNodes;
 
 public class UtilsManagment {
 	final static String csvSplitBy = ",";
-	final static String txtSplitBy=" ";
+	final static String txtSplitBy = " ";
+	final static String txtSplitByThree = "   ";
 	final int byteOrderMark = 65279;
-	private static double scalingNumber=1990;
+	private static double scalingNumber = 1990;
 
 	// private int poiID;
 	private HashMap<Integer, String> m_hmapCategoriesName = new HashMap<Integer, String>(); // key is category Id and
@@ -195,8 +196,8 @@ public class UtilsManagment {
 		return true;
 
 	}
-	
-	//Method to read the node Files "TXT" from the dataset
+
+	// Method to read the node Files "TXT" from the dataset
 	public static boolean readTxtNodeFile(Graph graph, String txtFilename) {
 		String line = "";
 		ArrayList<Node> listOfNodes = new ArrayList<Node>();
@@ -355,11 +356,11 @@ public class UtilsManagment {
 		return true;
 
 	}
-	
-	//Method to read the txtEdge File
+
+	// Method to read the txtEdge File
 	public static boolean readTxtEdgeFile(Graph graph, String txtFilename) {
 		String line = "";
-		int counter=0;
+		int counter = 0;
 		ArrayList<Edge> listEd = new ArrayList<Edge>();
 		boolean removedBOM = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(txtFilename))) {
@@ -373,7 +374,7 @@ public class UtilsManagment {
 
 					}
 					Edge ed = new Edge();
-					counter+=1;
+					counter += 1;
 					ed.setEdgeId(counter);
 					ed.setStartNodeId(Integer.parseInt(record[1]));
 					ed.setEndNodeId(Integer.parseInt(record[2]));
@@ -606,6 +607,11 @@ public class UtilsManagment {
 
 	}
 
+	// Method to convert the dataset into .graph format file
+	public static void convertToGraphFile() {
+
+	}
+
 	public static void writeObjStats(Graph graph) {
 
 		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " "
@@ -811,6 +817,34 @@ public class UtilsManagment {
 		}
 	}
 
+	public static void convertGraphFile(Graph graph, Map<Integer, Map<Integer, Double>> nodeAdjacencies,
+			String graphFileName) {
+		System.err.println("Conversion started...");
+		try {
+			FileWriter outputFile = new FileWriter(graphFileName, true);
+
+			outputFile.write(String
+					.format(graph.getNumberOfNodes() + txtSplitBy + graph.getEdgesWithInfo().size() + txtSplitBy + 1));
+			outputFile.write(System.lineSeparator());
+			// Remove the 1st Integer
+			for (Integer nodeId : nodeAdjacencies.keySet()) {
+				Map<Integer, Double> neighborEdgeId = nodeAdjacencies.get(nodeId);
+				for (Integer adjacentNodeId : neighborEdgeId.keySet()) {
+					outputFile.write(String.format(adjacentNodeId + txtSplitBy + neighborEdgeId.get(adjacentNodeId)));
+					outputFile.write(String.format(txtSplitByThree));
+
+				}
+				outputFile.write(System.lineSeparator());
+
+			}
+
+			outputFile.close();
+			System.err.println("Conversion completed Successfully.");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	public static Map<Integer, LinkedList<Integer>> readNodeClustersFile(String csvFileName) {
 		Map<Integer, LinkedList<Integer>> nodeClusters = new HashMap<Integer, LinkedList<Integer>>();
 
@@ -954,34 +988,34 @@ public class UtilsManagment {
 
 	}
 
-//	public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
-//		if (map.isEmpty())
-//			return null;
-//		return map.entrySet().iterator().next();
-//	}
-//
-//	public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
-//		try {
-//			if (map instanceof LinkedHashMap)
-//				return getLastViaReflection(map);
-//		} catch (Exception ignore) {
-//		}
-//		return getLastByIterating(map);
-//	}
-//
-//	public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
-//		Entry<K, V> last = null;
-//		for (Entry<K, V> e : map.entrySet())
-//			last = e;
-//		return last;
-//	}
-//
-//	public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
-//			throws NoSuchFieldException, IllegalAccessException {
-//		Field tail = map.getClass().getDeclaredField("tail");
-//		tail.setAccessible(true);
-//		return (Entry<K, V>) tail.get(map);
-//	}
+	// public static <K, V> Entry<K, V> getFirst(Map<K, V> map) {
+	// if (map.isEmpty())
+	// return null;
+	// return map.entrySet().iterator().next();
+	// }
+	//
+	// public static <K, V> Entry<K, V> getLast(Map<K, V> map) {
+	// try {
+	// if (map instanceof LinkedHashMap)
+	// return getLastViaReflection(map);
+	// } catch (Exception ignore) {
+	// }
+	// return getLastByIterating(map);
+	// }
+	//
+	// public static <K, V> Entry<K, V> getLastByIterating(Map<K, V> map) {
+	// Entry<K, V> last = null;
+	// for (Entry<K, V> e : map.entrySet())
+	// last = e;
+	// return last;
+	// }
+	//
+	// public static <K, V> Entry<K, V> getLastViaReflection(Map<K, V> map)
+	// throws NoSuchFieldException, IllegalAccessException {
+	// Field tail = map.getClass().getDeclaredField("tail");
+	// tail.setAccessible(true);
+	// return (Entry<K, V>) tail.get(map);
+	// }
 
 	public static boolean isInteger(String str) {
 
@@ -994,66 +1028,69 @@ public class UtilsManagment {
 		return true;
 	}
 
-//	public static ArrayList<Double> getGaussianDistributionDistance(int size, double standardDeviation) {
-//		ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
-//		Random gen = new Random();
-//		while (size != 0) {
-//			generatedGaussianDistance.add((Math.abs(gen.nextGaussian() * standardDeviation))*scalingNumber);
-//			size--;
-//		}
-//		return generatedGaussianDistance;
-//	}
+	// public static ArrayList<Double> getGaussianDistributionDistance(int size,
+	// double standardDeviation) {
+	// ArrayList<Double> generatedGaussianDistance = new ArrayList<Double>();
+	// Random gen = new Random();
+	// while (size != 0) {
+	// generatedGaussianDistance.add((Math.abs(gen.nextGaussian() *
+	// standardDeviation))*scalingNumber);
+	// size--;
+	// }
+	// return generatedGaussianDistance;
+	// }
 
-	public static ArrayList<Vector2D> getEuclideanObjectPoints(int datasetCode, int numOfObjects) {
-		Random gen = new Random();
-
-		ArrayList<Vector2D> points = new ArrayList<Vector2D>();
-		Vector2D point;
-		switch (datasetCode) {
-		case 1:
-			while (numOfObjects != 0) {
-				double xLengthforCal = Math.abs(gen.nextGaussian() * 0.09475929);
-				double yLengthforCal = Math.abs(gen.nextGaussian() * 0.10095085);
-				point = new Vector2D(xLengthforCal, yLengthforCal);
-				points.add(point);
-				numOfObjects--;
-			}
-			break;
-
-		case 2:
-			while (numOfObjects != 0) {
-				double xLengthforSanJoa = Math.abs(gen.nextGaussian() * 100);
-				double yLengthforSanJoa = Math.abs(gen.nextGaussian() * 99.6512793);
-				point = new Vector2D(xLengthforSanJoa, yLengthforSanJoa);
-				points.add(point);
-				numOfObjects--;
-			}
-
-			break;
-		case 3:
-			while (numOfObjects != 0) {
-				double xLengthforOlden = Math.abs(gen.nextGaussian() * 100 );
-				double yLengthforOlden = Math.abs(gen.nextGaussian() * 100);
-				point = new Vector2D(xLengthforOlden, yLengthforOlden);
-				points.add(point);
-				numOfObjects--;
-			}
-			break;
-		case 4:
-			while (numOfObjects != 0) {
-				double xLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
-				double yLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
-				point = new Vector2D(xLengthforOlden, yLengthforOlden);
-				points.add(point);
-				numOfObjects--;
-			}
-			break;
-		default:
-
-		}
-
-		return points;
-	}
+	// public static ArrayList<Vector2D> getEuclideanObjectPoints(int datasetCode,
+	// int numOfObjects) {
+	// Random gen = new Random();
+	//
+	// ArrayList<Vector2D> points = new ArrayList<Vector2D>();
+	// Vector2D point;
+	// switch (datasetCode) {
+	// case 1:
+	// while (numOfObjects != 0) {
+	// double xLengthforCal = Math.abs(gen.nextGaussian() * 0.09475929);
+	// double yLengthforCal = Math.abs(gen.nextGaussian() * 0.10095085);
+	// point = new Vector2D(xLengthforCal, yLengthforCal);
+	// points.add(point);
+	// numOfObjects--;
+	// }
+	// break;
+	//
+	// case 2:
+	// while (numOfObjects != 0) {
+	// double xLengthforSanJoa = Math.abs(gen.nextGaussian() * 100);
+	// double yLengthforSanJoa = Math.abs(gen.nextGaussian() * 99.6512793);
+	// point = new Vector2D(xLengthforSanJoa, yLengthforSanJoa);
+	// points.add(point);
+	// numOfObjects--;
+	// }
+	//
+	// break;
+	// case 3:
+	// while (numOfObjects != 0) {
+	// double xLengthforOlden = Math.abs(gen.nextGaussian() * 100 );
+	// double yLengthforOlden = Math.abs(gen.nextGaussian() * 100);
+	// point = new Vector2D(xLengthforOlden, yLengthforOlden);
+	// points.add(point);
+	// numOfObjects--;
+	// }
+	// break;
+	// case 4:
+	// while (numOfObjects != 0) {
+	// double xLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
+	// double yLengthforOlden = Math.abs(gen.nextGaussian() * 5) + 0.6;
+	// point = new Vector2D(xLengthforOlden, yLengthforOlden);
+	// points.add(point);
+	// numOfObjects--;
+	// }
+	// break;
+	// default:
+	//
+	// }
+	//
+	// return points;
+	// }
 
 	public static double getEuclideanDistance(double x1, double y1, double x2, double y2) {
 
@@ -1069,95 +1106,106 @@ public class UtilsManagment {
 		return getEuclideanDistance(x1, y1, x2, y2);
 	}
 
-	public static double getEuclideanDistance(Node node, Vector2D objectPoint) {
-		double x1 = node.getLongitude();
-		double y1 = node.getLatitude();
-		double x2 = objectPoint.getX();
-		double y2 = objectPoint.getY();
-		return getEuclideanDistance(x1, y1, x2, y2);
-	}
+	// public static double getEuclideanDistance(Node node, Vector2D objectPoint) {
+	// double x1 = node.getLongitude();
+	// double y1 = node.getLatitude();
+	// double x2 = objectPoint.getX();
+	// double y2 = objectPoint.getY();
+	// return getEuclideanDistance(x1, y1, x2, y2);
+	// }
 
-	public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D objectPoint) {
-
-		double distance1 = (getEuclideanDistance(graph.getNode(edge.getStartNodeId()), objectPoint))/100;
-		double distance2 = (getEuclideanDistance(graph.getNode(edge.getEndNodeId()), objectPoint))/100;
-
-		if (distance1 + distance2 == edge.getLength()) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
+	// public static boolean isRoadObjectOnEdge(Graph graph, Edge edge, Vector2D
+	// objectPoint) {
+	//
+	// double distance1 =
+	// (getEuclideanDistance(graph.getNode(edge.getStartNodeId()),
+	// objectPoint))/100;
+	// double distance2 = (getEuclideanDistance(graph.getNode(edge.getEndNodeId()),
+	// objectPoint))/100;
+	//
+	// if (distance1 + distance2 == edge.getLength()) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	//
+	// }
 
 	// all edge compare to one object
-	public static boolean isRoadObjectOnAnyEdge(Graph graph, Vector2D objectPoint) {
-		for (Edge edge : graph.getEdgesWithInfo()) {
-			if (isRoadObjectOnEdge(graph, edge, objectPoint)) {
-				return true;
-			} else
-				return false;
-		}
-		return false;
-
-	}
+	// public static boolean isRoadObjectOnAnyEdge(Graph graph, Vector2D
+	// objectPoint) {
+	// for (Edge edge : graph.getEdgesWithInfo()) {
+	// if (isRoadObjectOnEdge(graph, edge, objectPoint)) {
+	// return true;
+	// } else
+	// return false;
+	// }
+	// return false;
+	//
+	// }
 
 	// all object compare to one edge
-	public static ArrayList<Vector2D> isRoadObjectOnEdge(Graph graph, Edge edge, ArrayList<Vector2D> objectPoints) {
-		ArrayList<Vector2D> selectedRoadDataPoints = new ArrayList<Vector2D>();
-		for (Vector2D roadObjectPoint : objectPoints) {
-			if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
-				if (!selectedRoadDataPoints.contains(roadObjectPoint)) {
-					selectedRoadDataPoints.add(roadObjectPoint);
-				}
-
-			}
-		}
-		return selectedRoadDataPoints;
-
-	}
+	// public static ArrayList<Vector2D> isRoadObjectOnEdge(Graph graph, Edge edge,
+	// ArrayList<Vector2D> objectPoints) {
+	// ArrayList<Vector2D> selectedRoadDataPoints = new ArrayList<Vector2D>();
+	// for (Vector2D roadObjectPoint : objectPoints) {
+	// if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
+	// if (!selectedRoadDataPoints.contains(roadObjectPoint)) {
+	// selectedRoadDataPoints.add(roadObjectPoint);
+	// }
+	//
+	// }
+	// }
+	// return selectedRoadDataPoints;
+	//
+	// }
 
 	// all object compare to all edge
-	public static Map<Edge, ArrayList<Vector2D>> isRoadObjectOnEdge(Graph graph, ArrayList<Vector2D> objectPoints) {
-		Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge = new HashMap<Edge, ArrayList<Vector2D>>();
-
-		for (Edge edge : graph.getEdgesWithInfo()) {
-			ArrayList<Vector2D> selectedRoadObject = new ArrayList<Vector2D>();
-			for (Vector2D roadObjectPoint : objectPoints) {
-				if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
-					selectedRoadObject.add(roadObjectPoint);
-
-				}
-
-			}
-			if (!selectedRoadObject.isEmpty()) {
-				roadObjectOnEdge.put(edge, selectedRoadObject);
-			}
-
-		}
-
-		return roadObjectOnEdge;
-	}
+	// public static Map<Edge, ArrayList<Vector2D>> isRoadObjectOnEdge(Graph graph,
+	// ArrayList<Vector2D> objectPoints) {
+	// Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge = new HashMap<Edge,
+	// ArrayList<Vector2D>>();
+	//
+	// for (Edge edge : graph.getEdgesWithInfo()) {
+	// ArrayList<Vector2D> selectedRoadObject = new ArrayList<Vector2D>();
+	// for (Vector2D roadObjectPoint : objectPoints) {
+	// if (isRoadObjectOnEdge(graph, edge, roadObjectPoint) == true) {
+	// selectedRoadObject.add(roadObjectPoint);
+	//
+	// }
+	//
+	// }
+	// if (!selectedRoadObject.isEmpty()) {
+	// roadObjectOnEdge.put(edge, selectedRoadObject);
+	// }
+	//
+	// }
+	//
+	// return roadObjectOnEdge;
+	// }
 
 	// this method will convert the Vector2D to hashmap to hold <edgeId and distance
 	// from startnodes>
-	public static Map<Integer, ArrayList<Double>> convertRoadObjectPointsToDistance(Graph graph,
-			Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
-		Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer, ArrayList<Double>>();
-		for (Edge edge : roadObjectOnEdge.keySet()) {
-			if (!roadObjectOnEdge.get(edge).isEmpty()) {
-				ArrayList<Double> distanceFromStartNode = new ArrayList<Double>();
-				for (Vector2D roadObjectPoint : roadObjectOnEdge.get(edge)) {
-
-					double distance = getEuclideanDistance(graph.getNode(edge.getStartNodeId()), roadObjectPoint);
-					distanceFromStartNode.add(distance);
-				}
-				objectsOnRoad.put(edge.getEdgeId(), distanceFromStartNode);
-			}
-
-		}
-		return objectsOnRoad;
-	}
+	// public static Map<Integer, ArrayList<Double>>
+	// convertRoadObjectPointsToDistance(Graph graph,
+	// Map<Edge, ArrayList<Vector2D>> roadObjectOnEdge) {
+	// Map<Integer, ArrayList<Double>> objectsOnRoad = new HashMap<Integer,
+	// ArrayList<Double>>();
+	// for (Edge edge : roadObjectOnEdge.keySet()) {
+	// if (!roadObjectOnEdge.get(edge).isEmpty()) {
+	// ArrayList<Double> distanceFromStartNode = new ArrayList<Double>();
+	// for (Vector2D roadObjectPoint : roadObjectOnEdge.get(edge)) {
+	//
+	// double distance = getEuclideanDistance(graph.getNode(edge.getStartNodeId()),
+	// roadObjectPoint);
+	// distanceFromStartNode.add(distance);
+	// }
+	// objectsOnRoad.put(edge.getEdgeId(), distanceFromStartNode);
+	// }
+	//
+	// }
+	// return objectsOnRoad;
+	// }
 
 	public static Map<Integer, ArrayList<RoadObject>> createRoadObjectsOnMap(Graph graph,
 			Map<Integer, ArrayList<Double>> objectsOnRoad, boolean roadObjectType) {

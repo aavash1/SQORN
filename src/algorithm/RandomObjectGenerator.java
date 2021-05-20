@@ -26,9 +26,9 @@ import java.lang.reflect.Field;
 //import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-//
-import org.apache.commons.math3.random.RandomDataGenerator;
+//import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+////
+//import org.apache.commons.math3.random.RandomDataGenerator;
 //import org.decimal4j.util.DoubleRounder;
 
 //import com.google.common.collect.Multiset.Entry;
@@ -706,7 +706,8 @@ public class RandomObjectGenerator {
 
 				if (acceptedDistancesOnEdge.get(edge.getEdgeId()).isEmpty()) {
 
-					distanceFromStartNode = getRandDoubleBetRange5(0, edgeLength);
+					//distanceFromStartNode = getRandDoubleBetRange5(0, edgeLength);
+					distanceFromStartNode =0.0;
 					checkedRandomDistances.get(edge.getEdgeId()).add(distanceFromStartNode);
 					// randObj.setDistanceFromStartNode(distanceFromStartNode);
 					// acceptedDistancesOnEdge.get(edge.getEdgeId()).add(distanceFromStartNode);
@@ -718,7 +719,8 @@ public class RandomObjectGenerator {
 					//int conflictCounter = 0;
 					while (!isAcceptableDistance) {
 
-						distanceFromStartNode = getRandDoubleBetRange5(0, edgeLength);
+						//distanceFromStartNode = getRandDoubleBetRange5(0, edgeLength);
+						distanceFromStartNode = getRandDoubleBetRange(0, edgeLength);
 						if (checkedRandomDistances.get(edge.getEdgeId()).contains(distanceFromStartNode)) {
 							continue;
 						}
@@ -1594,13 +1596,13 @@ public class RandomObjectGenerator {
 		return finalValue;
 	}
 
-	public static double getRandDoubleBetRange3(double min, double max) {
-		// 7.2 unboundeddoublerandom with commons math
-		double generateDouble = new RandomDataGenerator().getRandomGenerator().nextDouble() * ((max - min) + 1) + min;
-		// double x = (Math.random() * ((max - min) + 1)) + min;
-		generateDouble = Math.round(generateDouble * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
-		return generateDouble;
-	}
+//	public static double getRandDoubleBetRange3(double min, double max) {
+//		// 7.2 unboundeddoublerandom with commons math
+//		double generateDouble = new RandomDataGenerator().getRandomGenerator().nextDouble() * ((max - min) + 1) + min;
+//		// double x = (Math.random() * ((max - min) + 1)) + min;
+//		generateDouble = Math.round(generateDouble * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
+//		return generateDouble;
+//	}
 
 	public static double getRandDoubleBetRange4(double min, double max) {
 		// 8.1 boundeddoublerandom with commons math
@@ -1609,12 +1611,12 @@ public class RandomObjectGenerator {
 		return generateDouble;
 	}
 
-	public static double getRandDoubleBetRange5(double min, double max) {
-		// 8.2 boundeddoublerandom with commons math
-		double generateDouble = new RandomDataGenerator().nextUniform(min, max);
-		generateDouble = Math.round(generateDouble * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
-		return generateDouble;
-	}
+//	public static double getRandDoubleBetRange5(double min, double max) {
+//		// 8.2 boundeddoublerandom with commons math
+//		double generateDouble = new RandomDataGenerator().nextUniform(min, max);
+//		generateDouble = Math.round(generateDouble * m_distFromStartNodePrecision) / m_distFromStartNodePrecision;
+//		return generateDouble;
+//	}
 
 	public static long getThreadRandomNumberInBetween(long lower, long upper) {
 		ThreadLocalRandom generator = ThreadLocalRandom.current();
@@ -1899,51 +1901,51 @@ public class RandomObjectGenerator {
 		// 5, 15, 6, 8
 	}
 
-	public static void zcreateCentroidDistribution2(Graph graph, int datasetCode, int objectCounter,
-			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
-			int numberOfObjects, boolean objectType) {
-		Map<Edge, ArrayList<Vector2D>> acceptedPoints = new HashMap<Edge, ArrayList<Vector2D>>();
-
-		while (objectCounter < numberOfObjects) {
-			ArrayList<Vector2D> retrievedPoints = UtilsManagment.getEuclideanObjectPoints(datasetCode, numberOfObjects);
-			Map<Edge, ArrayList<Vector2D>> initialAcceptedPoints = UtilsManagment.isRoadObjectOnEdge(graph,
-					retrievedPoints);
-			for (Edge edgeIndex : initialAcceptedPoints.keySet()) {
-				if (acceptedPoints.isEmpty()) {
-					acceptedPoints.put(edgeIndex, initialAcceptedPoints.get(edgeIndex));
-					objectCounter += initialAcceptedPoints.get(edgeIndex).size();
-				} else {
-					if (!acceptedPoints.containsKey(edgeIndex)) {
-						acceptedPoints.get(edgeIndex).addAll(initialAcceptedPoints.get(edgeIndex));
-						objectCounter += initialAcceptedPoints.get(edgeIndex).size();
-					}
-				}
-
-			}
-
-		}
-
-		if (objectCounter != numberOfObjects) {
-			while (objectCounter > numberOfObjects) {
-				int remainingObject = objectCounter - numberOfObjects;
-				for (int j = 0; j < remainingObject; j++) {
-					List<Integer> keyEdgeIndex = new ArrayList<Integer>(acceptedDistancesOnEdge.keySet());
-					Integer randomKeyEdgeId = keyEdgeIndex.get(random.nextInt(keyEdgeIndex.size()));
-					ArrayList<Double> randomKeyEdgeIdValue = acceptedDistancesOnEdge.get(randomKeyEdgeId);
-					randomKeyEdgeIdValue.remove(randomKeyEdgeIdValue.get(random.nextInt(randomKeyEdgeIdValue.size())));
-					Collections.shuffle(keyEdgeIndex);
-					objectCounter--;
-					j++;
-				}
-
-			}
-
-		}
-		Map<Integer, ArrayList<Double>> objectsOnRoad = UtilsManagment.convertRoadObjectPointsToDistance(graph,
-				acceptedPoints);
-		UtilsManagment.createRoadObjectsOnMap(graph, objectsOnRoad, objectType);
-
-	}
+//	public static void zcreateCentroidDistribution2(Graph graph, int datasetCode, int objectCounter,
+//			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidNodeIds,
+//			int numberOfObjects, boolean objectType) {
+//		Map<Edge, ArrayList<Vector2D>> acceptedPoints = new HashMap<Edge, ArrayList<Vector2D>>();
+//
+//		while (objectCounter < numberOfObjects) {
+//			ArrayList<Vector2D> retrievedPoints = UtilsManagment.getEuclideanObjectPoints(datasetCode, numberOfObjects);
+//			Map<Edge, ArrayList<Vector2D>> initialAcceptedPoints = UtilsManagment.isRoadObjectOnEdge(graph,
+//					retrievedPoints);
+//			for (Edge edgeIndex : initialAcceptedPoints.keySet()) {
+//				if (acceptedPoints.isEmpty()) {
+//					acceptedPoints.put(edgeIndex, initialAcceptedPoints.get(edgeIndex));
+//					objectCounter += initialAcceptedPoints.get(edgeIndex).size();
+//				} else {
+//					if (!acceptedPoints.containsKey(edgeIndex)) {
+//						acceptedPoints.get(edgeIndex).addAll(initialAcceptedPoints.get(edgeIndex));
+//						objectCounter += initialAcceptedPoints.get(edgeIndex).size();
+//					}
+//				}
+//
+//			}
+//
+//		}
+//
+//		if (objectCounter != numberOfObjects) {
+//			while (objectCounter > numberOfObjects) {
+//				int remainingObject = objectCounter - numberOfObjects;
+//				for (int j = 0; j < remainingObject; j++) {
+//					List<Integer> keyEdgeIndex = new ArrayList<Integer>(acceptedDistancesOnEdge.keySet());
+//					Integer randomKeyEdgeId = keyEdgeIndex.get(random.nextInt(keyEdgeIndex.size()));
+//					ArrayList<Double> randomKeyEdgeIdValue = acceptedDistancesOnEdge.get(randomKeyEdgeId);
+//					randomKeyEdgeIdValue.remove(randomKeyEdgeIdValue.get(random.nextInt(randomKeyEdgeIdValue.size())));
+//					Collections.shuffle(keyEdgeIndex);
+//					objectCounter--;
+//					j++;
+//				}
+//
+//			}
+//
+//		}
+//		Map<Integer, ArrayList<Double>> objectsOnRoad = UtilsManagment.convertRoadObjectPointsToDistance(graph,
+//				acceptedPoints);
+//		UtilsManagment.createRoadObjectsOnMap(graph, objectsOnRoad, objectType);
+//
+//	}
 
 	public static void zcreateUniformDistribution(Graph graph, int objectCounter,
 			Map<Integer, ArrayList<Double>> acceptedDistancesOnEdge, ArrayList<Integer> centroidEdgeIds,
