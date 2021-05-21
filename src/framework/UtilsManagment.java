@@ -607,11 +607,6 @@ public class UtilsManagment {
 
 	}
 
-	// Method to convert the dataset into .graph format file
-	public static void convertToGraphFile() {
-
-	}
-
 	public static void writeObjStats(Graph graph) {
 
 		String evaluationResultTxtFile = "Statistics/objsOnEdgeInformation-" + graph.getDatasetName() + " "
@@ -817,6 +812,113 @@ public class UtilsManagment {
 		}
 	}
 
+	// Convert Node dataset with nodeId starting from 1.
+	public static void convertNodeToTXTFile(Graph graph, ArrayList<Node> nodelist, String nodeFileName) {
+		System.err.println("Node Id Conversion started...");
+		try {
+			FileWriter outputFile = new FileWriter(nodeFileName, true);
+			// Remove the 1st Integer
+			for (Node node : nodelist) {
+				System.out.println("Node Id: " + node.getNodeId());
+				int nodeIdAfterIncrement = node.getNodeId() + 1;
+				System.out.println("Node Id: " + node.getNodeId() + " changed to " + nodeIdAfterIncrement);
+				outputFile.write(String.format(
+						nodeIdAfterIncrement + txtSplitBy + node.getLongitude() + txtSplitBy + node.getLatitude()));
+				outputFile.write(System.lineSeparator());
+
+			}
+
+			outputFile.close();
+			System.err.println("Node Id Conversion completed Successfully.");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// for CSV file
+	public static void convertNodeToCSVFile(Graph graph, ArrayList<Node> nodelist, String nodeFileName) {
+		System.err.println("Node Id Conversion started...");
+		try {
+			FileWriter outputFile = new FileWriter(nodeFileName, true);
+			// Remove the 1st Integer
+			for (Node node : nodelist) {
+				System.out.println("Node Id: " + node.getNodeId());
+				int nodeIdAfterIncrement = node.getNodeId() + 1;
+				System.out.println("Node Id: " + node.getNodeId() + " changed to " + nodeIdAfterIncrement);
+				outputFile.write(String.format(
+						nodeIdAfterIncrement + csvSplitBy + node.getLongitude() + csvSplitBy + node.getLatitude()));
+				outputFile.write(System.lineSeparator());
+
+			}
+
+			outputFile.close();
+			System.err.println("Node Id Conversion completed Successfully.");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// Convert Edge dataset with edgeId starting from 1.
+	// TxtFile
+	public static void convertEdgeToTXTFile(Graph graph, ArrayList<Edge> edgeList, String graphFileName) {
+		System.err.println("Edge Id Conversion started...");
+
+		try {
+			FileWriter outputFile = new FileWriter(graphFileName, true);
+
+			// Remove the 1st Integer
+			for (Edge EdgeId : edgeList) {
+				System.out.println("Initial NodeId: " + EdgeId.getEdgeId());
+				int increaseEdgeId = EdgeId.getEdgeId() + 1;
+				System.out.println("After Increment: " + increaseEdgeId);
+				int incrementStartNode = EdgeId.getStartNodeId() + 1;
+				int incrementEndNode = EdgeId.getEndNodeId() + 1;
+				outputFile.write(String.format(increaseEdgeId + txtSplitBy + incrementStartNode + txtSplitBy
+						+ incrementEndNode + txtSplitBy + EdgeId.getLength()));
+				outputFile.write(System.lineSeparator());
+
+			}
+
+			outputFile.close();
+			System.err.println("Edge Id Conversion completed Successfully.");
+		} catch (
+
+		IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	// CSV file
+	public static void convertEdgeToCSVFile(Graph graph, ArrayList<Edge> edgeList, String graphFileName) {
+		System.err.println("Edge Id Conversion started...");
+
+		try {
+			FileWriter outputFile = new FileWriter(graphFileName, true);
+
+			// Remove the 1st Integer
+			for (Edge EdgeId : edgeList) {
+				System.out.println("Initial NodeId: " + EdgeId.getEdgeId());
+				int increaseEdgeId = EdgeId.getEdgeId() + 1;
+				System.out.println("After Increment: " + increaseEdgeId);
+				int incrementStartNode = EdgeId.getStartNodeId() + 1;
+				int incrementEndNode = EdgeId.getEndNodeId() + 1;
+				outputFile.write(String.format(increaseEdgeId + csvSplitBy + incrementStartNode + csvSplitBy
+						+ incrementEndNode + csvSplitBy + EdgeId.getLength()));
+				outputFile.write(System.lineSeparator());
+
+			}
+
+			outputFile.close();
+			System.err.println("Edge Id Conversion completed Successfully.");
+		} catch (
+
+		IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// Convert Edge Files to GraphFile
 	public static void convertGraphFile(Graph graph, Map<Integer, Map<Integer, Double>> nodeAdjacencies,
 			String graphFileName) {
 		System.err.println("Conversion started...");
@@ -830,6 +932,7 @@ public class UtilsManagment {
 			for (Integer nodeId : nodeAdjacencies.keySet()) {
 				Map<Integer, Double> neighborEdgeId = nodeAdjacencies.get(nodeId);
 				for (Integer adjacentNodeId : neighborEdgeId.keySet()) {
+
 					outputFile.write(String.format(adjacentNodeId + txtSplitBy + neighborEdgeId.get(adjacentNodeId)));
 					outputFile.write(String.format(txtSplitByThree));
 
