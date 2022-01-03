@@ -22,13 +22,13 @@ public class graphConversionValidationTest {
 
 	public static void main(String[] args) {
 
-		Graph caliGraph = new Graph("SJ");
+		Graph oldenGraph = new Graph("SJ");
 
 		String nodeDatasetFile = "convertedDatasetsStartingWithOne/SJ-Node_NId-NLong-NLat.csv";
 		String edgeDatasetFile = "convertedDatasetsStartingWithOne/SJ-Edge_Eid-ESrc-EDest-EDist.csv";
 
-		UtilsManagment.readNodeFile(caliGraph, nodeDatasetFile);
-		UtilsManagment.readEdgeFile(caliGraph, edgeDatasetFile);
+		UtilsManagment.readNodeFile(oldenGraph, nodeDatasetFile);
+		UtilsManagment.readEdgeFile(oldenGraph, edgeDatasetFile);
 
 		// For conversion of nodes and edges that starts with 1.
 		// m_nodeList = caliGraph.getNodesWithInfo();
@@ -44,11 +44,17 @@ public class graphConversionValidationTest {
 		// UtilsManagment.convertNodeToCSVFile(caliGraph, m_nodeList, nodeFileName);
 		//
 
+//		// For graph conversion to Metis Input Type.
+//		String graphName = caliGraph.getDatasetName();
+//		String graphFileName = "convertedGraphs/" + graphName + "_graph" + ".graph";
+//		m_adjancencyMap = caliGraph.getAdjancencyMap();
+//		UtilsManagment.convertGraphFile(caliGraph, m_adjancencyMap, graphFileName);
+
 		// For graph conversion to Metis Input Type.
-		String graphName = caliGraph.getDatasetName();
-		String graphFileName = "convertedGraphs/" + graphName + "_graph" + ".graph";
-		m_adjancencyMap = caliGraph.getAdjancencyMap();
-		UtilsManagment.convertGraphFile(caliGraph, m_adjancencyMap, graphFileName);
+		String graphName = oldenGraph.getDatasetName();
+		String graphFileName = "convertedGraphs/" + graphName + "_metisgraph1" + ".graph";
+		m_adjancencyMap = oldenGraph.getAdjancencyMap();
+		UtilsManagment.convertInputGraphFileToMETISFormat(oldenGraph, m_adjancencyMap, graphFileName);
 
 		// for (Node node : m_nodeList) {
 		// System.out.println("nodeID: " + node.getNodeId() + " longitude: " +

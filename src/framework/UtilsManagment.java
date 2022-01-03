@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -919,22 +920,25 @@ public class UtilsManagment {
 	}
 
 	// Convert Edge Files to GraphFile
-	public static void convertGraphFile(Graph graph, Map<Integer, Map<Integer, Double>> nodeAdjacencies,
-			String graphFileName) {
+	public static void convertInputGraphFileToMETISFormat(Graph graph,
+			Map<Integer, Map<Integer, Double>> unsortedNodeAdjacencies, String graphFileName) {
 		System.err.println("Conversion started...");
+		Map<Integer, Map<Integer, Double>> nodeAdjacencies = new TreeMap<Integer, Map<Integer, Double>>(
+				unsortedNodeAdjacencies);
 		try {
 			FileWriter outputFile = new FileWriter(graphFileName, true);
 
-			outputFile.write(String
-					.format(graph.getNumberOfNodes() + txtSplitBy + graph.getEdgesWithInfo().size() + txtSplitBy + 1));
+			outputFile.write(String.format(graph.getNumberOfNodes() + txtSplitBy + graph.getEdgesWithInfo().size()));
 			outputFile.write(System.lineSeparator());
 			// Remove the 1st Integer
 			for (Integer nodeId : nodeAdjacencies.keySet()) {
 				Map<Integer, Double> neighborEdgeId = nodeAdjacencies.get(nodeId);
 				for (Integer adjacentNodeId : neighborEdgeId.keySet()) {
 
-					outputFile.write(String.format(adjacentNodeId + txtSplitBy + neighborEdgeId.get(adjacentNodeId)));
-					outputFile.write(String.format(txtSplitByThree));
+					// outputFile.write(String.format(adjacentNodeId + txtSplitBy +
+					// neighborEdgeId.get(adjacentNodeId)));
+					outputFile.write(String.format(adjacentNodeId + txtSplitBy));
+					// outputFile.write(String.format(txtSplitByThree));
 
 				}
 				outputFile.write(System.lineSeparator());
